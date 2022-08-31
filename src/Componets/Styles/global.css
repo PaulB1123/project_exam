@@ -1,0 +1,15 @@
+@font-face {
+    font-family: "SF_Pro_Display_Regular";
+    src: url(../Navigation/Fonts/SFPRODISPLAYREGULAR.OTF);
+  }
+  
+  @font-face {
+    font-family: "SF_Pro_Display_Medium";
+    src: url(../Navigation/Fonts/SFPRODISPLAYMEDIUM.OTF);
+  }
+  
+  @font-face {
+    font-family: "SF_Pro_Display_Bold";
+    src: url(../Navigation/Fonts/SFPRODISPLAYBOLD.OTF);
+  }
+  

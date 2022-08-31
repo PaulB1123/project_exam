@@ -1,0 +1,15 @@
+.dashboard_container_group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:#929292;
+}
+
+.dashboard_container_group p {
+    width: 30%;
+    text-align: center;
+    font-size: 18px;
+    font-family: "SF_Pro_Display_Regular";
+    letter-spacing:0.04rem;
+}

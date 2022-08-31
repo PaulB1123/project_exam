@@ -1,0 +1,53 @@
+.filter_container_group{
+    margin: 2rem;
+}
+
+.filter_header {
+    padding-bottom: 1rem;
+    border-bottom: 0.5px solid #e2e2e2;
+}
+
+.filter_container img {
+    border: 0.5px solid #e2e2e2;
+    margin-top: 0.4rem;
+    padding: 0.5rem;
+    border-radius: 20%;
+    
+}
+
+/* Filter button group */
+
+.filter_button_group {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.button_report {
+    font-family: "SF_Pro_Display_Regular";
+    padding-block: 0.7rem;
+    padding-inline: 1rem;
+    border-radius: 7px;
+    color: white;
+    background-color: #8E8D91;
+    letter-spacing:0.04rem;
+    margin-left: 1rem ;
+}
+
+.button_filter {
+    display: flex;
+    flex-direction: row;
+    font-family: "SF_Pro_Display_Regular";
+    padding-block: 0.7rem;
+    padding-inline: 1rem;
+    border-radius: 7px;
+    color: white;
+    background-color: #AFAFAF;
+    letter-spacing:0.04rem;
+}
+
+.button_filter img {
+    margin-right: 0.5rem;
+}
+
+/* Filter button group */
