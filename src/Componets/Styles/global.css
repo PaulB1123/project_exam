@@ -25,10 +25,18 @@
     --button-color:#F5F5FC;
     --audience-save-color: #AFAFAF;
     --audience-border-color: #e2e2e2;
+    --audience-border-plus:#707070;
+    --audience-border-hover-plus:white;
+    --audience-background-hover-plus:#D9D9D9;
+    --audience-border-hover-button:#555555;
     --text-primary: black;
     --text-secondary: royalblue;
     --accent: purple;
   }
+
+
+
+
 
   [data-theme='dark'] {
     --background: #1A1B1E;
@@ -38,7 +46,13 @@
     --navigation-button-text: white;
     --button-color:#59595B;
     --audience-save-color: #59595B;
-    --audience-border-color: #707070;
+    --audience-border-color: #323133;
+    --audience-border-plus:#707070;
+    --audience-border-button: #707070;
+    --audience-border-hover-plus: #1A1B1E;
+    --audience-background-hover-plus:#27292A; 
+    --audience-border-hover-button:#323133;
+
 
     --text-primary: white;
     --text-secondary: grey;

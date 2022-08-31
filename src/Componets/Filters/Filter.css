@@ -18,16 +18,24 @@
 
 .PlusIcon_container {
   width: 20px;
-  border: 0.5px solid var(--audience-border-color);
+  border: 0.5px solid var(--audience-border-plus);
   margin-top: 0.4rem;
   padding: 0.5rem;
   border-radius: 20%;
 }
 
+
+.PlusIcon_container:hover, .PlusIcon_container:active {
+    background-color: var(--audience-background-hover-plus);
+    border: 0.5px solid var(--audience-border-hover-plus);
+}
+
+
+
 .PlusIcon {
  width: 20px;
  height: 20px;
-  background-color: var(--audience-border-color);
+  background-color: var(--audience-border-plus);
   -webkit-mask: url(./icons/Plus.svg) no-repeat center;
   mask: url(./icons/Plus.svg) no-repeat center;
 
@@ -52,6 +60,10 @@
     margin-left: 1rem ;
 }
 
+.button_report:hover, .button_report:active {
+    background-color: var(--audience-border-hover-button);
+}
+
 .button_filter {
     display: flex;
     flex-direction: row;
@@ -63,6 +75,11 @@
     background-color: var(--audience-save-color);
     letter-spacing:0.04rem;
 }
+
+.button_filter:hover, .button_filter:active {
+    background-color: var(--audience-border-hover-button);
+}
+
 
 .button_filter img {
     margin-right: 0.5rem;
