@@ -1,6 +1,5 @@
 import "../Styles/global.css"
 import './Filter.css';
-import PlusIcon from "./icons/Plus.svg";
 import SaveIcon from "./icons/Save.svg";
 
 
@@ -10,8 +9,12 @@ export default function FilterComponent() {
      <div className="filter_container_group">
      
      <div className="filter_container">
-     <h1 className="filter_header">Filter</h1>
-     <img src={PlusIcon}></img>
+     <h1 className="filter_header">Audience</h1>
+     
+     <div className="PlusIcon_container">
+      <div className="PlusIcon"></div>
+     </div>
+
      </div>
      <div className="filter_button_group">
      <div className="button_filter">

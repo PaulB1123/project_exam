@@ -1,20 +1,29 @@
 import "../Styles/global.css"
 import './Navigation.css';
 import Annalect from "./icons/Annalect.png";
-import dashboard from "./icons/Dashboard_logo.svg";
 import Filter from "./icons/Filter.svg";
 import ChartsIcon from "./icons/Charts.svg";
 import ReportIcon from "./icons/Reports.svg";
 import SettingsIcon from "./icons/Settings.svg";
-import DownloadIcon from "./icons/Download.svg";
 import LogoutIcon from "./icons/Log_Out.svg";
 import ArrrowdownIcon from "./icons/ArrowDown.svg";
-import SwitchDarkmodeIcon from "./icons/Switch_darkmode.svg";
+import useLocalStorage from 'use-local-storage'
 
 export default function Navigation() {
+
+    // const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
+  
+  
+    // const switchTheme = () => {
+    //   const newTheme = theme === "light" ? "dark" : "light";
+    //   setTheme(newTheme);
+    // }
+
+
     return ( 
-        <>
-        <div className='naviagtion_container_group'>
+        < >
+        <div className='naviagtion_container_group' >
  
         <div className='hero_logo'>
             <img src={Annalect} alt="Main Menu logo " className='hero_logo_container'></img> 
@@ -26,7 +35,7 @@ export default function Navigation() {
             <li className='header_main_menu'>MAIN MENU</li>
         <ul>
             <div className='filterbutton_container' id="dashboardbutton">
-                <img src={dashboard} alt="this is a test"></img>
+                <div className="dashboard"></div>
                 <li className='dashboardbutton_text'>Dashboard</li>
             </div>
         </ul>
@@ -54,7 +63,8 @@ export default function Navigation() {
             <div className='filterbutton'>
             <div className='filterbutton_container'>
                 <img src={ReportIcon } alt="Logo_Charts "></img>
-                <li>Reports</li></div>
+                <li>Reports</li>
+                </div>
                 <img src={ArrrowdownIcon}></img>
             </div>  
         </ul>
@@ -63,9 +73,11 @@ export default function Navigation() {
         <div  className="header_main_menu_container">
         <li className='header_main_menu'>GENERAL</li>
         <ul>
+            <div className='filterbutton'>
             <div className='filterbutton_container'>
                 <img src={SettingsIcon} alt="Logo_Charts "></img>
                 <li>Settings</li>
+            </div>
             </div>
         </ul>
         </div>
@@ -76,9 +88,7 @@ export default function Navigation() {
             <div className='download_paragraph'>Download montly report</div>
             <div className='download_button'>
             <li>Download</li>
-                <img src={DownloadIcon} alt="Logo_Charts "></img>
-                
-               
+                <div className="download_icon"></div>
             </div>
         </ul>
         </div>
@@ -89,9 +99,7 @@ export default function Navigation() {
             <div className='download_paragraph'>Download a full report or per chart </div>
             <div className='download_button'>
             <li>Download</li>
-                <img src={DownloadIcon} alt="Logo_Charts "></img>
-                
-                
+               <div className="download_icon"></div> 
             </div>
         </ul>
         </div>
@@ -101,10 +109,17 @@ export default function Navigation() {
             <li>Log out</li>
         </div>
        
-        <div className='dark_mode'>
-        <ul>Dark Mode</ul>
-        <img src={SwitchDarkmodeIcon} alt="Logo_Charts "></img>
-        </div>
+
+        {/* <div className='dark_mode' onClick={switchTheme} >
+        <ul >{theme === "light" ? "Dark" : "Light"} Mode</ul>
+        <div class="dark_mode_icon"></div>
+        </div> */}
+
+        {/* <div className="app" data-theme={theme}>
+        <button onClick={switchTheme}>
+          Switch to {theme === "light" ? "Dark" : "Light"} Theme
+        </button>
+       </div> */}
 
         </div>
         </>

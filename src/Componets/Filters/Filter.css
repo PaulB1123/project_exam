@@ -4,15 +4,33 @@
 
 .filter_header {
     padding-bottom: 1rem;
-    border-bottom: 0.5px solid #e2e2e2;
+    border-bottom: 0.5px solid var(--audience-border-color);
+    color: var(--text-primary);
 }
 
-.filter_container img {
+/* .filter_container img {
     border: 0.5px solid #e2e2e2;
     margin-top: 0.4rem;
     padding: 0.5rem;
     border-radius: 20%;
     
+} */
+
+.PlusIcon_container {
+  width: 20px;
+  border: 0.5px solid var(--audience-border-color);
+  margin-top: 0.4rem;
+  padding: 0.5rem;
+  border-radius: 20%;
+}
+
+.PlusIcon {
+ width: 20px;
+ height: 20px;
+  background-color: var(--audience-border-color);
+  -webkit-mask: url(./icons/Plus.svg) no-repeat center;
+  mask: url(./icons/Plus.svg) no-repeat center;
+
 }
 
 /* Filter button group */
@@ -42,7 +60,7 @@
     padding-inline: 1rem;
     border-radius: 7px;
     color: white;
-    background-color: #AFAFAF;
+    background-color: var(--audience-save-color);
     letter-spacing:0.04rem;
 }
 

@@ -22,7 +22,7 @@ ul {
 .hero_logo {
   margin-top: 2rem;
   
-  border-bottom: 0.5px solid #e2e2e2;
+  border-bottom: 0.5px solid var(--audience-border-color);
 }
 
 .hero_logo_container {
@@ -35,28 +35,37 @@ ul {
 
 .main_menu_container {
   margin-top: 2rem;
-  border-bottom: 0.5px solid #e2e2e2;
+  border-bottom: 0.5px solid var(--audience-border-color);
   /* width: 180px; */
 }
 
 .header_main_menu {
   font-family: "SF_Pro_Display_Regular";
   margin-top: 1.5rem;
+  color: var(--text-primary);
 }
 
 #dashboardbutton {
   font-family: "SF_Pro_Display_Medium";
-  border: 0.5px solid #e2e2e2;
+  border: 0.5px solid var(--border-clicked-button);
   border-radius: 7px;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   font-size: 15px;
-  color: #1a1b1e;
+  background-color: var(--clicked-button);
 }
 
 .dashboardbutton_text {
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
+  color:var(--text-primary);
+}
+
+.dashboard {
+  width: 14px;
+  background-color: var(--text-primary);
+  -webkit-mask: url(./icons/Dashboard_logo.svg) no-repeat center;
+  mask: url(./icons/Dashboard_logo.svg) no-repeat center;
 }
 
 /* Main Menu container */
@@ -70,7 +79,7 @@ ul {
   flex-direction: row;
   justify-content: space-between;
   list-style-type: none;
-  color: #929292;
+  color: var(--navigation-text);
   margin-top: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -83,7 +92,7 @@ ul {
 
 .filterbutton_container li {
     padding-left: 1rem;
-    
+    /* color: var(--text-primary); */
 }
 
 /* Filter container */
@@ -91,13 +100,14 @@ ul {
 /* Work Flow */
 
 .header_main_menu_container {
-    border-bottom: 0.5px solid #e2e2e2;
+  border-bottom: 0.5px solid var(--audience-border-color);
 }
 /* Work Flow */
 
 .naviagtion_container_group {
   width: 220px;
     margin-left: 1.5rem;
+    background-color: var(--background);
  
 }
 
@@ -127,14 +137,22 @@ ul {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  border-radius: 7px;
-  background-color: #F5F5FC;
+  border-radius: 5px;
+  background-color: var(--button-color);
 }
 
 .download_button li {
   margin-right: 2rem;
   font-family: "SF_Pro_Display_Bold";
-  color: #929292;
+  color: var( --navigation-button-text);
+}
+
+
+.download_icon {
+  width: 40px;
+  background-color: var(--navigation-button-text);
+  -webkit-mask: url(./icons/Download.svg) no-repeat center;
+  mask: url(./icons/Download.svg) no-repeat center;
 }
 
 /* Download button */
@@ -147,8 +165,9 @@ ul {
   /* justify-content: center; */
   padding-top: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 0.5px solid #e2e2e2;
-  border-top: 0.5px solid #e2e2e2;
+  border-bottom: 0.5px solid var(--audience-border-color);
+  border-bottom: 0.5px solid var(--audience-border-color);
+  background-color: var(--background);
 }
 
 .logout_button li {
@@ -166,7 +185,15 @@ ul {
   flex-direction: row;
   justify-content: space-between;
   font-family: "SF_Pro_Display_Medium";
-  color: #929292;
+  color: var(--navigation-text);
+  /* background-color: var(--background); */
+}
+
+.dark_mode_icon {
+  width: 40px;
+  background-color: var(--navigation-text);;
+  -webkit-mask: url(./icons/Switch_darkmode.svg) no-repeat center;
+  mask: url(./icons/Switch_darkmode.svg) no-repeat center;
 }
 
 /* Dark mode button */

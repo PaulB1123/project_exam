@@ -5,6 +5,7 @@
 
 h1 {
     margin-bottom: 0.5rem;
+    color: var(--text-primary);
 }
 
 .h2 {
@@ -42,6 +43,7 @@ object-fit: cover;
     margin-left: 1.3rem;
     font-family: "SF_Pro_Display_Medium";
     font-size: 20px;
+    color: var(--text-primary);
 }
 
 /* Profile Container */

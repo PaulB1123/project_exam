@@ -3,7 +3,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color:#929292;
+    color:var(--navigation-text);
+}
+
+.dashboard_header {
+
+    color: var(--navigation-text);;
 }
 
 .dashboard_container_group p {
