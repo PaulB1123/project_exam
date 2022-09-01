@@ -1,20 +1,19 @@
 .dashboard_container_group {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color:var(--navigation-text);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--navigation-text);
 }
 
 .dashboard_header {
-
-    color: var(--navigation-text);;
+  color: var(--navigation-text);
 }
 
 .dashboard_container_group p {
-    width: 30%;
-    text-align: center;
-    font-size: 18px;
-    font-family: "SF_Pro_Display_Regular";
-    letter-spacing:0.04rem;
+  width: 30%;
+  text-align: center;
+  font-size: 18px;
+  font-family: "SF_Pro_Display_Regular";
+  letter-spacing: 0.04rem;
 }

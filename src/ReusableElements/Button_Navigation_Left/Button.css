@@ -1,0 +1,27 @@
+/* .Thisisnew {
+  background-color: blueviolet;
+} */
+
+button {
+  border: none;
+}
+
+button:focus {
+  border: none;
+  outline: none;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+.Dropdown {
+  background-color: black;
+  position: fixed;
+  margin-top: 3rem;
+  width: 240px;
+  border-radius: 7px;
+  height: 10rem;
+  color: azure;
+  z-index: 10;
+}

@@ -1,11 +1,11 @@
-.filter_container_group{
-    margin: 2rem;
+.filter_container_group {
+  margin: 2rem;
 }
 
 .filter_header {
-    padding-bottom: 1rem;
-    border-bottom: 0.5px solid var(--audience-border-color);
-    color: var(--text-primary);
+  padding-bottom: 1rem;
+  border-bottom: 0.5px solid var(--audience-border-color);
+  color: var(--text-primary);
 }
 
 /* .filter_container img {
@@ -22,67 +22,68 @@
   margin-top: 0.4rem;
   padding: 0.5rem;
   border-radius: 20%;
+  cursor: pointer;
 }
 
-
-.PlusIcon_container:hover, .PlusIcon_container:active {
-    background-color: var(--audience-background-hover-plus);
-    border: 0.5px solid var(--audience-border-hover-plus);
+.PlusIcon_container:hover,
+.PlusIcon_container:active {
+  background-color: var(--audience-background-hover-plus);
+  border: 0.5px solid var(--audience-border-hover-plus);
 }
-
-
 
 .PlusIcon {
- width: 20px;
- height: 20px;
+  width: 20px;
+  height: 20px;
   background-color: var(--audience-border-plus);
   -webkit-mask: url(./icons/Plus.svg) no-repeat center;
   mask: url(./icons/Plus.svg) no-repeat center;
-
 }
 
 /* Filter button group */
 
 .filter_button_group {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 }
 
 .button_report {
-    font-family: "SF_Pro_Display_Regular";
-    padding-block: 0.7rem;
-    padding-inline: 1rem;
-    border-radius: 7px;
-    color: white;
-    background-color: #8E8D91;
-    letter-spacing:0.04rem;
-    margin-left: 1rem ;
+  font-family: "SF_Pro_Display_Regular";
+  padding-block: 0.7rem;
+  padding-inline: 1rem;
+  border-radius: 7px;
+  color: white;
+  background-color: #8e8d91;
+  letter-spacing: 0.04rem;
+  margin-left: 1rem;
+  cursor: pointer;
 }
 
-.button_report:hover, .button_report:active {
-    background-color: var(--audience-border-hover-button);
+.button_report:hover,
+.button_report:active {
+  background-color: var(--audience-border-hover-button);
 }
 
 .button_filter {
-    display: flex;
-    flex-direction: row;
-    font-family: "SF_Pro_Display_Regular";
-    padding-block: 0.7rem;
-    padding-inline: 1rem;
-    border-radius: 7px;
-    color: white;
-    background-color: var(--audience-save-color);
-    letter-spacing:0.04rem;
+  display: flex;
+  flex-direction: row;
+  font-family: "SF_Pro_Display_Regular";
+  padding-block: 0.7rem;
+  padding-inline: 1rem;
+  border-radius: 7px;
+  color: white;
+  background-color: var(--audience-save-color);
+  letter-spacing: 0.04rem;
+  cursor: pointer;
 }
 
-.button_filter:hover, .button_filter:active {
-    background-color: var(--audience-border-hover-button);
+.button_filter:hover,
+.button_filter:active {
+  background-color: var(--audience-border-hover-button);
 }
-
 
 .button_filter img {
-    margin-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 /* Filter button group */

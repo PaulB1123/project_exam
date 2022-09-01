@@ -1,93 +1,79 @@
-
-
 @font-face {
-    font-family: "SF_Pro_Display_Regular";
-    src: url(../Navigation/Fonts/SFPRODISPLAYREGULAR.OTF);
-  }
-  
-  @font-face {
-    font-family: "SF_Pro_Display_Medium";
-    src: url(../Navigation/Fonts/SFPRODISPLAYMEDIUM.OTF);
-  }
-  
-  @font-face {
-    font-family: "SF_Pro_Display_Bold";
-    src: url(../Navigation/Fonts/SFPRODISPLAYBOLD.OTF);
-  }
-  
-
-  :root {
-    --background: white;
-    --clicked-button: #FFFFFF;
-    --border-clicked-button:#353738;
-    --navigation-text: #929292;
-    --navigation-button-text: #929292;
-    --button-color:#F5F5FC;
-    --audience-save-color: #AFAFAF;
-    --audience-border-color: #e2e2e2;
-    --audience-border-plus:#707070;
-    --audience-border-hover-plus:white;
-    --audience-background-hover-plus:#D9D9D9;
-    --audience-border-hover-button:#555555;
-    --text-primary: black;
-    --text-secondary: royalblue;
-    --accent: purple;
-  }
-
-
-
-
-
-  [data-theme='dark'] {
-    --background: #1A1B1E;
-    --clicked-button: #27292A;
-    --border-clicked-button:#353738;
-    --navigation-text: #929292;
-    --navigation-button-text: white;
-    --button-color:#59595B;
-    --audience-save-color: #59595B;
-    --audience-border-color: #323133;
-    --audience-border-plus:#707070;
-    --audience-border-button: #707070;
-    --audience-border-hover-plus: #1A1B1E;
-    --audience-background-hover-plus:#27292A; 
-    --audience-border-hover-button:#323133;
-
-
-    --text-primary: white;
-    --text-secondary: grey;
-    --accent: darkred;
-  }
-
-
-  .Navigation {
-    color: var(--text-primary);
-    background-color: var(--background);
-    padding: 20px;
-    height: calc(100vh - 40px);
-    transition: all .5s;
-  }
-
-
-   
-.Main_App {
-  background-color: var(--background);
-  height: calc(105vh - 40px);;
-
+  font-family: "SF_Pro_Display_Regular";
+  src: url(../Navigation/Fonts/SFPRODISPLAYREGULAR.OTF);
 }
 
+@font-face {
+  font-family: "SF_Pro_Display_Medium";
+  src: url(../Navigation/Fonts/SFPRODISPLAYMEDIUM.OTF);
+}
 
-  button {
-    color: var(--text-primary);
-    background-color: var(--background);
-    border: 2px var(--text-primary) solid;
-    float: right;
-    transition: all .5s;
-  }
-  
- .dark_mode {
+@font-face {
+  font-family: "SF_Pro_Display_Bold";
+  src: url(../Navigation/Fonts/SFPRODISPLAYBOLD.OTF);
+}
+
+:root {
+  --background: white;
+  --clicked-button: #ffffff;
+  --border-clicked-button: #353738;
+  --navigation-text: #929292;
+  --navigation-button-text: #929292;
+  --button-color: #f5f5fc;
+  --audience-save-color: #afafaf;
+  --audience-border-color: #e2e2e2;
+  --audience-border-plus: #707070;
+  --audience-border-hover-plus: white;
+  --audience-background-hover-plus: #d9d9d9;
+  --audience-border-hover-button: #555555;
+  --text-primary: black;
+  --text-secondary: royalblue;
+  --accent: purple;
+}
+
+[data-theme="dark"] {
+  --background: #1a1b1e;
+  --clicked-button: #27292a;
+  --border-clicked-button: #353738;
+  --navigation-text: #929292;
+  --navigation-button-text: white;
+  --button-color: #59595b;
+  --audience-save-color: #59595b;
+  --audience-border-color: #323133;
+  --audience-border-plus: #707070;
+  --audience-border-button: #707070;
+  --audience-border-hover-plus: #1a1b1e;
+  --audience-background-hover-plus: #27292a;
+  --audience-border-hover-button: #323133;
+
+  --text-primary: white;
+  --text-secondary: grey;
+  --accent: darkred;
+}
+
+.Navigation {
+  color: var(--text-primary);
+  background-color: var(--background);
+  padding: 20px;
+  height: calc(100vh - 40px);
+  transition: all 0.5s;
+}
+
+.Main_App {
+  background-color: var(--background);
+  height: calc(105vh - 40px);
+}
+
+button {
+  color: var(--text-primary);
+  background-color: var(--background);
+  border: 2px var(--text-primary) solid;
+  float: right;
+  transition: all 0.5s;
+}
+
+.dark_mode {
   margin-top: 5rem;
   margin-left: 5rem;
   width: 10%;
- }
-  
+}
