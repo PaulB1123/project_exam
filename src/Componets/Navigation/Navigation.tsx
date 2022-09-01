@@ -3,31 +3,16 @@ import "./Navigation.css";
 import Annalect from "./icons/Annalect.png";
 import Filter from "./icons/Filter.svg";
 import ChartsIcon from "./icons/Charts.svg";
-import ReportIcon from "./icons/Reports.svg";
 import SettingsIcon from "./icons/Settings.svg";
 import LogoutIcon from "./icons/Log_Out.svg";
 import ArrrowdownIcon from "./icons/ArrowDown.svg";
 import useLocalStorage from "use-local-storage";
-import Button1 from "../../ReusableElements/Button_Navigation_Left/Button";
+import ChartsButton from "../../ReusableElements/Button_Navigation_Left/Button";
+import { ReportsButton } from "../../ReusableElements/Button_Navigation_Left/Button";
 import { useState } from "react";
 import * as React from "react";
 
-// export interface Props {
-//   handleClick: any;
-//   isActive: any;
-//   isOpen: any;
-// }
-
 export default function Navigation() {
-  //   const [isOpen, setOpen] = React.useState(false);
-  //   const [isActive, setIsActive] = useState(false);
-
-  //   const handleClick = () => {
-  //     setOpen(!isOpen);
-  //     setIsActive((current) => !current);
-  //     console.log(isActive);
-  //   };
-
   return (
     <>
       <div className="naviagtion_container_group">
@@ -63,14 +48,8 @@ export default function Navigation() {
         <div className="header_main_menu_container">
           <li className="header_main_menu">WORK FLOW</li>
           <ul>
-            <Button1 />
-            <div className="filterbutton">
-              <div className="filterbutton_container">
-                <img src={ReportIcon} alt="Logo_Charts "></img>
-                <li>Reports</li>
-              </div>
-              <img src={ArrrowdownIcon}></img>
-            </div>
+            <ChartsButton />
+            <ReportsButton />
           </ul>
         </div>
 

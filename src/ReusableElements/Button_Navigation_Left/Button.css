@@ -30,6 +30,19 @@ button:focus {
   z-index: 10;
 }
 
+.Dropdown_Reports {
+  width: 280px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: white;
+  border: 0.5px solid #e2e2e2;
+  position: fixed;
+  margin-top: 0.6rem;
+  border-radius: 7px;
+}
+
 .Dropdown_box {
   margin: 1rem;
 }
@@ -71,3 +84,32 @@ button:focus {
   color: white;
   cursor: pointer;
 }
+
+/* Audience button  */
+
+.Dropdown_Audience {
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: white;
+  border: 0.5px solid #e2e2e2;
+  position: fixed;
+  margin-top: 3.3rem;
+  border-radius: 7px;
+}
+
+.Dropdown_box_Audience {
+  margin: 1.5rem;
+}
+
+.Dropdown_container img {
+  margin-right: 1rem;
+}
+
+.Dropdown_container {
+  margin-bottom: 0.5rem;
+}
+
+/* Audience button */

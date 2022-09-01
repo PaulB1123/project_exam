@@ -44,7 +44,8 @@
 .filter_button_group {
   display: flex;
   flex-direction: row;
-  justify-content: end;
+  justify-content: space-between;
+  /* justify-content: end; */
 }
 
 .button_report {
@@ -64,10 +65,16 @@
   background-color: var(--audience-border-hover-button);
 }
 
+/* .button_audience {
+  display: flex;
+  justify-content: start;
+} */
+
 .button_filter {
   display: flex;
   flex-direction: row;
   font-family: "SF_Pro_Display_Regular";
+  justify-content: end;
   padding-block: 0.7rem;
   padding-inline: 1rem;
   border-radius: 7px;
@@ -75,6 +82,12 @@
   background-color: var(--audience-save-color);
   letter-spacing: 0.04rem;
   cursor: pointer;
+}
+
+.buttons_reports {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 }
 
 .button_filter:hover,

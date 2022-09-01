@@ -1,6 +1,7 @@
 import "../Styles/global.css";
 import "./Filter.css";
 import SaveIcon from "./icons/Save.svg";
+import { AudienceButton } from "../../ReusableElements/Button_Navigation_Left/Button";
 
 export default function FilterComponent() {
   return (
@@ -8,12 +9,13 @@ export default function FilterComponent() {
       <div className="filter_container_group">
         <div className="filter_container">
           <h1 className="filter_header">Audience</h1>
-
-          <div className="PlusIcon_container">
-            <div className="PlusIcon"></div>
-          </div>
         </div>
         <div className="filter_button_group">
+          <div className="button_audience">
+            <AudienceButton />
+          </div>
+        </div>
+        <div className="buttons_reports">
           <div className="button_filter">
             <img src={SaveIcon}></img>
             <div>Save filter options</div>
