@@ -1,8 +1,9 @@
 import "../../Componets/Styles/global.css";
 import "./Button.css";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 import "../../Componets/Filters/Filter.css";
 
-import { useState } from "react";
+import { useState, Fragment, useRef } from "react";
 import * as React from "react";
 import Doughnutchart from "../../Componets/Navigation/icons/Doughnut.svg";
 import BarChart from "../../Componets/Navigation/icons/BarChart.png";
@@ -14,6 +15,15 @@ import ChartsIcon from "../../Componets/Navigation/icons/Charts.svg";
 import ReportIcon from "../../Componets/Navigation/icons/Reports.svg";
 import ArrrowdownIcon from "../../Componets/Navigation/icons/ArrowDown.svg";
 import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
+import AuditionFilter from "../../Data/audition_filters";
+// import Draggable from "react-draggable";
+
+interface Props {
+  row: any;
+  listId: string;
+  listType?: string;
+  onLabelChange: (newText: string) => void;
+}
 
 export default function ChartsButton() {
   const [isOpen, setOpen] = React.useState(false);
@@ -35,7 +45,9 @@ export default function ChartsButton() {
         <div
           className="filterbutton"
           style={{
-            backgroundColor: isActive ? "#d9d9d9" : "white",
+            backgroundColor: isActive
+              ? "var(--audience-background-hover-plus)"
+              : "var(--background)",
             //   color: isActive ? "white" : "",
           }}
         >
@@ -82,7 +94,6 @@ export default function ChartsButton() {
               <li>Visits</li>
             </div>
             <div className="button_with_all_graphs_container">
-              {" "}
               <button className="button_with_all_graphs">See All Graphs</button>
             </div>
           </div>
@@ -105,6 +116,7 @@ export function ReportsButton() {
     <>
       <button
         type="button"
+        className="Reports_button"
         onClick={() => {
           handleClickReports();
         }}
@@ -112,7 +124,9 @@ export function ReportsButton() {
         <div
           className="filterbutton"
           style={{
-            backgroundColor: isActiveReports ? "#d9d9d9" : "white",
+            backgroundColor: isActiveReports
+              ? "var(--audience-background-hover-plus)"
+              : "var(--background)",
             //   color: isActive ? "white" : "",
           }}
         >
@@ -165,6 +179,7 @@ export function AudienceButton() {
     <>
       <button
         type="button"
+        className="buttonaudience"
         onClick={() => {
           handleClick();
         }}
@@ -182,134 +197,26 @@ export function AudienceButton() {
         <div className="Dropdown_Audience_Main_Group">
           <div className="Dropdown_Audience">
             <div className="Dropdown_box_Audience">
-              <div className="Dropdown_container">
-                <img src={Doughnutchart}></img>
-                <li>Successful transaction</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={LineChart}></img>
-                <li>Spend by media</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarChart}></img>
-                <li>Today's Mortgage Rates</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={RadarChart}></img>
-                <li>Time Management</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarsChart}></img>
-                <li>Invitation Requested</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={ComparationChart}></img>
-                <li>Visits</li>
-              </div>
-            </div>
-            <div className="Dropdown_box_Audience">
-              <div className="Dropdown_container">
-                <img src={Doughnutchart}></img>
-                <li>Successful transaction</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={LineChart}></img>
-                <li>Spend by media</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarChart}></img>
-                <li>Today's Mortgage Rates</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={RadarChart}></img>
-                <li>Time Management</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarsChart}></img>
-                <li>Invitation Requested</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={ComparationChart}></img>
-                <li>Visits</li>
-              </div>
-            </div>
-            <div className="Dropdown_box_Audience">
-              <div className="Dropdown_container">
-                <img src={Doughnutchart}></img>
-                <li>Successful transaction</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={LineChart}></img>
-                <li>Spend by media</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarChart}></img>
-                <li>Today's Mortgage Rates</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={RadarChart}></img>
-                <li>Time Management</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarsChart}></img>
-                <li>Invitation Requested</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={ComparationChart}></img>
-                <li>Visits</li>
-              </div>
-            </div>
-            <div className="Dropdown_box_Audience">
-              <div className="Dropdown_container">
-                <img src={Doughnutchart}></img>
-                <li>Successful transaction</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={LineChart}></img>
-                <li>Spend by media</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarChart}></img>
-                <li>Today's Mortgage Rates</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={RadarChart}></img>
-                <li>Time Management</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarsChart}></img>
-                <li>Invitation Requested</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={ComparationChart}></img>
-                <li>Visits</li>
-              </div>
-            </div>
-            <div className="Dropdown_box_Audience">
-              <div className="Dropdown_container">
-                <img src={Doughnutchart}></img>
-                <li>Successful transaction</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={LineChart}></img>
-                <li>Spend by media</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarChart}></img>
-                <li>Today's Mortgage Rates</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={RadarChart}></img>
-                <li>Time Management</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={BarsChart}></img>
-                <li>Invitation Requested</li>
-              </div>
-              <div className="Dropdown_container">
-                <img src={ComparationChart}></img>
-                <li>Visits</li>
-              </div>
+              {/* <div className="Dropdown_container">
+                <Draggable>
+                  <div className="box">
+                    <img src={Doughnutchart}></img>
+                    <li>Successful transaction</li>
+                  </div>
+                </Draggable>
+              </div> */}
+
+              {AuditionFilter.map((filter) => (
+                <div className="Dropdown_container">
+                  <div className="Dropdown_filter_container">
+                    <img src={filter.logo}></img>
+                    <li>{filter.description}</li>
+                  </div>
+                  <div className="Dropdown_plus_sign_container">
+                    <img className="Dropdown_plus_sign" src={filter.add}></img>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

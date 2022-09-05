@@ -12,7 +12,7 @@ export default function FilterComponent() {
         </div>
         <div className="filter_button_group">
           <div className="button_audience">
-            <AudienceButton />
+            <AudienceButton></AudienceButton>
           </div>
         </div>
         <div className="buttons_reports">

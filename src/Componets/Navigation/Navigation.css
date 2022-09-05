@@ -88,8 +88,8 @@ ul {
 .filterbutton:hover,
 .filterbutton:active {
   background-color: var(--audience-background-hover-plus);
-  box-shadow: rgba(210, 210, 210, 1) 0px 30px 60px -12px inset,
-    rgba(210, 210, 210, 1) 0px 18px 36px -18px inset;
+  box-shadow: var(--audience-background-hover-plus) 0px 30px 60px -12px inset,
+    var(--audience-background-hover-plus) 0px 18px 36px -18px inset;
 }
 
 .filterbutton_container {
@@ -109,6 +109,9 @@ ul {
 
 .header_main_menu_container {
   border-bottom: 0.5px solid var(--audience-border-color);
+}
+.header_main_menu_container ul {
+  background-color: var(--background);
 }
 /* Work Flow */
 

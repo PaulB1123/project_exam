@@ -21,12 +21,12 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background-color: white;
-  border: 0.5px solid #e2e2e2;
+  background-color: var(--clicked-button);
+  border: 0.5px solid var(--audience-border-color);
   position: fixed;
   margin-top: 3.2rem;
   border-radius: 7px;
-  color: black;
+  color: var(--navigation-text);
   z-index: 10;
 }
 
@@ -36,11 +36,12 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background-color: white;
-  border: 0.5px solid #e2e2e2;
+  background-color: var(--clicked-button);
+  border: 0.5px solid var(--audience-border-color);
   position: fixed;
   margin-top: 0.6rem;
   border-radius: 7px;
+  color: var(--navigation-text);
 }
 
 .Dropdown_box {
@@ -53,7 +54,7 @@ button:focus {
 
 .button_with_all_graphs {
   padding: 0.4rem;
-  border: 0.5px solid #e2e2e2;
+  border: 0.5px solid var(--navigation-button-dropdown-hovering);
   border-radius: 7px;
   margin: 1rem;
 }
@@ -74,7 +75,7 @@ button:focus {
 .Dropdown_container:hover,
 .Dropdown_container:active {
   border-radius: 7px;
-  background-color: #d9d9d9;
+  background-color: var(--navigation-button-dropdown-hovering);
   cursor: pointer;
 }
 
@@ -89,18 +90,23 @@ button:focus {
 
 .Dropdown_Audience {
   width: auto;
-  height: auto;
+  height: 380px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  background-color: white;
-  border: 0.5px solid #e2e2e2;
+  background-color: var(--clicked-button);
+  border: 0.5px solid var(--audience-border-color);
+  color: var(--navigation-text);
   position: fixed;
-  margin-top: 3.3rem;
+  margin-top: 3.2rem;
   border-radius: 7px;
 }
 
 .Dropdown_box_Audience {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   margin: 1.5rem;
 }
 
@@ -109,7 +115,32 @@ button:focus {
 }
 
 .Dropdown_container {
+  width: 200px;
   margin-bottom: 0.5rem;
+  justify-content: space-between;
 }
 
+.buttonaudience {
+  padding: 0rem;
+}
 /* Audience button */
+
+.filterbuttonAudience {
+  background-color: var(--background) !important;
+}
+
+.Reports_button {
+  margin-bottom: 1.5rem;
+}
+
+.Dropdown_plus_sign {
+  display: flex;
+  justify-content: center;
+  width: 11px !important;
+  margin-right: 0rem !important;
+}
+
+.Dropdown_filter_container {
+  display: flex;
+  flex-direction: row;
+}

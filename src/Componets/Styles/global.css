@@ -19,6 +19,7 @@
   --border-clicked-button: #353738;
   --navigation-text: #929292;
   --navigation-button-text: #929292;
+  --navigation-button-dropdown-hovering: #d9d9d9;
   --button-color: #f5f5fc;
   --audience-save-color: #afafaf;
   --audience-border-color: #e2e2e2;
@@ -26,6 +27,7 @@
   --audience-border-hover-plus: white;
   --audience-background-hover-plus: #d9d9d9;
   --audience-border-hover-button: #555555;
+
   --text-primary: black;
   --text-secondary: royalblue;
   --accent: purple;
@@ -37,6 +39,7 @@
   --border-clicked-button: #353738;
   --navigation-text: #929292;
   --navigation-button-text: white;
+  --navigation-button-dropdown-hovering: #1a1b1e;
   --button-color: #59595b;
   --audience-save-color: #59595b;
   --audience-border-color: #323133;
@@ -56,6 +59,7 @@
   background-color: var(--background);
   padding: 20px;
   height: calc(100vh - 40px);
+
   transition: all 0.5s;
 }
 
@@ -69,7 +73,6 @@ button {
   background-color: var(--background);
   border: 2px var(--text-primary) solid;
   float: right;
-  transition: all 0.5s;
 }
 
 .dark_mode {
