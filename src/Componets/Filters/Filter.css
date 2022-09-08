@@ -19,7 +19,7 @@
 .PlusIcon_container {
   width: 20px;
   border: 0.5px solid var(--audience-border-plus);
-  margin-top: 0.4rem;
+  /* margin-top: 0.4rem; */
   padding: 0.5rem;
   border-radius: 20%;
   cursor: pointer;
@@ -44,8 +44,9 @@
 .filter_button_group {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  /* justify-content: end; */
+  /* justify-content: space-between; */
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .button_report {
@@ -97,6 +98,19 @@
 
 .button_filter img {
   margin-right: 0.5rem;
+}
+
+.audience_droppable_container {
+  display: flex;
+}
+
+.filter_droppable_container {
+  display: flex;
+  align-items: center;
+  width: 1500px;
+  height: 40px;
+  margin-left: 1rem;
+  /* border: 0.5px solid var(--audience-border-color); */
 }
 
 /* Filter button group */

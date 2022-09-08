@@ -110,6 +110,7 @@ ul {
 .header_main_menu_container {
   border-bottom: 0.5px solid var(--audience-border-color);
 }
+
 .header_main_menu_container ul {
   background-color: var(--background);
 }

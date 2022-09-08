@@ -1,9 +1,8 @@
 import "../../Componets/Styles/global.css";
 import "./Button.css";
-import { Droppable, Draggable } from "react-beautiful-dnd";
 import "../../Componets/Filters/Filter.css";
 
-import { useState, Fragment, useRef } from "react";
+import { useState, useRef } from "react";
 import * as React from "react";
 import Doughnutchart from "../../Componets/Navigation/icons/Doughnut.svg";
 import BarChart from "../../Componets/Navigation/icons/BarChart.png";
@@ -15,15 +14,7 @@ import ChartsIcon from "../../Componets/Navigation/icons/Charts.svg";
 import ReportIcon from "../../Componets/Navigation/icons/Reports.svg";
 import ArrrowdownIcon from "../../Componets/Navigation/icons/ArrowDown.svg";
 import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
-import AuditionFilter from "../../Data/audition_filters";
-// import Draggable from "react-draggable";
-
-interface Props {
-  row: any;
-  listId: string;
-  listType?: string;
-  onLabelChange: (newText: string) => void;
-}
+import { AuditionFilter } from "../../Data/audition_filters";
 
 export default function ChartsButton() {
   const [isOpen, setOpen] = React.useState(false);
@@ -166,7 +157,7 @@ export function ReportsButton() {
   );
 }
 
-export function AudienceButton() {
+export function AudienceButton(props: any) {
   const [isOpen, setOpen] = React.useState(false);
   const [isActive, setIsActive] = useState(false);
 
@@ -175,52 +166,124 @@ export function AudienceButton() {
     setIsActive((current) => !current);
   };
 
-  return (
-    <>
-      <button
-        type="button"
-        className="buttonaudience"
-        onClick={() => {
-          handleClick();
-        }}
-      >
-        <div
-          className="filterbuttonAudience"
-          style={{ backgroundColor: isActive ? "#d9d9d9" : "white" }}
-        >
-          <div className="PlusIcon_container">
-            <div className="PlusIcon"></div>
-          </div>
-        </div>
-      </button>
-      {isOpen && (
-        <div className="Dropdown_Audience_Main_Group">
-          <div className="Dropdown_Audience">
-            <div className="Dropdown_box_Audience">
-              {/* <div className="Dropdown_container">
-                <Draggable>
-                  <div className="box">
-                    <img src={Doughnutchart}></img>
-                    <li>Successful transaction</li>
-                  </div>
-                </Draggable>
-              </div> */}
+  const changeStatus = () => {};
 
-              {AuditionFilter.map((filter) => (
-                <div className="Dropdown_container">
-                  <div className="Dropdown_filter_container">
-                    <img src={filter.logo}></img>
-                    <li>{filter.description}</li>
-                  </div>
-                  <div className="Dropdown_plus_sign_container">
-                    <img className="Dropdown_plus_sign" src={filter.add}></img>
-                  </div>
-                </div>
-              ))}
+  const dragItem = useRef<any>(null);
+  const dragOverItem = useRef<any>(null);
+  const [list, setList] = useState<Array<any>>(AuditionFilter);
+
+  const dragStart = (e: any, position: any) => {
+    console.log(dragItem);
+
+    dragItem.current = position;
+    // console.log(e.target.innerHTML);
+  };
+
+  const dragEnter = (e: any, position: any) => {
+    dragOverItem.current = position;
+    //console.log(e.target.innerHTML);
+  };
+
+  const drop = (e: any) => {
+    const copyListItems = [...list];
+    const dragItemContent = copyListItems[dragItem.current];
+    console.log(dragItemContent);
+    copyListItems.splice(dragItem.current, 1);
+    copyListItems.splice(dragOverItem.current, 0, dragItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setList(copyListItems);
+    console.log(list);
+  };
+
+  return (
+    <div className="ContainerFile_filter">
+      <div className="container_audience">
+        <button
+          type="button"
+          className="buttonaudience"
+          onClick={() => {
+            handleClick();
+          }}
+        >
+          <div
+            className="filterbuttonAudience"
+            style={{ backgroundColor: isActive ? "#d9d9d9" : "white" }}
+          >
+            <div className="PlusIcon_container">
+              <div className="PlusIcon"></div>
             </div>
           </div>
+        </button>
+
+        {/* {isOpen && (
+          <div className="Dropdown_Audience_Main_Group">
+            <div className="Dropdown_Audience">
+              <div className="Dropdown_box_Audience">
+                {list.map((filter, index) => (
+                  <div
+                    className="Dropdown_container"
+                    onDragStart={(e) => dragStart(e, index)}
+                    onDragEnter={(e) => dragEnter(e, index)}
+                    onDragEnd={drop}
+                    key={index}
+                    draggable
+                  >
+                    <div className="Dropdown_filter_container">
+                      <img src={filter.logo}></img>
+                      <li>{filter.description}</li>
+                    </div>
+                    <div className="Dropdown_plus_sign_container">
+                      <button
+                        onClick={() => {
+                          changeStatus();
+                        }}
+                      >
+                        <img
+                          className="Dropdown_plus_sign"
+                          src={filter.add}
+                        ></img>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )} */}
+
+        {isOpen && (
+          <div className="Dropdown_Audience_Main_Group">
+            <div className="Dropdown_Audience">
+              <div className="Dropdown_box_Audience">
+                {list.map((filter) => (
+                  <div className="Dropdown_container">
+                    <div className="Dropdown_filter_container">
+                      <img src={filter.logo}></img>
+                      <li>{filter.description}</li>
+                    </div>
+                    <div className="Dropdown_plus_sign_container">
+                      <button
+                        onClick={() => {
+                          changeStatus();
+                        }}
+                      >
+                        <img
+                          className="Dropdown_plus_sign"
+                          src={filter.add}
+                        ></img>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="filter_droppable_container">
+          <ul></ul>
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 }

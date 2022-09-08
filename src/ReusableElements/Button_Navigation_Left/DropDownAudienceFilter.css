@@ -1,0 +1,15 @@
+.button_audition_filter {
+  position: relative;
+}
+
+#Dropdown_audience_filter {
+  width: 215px;
+  margin-top: 1rem;
+  position: absolute;
+  top: 1.4rem;
+  left: -11.2rem;
+}
+
+#Dropdown_audience_filter_box {
+  margin: 0rem;
+}

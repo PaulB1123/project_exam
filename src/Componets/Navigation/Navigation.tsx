@@ -9,6 +9,7 @@ import ArrrowdownIcon from "./icons/ArrowDown.svg";
 import useLocalStorage from "use-local-storage";
 import ChartsButton from "../../ReusableElements/Button_Navigation_Left/Button";
 import { ReportsButton } from "../../ReusableElements/Button_Navigation_Left/Button";
+import Data from "../../Data/audition_filters";
 import { useState } from "react";
 import * as React from "react";
 

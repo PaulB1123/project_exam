@@ -1,0 +1,41 @@
+.drag-n-drop {
+  display: flex;
+  flex-direction: row;
+}
+
+/* .dnd-group {
+  background-color: #49505e;
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 150px;
+  margin-top: 1rem;
+}
+
+.dnd-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 5px;
+  color: #282c34;
+  font-weight: bold;
+}
+
+.group-title {
+  text-align: left;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.dnd-item:not(last-of-type) {
+  margin-bottom: 0.5rem;
+}
+
+.dnd-item * {
+  margin: 0rem;
+  font-size: 1.2rem;
+} */
+
+.current {
+  background-color: #282c34;
+}

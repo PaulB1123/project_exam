@@ -1,7 +1,9 @@
 import "../Styles/global.css";
 import "./Filter.css";
 import SaveIcon from "./icons/Save.svg";
-import { AudienceButton } from "../../ReusableElements/Button_Navigation_Left/Button";
+// import { AudienceButton } from "../../ReusableElements/Button_Navigation_Left/Button";
+import DragNDrop from "../../ReusableElements/Button_Navigation_Left/DragnDrop";
+import Data from "../../Data/audition_filters";
 
 export default function FilterComponent() {
   return (
@@ -12,9 +14,17 @@ export default function FilterComponent() {
         </div>
         <div className="filter_button_group">
           <div className="button_audience">
-            <AudienceButton></AudienceButton>
+            <div className="audience_droppable_container">
+              {/* <AudienceButton></AudienceButton> */}
+              <DragNDrop data={Data}></DragNDrop>
+            </div>
           </div>
         </div>
+
+        {/* <div className="this-is-another-button">
+          <DragNDrop data={Data}></DragNDrop>
+        </div> */}
+
         <div className="buttons_reports">
           <div className="button_filter">
             <img src={SaveIcon}></img>

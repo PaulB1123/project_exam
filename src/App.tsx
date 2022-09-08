@@ -6,6 +6,7 @@ import Header from "./Componets/Header/Header";
 import FilterComponent from "./Componets/Filters/Filter";
 import Dashboard from "./Componets/Dashboard/Dashboard";
 import useLocalStorage from "use-local-storage";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 function App() {
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -26,9 +27,10 @@ function App() {
         <Header></Header>
 
         <div>
-          <FilterComponent></FilterComponent>
+          <DragDropContext onDragEnd={(result) => console.log(result)}>
+            <FilterComponent></FilterComponent>
+          </DragDropContext>
           <Dashboard></Dashboard>
-          {/* <ToDoDragDropDemo></ToDoDragDropDemo> */}
           <div className="dark_mode" onClick={switchTheme}>
             <ul>{theme === "light" ? "Dark" : "Light"} Mode</ul>
             <div className="dark_mode_icon"></div>
