@@ -1,6 +1,7 @@
 li {
   font-size: 15px;
   list-style-type: none;
+  color: var(--navigation-text);
   /* 'color: #929292;' */
 }
 

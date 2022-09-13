@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   color: var(--navigation-text);
+  z-index: 2;
 }
 
 .dashboard_header {
@@ -16,4 +17,5 @@
   font-size: 18px;
   font-family: "SF_Pro_Display_Regular";
   letter-spacing: 0.04rem;
+  z-index: 2;
 }

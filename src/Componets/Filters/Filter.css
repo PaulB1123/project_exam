@@ -106,10 +106,11 @@
 
 .filter_droppable_container {
   display: flex;
-  align-items: center;
-  width: 1500px;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 250px;
   height: 40px;
-  margin-left: 1rem;
+  z-index: 90;
   /* border: 0.5px solid var(--audience-border-color); */
 }
 

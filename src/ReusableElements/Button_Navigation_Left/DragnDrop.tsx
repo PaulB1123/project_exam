@@ -4,9 +4,22 @@ import "../../Componets/Filters/Filter.css";
 import "./DragnDrop.css";
 import React, { useState, useRef } from "react";
 import DropdownAudienceFilter from "./DropDownAudienceFilter";
+import PlusIcon from "../../Componets/Navigation/icons/Plus.svg";
+import Format from "../../Data/format.json";
 
 interface DataProps {
   data: any;
+}
+type IItem = {
+  add: string;
+  logo: string;
+  id: string;
+  description: string;
+  category: string;
+};
+interface IGroup {
+  items: IItem[];
+  title: string;
 }
 
 export const DragNDrop: React.FC<DataProps> = ({ data }) => {
@@ -24,7 +37,7 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
   const dragNode = useRef<any>();
 
   const handleDragStart = (e: any, params: any) => {
-    console.log("drag starting", params);
+    // console.log("drag starting", params);
     dragItem.current = params; // now everytime I drag something I set the useref so I have directions
     dragNode.current = e.target;
     dragNode.current.addEventListener("dragend", handleDragEnd);
@@ -34,21 +47,94 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
   };
 
   const handleDragEnter = (e: any, params: any) => {
-    console.log("Entering drag", params);
+    // console.log("Entering drag", params);
     const currentItem = dragItem.current;
-    if (e.target !== dragNode.current) console.log("Target is not the same");
-    setList((oldList: any) => {
-      let newList = JSON.parse(JSON.stringify(oldList));
-      newList[params.grpI].items.splice(
-        params.itemI,
-        0,
-        newList[currentItem.grpI].items.splice(currentItem.itemI, 1)[0]
-      );
-      dragItem.current = params;
-      localStorage.setItem("List", JSON.stringify(newList));
-      return newList;
-    });
+    if (e.target !== dragNode.current)
+      setList((oldList: any) => {
+        let newList = JSON.parse(JSON.stringify(oldList));
+        newList[params.grpI].items.splice(
+          params.itemI,
+          0,
+          newList[currentItem.grpI].items.splice(currentItem.itemI, 1)[0]
+        );
+        dragItem.current = params;
+        localStorage.setItem("List", JSON.stringify(newList));
+        return newList;
+      });
   };
+
+  const xx = [
+    {
+      id: "1",
+      // logo: DefaultIcon,
+      description: "Segment",
+      add: PlusIcon,
+      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+      category: " A bar",
+    },
+    {
+      id: "2",
+      // logo: GenderIcon,
+      description: "Gender",
+      add: PlusIcon,
+      filters: [
+        "This is another text that I have to make ",
+        "18-30",
+        "31-40",
+        "41-50",
+        "51-60",
+        "61+",
+        "unknown",
+      ],
+      category: " A bar",
+    },
+    {
+      id: "3",
+      // logo: DefaultIcon,
+      description: "Age Group",
+      add: PlusIcon,
+      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+      category: " A bar",
+    },
+    {
+      id: "4",
+      // logo: DefaultIcon,
+      description: "Region",
+      add: PlusIcon,
+      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+      category: " A bar",
+    },
+    {
+      id: "5",
+      // logo: DefaultIcon,
+      description: "Tier",
+      add: PlusIcon,
+      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+      category: "blabla",
+    },
+    {
+      id: "6",
+      // logo: DefaultIcon,
+      description: "Offer Copy",
+      add: PlusIcon,
+      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+      category: "blabla",
+    },
+  ] as unknown as IItem[];
+
+  let CategoryArray = [];
+
+  let dictionary = Object.assign(
+    {},
+    ...xx.map(
+      (x) => ({
+        [x.category]: { id: x.id, description: x.description },
+      })
+      // CategoryArray = [...CategoryArray, [x.category]]
+    )
+  );
+
+  console.log(dictionary);
 
   const handleDragEnd = () => {
     // console.log("Ending drag");
@@ -73,14 +159,14 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
 
   return (
     <div className="drag-n-drop">
-      {list.map((grp: any, grpI: any) => {
+      {list.map((grp: IGroup, grpI: number) => {
         // console.log(grp.items);
         if (grp.title === "audition_bar") {
           return (
             <div
               key={grp.title}
               onDragEnter={
-                dragging && !grp.items.lenght
+                dragging && !grp.items.length
                   ? (e) => handleDragEnter(e, { grpI, itemI: 0 })
                   : undefined
               }
@@ -106,8 +192,9 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
                 <div className="Dropdown_Audience_Main_Group">
                   <div className="Dropdown_Audience">
                     <div className="Dropdown_box_Audience">
-                      {grp.items.map((item: any, itemI: any) => (
+                      {grp.items.map((item, itemI: number) => (
                         <div
+                          key={item.id}
                           draggable
                           onDragStart={(e) =>
                             handleDragStart(e, { grpI, itemI })
@@ -119,7 +206,6 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
                                 }
                               : undefined
                           }
-                          key={item}
                           className={
                             dragging ? getStyles({ grpI, itemI }) : "dnd-item"
                           }
@@ -152,7 +238,7 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
             <div
               key={grp.title}
               onDragEnter={
-                dragging && !grp.items.lenght
+                dragging && !grp.items.length
                   ? (e) => handleDragEnter(e, { grpI, itemI: 0 })
                   : undefined
               }
@@ -181,10 +267,11 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
                       {/* <li>{item.id}</li> */}
                       <img src={item.logo}></img>
                       <li>{item.description}</li>
+                      <li>{item.filter}</li>
                     </div>
                     <div className="Dropdown_plus_sign_container">
                       <button>
-                        <DropdownAudienceFilter />
+                        <DropdownAudienceFilter filter={item.filters} />
                       </button>
                     </div>
                   </div>

@@ -4,6 +4,7 @@ import SaveIcon from "./icons/Save.svg";
 // import { AudienceButton } from "../../ReusableElements/Button_Navigation_Left/Button";
 import DragNDrop from "../../ReusableElements/Button_Navigation_Left/DragnDrop";
 import Data from "../../Data/audition_filters";
+import FetchdataFilter from "../../FetchingData/FetchFiltersAuditionData";
 
 export default function FilterComponent() {
   return (
@@ -19,6 +20,9 @@ export default function FilterComponent() {
               <DragNDrop data={Data}></DragNDrop>
             </div>
           </div>
+        </div>
+        <div>
+          <FetchdataFilter></FetchdataFilter>
         </div>
 
         {/* <div className="this-is-another-button">

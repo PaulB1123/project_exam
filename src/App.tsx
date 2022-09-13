@@ -1,43 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import "./App.css";
 import "./Componets/Styles/global.css";
-import Navigation from "./Componets/Navigation/Navigation";
-import Header from "./Componets/Header/Header";
-import FilterComponent from "./Componets/Filters/Filter";
-import Dashboard from "./Componets/Dashboard/Dashboard";
-import useLocalStorage from "use-local-storage";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import LogIn from "./Pages/LogIn";
+import Database from "./Pages/Database";
+import Report from "./Report";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { UserContext } from "./UserContex/UserContext";
 
 function App() {
-  const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const [theme, setTheme] = useLocalStorage(
-    "theme",
-    defaultDark ? "dark" : "light"
-  );
-
-  const switchTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-  };
+  const [value, setValue] = useState(null);
+  // const providerValue = useMemo(() => ({ value, setValue }), [value, setValue]);
 
   return (
-    <div className="Main_App" data-theme={theme}>
-      <Navigation></Navigation>
-      <div className="Right_Side_Dashboard">
-        <Header></Header>
-
-        <div>
-          <DragDropContext onDragEnd={(result) => console.log(result)}>
-            <FilterComponent></FilterComponent>
-          </DragDropContext>
-          <Dashboard></Dashboard>
-          <div className="dark_mode" onClick={switchTheme}>
-            <ul>{theme === "light" ? "Dark" : "Light"} Mode</ul>
-            <div className="dark_mode_icon"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Router>
+      <UserContext.Provider value={"this is new"}>
+        <Routes>
+          <Route path="/" element={<LogIn></LogIn>}></Route>
+          <Route path="/Database" element={<Database />}></Route>
+          <Route
+            path="/Report/:country/:client/:id"
+            element={<Report />}
+          ></Route>
+        </Routes>
+      </UserContext.Provider>
+    </Router>
   );
 }
 

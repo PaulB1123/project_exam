@@ -1,14 +1,17 @@
 import "../Styles/global.css";
 import "./Navigation.css";
 import Annalect from "./icons/Annalect.png";
-import Filter from "./icons/Filter.svg";
+// import Filter from "./icons/Filter.svg";
 import ChartsIcon from "./icons/Charts.svg";
 import SettingsIcon from "./icons/Settings.svg";
 import LogoutIcon from "./icons/Log_Out.svg";
 import ArrrowdownIcon from "./icons/ArrowDown.svg";
 import useLocalStorage from "use-local-storage";
 import ChartsButton from "../../ReusableElements/Button_Navigation_Left/Button";
-import { ReportsButton } from "../../ReusableElements/Button_Navigation_Left/Button";
+import {
+  ReportsButton,
+  AudiencesButton,
+} from "../../ReusableElements/Button_Navigation_Left/Button";
 import Data from "../../Data/audition_filters";
 import { useState } from "react";
 import * as React from "react";
@@ -35,13 +38,7 @@ export default function Navigation() {
               </div>
             </ul>
             <ul>
-              <div className="filterbutton">
-                <div className="filterbutton_container">
-                  <img src={Filter} alt="this is filter"></img>
-                  <li>Filters</li>
-                </div>
-                <img src={ArrrowdownIcon}></img>
-              </div>
+              <AudiencesButton />
             </ul>
           </div>
         </div>
