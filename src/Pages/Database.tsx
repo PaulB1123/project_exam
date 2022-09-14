@@ -7,7 +7,15 @@ import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
 import ArrrowdownIcon from "../Componets/Navigation/icons/ArrowDown.svg";
 import ArrrowupIcon from "../Componets/Navigation/icons/ArrowUp.svg";
-import Mihai from "../Data/useFetch";
+
+import { ClientRequest } from "http";
+import ClientContext from "../Data/ClientContext";
+
+interface Client {
+  ClientCode: string;
+  ClientName: string;
+  ClientCountry: string;
+}
 
 function Database() {
   //   const { value, setValue } = useContext(UserContext);
@@ -15,6 +23,11 @@ function Database() {
   const [isOpen, setOpen] = React.useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isActiveClient, setIsActiveClient] = useState(false);
+  const [selectedClient, setSelectedClient] = React.useState("MCD");
+  const [selectedCountry, setSelectedCountry] = React.useState("DK");
+  const [selectedID, setSelectedID] = React.useState("1");
+  const [clients, setclients] = useState([]);
+  const { clientData } = useContext(ClientContext);
 
   const handleClick = () => {
     setOpen(!isOpen);
@@ -26,8 +39,9 @@ function Database() {
     setIsActiveClient((current) => !current);
   };
 
-  const Data = Mihai();
-  console.log(Data);
+  console.log(clientData);
+
+  // console.log(clients);
 
   return (
     <div className="database_container">
@@ -59,40 +73,57 @@ function Database() {
             <div>
               <div className="client_continer">
                 <div>
-                  <button
-                    type="button"
-                    className="Reports_button"
-                    onClick={() => {
-                      handleClickClient();
-                    }}
+                  <select
+                    value={selectedClient}
+                    onChange={(event) => setSelectedClient(event.target.value)}
                   >
-                    <div className="filterbutton">
-                      <div className="filterbutton_container">
-                        <li>Client</li>
-                      </div>
-                      {isActiveClient ? (
-                        <img src={ArrrowupIcon}></img>
-                      ) : (
-                        <img src={ArrrowdownIcon}></img>
-                      )}
-                    </div>
-                  </button>
-                  {isOpenClient && (
-                    <div className="contry_dropdown">
-                      <div className="ul">
-                        <li>Company 1</li>
-                        <li>Company 1</li>
-                        <li>Company 1</li>
-                        <li>Company 1</li>
-                        <li>Company 1</li>
-                      </div>
-                    </div>
-                  )}
+                    <option value={"MCD"}>MCD</option>
+                    <option value={"CGM"}>CGM</option>
+                    <option value={"MGF"}>MGF</option>
+                    <option value={"GOPGF"}>GOPGF</option>
+                  </select>
+
+                  <select
+                    value={selectedCountry}
+                    onChange={(event) => setSelectedCountry(event.target.value)}
+                  >
+                    <option value={"DK"}>DK</option>
+                    <option value={"NOR"}>NOR</option>
+                    <option value={"SWE"}>SWE</option>
+                    <option value={"FIN"}>FIN</option>
+                  </select>
                 </div>
               </div>
 
-              <div className="country_continer">
-                <div>
+              <select
+                value={selectedID}
+                onChange={(event) => setSelectedID(event.target.value)}
+              >
+                <option value={"1"}>1</option>
+                <option value={"2"}>2</option>
+                <option value={"3"}>3</option>
+                <option value={"4"}>4</option>
+              </select>
+
+              <div className="country_continer"></div>
+            </div>
+            <Link
+              to={`/Report/${selectedClient}/${selectedCountry}/${selectedID}`}
+            >
+              <button className="button">Contiune</button>
+            </Link>
+          </div>
+        </div>
+      </div>
+      <IntroPage></IntroPage>
+    </div>
+  );
+}
+
+export default Database;
+
+{
+  /* <div>
                   <button
                     type="button"
                     className="Reports_button"
@@ -120,18 +151,5 @@ function Database() {
                       <li>Denamrk</li>
                     </div>
                   </div>
-                )}
-              </div>
-            </div>
-            <Link to="/Report">
-              <button className="button">Contiune</button>
-            </Link>
-          </div>
-        </div>
-      </div>
-      <IntroPage></IntroPage>
-    </div>
-  );
+                )} */
 }
-
-export default Database;
