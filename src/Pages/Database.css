@@ -1,0 +1,78 @@
+.database_container {
+  width: 100%;
+  display: flex;
+}
+
+.login_left_contianer {
+  width: 50%;
+  height: 100vh;
+}
+
+.DatabaseH1 {
+  font-size: 20px;
+  text-align: center;
+}
+
+.client_continer {
+  display: flex;
+  flex-direction: column;
+  font-family: "SF_Pro_Display_Medium";
+}
+
+.country_continer {
+  display: flex;
+  flex-direction: column;
+  font-family: "SF_Pro_Display_Medium";
+}
+
+#selector {
+  width: 60%;
+}
+
+select {
+  padding: 2rem;
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border-color: #929292;
+  color: #929292;
+  font-family: "SF_Pro_Display_Medium";
+}
+
+.contry_dropdown {
+  width: 180px;
+  border: 1px solid #929292;
+  background-color: white;
+  border-radius: 7px;
+  position: fixed;
+  margin-top: 3rem;
+  margin-left: 0.4rem;
+  padding: 1rem;
+  z-index: 60;
+}
+
+#contry_label:focus {
+  border: 1px solid #929292;
+}
+
+.contry_dropdown:focus {
+  background-color: #929292;
+}
+
+.ul {
+  padding: 0.25rem;
+}
+
+.ul li {
+  font-size: 16px;
+  padding: 0.5rem;
+}
+
+.ul li:hover {
+  background-color: #d9d9d9;
+  border-radius: 7px;
+  color: #929292;
+  cursor: pointer;
+}
