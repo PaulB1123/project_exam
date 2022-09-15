@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useContext } from "react";
 import "./App.css";
 import "./Componets/Styles/global.css";
 import Navigation from "./Componets/Navigation/Navigation";
@@ -14,6 +14,7 @@ function Report() {
   const location = useLocation();
   console.log(params);
   console.log(location);
+
   const { clientData } = useContext(ClientContext);
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
@@ -22,6 +23,7 @@ function Report() {
   );
 
   console.log(clientData);
+
   const switchTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);

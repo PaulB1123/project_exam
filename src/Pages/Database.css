@@ -76,3 +76,33 @@ select {
   color: #929292;
   cursor: pointer;
 }
+
+.client_continer div {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  color: #929292;
+}
+
+.button_container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.buttonDashboard {
+  background-color: #929292;
+  width: 80px;
+  padding-bottom: 0.45rem;
+  padding-top: 0.45rem;
+  text-align: center;
+  color: white;
+  border-radius: 5px;
+  font-family: "SF_Pro_Display_Regular";
+}
+
+.selectors_container {
+  margin-top: 1rem;
+}
