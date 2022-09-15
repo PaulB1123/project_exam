@@ -13,10 +13,13 @@ import {
   AudiencesButton,
 } from "../../ReusableElements/Button_Navigation_Left/Button";
 import Data from "../../Data/audition_filters";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as React from "react";
+import UserContext from "../../Data/UserContext";
 
 export default function Navigation() {
+  const { user, logout } = useContext(UserContext);
+
   return (
     <>
       <div className="naviagtion_container_group">
@@ -87,9 +90,11 @@ export default function Navigation() {
           </ul>
         </div>
 
-        <div className="logout_button">
-          <img src={LogoutIcon} alt="Logo_Charts "></img>
-          <li>Log out</li>
+        <div className="logout_button_container">
+          <div className="logout_button" onClick={logout}>
+            <img src={LogoutIcon} alt="Logo_Charts "></img>
+            <li>Log out</li>
+          </div>
         </div>
 
         {/* <div className='dark_mode' onClick={switchTheme} >

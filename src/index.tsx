@@ -3,13 +3,19 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import ClientContext, { ClientContextProvider } from "./Data/ClientContext";
+import { UserContextProvider } from "./Data/UserContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <UserContextProvider>
+      <ClientContextProvider>
+        <App />
+      </ClientContextProvider>
+    </UserContextProvider>
   </React.StrictMode>
 );
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./App.css";
 import "./Componets/Styles/global.css";
 import Navigation from "./Componets/Navigation/Navigation";
@@ -7,6 +7,7 @@ import FilterComponent from "./Componets/Filters/Filter";
 import Dashboard from "./Componets/Dashboard/Dashboard";
 import useLocalStorage from "use-local-storage";
 import { useParams, useLocation } from "react-router-dom";
+import ClientContext from "./Data/ClientContext";
 
 function Report() {
   const params = useParams();
@@ -14,11 +15,14 @@ function Report() {
   console.log(params);
   console.log(location);
 
+  const { clientData } = useContext(ClientContext);
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
     "theme",
     defaultDark ? "dark" : "light"
   );
+
+  console.log(clientData);
 
   const switchTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
