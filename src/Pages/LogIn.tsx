@@ -75,7 +75,7 @@ const LogIn = (props: LoginProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(user);
+  // console.log(user);
   /*   useEffect(() => {
     if (payloadData !== undefined) {
       navigate(payloadData);
