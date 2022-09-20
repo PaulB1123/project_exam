@@ -7,6 +7,7 @@ import Annalect from "../Componets/Navigation/icons/Annalect.png";
 // import { ClientRequest } from "http";
 import ClientContext from "../Data/ClientContext";
 import UserContext from "../Data/UserContext";
+// import Croatia from "./hr.png";
 
 interface Client {
   ClientCode: string;
@@ -26,7 +27,7 @@ function Database() {
   var emojiFlags = require("emoji-flags");
 
   const url =
-    "https://ozp4tuy4hbdoddehrwuitnhnmm.appsync-api.eu-west-1.amazonaws.com/graphql";
+    "https://ru3k4ksxcfcojb2dipxwrayawu.appsync-api.eu-west-1.amazonaws.com/graphql";
 
   const Mihai = async () => {
     const response = await fetch(url, {
@@ -63,22 +64,23 @@ function Database() {
       },
       body: JSON.stringify({
         query: `query get {
-            getDatabase(Database: {
+            getDatabase(Client: {
                 ClientCode: "${Client}"
                 ClientCountry: "${Country}"
             }){
                 DatabaseName
-                DatabaseId
+               Cluster
             }
         }`,
       }),
     });
     const database = await response.json();
     setClientDatabasedata(database.data.getDatabase);
-    setSelectedDatabase(`${database.data.getDatabase[0].DatabaseId}}`);
+    setSelectedDatabase(`${database.data.getDatabase[0].Cluster}`);
   };
 
   console.log(clientDatabasedata);
+  console.log(selectedDatabase);
 
   useEffect(() => {
     if (allUserData.length > 0) {
@@ -137,19 +139,30 @@ function Database() {
                 <option
                   key={index}
                   value={`${item.ClientCode}/${item.ClientCountry}`}
+                  // style={{ backgroundImage: `url(${Croatia})` }}
                 >
-                  {item.ClientName}---{item.ClientCountry}
+                  <span>
+                    {item.ClientName}---{item.ClientCountry}
+                  </span>
                 </option>
               ))}
             </select>
 
+            {/* <img src="http://flagcdn.com/dk.svg" width="18" alt="flag"></img>
+            <br />
+            <img
+              src="http://flagcdn.com/w20/dk.jpg"
+              width="18"
+              alt="flag"
+            ></img> */}
+
             <select
-              value={selectedClient}
+              value={selectedDatabase}
               onChange={(event) => setSelectedDatabase(event.target.value)}
             >
               {clientDatabasedata.map((item: any, index: any) => (
-                <option key={index} value={`${item.DatabaseId}`}>
-                  {item.DatabaseName}---{item.DatabaseId}
+                <option key={index} value={`${item.Cluster}`}>
+                  {item.Cluster}
                 </option>
               ))}
             </select>

@@ -1,9 +1,13 @@
 .dashboard_container_group {
+  margin-top: 12rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: var(--navigation-text);
+  /* position: absolute;
+  top: 40%;
+  left: 25%; */
   z-index: 2;
 }
 

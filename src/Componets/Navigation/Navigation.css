@@ -212,6 +212,7 @@ ul {
   justify-content: space-between;
   font-family: "SF_Pro_Display_Medium";
   color: var(--navigation-text);
+  z-index: 0;
   /* background-color: var(--background); */
 }
 
@@ -220,6 +221,7 @@ ul {
   background-color: var(--navigation-text);
   -webkit-mask: url(./icons/Switch_darkmode.svg) no-repeat center;
   mask: url(./icons/Switch_darkmode.svg) no-repeat center;
+  z-index: 0;
 }
 
 /* Dark mode button */

@@ -1,13 +1,11 @@
-.button_audition_filter {
+/* .button_audition_filter {
   position: relative;
-}
+} */
 
-#Dropdown_audience_filter {
+/* #Dropdown_audience_filter {
   width: auto;
   margin-top: 1rem;
-  position: absolute;
-  top: 1.3rem;
-  left: 2.4rem;
+ 
 }
 
 #Dropdown_audience_filter_box {
@@ -59,8 +57,23 @@
   border-radius: 7px;
   background-color: var(--navigation-button-dropdown-hovering);
   cursor: pointer;
-}
+} */
 
 /* input[type="checkbox"] {
   background-color: black;
 } */
+
+#Dropdown_audience_filter_box {
+  width: auto;
+  height: auto;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-around; */
+  background-color: var(--clicked-button);
+  border: 0.5px solid var(--audience-border-color);
+  /* position: fixed; */
+  /* margin-top: 3.2rem; */
+  border-radius: 7px;
+  color: var(--navigation-text);
+  z-index: 10;
+}
