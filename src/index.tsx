@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import ClientContext, { ClientContextProvider } from "./Data/ClientContext";
 import { UserContextProvider } from "./Data/UserContext";
+import { FilterContextProvider } from "./Data/FilterContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <UserContextProvider>
       <ClientContextProvider>
-        <App />
+        <FilterContextProvider>
+          <App />
+        </FilterContextProvider>
       </ClientContextProvider>
     </UserContextProvider>
   </React.StrictMode>

@@ -3,10 +3,17 @@ import "./Filter.css";
 import SaveIcon from "./icons/Save.svg";
 // import { AudienceButton } from "../../ReusableElements/Button_Navigation_Left/Button";
 import DragNDrop from "../../ReusableElements/Button_Navigation_Left/DragnDrop";
-import Data from "../../Data/audition_filters";
+import Data2 from "../../Data/audition_filters";
+import FilterContext from "../../Data/FilterContext";
+import { useContext } from "react";
 // import FetchdataFilter from "../../FetchingData/FetchFiltersAuditionData";
 
 export default function FilterComponent() {
+  // const { Data } = useContext(FilterContext);
+
+  // console.log(Data);
+  console.log(Data2);
+
   return (
     <>
       <div className="filter_container_group">
@@ -17,7 +24,7 @@ export default function FilterComponent() {
           <div className="filter_button_group">
             <div className="button_audience">
               <div className="audience_droppable_container">
-                <DragNDrop data={Data}></DragNDrop>
+                <DragNDrop></DragNDrop>
               </div>
             </div>
           </div>
@@ -34,16 +41,4 @@ export default function FilterComponent() {
       </div>
     </>
   );
-}
-
-{
-  /* <div>
-          <FetchdataFilter></FetchdataFilter>
-        </div> */
-}
-
-{
-  /* <div className="this-is-another-button">
-          <DragNDrop data={Data}></DragNDrop>
-        </div> */
 }

@@ -1,4 +1,3 @@
-import React, { useState, useMemo } from "react";
 import { Amplify } from "aws-amplify";
 import "./App.css";
 import "./Componets/Styles/global.css";
@@ -35,7 +34,6 @@ const amplifyConf = {
 Amplify.configure(amplifyConf);
 
 function App() {
-  const [value, setValue] = useState(null);
   // const providerValue = useMemo(() => ({ value, setValue }), [value, setValue]);
 
   return (

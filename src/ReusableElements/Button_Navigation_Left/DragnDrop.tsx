@@ -2,32 +2,35 @@ import "../../Componets/Styles/global.css";
 import "./Button.css";
 import "../../Componets/Filters/Filter.css";
 import "./DragnDrop.css";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 // import DropdownAudienceFilter from "./DropDownAudienceFilter";
 import PlusIcon from "../../Componets/Navigation/icons/Plus.svg";
 import Format from "../../Data/format.json";
 import SlideButton from "./SlideButton";
 import ArrrowdownIcon from "../../Componets/Navigation/icons/ArrowDown.svg";
 import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
-import Audience_container from "./Audience_container";
+import AudienceContainer from "./Audience_container";
+import FilterContext from "../../Data/FilterContext";
 
-interface DataProps {
-  data: any;
-}
+interface DataProps {}
 type IItem = {
-  add: string;
-  logo: string;
-  id: string;
-  description: string;
+  // add: string;
+  // logo: string;
+  // id: string;
+  // description: string;
+  // category: string;
+  selector: string;
+  variable_type: string;
   category: string;
 };
-interface IGroup {
+export interface IGroup {
   items: IItem[];
   title: string;
 }
 
-export const DragNDrop: React.FC<DataProps> = ({ data }) => {
-  const [list, setList] = useState(data);
+export const DragNDrop: React.FC<DataProps> = () => {
+  const { data } = useContext(FilterContext);
+
   const [isOpen, setOpen] = React.useState(false);
   const [isActive, setIsActive] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -39,6 +42,22 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
   //   setOpenDropDown(!isOpenDropDown);
   //   setIsActiveDropDown((current) => !current);
   // };
+
+  // console.log(Data);
+  // console.log(data);
+
+  const [list, setList] = useState(data as any);
+
+  useEffect(() => {
+    setList(() => data);
+  }, [data]);
+
+  // console.log(list);
+  // console.log(list[1].items.length);
+
+  // {
+  //   list[1].items.length > 0 && console.log(list);
+  // }
 
   const handleClick = () => {
     setOpen(!isOpen);
@@ -80,81 +99,8 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
       });
   };
 
-  const xx = [
-    {
-      id: "1",
-      // logo: DefaultIcon,
-      description: "Segment",
-      add: PlusIcon,
-      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-      category: " A bar",
-    },
-    {
-      id: "2",
-      // logo: GenderIcon,
-      description: "Gender",
-      add: PlusIcon,
-      filters: [
-        "This is another text that I have to make ",
-        "18-30",
-        "31-40",
-        "41-50",
-        "51-60",
-        "61+",
-        "unknown",
-      ],
-      category: " A bar",
-    },
-    {
-      id: "3",
-      // logo: DefaultIcon,
-      description: "Age Group",
-      add: PlusIcon,
-      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-      category: " A bar",
-    },
-    {
-      id: "4",
-      // logo: DefaultIcon,
-      description: "Region",
-      add: PlusIcon,
-      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-      category: " A bar",
-    },
-    {
-      id: "5",
-      // logo: DefaultIcon,
-      description: "Tier",
-      add: PlusIcon,
-      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-      category: "blabla",
-    },
-    {
-      id: "6",
-      // logo: DefaultIcon,
-      description: "Offer Copy",
-      add: PlusIcon,
-      filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-      category: "blabla",
-    },
-  ] as unknown as IItem[];
-
-  let CategoryArray = [];
-
-  let dictionary = Object.assign(
-    {},
-    ...xx.map(
-      (x) => ({
-        [x.category]: { id: x.id, description: x.description },
-      })
-      // CategoryArray = [...CategoryArray, [x.category]]
-    )
-  );
-
-  // console.log(dictionary);
-
   const handleDragEnd = () => {
-    // console.log("Ending drag");
+    console.log("Ending drag");
 
     setDragging(false);
     dragNode.current.removeEventListener("dragend", handleDragEnd);
@@ -175,9 +121,6 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
     return "dnd-item";
   };
 
-  // const [selectedFilters, setSelectedFilters] = useState<any>();
-  // console.log(selectedFilters);
-
   return (
     <div className="entire_slider_audience">
       <SlideButton>
@@ -187,6 +130,7 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
             if (grp.title === "audition_bar") {
               return (
                 <div
+                  // className="filterbuttonAudience"
                   key={grp.title}
                   onDragEnter={
                     dragging && !grp.items.length
@@ -226,7 +170,6 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
                         <div className="Dropdown_box_Audience">
                           {grp.items.map((item, itemI: number) => (
                             <div
-                              key={item.id}
                               draggable
                               onDragStart={(e) =>
                                 handleDragStart(e, { grpI, itemI })
@@ -243,17 +186,19 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
                                   ? getStyles({ grpI, itemI })
                                   : "dnd-item"
                               }
+                              key={item.selector}
                               id="Dropdown_container"
                             >
                               <div className="Dropdown_filter_container">
-                                <img src={item.logo}></img>
-                                <li>{item.description}</li>
+                                <li>{item.selector}</li>
+                                {/* <li>{item.category}</li> */}
                               </div>
+
                               <div className="Dropdown_plus_sign_container">
                                 <button>
                                   <img
                                     className="Dropdown_plus_sign"
-                                    src={item.add}
+                                    src={ArrrowupIcon}
                                   ></img>
                                 </button>
                               </div>
@@ -280,12 +225,12 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
                   {isOpen ? (
                     <div className="Dropdown_is_open">
                       <div className="filter_droppable_container" ref={this}>
-                        {drop == 0 && (
+                        {drop === 0 && (
                           <div className="filter_info">drop filters here</div>
                         )}
 
                         {grp.items.map((item: any, itemI: any) => (
-                          <Audience_container
+                          <AudienceContainer
                             dragging={dragging}
                             grpI={grpI}
                             itemI={itemI}
@@ -299,148 +244,35 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
                             getStyles={(params: any) => getStyles(params)}
                             // isActiveDropDown={isActiveDropDown}
                             item={item}
-                            key={item.audience_id}
-                          ></Audience_container>
-
-                          // <div
-                          //   key={item.id}
-                          //   draggable
-                          //   onDragStart={(e) =>
-                          //     handleDragStart(e, { grpI, itemI })
-                          //   }
-                          //   onDragEnter={
-                          //     dragging
-                          //       ? (e) => {
-                          //           handleDragEnter(e, { grpI, itemI });
-                          //         }
-                          //       : undefined
-                          //   }
-                          //   className={
-                          //     dragging ? getStyles({ grpI, itemI }) : "dnd-item"
-                          //   }
-                          //   id="Dropdown_container"
-                          // >
-                          //   <div className="Dropdown_filter_container">
-                          //     <img src={item.logo}></img>
-                          //     <li>{item.description}</li>
-                          //   </div>
-
-                          //   <button
-                          //     type="button"
-                          //     onClick={() => {
-                          //       handleClickDropDown();
-                          //     }}
-                          //   >
-                          //     {isActiveDropDown ? (
-                          //       <img
-                          //         src={ArrrowupIcon}
-                          //         className="Dropdown_plus_sign"
-                          //       ></img>
-                          //     ) : (
-                          //       <img
-                          //         src={ArrrowdownIcon}
-                          //         className="Dropdown_plus_sign"
-                          //       ></img>
-                          //     )}
-                          //   </button>
-
-                          //   {selectedFilters?.map((e: any) => (
-                          //     <li>{e}</li>
-                          //   ))}
-                          // </div>
+                            key={item.selector}
+                          ></AudienceContainer>
                         ))}
                       </div>
                     </div>
                   ) : (
-                    <div className="Dropdown_is_not_open">
-                      <div className="filter_droppable_container">
-                        {grp.items.map((item: any, itemI: any) => (
-                          <Audience_container
-                            dragging={dragging}
-                            grpI={grpI}
-                            itemI={itemI}
-                            handleDragStart={(e: any, params: any) =>
-                              handleDragStart(e, params)
-                            }
-                            handleDragEnter={(e: any, params: any) =>
-                              handleDragEnter(e, params)
-                            }
-                            // handleClickDropDown={handleClickDropDown}
-                            getStyles={(params: any) => getStyles(params)}
-                            // isActiveDropDown={isActiveDropDown}
-                            item={item}
-                            key={item.audience_id}
-                          ></Audience_container>
-                          // <div
-                          //   key={item.id}
-                          //   draggable
-                          //   onDragStart={(e) =>
-                          //     handleDragStart(e, { grpI, itemI })
-                          //   }
-                          //   onDragEnter={
-                          //     dragging
-                          //       ? (e) => {
-                          //           handleDragEnter(e, { grpI, itemI });
-                          //         }
-                          //       : undefined
-                          //   }
-                          //   className={
-                          //     dragging ? getStyles({ grpI, itemI }) : "dnd-item"
-                          //   }
-                          //   id="Dropdown_container"
-                          // >
-                          //   <div className="this_is_for_entire_button">
-                          //     <div className="Dropdown_filter_container">
-                          //       <img src={item.logo}></img>
-                          //       <li>{item.description}</li>
-                          //       {/* <li>{item.filter}</li> */}
-                          //     </div>
-
-                          //     {/* <DropdownAudienceFilter
-                          //       filters={item.filters}
-                          //       setSelectedFilters={(selectedFilters: any) =>
-                          //         setSelectedFilters(selectedFilters)
-                          //       }
-                          //       handleClickDropDown={(
-                          //         handleClickDropDown: any
-                          //       ) => handleClickDropDown(handleClickDropDown)}
-                          //     /> */}
-                          //   </div>
-
-                          //   <button
-                          //     type="button"
-                          //     onClick={() => {
-                          //       handleClickDropDown();
-                          //     }}
-                          //   >
-                          //     {isActiveDropDown ? (
-                          //       <img
-                          //         src={ArrrowupIcon}
-                          //         className="Dropdown_plus_sign"
-                          //       ></img>
-                          //     ) : (
-                          //       <img
-                          //         src={ArrrowdownIcon}
-                          //         className="Dropdown_plus_sign"
-                          //       ></img>
-                          //     )}
-                          //   </button>
-
-                          //   {/* <div
-                          //     style={{
-                          //       border: "1px solid black",
-                          //       width: "100%",
-                          //       height: "100px",
-                          //     }}
-                          //   > */}
-                          //   {selectedFilters?.map((e: any) => (
-                          //     <li>{e}</li>
-                          //   ))}
-                          //   {/* </div> */}
-                          // </div>
-                        ))}
-                      </div>
-                    </div>
+                    <></>
+                    // <div className="Dropdown_is_not_open">
+                    //   <div className="filter_droppable_container">
+                    //     {grp.items.map((item: any, itemI: any) => (
+                    //       <Audience_container
+                    //         dragging={dragging}
+                    //         grpI={grpI}
+                    //         itemI={itemI}
+                    //         handleDragStart={(e: any, params: any) =>
+                    //           handleDragStart(e, params)
+                    //         }
+                    //         handleDragEnter={(e: any, params: any) =>
+                    //           handleDragEnter(e, params)
+                    //         }
+                    //         // handleClickDropDown={handleClickDropDown}
+                    //         getStyles={(params: any) => getStyles(params)}
+                    //         // isActiveDropDown={isActiveDropDown}
+                    //         item={item}
+                    //         key={item.selector}
+                    //       ></Audience_container>
+                    //     ))}
+                    //   </div>
+                    // </div>
                   )}
                 </div>
               );
@@ -453,3 +285,229 @@ export const DragNDrop: React.FC<DataProps> = ({ data }) => {
 };
 
 export default DragNDrop;
+
+// const xx = [
+//   {
+//     id: "1",
+//     // logo: DefaultIcon,
+//     description: "Segment",
+//     add: PlusIcon,
+//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+//     category: " A bar",
+//   },
+//   {
+//     id: "2",
+//     // logo: GenderIcon,
+//     description: "Gender",
+//     add: PlusIcon,
+//     filters: [
+//       "This is another text that I have to make ",
+//       "18-30",
+//       "31-40",
+//       "41-50",
+//       "51-60",
+//       "61+",
+//       "unknown",
+//     ],
+//     category: " A bar",
+//   },
+//   {
+//     id: "3",
+//     // logo: DefaultIcon,
+//     description: "Age Group",
+//     add: PlusIcon,
+//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+//     category: " A bar",
+//   },
+//   {
+//     id: "4",
+//     // logo: DefaultIcon,
+//     description: "Region",
+//     add: PlusIcon,
+//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+//     category: " A bar",
+//   },
+//   {
+//     id: "5",
+//     // logo: DefaultIcon,
+//     description: "Tier",
+//     add: PlusIcon,
+//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+//     category: "blabla",
+//   },
+//   {
+//     id: "6",
+//     // logo: DefaultIcon,
+//     description: "Offer Copy",
+//     add: PlusIcon,
+//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
+//     category: "blabla",
+//   },
+// ] as unknown as IItem[];
+
+// let CategoryArray = [];
+
+// let dictionary = Object.assign(
+//   {},
+//   ...xx.map(
+//     (x) => ({
+//       [x.category]: { id: x.id, description: x.description },
+//     })
+//     // CategoryArray = [...CategoryArray, [x.category]]
+//   )
+// );
+
+// console.log(dictionary);
+
+// <div
+//   key={item.id}
+//   draggable
+//   onDragStart={(e) =>
+//     handleDragStart(e, { grpI, itemI })
+//   }
+//   onDragEnter={
+//     dragging
+//       ? (e) => {
+//           handleDragEnter(e, { grpI, itemI });
+//         }
+//       : undefined
+//   }
+//   className={
+//     dragging ? getStyles({ grpI, itemI }) : "dnd-item"
+//   }
+//   id="Dropdown_container"
+// >
+//   <div className="Dropdown_filter_container">
+//     <img src={item.logo}></img>
+//     <li>{item.description}</li>
+//   </div>
+
+//   <button
+//     type="button"
+//     onClick={() => {
+//       handleClickDropDown();
+//     }}
+//   >
+//     {isActiveDropDown ? (
+//       <img
+//         src={ArrrowupIcon}
+//         className="Dropdown_plus_sign"
+//       ></img>
+//     ) : (
+//       <img
+//         src={ArrrowdownIcon}
+//         className="Dropdown_plus_sign"
+//       ></img>
+//     )}
+//   </button>
+
+//   {selectedFilters?.map((e: any) => (
+//     <li>{e}</li>
+//   ))}
+// </div>
+
+// <div
+//   key={item.id}
+//   draggable
+//   onDragStart={(e) =>
+//     handleDragStart(e, { grpI, itemI })
+//   }
+//   onDragEnter={
+//     dragging
+//       ? (e) => {
+//           handleDragEnter(e, { grpI, itemI });
+//         }
+//       : undefined
+//   }
+//   className={
+//     dragging ? getStyles({ grpI, itemI }) : "dnd-item"
+//   }
+//   id="Dropdown_container"
+// >
+//   <div className="this_is_for_entire_button">
+//     <div className="Dropdown_filter_container">
+//       <img src={item.logo}></img>
+//       <li>{item.description}</li>
+//       {/* <li>{item.filter}</li> */}
+//     </div>
+
+//     {/* <DropdownAudienceFilter
+//       filters={item.filters}
+//       setSelectedFilters={(selectedFilters: any) =>
+//         setSelectedFilters(selectedFilters)
+//       }
+//       handleClickDropDown={(
+//         handleClickDropDown: any
+//       ) => handleClickDropDown(handleClickDropDown)}
+//     /> */}
+//   </div>
+
+//   <button
+//     type="button"
+//     onClick={() => {
+//       handleClickDropDown();
+//     }}
+//   >
+//     {isActiveDropDown ? (
+//       <img
+//         src={ArrrowupIcon}
+//         className="Dropdown_plus_sign"
+//       ></img>
+//     ) : (
+//       <img
+//         src={ArrrowdownIcon}
+//         className="Dropdown_plus_sign"
+//       ></img>
+//     )}
+//   </button>
+
+//   {/* <div
+//     style={{
+//       border: "1px solid black",
+//       width: "100%",
+//       height: "100px",
+//     }}
+//   > */}
+//   {selectedFilters?.map((e: any) => (
+//     <li>{e}</li>
+//   ))}
+//   {/* </div> */}
+// </div>
+
+// HERE I HAVE THE COMPONENT WITH MY BUTTONS
+{
+  /* <div
+                                key={itemI}
+                                draggable
+                                onDragStart={(e) =>
+                                  handleDragStart(e, { grpI, itemI })
+                                }
+                                onDragEnter={
+                                  dragging
+                                    ? (e) => {
+                                        handleDragEnter(e, { grpI, itemI });
+                                      }
+                                    : undefined
+                                }
+                                className={
+                                  dragging
+                                    ? getStyles({ grpI, itemI })
+                                    : "dnd-item"
+                                }
+                                id="Dropdown_container"
+                              >
+                                <div className="Dropdown_filter_container">
+                                  <img src={item.logo}></img>
+                                  <li>{item.category}</li>
+                                </div>
+
+                                <div className="Dropdown_plus_sign_container">
+                                  <button>
+                                    <img
+                                    className="Dropdown_plus_sign"
+                                    src={item.add}
+                                  ></img>
+                                  </button>
+                                </div>
+                              </div> */
+}

@@ -147,7 +147,7 @@
   text-align: center;
   border: 0.5px solid #8e8d91;
   border-radius: 7px;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
   box-sizing: content-box;
   z-index: 10;
@@ -164,9 +164,9 @@
   text-align: center;
   /* border: 0.5px solid #8e8d91; */
   border-radius: 7px;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
-  box-sizing: content-box;
+
   z-index: 10;
 }
 

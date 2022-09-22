@@ -58,7 +58,8 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
 
   useEffect(() => {
     Auth.currentAuthenticatedUser().then((allUserData) => {
-      setAllUserData(allUserData.signInUserSession.idToken.jwtToken);
+      setAllUserData(() => allUserData.signInUserSession.idToken.jwtToken);
+      console.count("set alluserdata");
       //   console.log(allUserData.signInUserSession.idToken.jwtToken);
     });
   }, []);

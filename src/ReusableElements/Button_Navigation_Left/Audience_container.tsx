@@ -15,7 +15,7 @@ type Props = {
   //   isActiveDropDown: boolean,
 };
 
-const Audience_container = (props: Props) => {
+const AudienceContainer = (props: Props) => {
   const [isOpenDropDown, setOpenDropDown] = React.useState(false);
   const [isActiveDropDown, setIsActiveDropDown] = useState(false);
 
@@ -57,8 +57,8 @@ const Audience_container = (props: Props) => {
           }
         >
           <div className="Dropdown_filter_container">
-            <img src={props.item.logo}></img>
-            <li>{props.item.description}</li>
+            {/* <img src={props.item.logo}></img> */}
+            <li>{props.item.selector}</li>
           </div>
 
           <button
@@ -77,8 +77,7 @@ const Audience_container = (props: Props) => {
 
         <div className={isActiveDropDown ? "filters_all" : "hidden"}>
           <div>All</div>
-          {isActiveDropDown &&
-            props.item.filters?.map((e: any) => <li>{e}</li>)}
+          {isActiveDropDown && props.item.values?.map((e: any) => <li>{e}</li>)}
           <div>Delete filter</div>
         </div>
       </div>
@@ -86,4 +85,4 @@ const Audience_container = (props: Props) => {
   );
 };
 
-export default Audience_container;
+export default AudienceContainer;
