@@ -10,7 +10,7 @@ import {
   MODAL_TYPES,
   useGlobalModalContext,
 } from "../Dashboard/Modals/GlobalModal";
-import { Button, ButtonVariant } from "@patternfly/react-core";
+// import { Button, ButtonVariant } from "@patternfly/react-core";
 // import { closeModal } from "./Modal";
 // import FilterContext from "../../Data/FilterContext";
 // import { useContext } from "react";
@@ -36,13 +36,9 @@ export default function FilterComponent() {
     });
   };
 
-  const deleteModal = () => {
-    showModal(MODAL_TYPES.DELETE_MODAL);
-  };
-
-  const updateModal = () => {
-    showModal(MODAL_TYPES.UPDATE_MODAL);
-  };
+  // const deleteModal = () => {
+  //   showModal(MODAL_TYPES.DELETE_MODAL);
+  // };
 
   return (
     <>

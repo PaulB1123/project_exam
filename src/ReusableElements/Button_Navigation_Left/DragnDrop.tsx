@@ -28,6 +28,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
   const [dragging, setDragging] = useState(false);
   const [drop, setDrop] = useState(0);
   const [list, setList] = useState(data as any);
+
   let { id, client, country, cluster } = useParams();
 
   console.log(id);
@@ -212,22 +213,24 @@ export const DragNDrop: React.FC<DataProps> = () => {
                         )}
 
                         {grp.items.map((item: any, itemI: any) => (
-                          <AudienceContainer
-                            dragging={dragging}
-                            grpI={grpI}
-                            itemI={itemI}
-                            handleDragStart={(e: any, params: any) =>
-                              handleDragStart(e, params)
-                            }
-                            handleDragEnter={(e: any, params: any) =>
-                              handleDragEnter(e, params)
-                            }
-                            // handleClickDropDown={handleClickDropDown}
-                            getStyles={(params: any) => getStyles(params)}
-                            // isActiveDropDown={isActiveDropDown}
-                            item={item}
-                            key={item.selector}
-                          ></AudienceContainer>
+                          <>
+                            <AudienceContainer
+                              dragging={dragging}
+                              grpI={grpI}
+                              itemI={itemI}
+                              handleDragStart={(e: any, params: any) =>
+                                handleDragStart(e, params)
+                              }
+                              handleDragEnter={(e: any, params: any) =>
+                                handleDragEnter(e, params)
+                              }
+                              // handleClickDropDown={handleClickDropDown}
+                              getStyles={(params: any) => getStyles(params)}
+                              // isActiveDropDown={isActiveDropDown}
+                              item={item}
+                              key={item.selector}
+                            ></AudienceContainer>
+                          </>
                         ))}
                       </div>
                     </div>
@@ -235,22 +238,24 @@ export const DragNDrop: React.FC<DataProps> = () => {
                     <div className="Dropdown_is_not_open">
                       <div className="filter_droppable_container">
                         {grp.items.map((item: any, itemI: any) => (
-                          <AudienceContainer
-                            dragging={dragging}
-                            grpI={grpI}
-                            itemI={itemI}
-                            handleDragStart={(e: any, params: any) =>
-                              handleDragStart(e, params)
-                            }
-                            handleDragEnter={(e: any, params: any) =>
-                              handleDragEnter(e, params)
-                            }
-                            // handleClickDropDown={handleClickDropDown}
-                            getStyles={(params: any) => getStyles(params)}
-                            // isActiveDropDown={isActiveDropDown}
-                            item={item}
-                            key={item.selector}
-                          ></AudienceContainer>
+                          <>
+                            <AudienceContainer
+                              dragging={dragging}
+                              grpI={grpI}
+                              itemI={itemI}
+                              handleDragStart={(e: any, params: any) =>
+                                handleDragStart(e, params)
+                              }
+                              handleDragEnter={(e: any, params: any) =>
+                                handleDragEnter(e, params)
+                              }
+                              // handleClickDropDown={handleClickDropDown}
+                              getStyles={(params: any) => getStyles(params)}
+                              // isActiveDropDown={isActiveDropDown}
+                              item={item}
+                              key={item.selector}
+                            ></AudienceContainer>
+                          </>
                         ))}
                       </div>
                     </div>

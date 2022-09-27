@@ -62,7 +62,10 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
                   variable_type
                   selector
                   category
-                  values
+                  values{
+                    id
+                    value
+                }
               }
               ... on SelectorNumeric {
                   variable_type
