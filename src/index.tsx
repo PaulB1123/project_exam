@@ -3,9 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import ClientContext, { ClientContextProvider } from "./Data/ClientContext";
+import { ClientContextProvider } from "./Data/ClientContext";
 import { UserContextProvider } from "./Data/UserContext";
 import { FilterContextProvider } from "./Data/FilterContext";
+import { GlobalModal } from "./Componets/Dashboard/Modals/GlobalModal";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,9 +15,11 @@ root.render(
   <React.StrictMode>
     <UserContextProvider>
       <ClientContextProvider>
-        <FilterContextProvider>
-          <App />
-        </FilterContextProvider>
+        <GlobalModal>
+          <FilterContextProvider>
+            <App />
+          </FilterContextProvider>
+        </GlobalModal>
       </ClientContextProvider>
     </UserContextProvider>
   </React.StrictMode>

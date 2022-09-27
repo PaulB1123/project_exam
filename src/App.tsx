@@ -41,7 +41,10 @@ function App() {
       <Routes>
         <Route path="/" element={<LogIn path="Database"></LogIn>}></Route>
         <Route path="/Database" element={<Database />}></Route>
-        <Route path="/Report/:country/:client/:id" element={<Report />}></Route>
+        <Route
+          path="/Report/:client/:country/:cluster/:id"
+          element={<Report />}
+        ></Route>
       </Routes>
     </Router>
   );

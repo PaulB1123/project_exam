@@ -1,129 +1,41 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Database.css";
 import "./LogIn.css";
 import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
-// import { ClientRequest } from "http";
-import ClientContext from "../Data/ClientContext";
 import UserContext from "../Data/UserContext";
 import FilterContext from "../Data/FilterContext";
-// import Croatia from "./hr.png";
-
-interface Client {
-  ClientCode: string;
-  ClientName: string;
-  ClientCountry: string;
-}
+import { ConsoleLogger } from "@aws-amplify/core";
 
 function Database() {
   const [clientNewData, setClientNewData] = useState([] as any);
   const [clientClusterdata, setClientClusterdata] = useState([] as any);
   const [clientDatabasedata, setClientDatabasedata] = useState([] as any);
-  // const [filterAudience, setFilterAudience] = useState([] as any);
-  const [selectedClient, setSelectedClient] = React.useState("MCD1");
-  const [selectedCluster, setSelectedCluster] = React.useState("");
-  const [selectedDatabase, setSelectedDatabase] = React.useState("");
-  const [selectedCountry, setSelectedCountry] = React.useState("DK");
-  const [selectedID, setSelectedID] = React.useState("1");
-  // const { clientData } = useContext(ClientContext);
-  const { user, allUserData } = useContext(UserContext);
-  const { data } = useContext(FilterContext);
+  const [selectedClient, setSelectedClient] = React.useState("");
+  const [client, setClient] = useState("");
+  const [country, setCountry] = useState("");
+  /*   const [selectedCluster, setSelectedCluster] = React.useState("");
+  const [selectedDatabase, setSelectedDatabase] = React.useState(""); */
+  const [clusterDatabase, setClusterDatabase] = useState([] as any);
 
-  // var emojiFlags = require("emoji-flags");
+  const { user, allUserData } = useContext(UserContext);
+  const {
+    data,
+    selectedCluster,
+    selectedDatabase,
+    setSelectedCluster,
+    setSelectedDatabase,
+  } = useContext(FilterContext);
 
   const url =
     "https://ru3k4ksxcfcojb2dipxwrayawu.appsync-api.eu-west-1.amazonaws.com/graphql";
 
-  const DatabaseFetch = useCallback(async () => {
-    const Country = selectedClient.split("/")[1];
-    const Client = selectedClient.split("/")[0];
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: allUserData,
-
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `query get {
-            getDatabase(Client: {
-                ClientCode: "${Client}"
-                ClientCountry: "${Country}"
-            }){
-                Databases
-               Cluster
-            }
-        }`,
-      }),
-    });
-    const database = await response.json();
-    console.log(database);
-
-    setClientClusterdata(database.data.getDatabase);
-    setSelectedCluster(`${database.data.getDatabase[0].Cluster}`);
-
-    setClientDatabasedata(database.data.getDatabase[0].Databases);
-    setSelectedDatabase(`${database.data.getDatabase[0].Databases[0]}`);
-
-    console.log(selectedDatabase);
-
-    // console.log(database.data.getDatabase[0].Databases);
-  }, [allUserData]);
-
-  console.log(data);
-  // const Selectros = async () => {
-  //   // const Country = selectedClient.split("/")[1];
-  //   // const Client = selectedClient.split("/")[0];
-
-  //   console.log(selectedCluster);
-  //   console.log(selectedDatabase);
-  //   const response = await fetch(url, {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: allUserData,
-
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       query: `query get {
-  //         getSelectors(
-  //             Database: {
-
-  //                 Cluster: "${selectedCluster}",
-  //                 DatabaseName:  "${selectedDatabase}"
-  //             }
-  //         ){
-  //             ... on SelectorFactor {
-  //                 variable_type
-  //                 selector
-  //                 category
-  //                 values
-  //             }
-  //             ... on SelectorNumeric {
-  //                 variable_type
-  //                 selector
-  //                 category
-  //                 max
-  //                 min
-  //             }
-  //         }
-  //     }`,
-  //     }),
-  //   });
-
-  //   const selector = await response.json();
-
-  //   setFilterAudience(selector);
-  // };
-
-  // Selectros();
-
-  // console.log(clientDatabasedata);
-  // console.log(selectedCluster);
+  // console.log(data);
+  // console.log(selectedClient);
 
   useEffect(() => {
+    // console.log(allUserData);
     const Mihai = async () => {
       const response = await fetch(url, {
         method: "POST",
@@ -134,36 +46,86 @@ function Database() {
         },
         body: JSON.stringify({
           query:
-            "query my { getClients(Environment: DEMO){ ClientCode ClientCountry ClientName }}",
+            "query my { getClients(Environment: DEMO){ ClientCode  ClientName }}",
         }),
       });
+
       const dataManipulated = await response.json();
       console.log(dataManipulated);
 
+      setSelectedClient(`${dataManipulated.data.getClients[0].ClientCode}`);
       setClientNewData(dataManipulated.data.getClients);
-      setSelectedClient(
-        `${dataManipulated.data.getClients[0].ClientCode}/${dataManipulated.data.getClients[0].ClientCountry}`
-      );
+      // setClientNewData(dataManipulated);
     };
     if (allUserData.length > 0) {
       Mihai();
+      // console.log(selectedClient);
       // console.log(clientNewData);
     }
   }, [allUserData]);
 
   useEffect(() => {
+    const DatabaseFetch = async () => {
+      const demo = selectedClient.split("#");
+      const Client = demo[0];
+      const Country = demo[1];
+      setClient(demo[0]);
+      setCountry(demo[1]);
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: allUserData,
+
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: `query get {
+              getDatabase(Client: {
+                  ClientCode: "${Client}"
+                  ClientCountry: "${Country}"
+              }){
+                Cluster
+                Databases{
+                  DatabaseName
+                  Id
+                 }
+              }
+          }`,
+        }),
+      });
+      const database = await response.json();
+      console.log(database);
+      // console.log(database.data.getDatabase);
+
+      // console.log(database.data.getDatabase[0].Cluster);
+      // console.log(clientClusterdata);
+
+      // setClusterDatabase(database.data.getDatabase);
+      // setSelectedCluster(`${database.data.getDatabase[0].Cluster}`);
+      // setSelectedDatabase(`${database.data.getDatabase[0].Databases[0]}`);
+
+      setClientClusterdata(database.data.getDatabase);
+      console.log(clientClusterdata);
+      console.log(clientClusterdata[0].Databases[0].DatabaseName);
+      setClientDatabasedata(clientClusterdata.Databases);
+    };
     if (selectedClient.length > 0) {
       DatabaseFetch();
     }
-  }, [selectedClient, DatabaseFetch]);
+  }, [
+    allUserData,
+    selectedClient,
+    selectedDatabase,
+    setSelectedCluster,
+    setSelectedDatabase,
+  ]);
 
-  // useEffect(() => {
-  //   if (selectedDatabase.length > 0) {
-  //     Selectros();
-  //   }
-  // }, [selectedDatabase]);
-
-  // console.log(filterAudience);
+  Object.keys(clientClusterdata).forEach((key, index) =>
+    Object.keys(clientClusterdata[key].Databases).forEach((key, index) => {
+      console.log(clientClusterdata[key].Databases[key]);
+    })
+  );
 
   return (
     <div className="database_container">
@@ -204,14 +166,9 @@ function Database() {
               onChange={(event) => setSelectedClient(event.target.value)}
             >
               {clientNewData.map((item: any, index: any) => (
-                <option
-                  key={index}
-                  value={`${item.ClientCode}/${item.ClientCountry}`}
-                  // style={{ backgroundImage: `url(${Croatia})` }}
-                >
-                  <span>
-                    {item.ClientName}---{item.ClientCountry}
-                  </span>
+                <option key={index} value={`${item.ClientCode}`}>
+                  {item.ClientCode}
+                  {/* {item.ClientCountry} */}
                 </option>
               ))}
             </select>
@@ -220,9 +177,9 @@ function Database() {
               value={selectedCluster}
               onChange={(event) => setSelectedCluster(event.target.value)}
             >
-              {clientClusterdata.map((item: any, index: any) => (
-                <option key={index} value={`${item.Cluster}`}>
-                  {item.Cluster}
+              {Object.keys(clientClusterdata).map((key, index) => (
+                <option key={index} value={`${clientClusterdata[key].Cluster}`}>
+                  {clientClusterdata[key].Cluster}
                 </option>
               ))}
             </select>
@@ -231,6 +188,20 @@ function Database() {
               value={selectedDatabase}
               onChange={(event) => setSelectedDatabase(event.target.value)}
             >
+              {/* {Object.keys(clientClusterdata).map((key, index) =>
+                Object.keys(clientClusterdata[key].Databases).map(
+                  (key, index) => {
+                    <option
+                      key={index}
+                      value={`${clientClusterdata[key].Databases[key]}`}
+                    >
+                      {clientClusterdata[key].Databases[key].DatabaseName}
+                    </option>;
+                    // console.log(clientClusterdata[key].Databases[key].Id);
+                  }
+                )
+              )} */}
+
               {clientDatabasedata.map((item: any, index: any) => (
                 <option key={index} value={`${item}`}>
                   {item}
@@ -242,7 +213,9 @@ function Database() {
               <div className="country_continer"></div>
             </div>
             <div className="button_container">
-              <Link to={`/Report/${selectedClient}/${selectedCluster}`}>
+              <Link
+                to={`/Report/${client}/${country}/${selectedCluster}/${selectedDatabase}`}
+              >
                 <button className="buttonDashboard">Contiune</button>
               </Link>
             </div>
@@ -255,6 +228,3 @@ function Database() {
 }
 
 export default Database;
-
-// Cluster: "${selectedCluster}",
-// DatabaseName:  "${selectedDatabase}"

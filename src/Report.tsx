@@ -1,4 +1,3 @@
-import React, { useState, useContext } from "react";
 import "./App.css";
 import "./Componets/Styles/global.css";
 import Navigation from "./Componets/Navigation/Navigation";
@@ -6,18 +5,8 @@ import Header from "./Componets/Header/Header";
 import FilterComponent from "./Componets/Filters/Filter";
 import Dashboard from "./Componets/Dashboard/Dashboard";
 import useLocalStorage from "use-local-storage";
-import { useParams, useLocation } from "react-router-dom";
-import ClientContext from "./Data/ClientContext";
-import FilterContext from "./Data/FilterContext";
 
 function Report() {
-  const params = useParams();
-  const location = useLocation();
-  // console.log(params);
-  // console.log(location);
-  // const { Data } = useContext(FilterContext);
-
-  const { clientData } = useContext(ClientContext);
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
     "theme",

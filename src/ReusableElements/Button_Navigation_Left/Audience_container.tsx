@@ -11,8 +11,6 @@ type Props = {
   handleDragStart(e: any, params: any): any;
   handleDragEnter(e: any, params: any): any;
   getStyles(params: any): any;
-  //   handleClickDropDown():any
-  //   isActiveDropDown: boolean,
 };
 
 const AudienceContainer = (props: Props) => {
@@ -24,8 +22,6 @@ const AudienceContainer = (props: Props) => {
     setIsActiveDropDown((current) => !current);
   };
 
-  /*       const [selectedFilters, setSelectedFilters] = useState<any>();
-  console.log(selectedFilters); */
   const params = {
     grpI: props.grpI,
     itemI: props.itemI,
@@ -57,7 +53,6 @@ const AudienceContainer = (props: Props) => {
           }
         >
           <div className="Dropdown_filter_container">
-            {/* <img src={props.item.logo}></img> */}
             <li>{props.item.selector}</li>
           </div>
 
@@ -68,9 +63,17 @@ const AudienceContainer = (props: Props) => {
             }}
           >
             {isActiveDropDown ? (
-              <img src={ArrrowupIcon} className="Dropdown_plus_sign"></img>
+              <img
+                src={ArrrowupIcon}
+                className="Dropdown_plus_sign"
+                alt="Dropdown_plus_sign"
+              ></img>
             ) : (
-              <img src={ArrrowdownIcon} className="Dropdown_plus_sign"></img>
+              <img
+                src={ArrrowdownIcon}
+                className="Dropdown_plus_sign"
+                alt="Dropdown_plus_sign"
+              ></img>
             )}
           </button>
         </div>

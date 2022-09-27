@@ -1,7 +1,6 @@
-import { Auth, Hub } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import { useState, createContext, useEffect } from "react";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types";
-import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext({
   allUserData: "" as string,
@@ -20,16 +19,16 @@ export type AuthUser = {
   idToken: string;
   jwtToken: string;
 };
-type UserContextType = {
-  user: AuthUser | null;
-  setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>;
-};
+// type UserContextType = {
+//   user: AuthUser | null;
+//   setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>;
+// };
 type UserContextProviderProps = {
   children: React.ReactNode;
 };
-type LoginProps = {
-  path?: string;
-};
+// type LoginProps = {
+//   path?: string;
+// };
 
 export const UserContextProvider = (props: UserContextProviderProps) => {
   const [user, setUser] = useState<AuthUser | null>(null);

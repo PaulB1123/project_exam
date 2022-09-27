@@ -13,9 +13,15 @@ import GenderIcon from "../Componets/Navigation/icons/Gender.png";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import DefaultIcon from "../Componets/Navigation/icons/Default.png";
 import { IGroup } from "../ReusableElements/Button_Navigation_Left/DragnDrop";
+import React from "react";
+import { useParams } from "react-router-dom";
 
 const FilterContext = createContext({
   data: [] as IGroup[],
+  selectedCluster: "" as string,
+  selectedDatabase: "" as string,
+  setSelectedCluster: (prams: any) => {},
+  setSelectedDatabase: (prams: any) => {},
 });
 
 type FilterContextProviderProps = {
@@ -26,6 +32,10 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [filterAudience, setFilterAudience] = useState([] as any);
   const { user, allUserData } = useContext(UserContext);
   const [data, setData] = useState([] as any[]);
+
+  const [selectedCluster, setSelectedCluster] = useState("");
+  const [selectedDatabase, setSelectedDatabase] = useState("");
+  const { id, cluster } = useParams();
 
   console.log(user);
 
@@ -44,8 +54,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         query: `query get {
           getSelectors(
             Database: {
-                Cluster: "annalect-crmtesting",
-                DatabaseName: "crmtesting_dk_CRM"
+              Cluster: "annalect-crmtesting",
+              DatabaseName: "crmtesting_dk_CRM"
             }
           ){
               ... on SelectorFactor {
@@ -72,9 +82,18 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     const getSelectors = selector.data.getSelectors;
     // console.log(selector);
     setFilterAudience(() => getSelectors);
-    console.log(getSelectors);
+    // console.log(getSelectors);
     console.count("selectors");
-  }, [allUserData]);
+  }, [allUserData, selectedCluster, selectedDatabase]);
+
+  useEffect(() => {
+    if (selectedCluster !== "" && cluster !== undefined) {
+      setSelectedCluster(cluster);
+    }
+    if (selectedDatabase !== "" && id !== undefined) {
+      setSelectedDatabase(id);
+    }
+  }, [id, cluster, selectedCluster, selectedDatabase]);
 
   useEffect(() => {
     if (user != null) {
@@ -103,10 +122,21 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
   return (
     // <></>
-    <FilterContext.Provider value={{ data: data }}>
+    <FilterContext.Provider
+      value={{
+        data: data,
+        selectedCluster,
+        setSelectedCluster,
+        setSelectedDatabase,
+        selectedDatabase,
+      }}
+    >
       {props.children}
     </FilterContext.Provider>
   );
 };
 
 export default FilterContext;
+
+// Cluster: "${selectedCluster}",
+// DatabaseName: "${selectedDatabase}"

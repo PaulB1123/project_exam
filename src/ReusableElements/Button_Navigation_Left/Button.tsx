@@ -2,7 +2,7 @@ import "../../Componets/Styles/global.css";
 import "./Button.css";
 import "../../Componets/Filters/Filter.css";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import * as React from "react";
 import Doughnutchart from "../../Componets/Navigation/icons/Doughnut.svg";
 import BarChart from "../../Componets/Navigation/icons/BarChart.png";
@@ -15,6 +15,7 @@ import ReportIcon from "../../Componets/Navigation/icons/Reports.svg";
 import ArrrowdownIcon from "../../Componets/Navigation/icons/ArrowDown.svg";
 import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
 import Filter from "../../Componets/Navigation/icons/Filter.svg";
+import { useGlobalModalContext } from "../../Componets/Dashboard/Modals/GlobalModal";
 // import { AuditionFilter } from "../../Data/audition_filters";
 
 export default function ChartsButton() {
@@ -45,16 +46,16 @@ export default function ChartsButton() {
         >
           <div className="filterbutton_container">
             {isActive ? (
-              <img src={ChartsIcon}></img>
+              <img src={ChartsIcon} alt=""></img>
             ) : (
-              <img src={ChartsIcon}></img>
+              <img src={ChartsIcon} alt=""></img>
             )}
             <li>Charts</li>
           </div>
           {isActive ? (
-            <img src={ArrrowupIcon}></img>
+            <img src={ArrrowupIcon} alt=""></img>
           ) : (
-            <img src={ArrrowdownIcon}></img>
+            <img src={ArrrowdownIcon} alt=""></img>
           )}
         </div>
       </button>
@@ -62,27 +63,27 @@ export default function ChartsButton() {
         <div className="Dropdown">
           <div className="Dropdown_box">
             <div className="Dropdown_container">
-              <img src={Doughnutchart}></img>
+              <img src={Doughnutchart} alt=""></img>
               <li>Successful transaction</li>
             </div>
             <div className="Dropdown_container">
-              <img src={LineChart}></img>
+              <img src={LineChart} alt=""></img>
               <li>Spend by media</li>
             </div>
             <div className="Dropdown_container">
-              <img src={BarChart}></img>
+              <img src={BarChart} alt=""></img>
               <li>Today's Mortgage Rates</li>
             </div>
             <div className="Dropdown_container">
-              <img src={RadarChart}></img>
+              <img src={RadarChart} alt=""></img>
               <li>Time Management</li>
             </div>
             <div className="Dropdown_container">
-              <img src={BarsChart}></img>
+              <img src={BarsChart} alt=""></img>
               <li>Invitation Requested</li>
             </div>
             <div className="Dropdown_container">
-              <img src={ComparationChart}></img>
+              <img src={ComparationChart} alt=""></img>
               <li>Visits</li>
             </div>
             <div className="button_with_all_graphs_container">
@@ -124,16 +125,16 @@ export function ReportsButton() {
         >
           <div className="filterbutton_container">
             {isActiveReports ? (
-              <img src={ReportIcon}></img>
+              <img src={ReportIcon} alt=""></img>
             ) : (
-              <img src={ReportIcon}></img>
+              <img src={ReportIcon} alt=""></img>
             )}
             <li>Reports</li>
           </div>
           {isActiveReports ? (
-            <img src={ArrrowupIcon}></img>
+            <img src={ArrrowupIcon} alt=""></img>
           ) : (
-            <img src={ArrrowdownIcon}></img>
+            <img src={ArrrowdownIcon} alt=""></img>
           )}
         </div>
         {isOpenReports && (
@@ -161,6 +162,7 @@ export function ReportsButton() {
 export function AudiencesButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
+  const { message } = useGlobalModalContext();
 
   const handleClickReports = () => {
     setOpenReports(!isOpenReports);
@@ -182,9 +184,9 @@ export function AudiencesButton() {
             <li>Audiences</li>
           </div>
           {isActiveReports ? (
-            <img src={ArrrowupIcon}></img>
+            <img src={ArrrowupIcon} alt=""></img>
           ) : (
-            <img src={ArrrowdownIcon}></img>
+            <img src={ArrrowdownIcon} alt=""></img>
           )}
         </div>
       </button>
@@ -192,11 +194,9 @@ export function AudiencesButton() {
         <div>
           <div>
             <div className="Dropdown_container" id="Dropdown_container">
-              <li>An audience filter</li>
+              <li>{message}</li>
             </div>
-            <div className="Dropdown_container" id="Dropdown_container">
-              <li>Another audience filter</li>
-            </div>
+
             {/* <button className="button_with_all_graphs">Select filter</button> */}
           </div>
         </div>
@@ -204,134 +204,3 @@ export function AudiencesButton() {
     </>
   );
 }
-
-// export function AudienceButton(props: any) {
-//   const [isOpen, setOpen] = React.useState(false);
-//   const [isActive, setIsActive] = useState(false);
-
-//   const handleClick = () => {
-//     setOpen(!isOpen);
-//     setIsActive((current) => !current);
-//   };
-
-//   const changeStatus = () => {};
-
-//   const dragItem = useRef<any>(null);
-//   const dragOverItem = useRef<any>(null);
-//   const [list, setList] = useState<Array<any>>(AuditionFilter);
-
-//   const dragStart = (e: any, position: any) => {
-//     console.log(dragItem);
-
-//     dragItem.current = position;
-//     // console.log(e.target.innerHTML);
-//   };
-
-//   const dragEnter = (e: any, position: any) => {
-//     dragOverItem.current = position;
-//     //console.log(e.target.innerHTML);
-//   };
-
-//   const drop = (e: any) => {
-//     const copyListItems = [...list];
-//     const dragItemContent = copyListItems[dragItem.current];
-//     console.log(dragItemContent);
-//     copyListItems.splice(dragItem.current, 1);
-//     copyListItems.splice(dragOverItem.current, 0, dragItemContent);
-//     dragItem.current = null;
-//     dragOverItem.current = null;
-//     setList(copyListItems);
-//     console.log(list);
-//   };
-
-//   return (
-//     <div className="ContainerFile_filter">
-//       <div className="container_audience">
-//         <button
-//           type="button"
-//           className="buttonaudience"
-//           onClick={() => {
-//             handleClick();
-//           }}
-//         >
-//           <div
-//             className="filterbuttonAudience"
-//             style={{ backgroundColor: isActive ? "#d9d9d9" : "white" }}
-//           >
-//             <div className="PlusIcon_container">
-//               <div className="PlusIcon"></div>
-//             </div>
-//           </div>
-//         </button>
-
-//         {/* {isOpen && (
-//           <div className="Dropdown_Audience_Main_Group">
-//             <div className="Dropdown_Audience">
-//               <div className="Dropdown_box_Audience">
-//                 {list.map((filter, index) => (
-//                   <div
-//                     className="Dropdown_container"
-//                     onDragStart={(e) => dragStart(e, index)}
-//                     onDragEnter={(e) => dragEnter(e, index)}
-//                     onDragEnd={drop}
-//                     key={index}
-//                     draggable
-//                   >
-//                     <div className="Dropdown_filter_container">
-//                       <img src={filter.logo}></img>
-//                       <li>{filter.description}</li>
-//                     </div>
-//                     <div className="Dropdown_plus_sign_container">
-//                       <button
-//                         onClick={() => {
-//                           changeStatus();
-//                         }}
-//                       >
-//                         <img
-//                           className="Dropdown_plus_sign"
-//                           src={filter.add}
-//                         ></img>
-//                       </button>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-//           </div>
-//         )} */}
-
-//         {isOpen && (
-//           <div className="Dropdown_Audience_Main_Group">
-//             <div className="Dropdown_Audience">
-//               <div className="Dropdown_box_Audience">
-//                 {list.map((filter) => (
-//                   <div className="Dropdown_container">
-//                     <div className="Dropdown_filter_container">
-//                       <img src={filter.logo}></img>
-//                       <li>{filter.description}</li>
-//                     </div>
-//                     <div className="Dropdown_plus_sign_container">
-//                       <button
-//                         onClick={() => {
-//                           changeStatus();
-//                         }}
-//                       >
-//                         <img
-//                           className="Dropdown_plus_sign"
-//                           src={filter.add}
-//                         ></img>
-//                       </button>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-//           </div>
-//         )}
-//         <div className="filter_droppable_container">
-//           <ul></ul>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
