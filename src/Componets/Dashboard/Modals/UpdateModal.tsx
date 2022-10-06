@@ -5,7 +5,8 @@ import XIcon from "../../Filters/icons/X.svg";
 import "../../Filters/Modal.css";
 
 export const UpdateModal = () => {
-  const { hideModal, message, handleChange } = useGlobalModalContext();
+  const { hideModal, message, handleChange, setSavedAudience } =
+    useGlobalModalContext();
   //   const [message, setMessage] = useState("");
 
   const handleModalToggle = () => {
@@ -17,6 +18,7 @@ export const UpdateModal = () => {
   function UntityFucntion() {
     handleModalToggle();
 
+    // setSavedAudience(message);
     // handleChange();
   }
 

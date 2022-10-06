@@ -141,7 +141,7 @@
   width: auto;
   height: auto;
   max-height: 35rem;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -157,7 +157,7 @@
   margin-top: 1rem;
   width: auto;
   height: auto;
-  display: flex;
+  /* display: flex; */
   max-height: 35rem;
   align-items: center;
   justify-content: center;
@@ -179,7 +179,7 @@
   height: auto;
   /* z-index: 90; */
 
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
 }
 
 .dropDown_button {

@@ -37,10 +37,10 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [selectedDatabase, setSelectedDatabase] = useState("");
   const { id, cluster } = useParams();
 
-  console.log(user);
+  // console.log(user);
 
   const url =
-    "https://ru3k4ksxcfcojb2dipxwrayawu.appsync-api.eu-west-1.amazonaws.com/graphql";
+    "https://62wh6s37uvaihb63dqrylaouma.appsync-api.eu-west-1.amazonaws.com/graphql";
 
   const Selectors = useCallback(async () => {
     const response = await fetch(url, {

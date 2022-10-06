@@ -4,9 +4,11 @@ import "../../Componets/Filters/Filter.css";
 import "./DragnDrop.css";
 import React, { useState, useRef, useContext, useEffect } from "react";
 import SlideButton from "./SlideButton";
-import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
+// import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
 import AudienceContainer from "./Audience_container";
 import FilterContext from "../../Data/FilterContext";
+import SegmentIcon from "../../Componets/Filters/icons/Segment.svg";
+import PlusIcon from "../../Componets/Filters/icons/Plus.svg";
 import { useParams } from "react-router-dom";
 
 interface DataProps {}
@@ -28,17 +30,20 @@ export const DragNDrop: React.FC<DataProps> = () => {
   const [dragging, setDragging] = useState(false);
   const [drop, setDrop] = useState(0);
   const [list, setList] = useState(data as any);
+  const [listAudience, setListAudience] = useState();
+  const [listBig, setListBig] = useState(list);
 
   let { id, client, country, cluster } = useParams();
 
-  console.log(id);
-  console.log(cluster);
+  // console.log(id);
+  // console.log(cluster);
 
-  console.log(list);
+  // console.log(list);
 
   useEffect(() => {
     setList(() => data);
   }, [data]);
+  console.log(data);
 
   const handleClick = () => {
     setOpen(!isOpen);
@@ -47,14 +52,14 @@ export const DragNDrop: React.FC<DataProps> = () => {
 
   const handleDrop = () => {
     setDrop(drop + 1);
-    console.log(drop);
+    // console.log(drop);
   };
 
   const dragItem = useRef<any>();
   const dragNode = useRef<any>();
 
   const handleDragStart = (e: any, params: any) => {
-    console.log("drag starting", params);
+    // console.log("drag starting", params);
     dragItem.current = params; // now everytime I drag something I set the useref so I have directions
     dragNode.current = e.target;
     dragNode.current.addEventListener("dragend", handleDragEnd);
@@ -64,7 +69,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
   };
 
   const handleDragEnter = (e: any, params: any) => {
-    console.log("Entering drag", params);
+    // console.log("Entering drag", params);
     const currentItem = dragItem.current;
     if (e.target !== dragNode.current)
       setList((oldList: any) => {
@@ -81,7 +86,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
   };
 
   const handleDragEnd = () => {
-    console.log("Ending drag");
+    // console.log("Ending drag");
 
     setDragging(false);
     dragNode.current.removeEventListener("dragend", handleDragEnd);
@@ -101,6 +106,13 @@ export const DragNDrop: React.FC<DataProps> = () => {
     }
     return "dnd-item";
   };
+
+  function handleRemoveBig(id: any) {
+    console.log(listBig);
+
+    // setListBig((ps: any) => [...ps.filter((obj: any) => id !== obj)]);
+    // console.log(listBig);
+  }
 
   return (
     <div className="entire_slider_audience">
@@ -171,6 +183,13 @@ export const DragNDrop: React.FC<DataProps> = () => {
                                 key={item.selector}
                                 id="Dropdown_container"
                               >
+                                <div>
+                                  <img
+                                    className="Dropdown_plus_sign"
+                                    src={SegmentIcon}
+                                    alt="Dropdown_plus_sign"
+                                  ></img>
+                                </div>
                                 <div className="Dropdown_filter_container">
                                   <li>{item.selector}</li>
                                   {/* <li>{item.category}</li> */}
@@ -180,7 +199,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
                                   <button>
                                     <img
                                       className="Dropdown_plus_sign"
-                                      src={ArrrowupIcon}
+                                      src={PlusIcon}
                                       alt="Dropdown_plus_sign"
                                     ></img>
                                   </button>
@@ -214,6 +233,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
 
                         {grp.items.map((item: any, itemI: any) => (
                           <>
+                            {console.log(grp.items)}
                             <AudienceContainer
                               dragging={dragging}
                               grpI={grpI}
@@ -229,6 +249,10 @@ export const DragNDrop: React.FC<DataProps> = () => {
                               // isActiveDropDown={isActiveDropDown}
                               item={item}
                               key={item.selector}
+                              listAudience={listAudience}
+                              setListAudience={(item: any) =>
+                                setListAudience(item)
+                              }
                             ></AudienceContainer>
                           </>
                         ))}
@@ -239,6 +263,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
                       <div className="filter_droppable_container">
                         {grp.items.map((item: any, itemI: any) => (
                           <>
+                            {console.log(grp.items)}
                             <AudienceContainer
                               dragging={dragging}
                               grpI={grpI}
@@ -254,6 +279,10 @@ export const DragNDrop: React.FC<DataProps> = () => {
                               // isActiveDropDown={isActiveDropDown}
                               item={item}
                               key={item.selector}
+                              listAudience={listAudience}
+                              setListAudience={(item: any) =>
+                                setListAudience(item)
+                              }
                             ></AudienceContainer>
                           </>
                         ))}
@@ -344,3 +373,73 @@ export default DragNDrop;
 // );
 
 // console.log(dictionary);
+
+// {isOpen ? (
+//   <div className="Dropdown_is_open">
+//     <div className="filter_droppable_container" ref={this}>
+//       {drop === 0 && (
+//         <div className="filter_info">drop filters here</div>
+//       )}
+
+//       {grp.items.map((item: any, itemI: any) => (
+//         <>
+//           <AudienceContainer
+//             dragging={dragging}
+//             grpI={grpI}
+//             itemI={itemI}
+//             handleDragStart={(e: any, params: any) =>
+//               handleDragStart(e, params)
+//             }
+//             handleDragEnter={(e: any, params: any) =>
+//               handleDragEnter(e, params)
+//             }
+//             // handleClickDropDown={handleClickDropDown}
+//             getStyles={(params: any) => getStyles(params)}
+//             // isActiveDropDown={isActiveDropDown}
+//             item={item}
+//             key={item.selector}
+//             listAudience={listAudience}
+//             setListAudience={(item: any) =>
+//               setListAudience(item)
+//             }
+//             handleRemoveBig={(e: any) =>
+//               handleRemoveBig(item.selector)
+//             }
+//           ></AudienceContainer>
+//         </>
+//       ))}
+//     </div>
+//   </div>
+// ) : (
+//   <div className="Dropdown_is_not_open">
+//     <div className="filter_droppable_container">
+//       {grp.items.map((item: any, itemI: any) => (
+//         <>
+//           <AudienceContainer
+//             dragging={dragging}
+//             grpI={grpI}
+//             itemI={itemI}
+//             handleDragStart={(e: any, params: any) =>
+//               handleDragStart(e, params)
+//             }
+//             handleDragEnter={(e: any, params: any) =>
+//               handleDragEnter(e, params)
+//             }
+//             // handleClickDropDown={handleClickDropDown}
+//             getStyles={(params: any) => getStyles(params)}
+//             // isActiveDropDown={isActiveDropDown}
+//             item={item}
+//             key={item.selector}
+//             listAudience={listAudience}
+//             setListAudience={(item: any) =>
+//               setListAudience(item)
+//             }
+//             handleRemoveBig={(e: any) =>
+//               handleRemoveBig(item.selector)
+//             }
+//           ></AudienceContainer>
+//         </>
+//       ))}
+//     </div>
+//   </div>
+// )}

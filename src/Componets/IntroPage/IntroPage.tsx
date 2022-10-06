@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./introPage.css";
 import "../../Componets/Navigation/Navigation.css";
-import DashboardImg from "./img/DashboardWhite.png";
+import DashboardImg from "./img/DashboardHero.png";
 
 function IntroPage() {
   //   const context = useContext(UserContext);

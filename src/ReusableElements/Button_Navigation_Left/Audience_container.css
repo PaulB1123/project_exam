@@ -127,6 +127,12 @@
   color: #929292;
 }
 
+.Delete_button button:hover {
+  background-color: #929292;
+  color: white;
+  border: 1px solid white;
+}
+
 .filters_all {
   /* margin: 0.5rem; */
   width: 100%;
@@ -203,7 +209,7 @@
   padding: 0.6rem;
 }
 
-.filters_all li:hover {
+/* .filters_all li:hover {
   border-radius: 7px;
   background-color: var(--navigation-button-dropdown-hovering);
   box-shadow: var(--audience-background-hover-plus) 0px 30px 60px -12px inset,
@@ -211,51 +217,15 @@
   cursor: pointer;
 }
 
-.hidden {
-  display: none;
-}
 
-input[type="number"]::-webkit-outer-spin-button
-  input[type="number"]::-webkit-inner-spin-button {
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
   appearance: none;
 }
+*/
 
-.slider {
-  margin-top: 1rem;
-  height: 5px;
-  border-radius: 5px;
-  background-color: #ddd;
-}
-
-.slider .progress {
-  height: 5px;
-  left: 25%;
-  right: 55%;
-  position: absolute;
-  background-color: #929292;
-}
-
-.range-input {
-  position: relative;
-}
-
-.range-input input {
-  position: absolute;
-  left: 0;
-  top: -5px;
-  height: 5px;
-  /* width: 100%; */
-  background: none;
-  appearance: none;
-}
-
-.filed_container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.Min {
+/* .Min {
   display: flex;
 }
 
@@ -269,4 +239,187 @@ input[type="number"]::-webkit-outer-spin-button
 
 .Max input {
   width: 30px;
+} */
+
+/* .price-input input {
+  width: 30px;
 }
+
+.filed_container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.slider {
+  margin-top: 1rem;
+  height: 5px;
+  border-radius: 5px;
+  background-color: red;
+} */
+
+/* .slider .progress {
+  height: 5px;
+  left: 25%;
+  right: 25%;
+  position: absolute;
+  background-color: #929292;
+} */
+
+/* input[type="range"]::-webkit-slider-thumb {
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  pointer-events: auto;
+  appearance: none;
+  background-color: #929292;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 17px;
+  width: 17px;
+  border: none;
+  border-radius: 50%;
+  pointer-events: auto;
+  appearance: none;
+  background-color: #929292;
+}
+
+.field input {
+  -moz-appearance: none;
+} */
+
+/* Thi is the other code  */
+
+.wrapper {
+  width: 165px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px 25px 40px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+header h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+header p {
+  margin-top: 5px;
+  font-size: 16px;
+}
+.price-input {
+  width: 100%;
+  display: flex;
+  margin: 30px 0 35px;
+}
+.price-input .field {
+  display: flex;
+  width: 100%;
+  height: 45px;
+  align-items: center;
+}
+.field input {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 19px;
+  margin-left: 12px;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid #999;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+}
+.price-input .separator {
+  width: 130px;
+  display: flex;
+  font-size: 19px;
+  align-items: center;
+  justify-content: center;
+}
+.slider {
+  height: 5px;
+  position: relative;
+  background: #ddd;
+  border-radius: 5px;
+}
+.slider .progress {
+  height: 100%;
+  left: 25%;
+  right: 25%;
+  position: absolute;
+  border-radius: 5px;
+  background: #17a2b8;
+}
+.range-input {
+  position: relative;
+}
+.range-input input {
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -5px;
+  left: 0;
+  background: none;
+  pointer-events: none;
+  appearance: none;
+  -moz-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  background: #17a2b8;
+  pointer-events: auto;
+  appearance: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+input[type="range"]::-moz-range-thumb {
+  height: 17px;
+  width: 17px;
+  border: none;
+  border-radius: 50%;
+  background: #17a2b8;
+  pointer-events: auto;
+  appearance: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.hidden {
+  display: none;
+}
+
+/* .Class {
+
+} */
+
+.items_list li:hover {
+  background-color: #929292;
+  color: white;
+  border-radius: 7px;
+}
+
+.InputGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+.InputNumber {
+  width: 50px;
+}
+/* @import "rsuite/dist/rsuite.css"; */
+
+/* .rs-row {
+  width: 300px;
+}
+
+/* .rs-col rs-col-md-10 {
+  width: 100px;
+} */
+
+/* .rs-row {
+  display: flex;
+  flex-direction: column;
+}  */

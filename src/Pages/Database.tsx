@@ -15,8 +15,6 @@ function Database() {
   const [selectedClient, setSelectedClient] = React.useState("");
   const [client, setClient] = useState("");
   const [country, setCountry] = useState("");
-  /*   const [selectedCluster, setSelectedCluster] = React.useState("");
-  const [selectedDatabase, setSelectedDatabase] = React.useState(""); */
   const [clusterDatabase, setClusterDatabase] = useState([] as any);
 
   const { user, allUserData } = useContext(UserContext);
@@ -45,8 +43,12 @@ function Database() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          query:
-            "query my { getClients(Environment: DEMO){ ClientCode  ClientName }}",
+          query: `query get {
+              getClients{
+                  Client_name
+                  ClientCode
+              }
+          }`,
         }),
       });
 

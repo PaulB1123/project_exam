@@ -128,20 +128,24 @@ const LogIn = (props: LoginProps) => {
                 <button className="button">Contiune</button>
               </Link>
             </AuthentificatedUserContext.Provider> */}
-            <Link to="/Database">
-              <button className="button">Contiune</button>
-            </Link>
-            {user ? (
-              <div>
-                <button className="button" onClick={logout}>
-                  Logout
+            <div className="buttons_log_in">
+              <Link to="/Database">
+                <button className="button" id="contiune">
+                  Contiune
                 </button>
-              </div>
-            ) : (
-              <button className="button" onClick={login}>
-                Login
-              </button>
-            )}
+              </Link>
+              {user ? (
+                <div>
+                  <button className="button" id="login" onClick={logout}>
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <button className="button" id="login" onClick={login}>
+                  Login
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

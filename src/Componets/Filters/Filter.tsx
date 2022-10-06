@@ -24,7 +24,7 @@ export default function FilterComponent() {
   // const { Data } = useContext(FilterContext);
 
   // console.log(Data);
-  console.log(Data2);
+  // console.log(Data2);
 
   const [openModal, setOpenModal] = useState(false);
   const { showModal } = useGlobalModalContext();
