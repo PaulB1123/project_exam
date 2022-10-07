@@ -42,7 +42,7 @@ function App() {
         <Route path="/" element={<LogIn path="Database"></LogIn>}></Route>
         <Route path="/Database" element={<Database />}></Route>
         <Route
-          path="/Report/:client/:country/:cluster/:id"
+          path="/Report/:client/:country/:id/:databaseId"
           element={<Report />}
         ></Route>
       </Routes>

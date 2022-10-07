@@ -30,20 +30,24 @@ export const DragNDrop: React.FC<DataProps> = () => {
   const [dragging, setDragging] = useState(false);
   const [drop, setDrop] = useState(0);
   const [list, setList] = useState(data as any);
+  const [audienceBar, setAudienceBar] = useState(list[0]);
   const [listAudience, setListAudience] = useState();
   const [listBig, setListBig] = useState(list);
-
+  const [listFilter, setListFilter] = useState();
   let { id, client, country, cluster } = useParams();
 
   // console.log(id);
   // console.log(cluster);
-
-  // console.log(list);
+  console.log(audienceBar);
 
   useEffect(() => {
     setList(() => data);
   }, [data]);
   console.log(data);
+
+  useEffect(() => {
+    console.log(list);
+  }, [list]);
 
   const handleClick = () => {
     setOpen(!isOpen);
@@ -113,6 +117,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
     // setListBig((ps: any) => [...ps.filter((obj: any) => id !== obj)]);
     // console.log(listBig);
   }
+  console.log(list);
 
   return (
     <div className="entire_slider_audience">
@@ -233,7 +238,6 @@ export const DragNDrop: React.FC<DataProps> = () => {
 
                         {grp.items.map((item: any, itemI: any) => (
                           <>
-                            {console.log(grp.items)}
                             <AudienceContainer
                               dragging={dragging}
                               grpI={grpI}
@@ -300,146 +304,3 @@ export const DragNDrop: React.FC<DataProps> = () => {
 };
 
 export default DragNDrop;
-
-// const xx = [
-//   {
-//     id: "1",
-//     // logo: DefaultIcon,
-//     description: "Segment",
-//     add: PlusIcon,
-//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-//     category: " A bar",
-//   },
-//   {
-//     id: "2",
-//     // logo: GenderIcon,
-//     description: "Gender",
-//     add: PlusIcon,
-//     filters: [
-//       "This is another text that I have to make ",
-//       "18-30",
-//       "31-40",
-//       "41-50",
-//       "51-60",
-//       "61+",
-//       "unknown",
-//     ],
-//     category: " A bar",
-//   },
-//   {
-//     id: "3",
-//     // logo: DefaultIcon,
-//     description: "Age Group",
-//     add: PlusIcon,
-//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-//     category: " A bar",
-//   },
-//   {
-//     id: "4",
-//     // logo: DefaultIcon,
-//     description: "Region",
-//     add: PlusIcon,
-//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-//     category: " A bar",
-//   },
-//   {
-//     id: "5",
-//     // logo: DefaultIcon,
-//     description: "Tier",
-//     add: PlusIcon,
-//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-//     category: "blabla",
-//   },
-//   {
-//     id: "6",
-//     // logo: DefaultIcon,
-//     description: "Offer Copy",
-//     add: PlusIcon,
-//     filters: ["18--", "18-30", "31-40", "41-50", "51-60", "61+", "unknown"],
-//     category: "blabla",
-//   },
-// ] as unknown as IItem[];
-
-// let CategoryArray = [];
-
-// let dictionary = Object.assign(
-//   {},
-//   ...xx.map(
-//     (x) => ({
-//       [x.category]: { id: x.id, description: x.description },
-//     })
-//     // CategoryArray = [...CategoryArray, [x.category]]
-//   )
-// );
-
-// console.log(dictionary);
-
-// {isOpen ? (
-//   <div className="Dropdown_is_open">
-//     <div className="filter_droppable_container" ref={this}>
-//       {drop === 0 && (
-//         <div className="filter_info">drop filters here</div>
-//       )}
-
-//       {grp.items.map((item: any, itemI: any) => (
-//         <>
-//           <AudienceContainer
-//             dragging={dragging}
-//             grpI={grpI}
-//             itemI={itemI}
-//             handleDragStart={(e: any, params: any) =>
-//               handleDragStart(e, params)
-//             }
-//             handleDragEnter={(e: any, params: any) =>
-//               handleDragEnter(e, params)
-//             }
-//             // handleClickDropDown={handleClickDropDown}
-//             getStyles={(params: any) => getStyles(params)}
-//             // isActiveDropDown={isActiveDropDown}
-//             item={item}
-//             key={item.selector}
-//             listAudience={listAudience}
-//             setListAudience={(item: any) =>
-//               setListAudience(item)
-//             }
-//             handleRemoveBig={(e: any) =>
-//               handleRemoveBig(item.selector)
-//             }
-//           ></AudienceContainer>
-//         </>
-//       ))}
-//     </div>
-//   </div>
-// ) : (
-//   <div className="Dropdown_is_not_open">
-//     <div className="filter_droppable_container">
-//       {grp.items.map((item: any, itemI: any) => (
-//         <>
-//           <AudienceContainer
-//             dragging={dragging}
-//             grpI={grpI}
-//             itemI={itemI}
-//             handleDragStart={(e: any, params: any) =>
-//               handleDragStart(e, params)
-//             }
-//             handleDragEnter={(e: any, params: any) =>
-//               handleDragEnter(e, params)
-//             }
-//             // handleClickDropDown={handleClickDropDown}
-//             getStyles={(params: any) => getStyles(params)}
-//             // isActiveDropDown={isActiveDropDown}
-//             item={item}
-//             key={item.selector}
-//             listAudience={listAudience}
-//             setListAudience={(item: any) =>
-//               setListAudience(item)
-//             }
-//             handleRemoveBig={(e: any) =>
-//               handleRemoveBig(item.selector)
-//             }
-//           ></AudienceContainer>
-//         </>
-//       ))}
-//     </div>
-//   </div>
-// )}
