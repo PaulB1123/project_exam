@@ -6,7 +6,7 @@ import React, { useState, useRef, useContext, useEffect } from "react";
 import SlideButton from "./SlideButton";
 // import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
 import AudienceContainer from "./Audience_container";
-import FilterContext from "../../Data/FilterContext";
+import FilterContext, { GeneralSelector } from "../../Data/FilterContext";
 import SegmentIcon from "../../Componets/Filters/icons/Segment.svg";
 import PlusIcon from "../../Componets/Filters/icons/Plus.svg";
 import { useParams } from "react-router-dom";
@@ -16,38 +16,39 @@ type IItem = {
   selector: string;
   variable_type: string;
   category: string;
+  id: string;
+  values: GeneralSelector;
 };
 export interface IGroup {
-  items: IItem[];
+  items: GeneralSelector[];
   title: string;
 }
 
 export const DragNDrop: React.FC<DataProps> = () => {
-  const { data } = useContext(FilterContext);
+  const { data, setData, newArray } = useContext(FilterContext);
 
   const [isOpen, setOpen] = React.useState(false);
   const [isActive, setIsActive] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [drop, setDrop] = useState(0);
-  const [list, setList] = useState(data as any);
-  const [audienceBar, setAudienceBar] = useState(list[0]);
+  // const [data, setList] = useState(data as any);
+  const [audienceBar, setAudienceBar] = useState(data[0]);
   const [listAudience, setListAudience] = useState();
-  const [listBig, setListBig] = useState(list);
+  const [listBig, setListBig] = useState(data);
   const [listFilter, setListFilter] = useState();
   let { id, client, country, cluster } = useParams();
 
-  // console.log(id);
   // console.log(cluster);
-  console.log(audienceBar);
+  // console.log(data);
 
-  useEffect(() => {
-    setList(() => data);
-  }, [data]);
-  console.log(data);
+  // useEffect(() => {
+  //   // setList(() => data);
+  // }, [data]);
+  // console.log(data);
 
-  useEffect(() => {
-    console.log(list);
-  }, [list]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const handleClick = () => {
     setOpen(!isOpen);
@@ -76,7 +77,18 @@ export const DragNDrop: React.FC<DataProps> = () => {
     // console.log("Entering drag", params);
     const currentItem = dragItem.current;
     if (e.target !== dragNode.current)
-      setList((oldList: any) => {
+      // setList((oldList: any) => {
+      //   let newList = JSON.parse(JSON.stringify(oldList));
+      //   newList[params.grpI].items.splice(
+      //     params.itemI,
+      //     0,
+      //     newList[currentItem.grpI].items.splice(currentItem.itemI, 1)[0]
+      //   );
+      //   dragItem.current = params;
+      //   localStorage.setItem("List", JSON.stringify(newList));
+      //   return newList;
+      // });
+      setData((oldList: any) => {
         let newList = JSON.parse(JSON.stringify(oldList));
         newList[params.grpI].items.splice(
           params.itemI,
@@ -117,13 +129,13 @@ export const DragNDrop: React.FC<DataProps> = () => {
     // setListBig((ps: any) => [...ps.filter((obj: any) => id !== obj)]);
     // console.log(listBig);
   }
-  console.log(list);
+  // console.log(data);
 
   return (
     <div className="entire_slider_audience">
       <SlideButton>
         <div className="drag-n-drop">
-          {list.map((grp: IGroup, grpI: number) => {
+          {data.map((grp: IGroup, grpI: number) => {
             // console.log(grp.items);
             if (grp.title === "audition_bar") {
               return (
@@ -185,7 +197,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
                                     ? getStyles({ grpI, itemI })
                                     : "dnd-item"
                                 }
-                                key={item.selector}
+                                key={item.id}
                                 id="Dropdown_container"
                               >
                                 <div>
@@ -236,7 +248,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
                           <div className="filter_info">drop filters here</div>
                         )}
 
-                        {grp.items.map((item: any, itemI: any) => (
+                        {grp.items.map((item: GeneralSelector, itemI: any) => (
                           <>
                             <AudienceContainer
                               dragging={dragging}
@@ -252,7 +264,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
                               getStyles={(params: any) => getStyles(params)}
                               // isActiveDropDown={isActiveDropDown}
                               item={item}
-                              key={item.selector}
+                              key={item.id}
                               listAudience={listAudience}
                               setListAudience={(item: any) =>
                                 setListAudience(item)
@@ -265,9 +277,10 @@ export const DragNDrop: React.FC<DataProps> = () => {
                   ) : (
                     <div className="Dropdown_is_not_open">
                       <div className="filter_droppable_container">
-                        {grp.items.map((item: any, itemI: any) => (
+                        {grp.items.map((item: GeneralSelector, itemI: any) => (
                           <>
-                            {console.log(grp.items)}
+                            {/* {console.log(grp.items)} */}
+                            {console.log(newArray)}
                             <AudienceContainer
                               dragging={dragging}
                               grpI={grpI}
@@ -282,7 +295,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
                               getStyles={(params: any) => getStyles(params)}
                               // isActiveDropDown={isActiveDropDown}
                               item={item}
-                              key={item.selector}
+                              key={item.id}
                               listAudience={listAudience}
                               setListAudience={(item: any) =>
                                 setListAudience(item)

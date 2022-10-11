@@ -15,11 +15,11 @@ root.render(
   <React.StrictMode>
     <UserContextProvider>
       <ClientContextProvider>
-        <GlobalModal>
-          <FilterContextProvider>
+        <FilterContextProvider>
+          <GlobalModal>
             <App />
-          </FilterContextProvider>
-        </GlobalModal>
+          </GlobalModal>
+        </FilterContextProvider>
       </ClientContextProvider>
     </UserContextProvider>
   </React.StrictMode>

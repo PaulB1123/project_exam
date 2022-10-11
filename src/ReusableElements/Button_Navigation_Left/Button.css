@@ -99,14 +99,14 @@ button:focus {
   margin-top: 3.2rem;
   margin-left: 3.2rem;
   border-radius: 7px;
-  z-index: 100;
+  z-index: 2;
 }
 
 .Dropdown_box_Audience {
   width: auto;
   display: grid;
   grid-template-columns: minmax(230px, auto) 1fr 1fr;
-
+  z-index: 2;
   margin: 1.5rem;
 }
 
@@ -166,3 +166,7 @@ button:focus {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 } */
+
+.pf-c-backdrop {
+  z-index: 100 !important;
+}

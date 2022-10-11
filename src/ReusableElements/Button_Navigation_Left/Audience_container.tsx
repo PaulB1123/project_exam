@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ArrrowdownIcon from "../../Componets/Navigation/icons/ArrowDown.svg";
 import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
 import OkayIcon from "../../Componets/Navigation/icons/Okay.svg";
 import SegmentIcon from "../../Componets/Filters/icons/Segment.svg";
 import "./Audience_container.css";
+import FilterContext from "../../Data/FilterContext";
 
 type Props = {
   item: any;
@@ -25,23 +26,28 @@ const AudienceContainer = (props: Props) => {
   const [newList, setNewList] = useState(
     JSON.parse(JSON.stringify(listFilter))
   );
-  const [newstate, setNewstate] = useState({});
-  const [newArray, setNewArray] = useState([]);
+  // const [newstate, setNewstate] = useState({});
+  // const [newArray, setNewArray] = useState([]);
+
+  const { updateSelectorSelectedValue, data, newArray } =
+    useContext(FilterContext);
 
   const params = {
     grpI: props.grpI,
     itemI: props.itemI,
   };
 
-  useEffect(() => {
-    if (listFilter.variable_type === "categorical") {
-      listFilter.values.map((itemList: any) => {
-        itemList.isSelected = true;
-        console.log("a venit aici");
-      });
-    } else {
-    }
-  }, []);
+  // console.log(newArray);
+
+  // useEffect(() => {
+  //   if (listFilter.variable_type === "categorical") {
+  //     listFilter.values.map((itemList: any) => {
+  //       // itemList.isSelected = true;
+  //       console.log("a venit aici");
+  //     });
+  //   } else {
+  //   }
+  // }, []);
 
   const handleClickDropDown = () => {
     setOpenDropDown(!isOpenDropDown);
@@ -81,58 +87,58 @@ const AudienceContainer = (props: Props) => {
   }, [listFilter]);
   // console.log(ele);
 
-  const handleClickDropDownSign = (id: any) => {
-    const index = listFilter.values.findIndex(
-      (element: any) => element.id === id
-    );
+  // const handleClickDropDownSign = (id: any) => {
+  //   const index = listFilter.values.findIndex(
+  //     (element: any) => element.id === id
+  //   );
 
-    setListFilter((ps: any) => ({
-      ...ps,
-      values: [
-        ...ps.values.map((element: any) =>
-          element.id === id ? { ...element, isSelected: false } : element
-        ),
-      ],
-    }));
-  };
+  //   setListFilter((ps: any) => ({
+  //     ...ps,
+  //     values: [
+  //       ...ps.values.map((element: any) =>
+  //         element.id === id ? { ...element, isSelected: false } : element
+  //       ),
+  //     ],
+  //   }));
+  // };
 
-  const handelClickDropDownSignDelete = (id: any) => {
-    setListFilter((ps: any) => ({
-      ...ps,
-      values: [
-        ...ps.values.map((element: any) =>
-          element.id === id ? { ...element, isSelected: true } : element
-        ),
-      ],
-    }));
-  };
+  // const handelClickDropDownSignDelete = (id: any) => {
+  //   setListFilter((ps: any) => ({
+  //     ...ps,
+  //     values: [
+  //       ...ps.values.map((element: any) =>
+  //         element.id === id ? { ...element, isSelected: true } : element
+  //       ),
+  //     ],
+  //   }));
+  // };
 
-  const handelClickDropDownAll = () => {
-    setListFilter((ps: any) => ({
-      ...ps,
-      values: [
-        ...ps.values.map((element: any) =>
-          element.isSelected === true
-            ? { ...element, isSelected: false }
-            : element
-        ),
-      ],
-    }));
-  };
+  // const handelClickDropDownAll = () => {
+  //   setListFilter((ps: any) => ({
+  //     ...ps,
+  //     values: [
+  //       ...ps.values.map((element: any) =>
+  //         element.isSelected === true
+  //           ? { ...element, isSelected: false }
+  //           : element
+  //       ),
+  //     ],
+  //   }));
+  // };
 
-  const handelClickDropDownAllDelete = () => {
-    setListFilter((ps: any) => ({
-      ...ps,
-      values: [
-        ...ps.values.map((element: any) =>
-          element.isSelected === false
-            ? { ...element, isSelected: true }
-            : element
-        ),
-      ],
-    }));
-  };
-  console.log(listFilter);
+  // const handelClickDropDownAllDelete = () => {
+  //   setListFilter((ps: any) => ({
+  //     ...ps,
+  //     values: [
+  //       ...ps.values.map((element: any) =>
+  //         element.isSelected === false
+  //           ? { ...element, isSelected: true }
+  //           : element
+  //       ),
+  //     ],
+  //   }));
+  // };
+  // console.log(listFilter);
 
   function Allfunctions() {
     handleClickDropDown();
@@ -219,12 +225,12 @@ const AudienceContainer = (props: Props) => {
                   name="check"
                   checked={!ele}
                   id="isChecked"
-                  onClick={() => {
+                  onChange={() => {
                     setEle(!ele);
                     console.log(ele);
-                    ele === false
-                      ? handelClickDropDownAll()
-                      : handelClickDropDownAllDelete();
+                    // ele === false
+                    //   ? handelClickDropDownAll()
+                    //   : handelClickDropDownAllDelete();
                   }}
                 ></input>
               </button>
@@ -235,10 +241,13 @@ const AudienceContainer = (props: Props) => {
                   key={item.id}
                   value={item.id}
                   onClick={() => {
+                    console.log(props.item.id);
+
+                    updateSelectorSelectedValue(props.item.id, item.id);
                     // handleClickDropDownSign(item.id);
-                    item.isSelected === true
-                      ? handleClickDropDownSign(item.id)
-                      : handelClickDropDownSignDelete(item.id);
+                    // item.isSelected === true
+                    //   ? handleClickDropDownSign(item.id)
+                    //   : handelClickDropDownSignDelete(item.id);
                   }}
                 >
                   <span>{item.value}</span>

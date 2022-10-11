@@ -133,3 +133,9 @@ h3 {
   background-color: white !important;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
 } */
+
+#Header_Modal_GenerateReport {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}

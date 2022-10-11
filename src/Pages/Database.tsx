@@ -6,113 +6,52 @@ import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
 import UserContext from "../Data/UserContext";
 import FilterContext from "../Data/FilterContext";
+import { API } from "aws-amplify";
+import { getClients, getModelsForClient } from "../graphql/queries";
+import { getClientsResponse, getModelForClientResponse } from "../API";
 // import { ConsoleLogger } from "@aws-amplify/core";
 
 function Database() {
-  const [clientNewData, setClientNewData] = useState([] as any);
-  const [clientClusterdata, setClientClusterdata] = useState([] as any);
-  const [clientDatabasedata, setClientDatabasedata] = useState("" as any);
-  const [selectedClient, setSelectedClient] = React.useState("");
-  const [client, setClient] = useState("");
-  const [country, setCountry] = useState("");
-  // const [clusterDatabase, setClusterDatabase] = useState([] as any);
+  // const [clientNewData, setClientNewData] = useState(
+  //   [] as getClientsResponse[]
+  // );
+  // const [availableModels, setAvailableModels] = useState(
+  //   [] as getModelForClientResponse[]
+  // );
+
+  // const [selectedModelId, setSelectedModelId] = useState<string | undefined>(
+  //   undefined
+  // );
+
+  // const [clientClusterdata, setClientClusterdata] = useState([] as any);
+  // const [clientDatabasedata, setClientDatabasedata] = useState("" as any);
+  // const [selectedClient, setSelectedClient] = React.useState("");
 
   const [modelName, setModelName] = useState([] as any);
   // const [modelNameSelected, setModelNameSelected] = useState([] as any);
 
   // obiecte pe care le folosesc pentru a imi obtine filter audition
-  const [metaTable, setMetaTable] = useState("" as any);
-  const [databaseId, setDatabaseId] = useState("" as any);
-  const [secondId, setSecondId] = useState("" as any);
+  const [metaTable, setMetaTable] = useState("" as string);
+  const [databaseId, setDatabaseId] = useState("" as string);
+  const [secondId, setSecondId] = useState("" as string);
   // const [modelId, setModelId] = useState("" as any);
 
   const { user, allUserData } = useContext(UserContext);
-  const { data, modelId, setModelId } = useContext(FilterContext);
-
-  const url =
-    "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
-
-  useEffect(() => {
-    const Mihai = async () => {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: allUserData,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: `query get {
-            getClients{
-                Client_name
-                Client_code
-            }
-        }`,
-        }),
-      });
-
-      const dataManipulated = await response.json();
-      setSelectedClient(`${dataManipulated.data.getClients[0].Client_code}`);
-      setClientNewData(dataManipulated.data.getClients);
-    };
-
-    if (allUserData.length > 0) {
-      Mihai();
-    }
-  }, [allUserData]);
-
-  useEffect(() => {
-    const DatabaseFetch = async () => {
-      const demo = selectedClient.split("#");
-      setClient(demo[0]);
-      setCountry(demo[1]);
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: allUserData,
-
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: `query get($Client_code: String!) {
-            getModelsForClient(
-                Client_code: $Client_code
-            ){
-                Model_id
-                Model_name
-                meta_table
-                Database_id
-            }
-        }`,
-          variables: { Client_code: selectedClient },
-        }),
-      });
-      const database = await response.json();
-      setClientDatabasedata(
-        `${database.data.getModelsForClient[0].Model_name}`
-      );
-      setModelName(database.data.getModelsForClient);
-
-      database.data.getModelsForClient.map((item: any) => {
-        setModelId(item.Model_id);
-        setMetaTable(item.meta_table);
-        setDatabaseId(item.Database_id);
-        setSecondId(item.Model_id);
-      });
-    };
-
-    if (selectedClient.length > 0) {
-      DatabaseFetch();
-    }
-  }, [allUserData, selectedClient, setModelId]);
-
-  Object.keys(clientClusterdata).forEach((key, index) =>
-    Object.keys(clientClusterdata[key].Databases).forEach((key, index) => {
-      console.log(clientClusterdata[key].Databases[key]);
-    })
-  );
-
-  console.log(modelId);
+  const {
+    data,
+    modelId,
+    setModelId,
+    client,
+    country,
+    clientNewData,
+    setClientNewData,
+    availableModels,
+    setAvailableModels,
+    selectedModelId,
+    setSelectedModelId,
+    selectedClient,
+    setSelectedClient,
+  } = useContext(FilterContext);
 
   return (
     <div className="database_container">
@@ -152,7 +91,7 @@ function Database() {
               value={selectedClient}
               onChange={(event) => setSelectedClient(event.target.value)}
             >
-              {clientNewData.map((item: any, index: any) => (
+              {clientNewData.map((item: getClientsResponse, index: any) => (
                 <option key={index} value={`${item.Client_code}`}>
                   {item.Client_name}
                   {/* {item.ClientCountry} */}
@@ -161,16 +100,14 @@ function Database() {
             </select>
 
             <select
-              value={clientDatabasedata}
+              value={selectedModelId}
               onChange={(event) => {
-                setClientDatabasedata(event.target.value);
-                setModelId(secondId);
-                console.log(secondId);
+                setSelectedModelId(event.target.value);
               }}
             >
-              {Object.keys(modelName).map((key, index) => (
-                <option key={index} value={`${modelName[key].Model_name}`}>
-                  {modelName[key].Model_name}
+              {availableModels.map((key: any) => (
+                <option key={key.Model_id} value={key.Model_id}>
+                  {key.Model_name}
                 </option>
                 //   <option key={index} value={`${clientClusterdata[key].Cluster}`}>
                 //   {clientClusterdata[key].Cluster}
@@ -182,10 +119,8 @@ function Database() {
               <div className="country_continer"></div>
             </div>
             <div className="button_container">
-              <Link
-                to={`/Report/${client}/${country}/${clientDatabasedata}/${secondId}`}
-              >
-                <button className="buttonDashboard">Contiune</button>
+              <Link to={`/Report/${client}/${country}/${selectedModelId}`}>
+                <button className="buttonDashboard">Continue</button>
               </Link>
             </div>
           </div>
@@ -211,3 +146,77 @@ export default Database;
 // console.log(clientClusterdata);
 // console.log(clientClusterdata[0].Databases[0].DatabaseName);
 // setClientDatabasedata(clientClusterdata.Databases);
+
+// const url =
+//   "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
+
+// useEffect(() => {
+//   async function Mihai() {
+//     try {
+//       const response = (await API.graphql({
+//         query: getClients,
+//       })) as { data: { getClients: getClientsResponse[] } };
+//       console.log(response);
+//       const { data: response_data } = response;
+//       const { getClients: actual_list } = response_data;
+//       setClientNewData(actual_list);
+//       const splitClientName = actual_list[0].Client_code.split("#");
+//       setClient(splitClientName[0]);
+//       setCountry(splitClientName[1]);
+//       if (actual_list.length > 0) {
+//         setSelectedClient(actual_list[0].Client_code);
+//       }
+//     } catch (err) {
+//       console.log({ err });
+//     }
+//   }
+
+//   if (allUserData.length > 0) {
+//     Mihai();
+//   }
+// }, [allUserData]);
+// console.log(clientNewData);
+
+// useEffect(() => {
+//   async function DatabaseFetch() {
+//     try {
+//       const response = (await API.graphql({
+//         query: getModelsForClient,
+//         variables: { Client_code: selectedClient },
+//       })) as { data: { getModelsForClient: getModelForClientResponse[] } };
+//       console.log(response);
+//       const { data: response_data } = response;
+//       const { getModelsForClient: actual_list } = response_data;
+//       // console.log("Did we get here?", response_data.getClients, response);
+//       setAvailableModels(actual_list);
+//       setSelectedModelId(actual_list[0].Model_id);
+//       // console.log(data);
+//     } catch (err) {
+//       console.log({ err });
+//     }
+//   }
+
+//   if (selectedClient.length > 0) {
+//     DatabaseFetch();
+//   }
+// }, [selectedClient]);
+
+// useEffect(() => {
+//   if (selectedModelId) {
+//     const selectedModel = availableModels.filter(
+//       (m) => m.Model_id === selectedModelId
+//     );
+//     if (selectedModel.length > 0) {
+//       console.log(selectedModel, selectedModelId);
+//     }
+//   }
+//   console.log(selectedModelId);
+// }, [selectedModelId, availableModels]);
+
+// Object.keys(clientClusterdata).forEach((key, index) =>
+//   Object.keys(clientClusterdata[key].Databases).forEach((key, index) => {
+//     console.log(clientClusterdata[key].Databases[key]);
+//   })
+// );
+
+// console.log(modelId);

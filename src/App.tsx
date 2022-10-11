@@ -16,6 +16,15 @@ const {
 } = process.env;
 
 const amplifyConf = {
+  aws_appsync_graphqlEndpoint:
+    "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql",
+
+  aws_project_region: "eu-west-1",
+
+  aws_appsync_region: REACT_APP_AWS_REGION,
+
+  aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS",
+
   Auth: {
     identityPoolId: REACT_APP_IDENTITY_POOL_ID,
     region: REACT_APP_AWS_REGION,
@@ -42,7 +51,7 @@ function App() {
         <Route path="/" element={<LogIn path="Database"></LogIn>}></Route>
         <Route path="/Database" element={<Database />}></Route>
         <Route
-          path="/Report/:client/:country/:id/:databaseId"
+          path="/Report/:client/:country/:databaseId"
           element={<Report />}
         ></Route>
       </Routes>
