@@ -1,4 +1,8 @@
-import React, { useState, createContext, useContext, useRef } from "react";
+import { API } from "aws-amplify";
+import React, { useState, createContext, useContext } from "react";
+import { getChartDataAudience, GetChartDataQuery } from "../../../API";
+import FilterContext from "../../../Data/FilterContext";
+import { getChartData } from "../../../graphql/queries";
 import { CreateModal } from "./CreateModal";
 import { DeleteModal } from "./DeleteModal";
 import { UpdateModal } from "./UpdateModal";
@@ -20,9 +24,18 @@ type GlobalModalContext = {
   hideModal: () => any;
   handleChange: (event: any) => any;
   setSavedAudience: (event: any) => any;
+  ChartFetch: () => any;
+  setSelectedAudition: (event: any) => any;
+  setSelectedChart: (event: any) => any;
+  selectedAudition: any;
   message: any;
-
+  dataForChart: any;
+  dataSelected: any;
+  // setDataForChart: () => any;
   store: any;
+  chart1: any;
+  chart2: any;
+  slectedChart: any;
 };
 
 const initalState: GlobalModalContext = {
@@ -30,9 +43,18 @@ const initalState: GlobalModalContext = {
   hideModal: () => {},
   handleChange: () => "",
   setSavedAudience: () => {},
+  ChartFetch: () => {},
+  setSelectedAudition: () => {},
+  setSelectedChart: () => {},
+  dataForChart: {},
+  // setDataForChart: () => {},
   message: "",
-
+  dataSelected: "",
+  selectedAudition: "",
   store: {},
+  chart1: "",
+  chart2: "",
+  slectedChart: "",
 };
 
 type Context = {
@@ -40,11 +62,19 @@ type Context = {
 };
 
 const GlobalModalContext = createContext(initalState);
+
 export const useGlobalModalContext = () => useContext(GlobalModalContext);
 
 export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [store, setStore] = useState();
+  const { data, categorical, selectedModelId } = useContext(FilterContext);
   const { modalType, modalProps }: any = store || {};
+  const [selectedAudition, setSelectedAudition] = useState("");
+  const [dataForChart, setDataForChart] = useState() as any;
+  const [slectedChart, setSelectedChart] = useState("");
+  const chart1 = "chart1";
+  const chart2 = "chart2";
+
   const [savedAudience, setSavedAudience] = useState([
     {
       title: "this is new ",
@@ -83,6 +113,32 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     });
   };
 
+  const dataSelected = categorical.find(
+    (item: any) => item.id === selectedAudition
+  );
+
+  async function ChartFetch() {
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            variable_type: dataSelected.variable_type,
+            selector: dataSelected.id,
+            filters: { categorical: [], numerical: [] },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+
+      // console.log(response.data.getChartData);
+      const response_data = response.data.getChartData;
+      setDataForChart(response_data);
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
   // setSavedAudience ()
 
   const renderComponent = () => {
@@ -102,6 +158,16 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         handleChange,
         showModal,
         hideModal,
+        ChartFetch,
+        selectedAudition,
+        // setDataForChart,
+        setSelectedAudition,
+        dataForChart,
+        dataSelected,
+        slectedChart,
+        setSelectedChart,
+        chart2,
+        chart1,
       }}
     >
       {renderComponent()}

@@ -139,3 +139,47 @@ h3 {
   flex-direction: column;
   margin-bottom: 1rem;
 }
+
+.charts_selectors {
+  width: 100%;
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .image_chart {
+} */
+
+.charts_selectors Button {
+  width: 11rem;
+  margin: 1rem;
+  height: 10rem;
+  border: 1px solid #cccccc;
+  border-radius: 7px;
+}
+
+.charts_selectors Button:hover {
+  border: 1px solid black;
+}
+
+.borderactive {
+  border: 1px solid black !important;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px !important;
+}
+
+.none {
+  display: none;
+}
+
+#disabled {
+  background-color: #cccccc !important;
+  border: 1px solid #cccccc !important;
+  cursor: auto;
+}
+
+/* .charts_selectors Button p {
+  align-items: flex-end;
+  justify-content: flex-end;
+} */

@@ -1,0 +1,89 @@
+/* .containerChart {
+}
+
+.highcharts-root {
+  width: 50% !important;
+}
+
+.highcharts-label highcharts-tooltip highcharts-color-0 {
+  width: 50% !important;
+} */
+
+.containerChart {
+  width: 377px;
+  /* height: 500px; */
+  border: 1px solid #e2e2e2;
+  border-radius: 9px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+}
+
+.Chart_with_buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.Button_settings {
+  display: flex;
+  align-items: center;
+}
+
+.Button_settings button {
+  font-size: 16px;
+  font-family: "SF_Pro_Display_Regular";
+  letter-spacing: 1px;
+  background-color: #8e8d91;
+  padding: 1rem;
+  padding-left: 2.25rem;
+  padding-right: 2.25rem;
+  border-radius: 7px;
+  color: white;
+}
+
+.Button_adds {
+  display: flex !important;
+  align-items: center;
+  /* margin-top: 2rem; */
+}
+
+.Button_adds_container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  justify-content: space-between;
+}
+
+.Button_adds_container li {
+  padding: 0.15rem;
+  font-family: "SF_Pro_Display_Regular";
+  font-size: 10px !important;
+  letter-spacing: 0.4px;
+}
+
+#pureDisplay {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+.container_for_chart {
+  width: auto;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  height: 280px;
+  /* border: 1px solid black; */
+}
+
+.title_chart {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-family: "SF_Pro_Display_Medium";
+  margin: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* rect {
+  width: 20px;
+} */

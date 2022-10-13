@@ -1,4 +1,10 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import {
+  useState,
+  useEffect,
+  createContext,
+  useContext,
+  useCallback,
+} from "react";
 import UserContext from "./UserContext";
 import { IGroup } from "../ReusableElements/Button_Navigation_Left/DragnDrop";
 import React from "react";
@@ -147,7 +153,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     console.log(selectedModelId);
   }, [selectedModelId, availableModels]);
 
-  async function DatabaseFetch() {
+  const DatabaseFetc = useCallback(async () => {
     try {
       const response = (await API.graphql({
         query: getSelectorsForModel,
@@ -196,13 +202,65 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     } catch (err) {
       console.log({ err });
     }
-  }
+  }, [selectedModelId]);
+
+  // async function DatabaseFetch() {
+  //   try {
+  //     const response = (await API.graphql({
+  //       query: getSelectorsForModel,
+  //       variables: { Model_id: selectedModelId },
+  //     })) as {
+  //       data: { getSelectorsForModel: getSelectorForModelResponse[] };
+  //     };
+  //     //  now I have fecthed the data with the selectedModelId so I received the filter array
+  //     console.log("this is all of my data", response);
+  //     const { data: response_data } = response;
+  //     const { getSelectorsForModel: actual_list } = response_data;
+  //     // console.log(response);
+  //     const filteredList = actual_list.filter(
+  //       (i) => i.variable_type === "categorical"
+  //     ) as SelectorFactor[];
+  //     if (filteredList.length > 0) {
+  //       const a = filteredList.map((i: SelectorFactor) => {
+  //         const {
+  //           values: filteredValues,
+  //           variable_type,
+  //           id,
+  //           selector,
+  //           category,
+  //         } = i;
+  //         if (variable_type && id && selector && category) {
+  //           const valuesWithFalse = filteredValues?.map((v) => {
+  //             return { ...v, isSelected: false };
+  //           });
+
+  //           return {
+  //             variable_type: variable_type,
+  //             id: id,
+  //             selector: selector,
+  //             category: category,
+  //             values: valuesWithFalse,
+  //           } as GeneralSelector;
+  //         }
+  //       });
+  //       console.log("this should work", a);
+
+  //       if (a) {
+  //         const newLocal = a.filter((s) => s != undefined);
+  //         setCategorical(newLocal as GeneralSelector[]);
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.log({ err });
+  //   }
+  // }
 
   useEffect(() => {
     if (selectedModelId) {
-      DatabaseFetch();
+      DatabaseFetc();
+      console.log("blabla");
     }
-  }, [selectedModelId]);
+  }, [DatabaseFetc, selectedModelId]);
 
   // console.log("this is the second time ", categorical);
 

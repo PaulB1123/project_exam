@@ -2,41 +2,40 @@ import "../../Componets/Styles/global.css";
 import "./Button.css";
 import "../../Componets/Filters/Filter.css";
 import "./DragnDrop.css";
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useContext } from "react";
 import SlideButton from "./SlideButton";
 // import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
 import AudienceContainer from "./Audience_container";
 import FilterContext, { GeneralSelector } from "../../Data/FilterContext";
 import SegmentIcon from "../../Componets/Filters/icons/Segment.svg";
 import PlusIcon from "../../Componets/Filters/icons/Plus.svg";
-import { useParams } from "react-router-dom";
 
 interface DataProps {}
-type IItem = {
-  selector: string;
-  variable_type: string;
-  category: string;
-  id: string;
-  values: GeneralSelector;
-};
+// type IItem = {
+//   selector: string;
+//   variable_type: string;
+//   category: string;
+//   id: string;
+//   values: GeneralSelector;
+// };
 export interface IGroup {
   items: GeneralSelector[];
   title: string;
 }
 
 export const DragNDrop: React.FC<DataProps> = () => {
-  const { data, setData, newArray } = useContext(FilterContext);
+  const { data, setData } = useContext(FilterContext);
 
   const [isOpen, setOpen] = React.useState(false);
   const [isActive, setIsActive] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [drop, setDrop] = useState(0);
   // const [data, setList] = useState(data as any);
-  const [audienceBar, setAudienceBar] = useState(data[0]);
+  // const [audienceBar, setAudienceBar] = useState(data[0]);
   const [listAudience, setListAudience] = useState();
-  const [listBig, setListBig] = useState(data);
-  const [listFilter, setListFilter] = useState();
-  let { id, client, country, cluster } = useParams();
+  // const [listBig, setListBig] = useState(data);
+  // const [listFilter, setListFilter] = useState();
+  // let { id, client, country, cluster } = useParams();
 
   // console.log(cluster);
   // console.log(data);
@@ -123,12 +122,12 @@ export const DragNDrop: React.FC<DataProps> = () => {
     return "dnd-item";
   };
 
-  function handleRemoveBig(id: any) {
-    console.log(listBig);
+  // function handleRemoveBig(id: any) {
+  //   console.log(listBig);
 
-    // setListBig((ps: any) => [...ps.filter((obj: any) => id !== obj)]);
-    // console.log(listBig);
-  }
+  //   // setListBig((ps: any) => [...ps.filter((obj: any) => id !== obj)]);
+  //   // console.log(listBig);
+  // }
   // console.log(data);
 
   return (
@@ -280,7 +279,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
                         {grp.items.map((item: GeneralSelector, itemI: any) => (
                           <>
                             {/* {console.log(grp.items)} */}
-                            {console.log(newArray)}
+                            {/* {console.log(newArray)} */}
                             <AudienceContainer
                               dragging={dragging}
                               grpI={grpI}

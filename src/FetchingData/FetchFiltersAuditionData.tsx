@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Format from "../Data/format.json";
+// import Format from "../Data/format.json";
 
 function FetchdataFilter() {
-  console.log(Format);
+  // console.log(Format);
   return (
     <div>
       {/* {Format.map((item: any) => (
