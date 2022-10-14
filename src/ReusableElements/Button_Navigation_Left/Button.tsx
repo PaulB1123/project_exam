@@ -2,7 +2,7 @@ import "../../Componets/Styles/global.css";
 import "./Button.css";
 import "../../Componets/Filters/Filter.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as React from "react";
 import Doughnutchart from "../../Componets/Navigation/icons/Doughnut.svg";
 import BarChart from "../../Componets/Navigation/icons/BarChart.png";
@@ -162,11 +162,30 @@ export function ReportsButton() {
 export function AudiencesButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
-  const { message } = useGlobalModalContext();
+
+  const [isOpenReport, setOpenReport] = useState(false);
+  const [isActiveReport, setIsActiveReport] = useState(false);
+
+  const [arrayWithAudiences, setArrayWithAudiences] = useState([]) as any;
+  const { message, inputarr } = useGlobalModalContext();
+  const [checkLi, setCheckLi] = useState();
+  useEffect(() => {
+    if (message !== undefined) {
+      setArrayWithAudiences([message]);
+      // console.log(arrayWithAudiences);
+    }
+  }, [message]);
 
   const handleClickReports = () => {
     setOpenReports(!isOpenReports);
     setIsActiveReports((current) => !current);
+  };
+
+  const handelclickReport = (key: any) => {
+    setOpenReport(!isOpenReport);
+    setIsActiveReport((current) => !current);
+    setCheckLi(key);
+    console.log(checkLi);
   };
 
   return (
@@ -178,23 +197,45 @@ export function AudiencesButton() {
           handleClickReports();
         }}
       >
-        <div className="filterbutton">
-          <div className="filterbutton_container">
-            <img src={Filter} alt="this is filter"></img>
-            <li>Audiences</li>
+        {isOpenReports ? (
+          <div className="filterbutton_Open">
+            <div className="filterbutton_container">
+              <img src={Filter} alt="this is filter"></img>
+              <li>Audiences</li>
+            </div>
+            {isActiveReports ? (
+              <img src={ArrrowupIcon} alt=""></img>
+            ) : (
+              <img src={ArrrowdownIcon} alt=""></img>
+            )}
           </div>
-          {isActiveReports ? (
-            <img src={ArrrowupIcon} alt=""></img>
-          ) : (
-            <img src={ArrrowdownIcon} alt=""></img>
-          )}
-        </div>
+        ) : (
+          <div className="filterbutton">
+            <div className="filterbutton_container">
+              <img src={Filter} alt="this is filter"></img>
+              <li>Audiences</li>
+            </div>
+            {isActiveReports ? (
+              <img src={ArrrowupIcon} alt=""></img>
+            ) : (
+              <img src={ArrrowdownIcon} alt=""></img>
+            )}
+          </div>
+        )}
       </button>
       {isOpenReports && (
         <div>
           <div>
             <div className="Dropdown_container" id="Dropdown_container">
-              <li>{message}</li>
+              {inputarr.map((i) => (
+                <li
+                  key={i.AudienceId}
+                  onClick={(e) => handelclickReport(i.AudienceId)}
+                  className={checkLi === i.AudienceId ? "liActive" : ""}
+                >
+                  {i.AudienceName}
+                </li>
+              ))}
             </div>
 
             {/* <button className="button_with_all_graphs">Select filter</button> */}

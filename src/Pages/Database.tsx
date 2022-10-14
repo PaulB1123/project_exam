@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Database.css";
 import "./LogIn.css";
@@ -6,47 +6,15 @@ import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
 import UserContext from "../Data/UserContext";
 import FilterContext from "../Data/FilterContext";
-import { API } from "aws-amplify";
-import { getClients, getModelsForClient } from "../graphql/queries";
-import { getClientsResponse, getModelForClientResponse } from "../API";
-// import { ConsoleLogger } from "@aws-amplify/core";
+import { ClientItem, getClientsResponse } from "../API";
 
 function Database() {
-  // const [clientNewData, setClientNewData] = useState(
-  //   [] as getClientsResponse[]
-  // );
-  // const [availableModels, setAvailableModels] = useState(
-  //   [] as getModelForClientResponse[]
-  // );
-
-  // const [selectedModelId, setSelectedModelId] = useState<string | undefined>(
-  //   undefined
-  // );
-
-  // const [clientClusterdata, setClientClusterdata] = useState([] as any);
-  // const [clientDatabasedata, setClientDatabasedata] = useState("" as any);
-  // const [selectedClient, setSelectedClient] = React.useState("");
-
-  const [modelName, setModelName] = useState([] as any);
-  // const [modelNameSelected, setModelNameSelected] = useState([] as any);
-
-  // obiecte pe care le folosesc pentru a imi obtine filter audition
-  const [metaTable, setMetaTable] = useState("" as string);
-  const [databaseId, setDatabaseId] = useState("" as string);
-  const [secondId, setSecondId] = useState("" as string);
-  // const [modelId, setModelId] = useState("" as any);
-
-  const { user, allUserData } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const {
-    data,
-    modelId,
-    setModelId,
     client,
     country,
     clientNewData,
-    setClientNewData,
     availableModels,
-    setAvailableModels,
     selectedModelId,
     setSelectedModelId,
     selectedClient,
@@ -87,14 +55,14 @@ function Database() {
               Please select the campaign you would like for your dashboard
             </h1>
 
+            {/* this is comeniting out but is very very very good stuff  */}
             <select
               value={selectedClient}
               onChange={(event) => setSelectedClient(event.target.value)}
             >
-              {clientNewData.map((item: getClientsResponse, index: any) => (
+              {clientNewData.map((item: ClientItem, index: any) => (
                 <option key={index} value={`${item.Client_code}`}>
                   {item.Client_name}
-                  {/* {item.ClientCountry} */}
                 </option>
               ))}
             </select>
@@ -109,9 +77,6 @@ function Database() {
                 <option key={key.Model_id} value={key.Model_id}>
                   {key.Model_name}
                 </option>
-                //   <option key={index} value={`${clientClusterdata[key].Cluster}`}>
-                //   {clientClusterdata[key].Cluster}
-                // </option>
               ))}
             </select>
 
@@ -132,91 +97,3 @@ function Database() {
 }
 
 export default Database;
-
-// console.log(database.data.getDatabase);
-
-// console.log(database.data.getDatabase[0].Cluster);
-// console.log(clientClusterdata);
-
-// setClusterDatabase(database.data.getDatabase);
-// setSelectedCluster(`${database.data.getDatabase[0].Cluster}`);
-// setSelectedDatabase(`${database.data.getDatabase[0].Databases[0]}`);
-
-// setClientClusterdata(database.data.getDatabase);
-// console.log(clientClusterdata);
-// console.log(clientClusterdata[0].Databases[0].DatabaseName);
-// setClientDatabasedata(clientClusterdata.Databases);
-
-// const url =
-//   "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
-
-// useEffect(() => {
-//   async function Mihai() {
-//     try {
-//       const response = (await API.graphql({
-//         query: getClients,
-//       })) as { data: { getClients: getClientsResponse[] } };
-//       console.log(response);
-//       const { data: response_data } = response;
-//       const { getClients: actual_list } = response_data;
-//       setClientNewData(actual_list);
-//       const splitClientName = actual_list[0].Client_code.split("#");
-//       setClient(splitClientName[0]);
-//       setCountry(splitClientName[1]);
-//       if (actual_list.length > 0) {
-//         setSelectedClient(actual_list[0].Client_code);
-//       }
-//     } catch (err) {
-//       console.log({ err });
-//     }
-//   }
-
-//   if (allUserData.length > 0) {
-//     Mihai();
-//   }
-// }, [allUserData]);
-// console.log(clientNewData);
-
-// useEffect(() => {
-//   async function DatabaseFetch() {
-//     try {
-//       const response = (await API.graphql({
-//         query: getModelsForClient,
-//         variables: { Client_code: selectedClient },
-//       })) as { data: { getModelsForClient: getModelForClientResponse[] } };
-//       console.log(response);
-//       const { data: response_data } = response;
-//       const { getModelsForClient: actual_list } = response_data;
-//       // console.log("Did we get here?", response_data.getClients, response);
-//       setAvailableModels(actual_list);
-//       setSelectedModelId(actual_list[0].Model_id);
-//       // console.log(data);
-//     } catch (err) {
-//       console.log({ err });
-//     }
-//   }
-
-//   if (selectedClient.length > 0) {
-//     DatabaseFetch();
-//   }
-// }, [selectedClient]);
-
-// useEffect(() => {
-//   if (selectedModelId) {
-//     const selectedModel = availableModels.filter(
-//       (m) => m.Model_id === selectedModelId
-//     );
-//     if (selectedModel.length > 0) {
-//       console.log(selectedModel, selectedModelId);
-//     }
-//   }
-//   console.log(selectedModelId);
-// }, [selectedModelId, availableModels]);
-
-// Object.keys(clientClusterdata).forEach((key, index) =>
-//   Object.keys(clientClusterdata[key].Databases).forEach((key, index) => {
-//     console.log(clientClusterdata[key].Databases[key]);
-//   })
-// );
-
-// console.log(modelId);

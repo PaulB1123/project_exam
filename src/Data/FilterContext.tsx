@@ -16,9 +16,13 @@ import {
   getSelectorsForModel,
 } from "../graphql/queries";
 import {
+  ClientItem,
+  GetClientsQuery,
   getClientsResponse,
-  getModelForClientResponse,
-  getSelectorForModelResponse,
+  // getModelForClientResponse,
+  getModelsForClientResponse,
+  getSelectorsForModelResponse,
+  ModelItem,
   SelectorFactor,
   selectorValue,
 } from "../API";
@@ -60,13 +64,9 @@ export type GeneralSelector = {
 };
 
 export const FilterContextProvider = (props: FilterContextProviderProps) => {
-  const [clientNewData, setClientNewData] = useState(
-    [] as getClientsResponse[]
-  );
+  const [clientNewData, setClientNewData] = useState([] as ClientItem[]);
 
-  const [availableModels, setAvailableModels] = useState(
-    [] as getModelForClientResponse[]
-  );
+  const [availableModels, setAvailableModels] = useState([] as ModelItem[]);
 
   const [selectedModelId, setSelectedModelId] = useState<string | undefined>(
     undefined
@@ -93,17 +93,27 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       try {
         const response = (await API.graphql({
           query: getClients,
-        })) as { data: { getClients: getClientsResponse[] } };
+        })) as { data: { getClients: getClientsResponse } };
         console.log(response);
         const { data: response_data } = response;
         const { getClients: actual_list } = response_data;
-        setClientNewData(actual_list);
-        const splitClientName = actual_list[0].Client_code.split("#");
-        setClient(splitClientName[0]);
-        setCountry(splitClientName[1]);
-        if (actual_list.length > 0) {
-          setSelectedClient(actual_list[0].Client_code);
-        }
+        const { data, error, StatusCode }: getClientsResponse = actual_list;
+
+        console.log(actual_list);
+        if (StatusCode === 200) {
+          if (data) {
+            console.log(data);
+            setClientNewData(data);
+
+            if (data.length > 0) {
+              const splitClientName = data[0].Client_code.split("#");
+              setClient(splitClientName[0]);
+              setCountry(splitClientName[1]);
+              setSelectedClient(data[0].Client_code);
+            }
+          }
+          console.log(clientNewData);
+        } else console.log(error);
       } catch (err) {
         console.log({ err });
       }
@@ -116,17 +126,62 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   // console.log(clientNewData);
 
   useEffect(() => {
+    console.log(clientNewData);
+  }, [clientNewData]);
+
+  // useEffect(() => {
+  //   async function Mihai() {
+  //     try {
+  //       const response = (await API.graphql({
+  //         query: getClients,
+  //       })) as { data: { getClients: getClientsResponse[] } };
+  //       console.log(response);
+  //       const { data: response_data } = response;
+  //       const { getClients: actual_list } = response_data;
+  //       setClientNewData(actual_list);
+  //       const splitClientName = actual_list[0].Client_code.split("#");
+  //       setClient(splitClientName[0]);
+  //       setCountry(splitClientName[1]);
+  //       if (actual_list.length > 0) {
+  //         setSelectedClient(actual_list[0].Client_code);
+  //       }
+  //     } catch (err) {
+  //       console.log({ err });
+  //     }
+  //   }
+
+  //   if (allUserData.length > 0) {
+  //     Mihai();
+  //   }
+  // }, [allUserData]);
+  // // console.log(clientNewData);
+
+  useEffect(() => {
     async function DatabaseFetch() {
       try {
         const response = (await API.graphql({
           query: getModelsForClient,
           variables: { Client_code: selectedClient },
-        })) as { data: { getModelsForClient: getModelForClientResponse[] } };
+        })) as { data: { getModelsForClient: getModelsForClientResponse } };
         console.log(response);
         const { data: response_data } = response;
         const { getModelsForClient: actual_list } = response_data;
-        setAvailableModels(actual_list);
-        setSelectedModelId(actual_list[0].Model_id);
+
+        const { data, error, StatusCode }: getModelsForClientResponse =
+          actual_list;
+
+        console.log(actual_list);
+        if (StatusCode === 200) {
+          if (data) {
+            console.log(data);
+            if (data.length > 0) {
+              setAvailableModels(data);
+              setSelectedModelId(data[0].Model_id);
+            } else {
+              setAvailableModels([]);
+            }
+          }
+        } else console.log(error);
       } catch (err) {
         console.log({ err });
       }
@@ -159,46 +214,61 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         query: getSelectorsForModel,
         variables: { Model_id: selectedModelId },
       })) as {
-        data: { getSelectorsForModel: getSelectorForModelResponse[] };
+        data: { getSelectorsForModel: getSelectorsForModelResponse };
       };
       //  now I have fecthed the data with the selectedModelId so I received the filter array
       console.log("this is all of my data", response);
       const { data: response_data } = response;
       const { getSelectorsForModel: actual_list } = response_data;
-      // console.log(response);
-      const filteredList = actual_list.filter(
-        (i) => i.variable_type === "categorical"
-      ) as SelectorFactor[];
-      if (filteredList.length > 0) {
-        const a = filteredList.map((i: SelectorFactor) => {
-          const {
-            values: filteredValues,
-            variable_type,
-            id,
-            selector,
-            category,
-          } = i;
-          if (variable_type && id && selector && category) {
-            const valuesWithFalse = filteredValues?.map((v) => {
-              return { ...v, isSelected: false };
-            });
 
-            return {
-              variable_type: variable_type,
-              id: id,
-              selector: selector,
-              category: category,
-              values: valuesWithFalse,
-            } as GeneralSelector;
+      const { data, error, StatusCode }: getSelectorsForModelResponse =
+        actual_list;
+
+      console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          // console.log(data);
+          // console.log("this should work", data);
+          if (data.length > 0) {
+            const filteredList = data.filter(
+              (i) => i.variable_type === "categorical"
+            ) as SelectorFactor[];
+            console.log("this should work", filteredList);
+            if (filteredList.length > 0) {
+              const a = filteredList.map((i: SelectorFactor) => {
+                const {
+                  values: filteredValues,
+                  variable_type,
+                  id,
+                  selector,
+                  category,
+                } = i;
+                if (variable_type && id && selector && category) {
+                  const valuesWithFalse = filteredValues?.map((v) => {
+                    return { ...v, isSelected: false };
+                  });
+
+                  return {
+                    variable_type: variable_type,
+                    id: id,
+                    selector: selector,
+                    category: category,
+                    values: valuesWithFalse,
+                  } as GeneralSelector;
+                }
+              });
+              console.log("this should work", a);
+
+              if (a) {
+                const newLocal = a.filter((s) => s !== undefined);
+                setCategorical(newLocal as GeneralSelector[]);
+              }
+            }
+          } else {
+            setCategorical([]);
           }
-        });
-        console.log("this should work", a);
-
-        if (a) {
-          const newLocal = a.filter((s) => s != undefined);
-          setCategorical(newLocal as GeneralSelector[]);
         }
-      }
+      } else console.log(error);
     } catch (err) {
       console.log({ err });
     }
@@ -258,7 +328,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   useEffect(() => {
     if (selectedModelId) {
       DatabaseFetc();
-      console.log("blabla");
+      console.log("blabla", selectedModelId);
     }
   }, [DatabaseFetc, selectedModelId]);
 

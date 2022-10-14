@@ -6,15 +6,17 @@ import "./Charts.css";
 import { useEffect, useState } from "react";
 
 export default function Chart() {
-  const { dataForChart, dataSelected, slectedChart } = useGlobalModalContext();
+  const { dataForChart, dataSelected, slectedChart, chart1, chart2 } =
+    useGlobalModalContext();
   const [title, setTitle] = useState("this is the title");
   const [arrayData, setArrayData] = useState();
   const [chartChange, setChargeChange] = useState();
 
   useEffect(() => {
     setChargeChange(slectedChart);
-    console.log(chartChange);
-  }, [slectedChart]);
+    // console.log(chartChange);
+    // console.log(chartChange === chart1);
+  }, [chartChange, slectedChart]);
 
   //   if (dataSelected != null) {
   //     setTitle(dataSelected.selector);
@@ -25,18 +27,44 @@ export default function Chart() {
 
   //   console.log(slectedChart);
 
+  const [items, setitem] = useState([]) as any;
+  const [newItem, setNewItem] = useState([]) as any;
+
   useEffect(() => {
-    console.log("it went here", dataForChart);
     if (dataSelected !== undefined) {
       setTitle(dataSelected.selector);
-      console.log(title);
-      console.log(dataForChart);
+
+      if (dataForChart !== undefined) {
+        console.log("it went here", dataForChart);
+        setitem(
+          dataForChart.map((item: any) => ({
+            name: item.value,
+            data: [item.count],
+          }))
+        );
+
+        // dataForChart.map((item: any) => {
+        //   setitem({ name: item.value, data: [item.count] });
+        //   setNewItem(...Object.keys(items), Object.keys(items));
+        //   console.log(newItem);
+        //   // setNewItem([...item, item]);
+        //   // setNewItem(...item, item);
+        // });
+      }
+
+      if (items !== null) {
+        console.log(items);
+      }
+      // console.log(newItem);
+
+      //   console.log(title);
+      //   console.log(dataForChart);
 
       //   dataForChart.map((item: any) => {
       //     const newObject = { name: item.value, data: [item.count] };
       //     console.log(newObject);
 
-      //     console.log(arrayData);
+      //     // setArrayData(newObject)
       //   });
     }
   }, [dataSelected, dataForChart]);
@@ -61,6 +89,27 @@ export default function Chart() {
       accessibility: {},
       //   categories: Number,
     },
+    colors: [
+      "#104666",
+      "#1A6D9F",
+      "#1D76AD",
+      "#2392D4",
+      "#0A354E",
+      "#0E405D",
+      "#252A37",
+      "#3C4D56",
+      "#11496A",
+      "#496D84",
+      "#7E98A5",
+      "#B8C8D2",
+      "#6A7B8C",
+      "#85919E",
+      "#AEB4BC",
+      "#B5BBC2",
+      "#7F7F7F",
+      "#D9D9D9",
+      "#D8E0E4",
+    ],
     title: {
       text: "",
     },
@@ -73,17 +122,7 @@ export default function Chart() {
       },
     },
 
-    series: [
-      {
-        name: "Installation & Developers",
-        data: [1, 45, 23, 76, 34],
-      },
-
-      {
-        name: "Other",
-        data: [24, 22, 34, 54, 65],
-      },
-    ],
+    series: items,
 
     responsive: {
       rules: [
@@ -107,17 +146,39 @@ export default function Chart() {
     chart: {
       type: "column",
     },
+    colors: [
+      "#104666",
+      "#1A6D9F",
+      "#1D76AD",
+      "#2392D4",
+      "#0A354E",
+      "#0E405D",
+      "#252A37",
+      "#3C4D56",
+      "#11496A",
+      "#496D84",
+      "#7E98A5",
+      "#B8C8D2",
+      "#6A7B8C",
+      "#85919E",
+      "#AEB4BC",
+      "#B5BBC2",
+      "#7F7F7F",
+      "#D9D9D9",
+      "#D8E0E4",
+    ],
     title: {
-      text: "Major trophies for some English teams",
+      text: "",
       align: "left",
     },
     xAxis: {
-      categories: ["Arsenal", "Chelsea", "Liverpool", "Manchester United"],
+      accessibility: {},
+      //   categories: Number,
     },
     yAxis: {
       min: 0,
       title: {
-        text: "Count trophies",
+        text: "",
       },
       stackLabels: {
         enabled: true,
@@ -151,12 +212,7 @@ export default function Chart() {
         },
       },
     },
-    series: [
-      {
-        name: "BPL",
-        data: [3, 5, 1, 13],
-      },
-    ],
+    series: items,
   };
 
   return (
@@ -164,17 +220,20 @@ export default function Chart() {
       {dataForChart != null ? (
         <div className="Chart_with_buttons">
           <div className="containerChart">
-            <div className="title_chart">{title}</div>
-
-            <div className="Exist_Module">
+            <div className="Exist">
               <img src={XIcon} alt="" />
+            </div>
+            <div className="continer_with_title_and_exist">
+              <div className="title_chart">
+                <div> {title}</div>
+              </div>
             </div>
 
             <div className="container_for_chart">
               <HighchartsReact
                 className="containerChart"
                 highcharts={Highcharts}
-                options={chartChange === "chart1" ? options2 : options}
+                options={chartChange === chart1 ? options2 : options}
               />
             </div>
 

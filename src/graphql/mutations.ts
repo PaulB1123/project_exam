@@ -64,74 +64,138 @@ export const updateModel = /* GraphQL */ `
   }
 `;
 export const saveAudience = /* GraphQL */ `
-  mutation SaveAudience(
-    $Database_id: ID!
-    $meta_table: String!
-    $Audience_name: String!
-  ) {
-    saveAudience(
-      Database_id: $Database_id
-      meta_table: $meta_table
+  mutation SaveAudience($Model_id: ID!, $Audience_name: String!) {
+    saveAudience(Model_id: $Model_id, Audience_name: $Audience_name) {
+      data {
+        Url
+        Audience {
+          Audience_name
+          Audience_id
+        }
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
+  }
+`;
+export const updateAudienceName = /* GraphQL */ `
+  mutation UpdateAudienceName($Audience_id: ID!, $Audience_name: String!) {
+    updateAudienceName(
+      Audience_id: $Audience_id
       Audience_name: $Audience_name
-    )
+    ) {
+      data {
+        Audience_name
+        Audience_id
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
+  }
+`;
+export const updateAudience = /* GraphQL */ `
+  mutation UpdateAudience($Audience_id: ID!) {
+    updateAudience(Audience_id: $Audience_id) {
+      data {
+        Url
+        Audience {
+          Audience_name
+          Audience_id
+        }
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
+  }
+`;
+export const deleteAudience = /* GraphQL */ `
+  mutation DeleteAudience($Audience_id: ID!) {
+    deleteAudience(Audience_id: $Audience_id) {
+      data
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
   }
 `;
 export const saveReport = /* GraphQL */ `
   mutation SaveReport(
-    $Client_code: String!
     $Model_id: ID!
     $Report_name: String!
-    $Audiences: [saveReportAudience!]!
+    $Audiences: [saveReportAudienceInput!]!
   ) {
     saveReport(
-      Client_code: $Client_code
       Model_id: $Model_id
       Report_name: $Report_name
       Audiences: $Audiences
     ) {
-      Report_id
-      Report_name
-      meta_table
-      createdBy
-      createdAt
-      Audiences {
-        chart_type
-        variable_type
-        selector
-        id
-        position
+      data {
+        Report_id
+        Report_name
+        meta_table
+        createdBy
+        createdAt
+        Audiences {
+          chart_type
+          variable_type
+          selector
+          id
+          position
+        }
       }
+      error {
+        type
+        message
+      }
+      StatusCode
     }
   }
 `;
 export const updateReport = /* GraphQL */ `
-  mutation UpdateReport(
-    $Client_code: String!
-    $Report_id: ID!
-    $Report: updateReport!
-  ) {
-    updateReport(
-      Client_code: $Client_code
-      Report_id: $Report_id
-      Report: $Report
-    ) {
-      Report_id
-      Report_name
-      meta_table
-      createdBy
-      createdAt
-      Audiences {
-        chart_type
-        variable_type
-        selector
-        id
-        position
+  mutation UpdateReport($Report_id: ID!, $Report: updateReportInput!) {
+    updateReport(Report_id: $Report_id, Report: $Report) {
+      data {
+        Report_id
+        Report_name
+        meta_table
+        createdBy
+        createdAt
+        Audiences {
+          chart_type
+          variable_type
+          selector
+          id
+          position
+        }
       }
+      error {
+        type
+        message
+      }
+      StatusCode
     }
   }
 `;
 export const deleteReport = /* GraphQL */ `
   mutation DeleteReport($Report_id: ID!) {
-    deleteReport(Report_id: $Report_id)
+    deleteReport(Report_id: $Report_id) {
+      data
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
   }
 `;

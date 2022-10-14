@@ -86,6 +86,22 @@ ul {
   cursor: pointer;
 }
 
+.filterbutton_Open {
+  width: 206px;
+  font-family: "SF_Pro_Display_Regular";
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style-type: none;
+  color: var(--navigation-text);
+  padding-top: 0.7rem;
+  padding-bottom: 0.8rem;
+  padding-right: 0.5rem;
+  border-radius: 7px;
+  cursor: pointer;
+  background-color: #d9d9d9;
+}
+
 .filterbutton:hover,
 .filterbutton:active {
   background-color: var(--audience-background-hover-plus);

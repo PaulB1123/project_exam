@@ -30,8 +30,10 @@ export type Client = {
 
 export enum Operation {
   Succeeded = "Succeeded",
+  Success = "Success",
   Failed = "Failed",
   Deleted = "Deleted",
+  Updated = "Updated",
 }
 
 
@@ -85,7 +87,46 @@ export type updateModelResponse = {
   Database_id?: string | null,
 };
 
-export type saveReportAudience = {
+export type saveAudienceResponse = {
+  __typename: "saveAudienceResponse",
+  data?: saveAudienceData | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type saveAudienceData = {
+  __typename: "saveAudienceData",
+  Url: string,
+  Audience: AudienceItem,
+};
+
+export type AudienceItem = {
+  __typename: "AudienceItem",
+  Audience_name: string,
+  Audience_id?: string | null,
+};
+
+export type ErrorType = {
+  __typename: "ErrorType",
+  type: string,
+  message: string,
+};
+
+export type updateAudienceNameResponse = {
+  __typename: "updateAudienceNameResponse",
+  data?: AudienceItem | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type deleteResponse = {
+  __typename: "deleteResponse",
+  data?: string | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type saveReportAudienceInput = {
   chart_type: string,
   variable_type: string,
   selector?: string | null,
@@ -95,6 +136,13 @@ export type saveReportAudience = {
 
 export type saveReportResponse = {
   __typename: "saveReportResponse",
+  data?: ReportItem | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type ReportItem = {
+  __typename: "ReportItem",
   Report_id?: string | null,
   Report_name?: string | null,
   meta_table?: string | null,
@@ -112,19 +160,16 @@ export type ReportAudience = {
   position?: number | null,
 };
 
-export type updateReport = {
+export type updateReportInput = {
   Report_name?: string | null,
-  Audiences?: Array< saveReportAudience > | null,
+  Audiences?: Array< saveReportAudienceInput > | null,
 };
 
 export type updateReportResponse = {
   __typename: "updateReportResponse",
-  Report_id?: string | null,
-  Report_name?: string | null,
-  meta_table?: string | null,
-  createdBy?: string | null,
-  createdAt?: string | null,
-  Audiences?:  Array<ReportAudience | null > | null,
+  data?: ReportItem | null,
+  error?: ErrorType | null,
+  StatusCode: number,
 };
 
 export enum Status {
@@ -178,50 +223,84 @@ export type getModelResponse = {
 
 export type getClientsResponse = {
   __typename: "getClientsResponse",
-  Client_name: string,
-  Client_code: string,
+  data?:  Array<ClientItem > | null,
+  error?: ErrorType | null,
+  StatusCode: number,
 };
 
-export type getModelForClientResponse = {
-  __typename: "getModelForClientResponse",
+export type ClientItem = {
+  __typename: "ClientItem",
+  Client_name: string,
+  Client_code: string,
+  ClientCode?: string | null,
+  ClientCountry?: string | null,
+};
+
+export type getModelsForClientResponse = {
+  __typename: "getModelsForClientResponse",
+  data?:  Array<ModelItem > | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type ModelItem = {
+  __typename: "ModelItem",
   Model_id: string,
   Model_name: string,
   Database_id: string,
   meta_table: string,
 };
 
-export type getSelectorForModelResponse = SelectorFactor | SelectorNumeric
+export type getSelectorsForModelResponse = {
+  __typename: "getSelectorsForModelResponse",
+  data?:  Array<getSelectorForModelUnion > | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type getSelectorForModelUnion = SelectorFactor | SelectorNumeric
 
 
 export type SelectorFactor = {
   __typename: "SelectorFactor",
-  variable_type?: string | null,
-  id?: string | null,
-  selector?: string | null,
+  variable_type: string,
+  id: string,
+  selector: string,
   category?: string | null,
-  values?:  Array<selectorValue | null > | null,
+  values?:  Array<selectorValue > | null,
 };
 
 export type selectorValue = {
   __typename: "selectorValue",
-  id?: number | null,
-  value?: string | null,
+  id: number,
+  value: string,
 };
 
 export type SelectorNumeric = {
   __typename: "SelectorNumeric",
-  variable_type?: string | null,
-  id?: string | null,
-  selector?: string | null,
+  variable_type: string,
+  id: string,
+  selector: string,
   category?: string | null,
   max?: number | null,
   min?: number | null,
 };
 
-export type getAudiencesForMetaResponse = {
-  __typename: "getAudiencesForMetaResponse",
+export type getAudiencesResponse = {
+  __typename: "getAudiencesResponse",
+  data?:  Array<getAudienceItem | null > | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type getAudienceItem = {
+  __typename: "getAudienceItem",
   Audience_id: string,
   Audience_name: string,
+  createdAt?: string | null,
+  createdBy?: string | null,
+  editedBy?: string | null,
+  editedAt?: string | null,
 };
 
 export type getChartDataAudience = {
@@ -248,6 +327,13 @@ export type numericalInput = {
 
 export type getChartDataResponse = {
   __typename: "getChartDataResponse",
+  data?:  Array<ChartItem > | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type ChartItem = {
+  __typename: "ChartItem",
   value: string,
   count: number,
 };
@@ -264,8 +350,22 @@ export type getReportsResponse = {
 
 export type paddingtonGetClientsResponse = {
   __typename: "paddingtonGetClientsResponse",
-  ClientCode?: string | null,
-  ClientCountry?: string | null,
+  data?:  Array<ClientItem | null > | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type utilGetClusterResponse = {
+  __typename: "utilGetClusterResponse",
+  PK: string,
+  Cluster_name: string,
+};
+
+export type utilGetDatabaseResponse = {
+  __typename: "utilGetDatabaseResponse",
+  PK?: string | null,
+  Cluster_id?: string | null,
+  Database_name?: string | null,
 };
 
 export type SaveDatabaseMutationVariables = {
@@ -358,63 +458,159 @@ export type UpdateModelMutation = {
 };
 
 export type SaveAudienceMutationVariables = {
-  Database_id: string,
-  meta_table: string,
+  Model_id: string,
   Audience_name: string,
 };
 
 export type SaveAudienceMutation = {
-  saveAudience: string,
+  saveAudience:  {
+    __typename: "saveAudienceResponse",
+    data?:  {
+      __typename: "saveAudienceData",
+      Url: string,
+      Audience:  {
+        __typename: "AudienceItem",
+        Audience_name: string,
+        Audience_id?: string | null,
+      },
+    } | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
+};
+
+export type UpdateAudienceNameMutationVariables = {
+  Audience_id: string,
+  Audience_name: string,
+};
+
+export type UpdateAudienceNameMutation = {
+  updateAudienceName:  {
+    __typename: "updateAudienceNameResponse",
+    data?:  {
+      __typename: "AudienceItem",
+      Audience_name: string,
+      Audience_id?: string | null,
+    } | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
+};
+
+export type UpdateAudienceMutationVariables = {
+  Audience_id: string,
+};
+
+export type UpdateAudienceMutation = {
+  updateAudience:  {
+    __typename: "saveAudienceResponse",
+    data?:  {
+      __typename: "saveAudienceData",
+      Url: string,
+      Audience:  {
+        __typename: "AudienceItem",
+        Audience_name: string,
+        Audience_id?: string | null,
+      },
+    } | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
+};
+
+export type DeleteAudienceMutationVariables = {
+  Audience_id: string,
+};
+
+export type DeleteAudienceMutation = {
+  deleteAudience:  {
+    __typename: "deleteResponse",
+    data?: string | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
 };
 
 export type SaveReportMutationVariables = {
-  Client_code: string,
   Model_id: string,
   Report_name: string,
-  Audiences: Array< saveReportAudience >,
+  Audiences: Array< saveReportAudienceInput >,
 };
 
 export type SaveReportMutation = {
   saveReport:  {
     __typename: "saveReportResponse",
-    Report_id?: string | null,
-    Report_name?: string | null,
-    meta_table?: string | null,
-    createdBy?: string | null,
-    createdAt?: string | null,
-    Audiences?:  Array< {
-      __typename: "ReportAudience",
-      chart_type?: string | null,
-      variable_type?: string | null,
-      selector?: string | null,
-      id?: string | null,
-      position?: number | null,
-    } | null > | null,
+    data?:  {
+      __typename: "ReportItem",
+      Report_id?: string | null,
+      Report_name?: string | null,
+      meta_table?: string | null,
+      createdBy?: string | null,
+      createdAt?: string | null,
+      Audiences?:  Array< {
+        __typename: "ReportAudience",
+        chart_type?: string | null,
+        variable_type?: string | null,
+        selector?: string | null,
+        id?: string | null,
+        position?: number | null,
+      } | null > | null,
+    } | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
   },
 };
 
 export type UpdateReportMutationVariables = {
-  Client_code: string,
   Report_id: string,
-  Report: updateReport,
+  Report: updateReportInput,
 };
 
 export type UpdateReportMutation = {
   updateReport:  {
     __typename: "updateReportResponse",
-    Report_id?: string | null,
-    Report_name?: string | null,
-    meta_table?: string | null,
-    createdBy?: string | null,
-    createdAt?: string | null,
-    Audiences?:  Array< {
-      __typename: "ReportAudience",
-      chart_type?: string | null,
-      variable_type?: string | null,
-      selector?: string | null,
-      id?: string | null,
-      position?: number | null,
-    } | null > | null,
+    data?:  {
+      __typename: "ReportItem",
+      Report_id?: string | null,
+      Report_name?: string | null,
+      meta_table?: string | null,
+      createdBy?: string | null,
+      createdAt?: string | null,
+      Audiences?:  Array< {
+        __typename: "ReportAudience",
+        chart_type?: string | null,
+        variable_type?: string | null,
+        selector?: string | null,
+        id?: string | null,
+        position?: number | null,
+      } | null > | null,
+    } | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
   },
 };
 
@@ -423,7 +619,16 @@ export type DeleteReportMutationVariables = {
 };
 
 export type DeleteReportMutation = {
-  deleteReport: Operation,
+  deleteReport:  {
+    __typename: "deleteResponse",
+    data?: string | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
 };
 
 export type GetDatabaseByIdQueryVariables = {
@@ -490,11 +695,22 @@ export type GetModelQuery = {
 };
 
 export type GetClientsQuery = {
-  getClients?:  Array< {
+  getClients:  {
     __typename: "getClientsResponse",
-    Client_name: string,
-    Client_code: string,
-  } > | null,
+    data?:  Array< {
+      __typename: "ClientItem",
+      Client_name: string,
+      Client_code: string,
+      ClientCode?: string | null,
+      ClientCountry?: string | null,
+    } > | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
 };
 
 export type GetModelsForClientQueryVariables = {
@@ -502,13 +718,22 @@ export type GetModelsForClientQueryVariables = {
 };
 
 export type GetModelsForClientQuery = {
-  getModelsForClient?:  Array< {
-    __typename: "getModelForClientResponse",
-    Model_id: string,
-    Model_name: string,
-    Database_id: string,
-    meta_table: string,
-  } > | null,
+  getModelsForClient:  {
+    __typename: "getModelsForClientResponse",
+    data?:  Array< {
+      __typename: "ModelItem",
+      Model_id: string,
+      Model_name: string,
+      Database_id: string,
+      meta_table: string,
+    } > | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
 };
 
 export type GetSelectorsForModelQueryVariables = {
@@ -516,40 +741,62 @@ export type GetSelectorsForModelQueryVariables = {
 };
 
 export type GetSelectorsForModelQuery = {
-  getSelectorsForModel:  Array<( {
-      __typename: "SelectorFactor",
-      variable_type?: string | null,
-      id?: string | null,
-      selector?: string | null,
-      category?: string | null,
-      values?:  Array< {
-        __typename: string,
-        id?: number | null,
-        value?: string | null,
-      } | null > | null,
-    } | {
-      __typename: "SelectorNumeric",
-      variable_type?: string | null,
-      id?: string | null,
-      selector?: string | null,
-      category?: string | null,
-      max?: number | null,
-      min?: number | null,
-    }
-  ) | null >,
+  getSelectorsForModel:  {
+    __typename: "getSelectorsForModelResponse",
+    data:  Array<( {
+        __typename: "SelectorFactor",
+        variable_type: string,
+        id: string,
+        selector: string,
+        category?: string | null,
+        values?:  Array< {
+          __typename: string,
+          id: number,
+          value: string,
+        } > | null,
+      } | {
+        __typename: "SelectorNumeric",
+        variable_type: string,
+        id: string,
+        selector: string,
+        category?: string | null,
+        max?: number | null,
+        min?: number | null,
+      }
+    ) > | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
 };
 
-export type GetAudiencesForMetaQueryVariables = {
-  Database_id: string,
-  meta_table: string,
+export type GetAudiencesQueryVariables = {
+  Model_id: string,
+  all?: boolean | null,
 };
 
-export type GetAudiencesForMetaQuery = {
-  getAudiencesForMeta?:  Array< {
-    __typename: "getAudiencesForMetaResponse",
-    Audience_id: string,
-    Audience_name: string,
-  } > | null,
+export type GetAudiencesQuery = {
+  getAudiences:  {
+    __typename: "getAudiencesResponse",
+    data?:  Array< {
+      __typename: "getAudienceItem",
+      Audience_id: string,
+      Audience_name: string,
+      createdAt?: string | null,
+      createdBy?: string | null,
+      editedBy?: string | null,
+      editedAt?: string | null,
+    } | null > | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
 };
 
 export type LoadAudienceQueryVariables = {
@@ -566,17 +813,25 @@ export type GetChartDataQueryVariables = {
 };
 
 export type GetChartDataQuery = {
-  getChartData?:  Array< {
+  getChartData:  {
     __typename: "getChartDataResponse",
-    value: string,
-    count: number,
-  } | null > | null,
+    data?:  Array< {
+      __typename: "ChartItem",
+      value: string,
+      count: number,
+    } > | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
 };
 
 export type GetReportsQueryVariables = {
-  Client_code: string,
-  Model_id?: string | null,
-  meta_table?: string | null,
+  Model_id: string,
+  all?: boolean | null,
 };
 
 export type GetReportsQuery = {
@@ -600,9 +855,45 @@ export type GetReportsQuery = {
 
 export type PaddingtonGetClientsQuery = {
   // to be deleted
-  paddingtonGetClients?:  Array< {
+  paddingtonGetClients?:  {
     __typename: "paddingtonGetClientsResponse",
-    ClientCode?: string | null,
-    ClientCountry?: string | null,
-  } | null > | null,
+    data?:  Array< {
+      __typename: "ClientItem",
+      Client_name: string,
+      Client_code: string,
+      ClientCode?: string | null,
+      ClientCountry?: string | null,
+    } | null > | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  } | null,
+};
+
+export type UtilGetClusterQueryVariables = {
+  Cluster_id: string,
+};
+
+export type UtilGetClusterQuery = {
+  utilGetCluster:  {
+    __typename: "utilGetClusterResponse",
+    PK: string,
+    Cluster_name: string,
+  },
+};
+
+export type UtilGetDatabaseQueryVariables = {
+  Database_id?: string | null,
+};
+
+export type UtilGetDatabaseQuery = {
+  utilGetDatabase:  {
+    __typename: "utilGetDatabaseResponse",
+    PK?: string | null,
+    Cluster_id?: string | null,
+    Database_name?: string | null,
+  },
 };

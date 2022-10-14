@@ -423,3 +423,15 @@ input[type="range"]::-moz-range-thumb {
   display: flex;
   flex-direction: column;
 }  */
+
+#Dropdown_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#Dropdown_container li {
+  padding-bottom: 0.55rem;
+}
+
+/* Dropdown_container */

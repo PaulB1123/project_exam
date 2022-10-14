@@ -62,50 +62,84 @@ export const getModel = /* GraphQL */ `
 export const getClients = /* GraphQL */ `
   query GetClients {
     getClients {
-      Client_name
-      Client_code
+      data {
+        Client_name
+        Client_code
+        ClientCode
+        ClientCountry
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
     }
   }
 `;
 export const getModelsForClient = /* GraphQL */ `
   query GetModelsForClient($Client_code: String!) {
     getModelsForClient(Client_code: $Client_code) {
-      Model_id
-      Model_name
-      Database_id
-      meta_table
+      data {
+        Model_id
+        Model_name
+        Database_id
+        meta_table
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
     }
   }
 `;
 export const getSelectorsForModel = /* GraphQL */ `
   query GetSelectorsForModel($Model_id: ID!) {
     getSelectorsForModel(Model_id: $Model_id) {
-      ... on SelectorFactor {
-        variable_type
-        id
-        selector
-        category
-        values {
+      data {
+        ... on SelectorFactor {
+          variable_type
           id
-          value
+          selector
+          category
+          values {
+            id
+            value
+          }
+        }
+        ... on SelectorNumeric {
+          variable_type
+          id
+          selector
+          category
+          max
+          min
         }
       }
-      ... on SelectorNumeric {
-        variable_type
-        id
-        selector
-        category
-        max
-        min
+      error {
+        type
+        message
       }
+      StatusCode
     }
   }
 `;
-export const getAudiencesForMeta = /* GraphQL */ `
-  query GetAudiencesForMeta($Database_id: ID!, $meta_table: String!) {
-    getAudiencesForMeta(Database_id: $Database_id, meta_table: $meta_table) {
-      Audience_id
-      Audience_name
+export const getAudiences = /* GraphQL */ `
+  query GetAudiences($Model_id: ID!, $all: Boolean) {
+    getAudiences(Model_id: $Model_id, all: $all) {
+      data {
+        Audience_id
+        Audience_name
+        createdAt
+        createdBy
+        editedBy
+        editedAt
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
     }
   }
 `;
@@ -117,18 +151,21 @@ export const loadAudience = /* GraphQL */ `
 export const getChartData = /* GraphQL */ `
   query GetChartData($Model_id: ID!, $Audience: getChartDataAudience!) {
     getChartData(Model_id: $Model_id, Audience: $Audience) {
-      value
-      count
+      data {
+        value
+        count
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
     }
   }
 `;
 export const getReports = /* GraphQL */ `
-  query GetReports($Client_code: String!, $Model_id: ID, $meta_table: String) {
-    getReports(
-      Client_code: $Client_code
-      Model_id: $Model_id
-      meta_table: $meta_table
-    ) {
+  query GetReports($Model_id: ID!, $all: Boolean) {
+    getReports(Model_id: $Model_id, all: $all) {
       Report_id
       Report_name
       meta_table
@@ -147,8 +184,34 @@ export const getReports = /* GraphQL */ `
 export const paddingtonGetClients = /* GraphQL */ `
   query PaddingtonGetClients {
     paddingtonGetClients {
-      ClientCode
-      ClientCountry
+      data {
+        Client_name
+        Client_code
+        ClientCode
+        ClientCountry
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
+  }
+`;
+export const utilGetCluster = /* GraphQL */ `
+  query UtilGetCluster($Cluster_id: ID!) {
+    utilGetCluster(Cluster_id: $Cluster_id) {
+      PK
+      Cluster_name
+    }
+  }
+`;
+export const utilGetDatabase = /* GraphQL */ `
+  query UtilGetDatabase($Database_id: ID) {
+    utilGetDatabase(Database_id: $Database_id) {
+      PK
+      Cluster_id
+      Database_name
     }
   }
 `;

@@ -23,14 +23,13 @@ const AudienceContainer = (props: Props) => {
   const [isActiveDropDown, setIsActiveDropDown] = useState(false);
   const [ele, setEle] = useState(true) as any;
   const [listFilter, setListFilter] = useState(props.item);
-  const [newList, setNewList] = useState(
-    JSON.parse(JSON.stringify(listFilter))
-  );
+  // const [newList, setNewList] = useState(
+  //   JSON.parse(JSON.stringify(listFilter))
+  // );
   // const [newstate, setNewstate] = useState({});
   // const [newArray, setNewArray] = useState([]);
 
-  const { updateSelectorSelectedValue, data, newArray } =
-    useContext(FilterContext);
+  const { updateSelectorSelectedValue } = useContext(FilterContext);
 
   const params = {
     grpI: props.grpI,
