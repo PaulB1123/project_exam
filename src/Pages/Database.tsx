@@ -1,46 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Database.css";
 import "./LogIn.css";
 import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
-// import { ClientRequest } from "http";
-import ClientContext from "../Data/ClientContext";
 import UserContext from "../Data/UserContext";
-
-interface Client {
-  ClientCode: string;
-  ClientName: string;
-  ClientCountry: string;
-}
+import FilterContext from "../Data/FilterContext";
+import { ClientItem, getClientsResponse } from "../API";
 
 function Database() {
-  //   const { value, setValue } = useContext(UserContext);
-  const [isOpenClient, setOpenClient] = React.useState(false);
-  const [isOpen, setOpen] = React.useState(false);
-  const [isActive, setIsActive] = useState(false);
-  const [isActiveClient, setIsActiveClient] = useState(false);
-
-  const [selectedClient, setSelectedClient] = React.useState("MCD");
-  const [selectedCountry, setSelectedCountry] = React.useState("DK");
-  const [selectedID, setSelectedID] = React.useState("1");
-  const [clients, setclients] = useState([]);
-  const { clientData } = useContext(ClientContext);
   const { user } = useContext(UserContext);
-
-  const handleClick = () => {
-    setOpen(!isOpen);
-    setIsActive((current) => !current);
-  };
-
-  const handleClickClient = () => {
-    setOpenClient(!isOpenClient);
-    setIsActiveClient((current) => !current);
-  };
-
-  console.log(clientData);
-
-  // console.log(clients);
+  const {
+    client,
+    country,
+    clientNewData,
+    availableModels,
+    selectedModelId,
+    setSelectedModelId,
+    selectedClient,
+    setSelectedClient,
+  } = useContext(FilterContext);
 
   return (
     <div className="database_container">
@@ -55,10 +34,6 @@ function Database() {
           </div>
         </div>
         <div className="welcome_contianer">
-          {/* <AuthentificatedUserContext.Consumer>
-            {(value) => <h1> {value.attributes.name} </h1>}
-          </AuthentificatedUserContext.Consumer> */}
-
           {user ? (
             <div className="text_container">
               <h1>
@@ -74,63 +49,43 @@ function Database() {
           )}
         </div>
 
-        {/* <div>{value}</div> */}
-        {/* <button onClick={() => setValue("hey")}>change value</button> */}
-
         <div className="login_contianer_box_container">
           <div className="login_contianer_box" id="selector">
             <h1 className="DatabaseH1">
               Please select the campaign you would like for your dashboard
             </h1>
+
+            {/* this is comeniting out but is very very very good stuff  */}
+            <select
+              value={selectedClient}
+              onChange={(event) => setSelectedClient(event.target.value)}
+            >
+              {clientNewData.map((item: ClientItem, index: any) => (
+                <option key={index} value={`${item.Client_code}`}>
+                  {item.Client_name}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={selectedModelId}
+              onChange={(event) => {
+                setSelectedModelId(event.target.value);
+              }}
+            >
+              {availableModels.map((key: any) => (
+                <option key={key.Model_id} value={key.Model_id}>
+                  {key.Model_name}
+                </option>
+              ))}
+            </select>
+
             <div className="selectors_container">
-              <div className="client_continer">
-                <div>
-                  <label>Client</label>
-                  <select
-                    value={selectedClient}
-                    onChange={(event) => setSelectedClient(event.target.value)}
-                  >
-                    <option value={"MCD"}>MCD</option>
-                    <option value={"CGM"}>CGM</option>
-                    <option value={"MGF"}>MGF</option>
-                    <option value={"GOPGF"}>GOPGF</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label>Contry</label>
-                  <select
-                    value={selectedCountry}
-                    onChange={(event) => setSelectedCountry(event.target.value)}
-                  >
-                    <option value={"DK"}>DK</option>
-                    <option value={"NOR"}>NOR</option>
-                    <option value={"SWE"}>SWE</option>
-                    <option value={"FIN"}>FIN</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label>ID</label>
-                  <select
-                    value={selectedID}
-                    onChange={(event) => setSelectedID(event.target.value)}
-                  >
-                    <option value={"1"}>1</option>
-                    <option value={"2"}>2</option>
-                    <option value={"3"}>3</option>
-                    <option value={"4"}>4</option>
-                  </select>
-                </div>
-              </div>
-
               <div className="country_continer"></div>
             </div>
             <div className="button_container">
-              <Link
-                to={`/Report/${selectedClient}/${selectedCountry}/${selectedID}`}
-              >
-                <button className="buttonDashboard">Contiune</button>
+              <Link to={`/Report/${client}/${country}/${selectedModelId}`}>
+                <button className="buttonDashboard">Continue</button>
               </Link>
             </div>
           </div>

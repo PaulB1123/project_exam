@@ -1,6 +1,8 @@
 import PlusIcon from "../Componets/Navigation/icons/Plus.svg";
 import GenderIcon from "../Componets/Navigation/icons/Gender.png";
 import DefaultIcon from "../Componets/Navigation/icons/Default.png";
+import FilterContext from "./FilterContext";
+import { useContext } from "react";
 
 const Data = [
   {
@@ -189,5 +191,12 @@ const Data = [
     ],
   },
 ];
+
+// function Filter() {
+//   const { filterAudience } = useContext(FilterContext);
+//   console.log(filterAudience);
+// }
+
+// Filter();
 
 export default Data;

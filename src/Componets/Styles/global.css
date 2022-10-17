@@ -65,7 +65,7 @@
 
 .Main_App {
   background-color: var(--background);
-  height: calc(105vh - 40px);
+  height: calc(135vh - 40px);
 }
 
 button {

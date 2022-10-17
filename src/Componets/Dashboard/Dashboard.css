@@ -1,10 +1,14 @@
 .dashboard_container_group {
+  margin-top: 12rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: var(--navigation-text);
-  z-index: 2;
+  /* position: absolute;
+  top: 40%;
+  left: 25%; */
+  /* z-index: 2; */
 }
 
 .dashboard_header {
@@ -17,5 +21,32 @@
   font-size: 18px;
   font-family: "SF_Pro_Display_Regular";
   letter-spacing: 0.04rem;
-  z-index: 2;
+  /* z-index: 2; */
+}
+
+.hidden {
+  display: hidden;
+}
+
+.MainDashbaord {
+  margin-top: 5rem;
+  margin-left: 2rem;
+  width: 70%;
+}
+
+.MainDashbaord div {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+}
+
+.ChartsArray {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.Chart {
+  margin: 1rem;
+  margin-left: 0rem;
+  margin-top: 0rem;
 }

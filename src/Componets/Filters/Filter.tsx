@@ -1,40 +1,88 @@
 import "../Styles/global.css";
 import "./Filter.css";
 import SaveIcon from "./icons/Save.svg";
-// import { AudienceButton } from "../../ReusableElements/Button_Navigation_Left/Button";
 import DragNDrop from "../../ReusableElements/Button_Navigation_Left/DragnDrop";
-import Data from "../../Data/audition_filters";
-import FetchdataFilter from "../../FetchingData/FetchFiltersAuditionData";
+import Modal from "./Modal";
+import { useState } from "react";
+import {
+  MODAL_TYPES,
+  useGlobalModalContext,
+} from "../Dashboard/Modals/GlobalModal";
 
 export default function FilterComponent() {
+  const [openModal, setOpenModal] = useState(false);
+  const { showModal } = useGlobalModalContext();
+
+  const createModal = () => {
+    showModal(MODAL_TYPES.CREATE_MODAL, {
+      title: "Create instance form",
+      confirmBtn: "Save",
+    });
+  };
+
+  const createModalReport = () => {
+    showModal(MODAL_TYPES.DELETE_MODAL, {
+      title: "Create instance form",
+      confirmBtn: "Save",
+    });
+  };
+
+  // const deleteModal = () => {
+  //   showModal(MODAL_TYPES.DELETE_MODAL);
+  // };
+
   return (
     <>
       <div className="filter_container_group">
         <div className="filter_container">
           <h1 className="filter_header">Audience</h1>
         </div>
-        <div className="filter_button_group">
-          <div className="button_audience">
-            <div className="audience_droppable_container">
-              {/* <AudienceButton></AudienceButton> */}
-              <DragNDrop data={Data}></DragNDrop>
+        <div className="audience_container_with_buttons_and_filter">
+          <div className="filter_button_group">
+            <div className="button_audience">
+              <div className="audience_droppable_container">
+                <DragNDrop></DragNDrop>
+              </div>
             </div>
           </div>
-        </div>
-        <div>
-          <FetchdataFilter></FetchdataFilter>
-        </div>
-
-        {/* <div className="this-is-another-button">
-          <DragNDrop data={Data}></DragNDrop>
-        </div> */}
-
-        <div className="buttons_reports">
-          <div className="button_filter">
-            <img src={SaveIcon}></img>
-            <div>Save filter options</div>
+          <div className="buttons_for_audience">
+            <div className="buttons_reports">
+              <button
+                className="button_filter"
+                id="openModalBtn"
+                onClick={() => {
+                  // setOpenModal(true);
+                  createModal();
+                }}
+              >
+                <img src={SaveIcon} alt="Icon"></img>
+                <div>Save filter options</div>
+              </button>
+              {openModal && (
+                <Modal
+                  setOpenModal={(openModal: boolean) => {
+                    setOpenModal(openModal);
+                  }}
+                ></Modal>
+              )}
+              <button
+                className="button_report"
+                onClick={() => {
+                  createModalReport();
+                }}
+              >
+                <div>Generate Report</div>
+              </button>
+              {/* {openModal && (
+                <Modal
+                  setOpenModal={(openModal: boolean) => {
+                    setOpenModal(openModal);
+                  }}
+                ></Modal>
+              )} */}
+              <div></div>
+            </div>
           </div>
-          <div className="button_report">Generate Report</div>
         </div>
       </div>
     </>

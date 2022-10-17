@@ -1,9 +1,9 @@
-import { Auth, Hub } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import { useState, createContext, useEffect } from "react";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types";
-import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext({
+  allUserData: "" as string,
   user: null as AuthUser | null,
   setUser: (arg: AuthUser) => {},
   login: (e: any) => {},
@@ -15,20 +15,24 @@ export type AuthUser = {
   name: string;
   family_name: string;
   email: string;
+  accessToken: string;
+  idToken: string;
+  jwtToken: string;
 };
-type UserContextType = {
-  user: AuthUser | null;
-  setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>;
-};
+// type UserContextType = {
+//   user: AuthUser | null;
+//   setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>;
+// };
 type UserContextProviderProps = {
   children: React.ReactNode;
 };
-type LoginProps = {
-  path?: string;
-};
+// type LoginProps = {
+//   path?: string;
+// };
 
 export const UserContextProvider = (props: UserContextProviderProps) => {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [allUserData, setAllUserData] = useState<string>("");
   const [payloadData, setPayloadData] = useState();
 
   const login = (e: any) => {
@@ -42,18 +46,27 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
     e.preventDefault();
     Auth.signOut();
   };
-  console.log(props);
+  //   console.log(props);
 
   useEffect(() => {
-    Auth.currentAuthenticatedUser().then((user: any) => {
+    Auth.currentAuthenticatedUser().then((user) => {
       setUser(user.attributes);
-      console.log(user.attributes);
-      console.log(user);
+      //   console.log(user.attributes);
+    });
+  }, []);
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser().then((allUserData) => {
+      setAllUserData(() => allUserData.signInUserSession.idToken.jwtToken);
+      console.count("set alluserdata");
+      //   console.log(allUserData.signInUserSession.idToken.jwtToken);
     });
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, login, logout, payloadData }}>
+    <UserContext.Provider
+      value={{ allUserData, user, setUser, login, logout, payloadData }}
+    >
       {props.children}
     </UserContext.Provider>
   );

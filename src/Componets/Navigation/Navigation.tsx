@@ -1,24 +1,19 @@
 import "../Styles/global.css";
 import "./Navigation.css";
 import Annalect from "./icons/Annalect.png";
-// import Filter from "./icons/Filter.svg";
-import ChartsIcon from "./icons/Charts.svg";
 import SettingsIcon from "./icons/Settings.svg";
 import LogoutIcon from "./icons/Log_Out.svg";
-import ArrrowdownIcon from "./icons/ArrowDown.svg";
-import useLocalStorage from "use-local-storage";
 import ChartsButton from "../../ReusableElements/Button_Navigation_Left/Button";
 import {
   ReportsButton,
   AudiencesButton,
 } from "../../ReusableElements/Button_Navigation_Left/Button";
-import Data from "../../Data/audition_filters";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import * as React from "react";
 import UserContext from "../../Data/UserContext";
 
 export default function Navigation() {
-  const { user, logout } = useContext(UserContext);
+  const { logout } = useContext(UserContext);
 
   return (
     <>

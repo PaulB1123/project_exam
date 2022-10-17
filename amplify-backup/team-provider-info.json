@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-crmdashboardui-dev-160959-authRole",
+      "UnauthRoleArn": "arn:aws:iam::236647543177:role/amplify-crmdashboardui-dev-160959-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::236647543177:role/amplify-crmdashboardui-dev-160959-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-crmdashboardui-dev-160959-deployment",
+      "UnauthRoleName": "amplify-crmdashboardui-dev-160959-unauthRole",
+      "StackName": "amplify-crmdashboardui-dev-160959",
+      "StackId": "arn:aws:cloudformation:eu-west-1:236647543177:stack/amplify-crmdashboardui-dev-160959/c849b940-336d-11ed-882b-0a6221ce6e29",
+      "AmplifyAppId": "ddczodw2xtcju"
+    }
+  }
+}

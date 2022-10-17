@@ -1,4 +1,3 @@
-import React, { useState, useMemo } from "react";
 import { Amplify } from "aws-amplify";
 import "./App.css";
 import "./Componets/Styles/global.css";
@@ -17,6 +16,15 @@ const {
 } = process.env;
 
 const amplifyConf = {
+  aws_appsync_graphqlEndpoint:
+    "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql",
+
+  aws_project_region: "eu-west-1",
+
+  aws_appsync_region: REACT_APP_AWS_REGION,
+
+  aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS",
+
   Auth: {
     identityPoolId: REACT_APP_IDENTITY_POOL_ID,
     region: REACT_APP_AWS_REGION,
@@ -35,7 +43,6 @@ const amplifyConf = {
 Amplify.configure(amplifyConf);
 
 function App() {
-  const [value, setValue] = useState(null);
   // const providerValue = useMemo(() => ({ value, setValue }), [value, setValue]);
 
   return (
@@ -43,7 +50,10 @@ function App() {
       <Routes>
         <Route path="/" element={<LogIn path="Database"></LogIn>}></Route>
         <Route path="/Database" element={<Database />}></Route>
-        <Route path="/Report/:country/:client/:id" element={<Report />}></Route>
+        <Route
+          path="/Report/:client/:country/:databaseId"
+          element={<Report />}
+        ></Route>
       </Routes>
     </Router>
   );

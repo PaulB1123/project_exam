@@ -1,6 +1,6 @@
 .drag-n-drop {
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
 }
 
 /* .dnd-group {
@@ -38,4 +38,38 @@
 
 .current {
   background-color: #282c34;
+}
+
+.audience_container_with_buttons_and_filter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+}
+
+.filter_button_group {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#drag_and_drop_open {
+  display: flex;
+  flex-direction: column;
+}
+
+#drag_and_drop_open .drag-n-drop .dropDown_row_bar .Dropdown_is_not_open {
+  /* border: 1px solid white !important; */
+  /* background-color: black; */
+}
+
+/* 
+#drag_and_drop {
+} */
+
+.filter_info {
+  width: 200px;
+  margin-bottom: 0.5rem;
+  justify-content: space-between;
+  display: flex;
 }

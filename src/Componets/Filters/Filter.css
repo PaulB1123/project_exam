@@ -25,10 +25,35 @@
   cursor: pointer;
 }
 
+.PlusIcon_container_open {
+  width: 20px;
+  border: 0.5px solid var(--background);
+  background-color: #d9d9d9;
+  padding: 0.5rem;
+  border-radius: 20%;
+  cursor: pointer;
+}
+
 .PlusIcon_container:hover,
 .PlusIcon_container:active {
   background-color: var(--audience-background-hover-plus);
   border: 0.5px solid var(--audience-border-hover-plus);
+}
+
+.Sldiericon {
+  width: 20px;
+  height: 20px;
+  background-color: var(--audience-border-plus);
+  -webkit-mask: url(./icons/Slider_Left.svg) no-repeat center;
+  mask: url(./icons/Plus.svg) no-repeat center;
+}
+
+.SldiericonRight {
+  width: 20px;
+  height: 20px;
+  background-color: var(--audience-border-plus);
+  -webkit-mask: url(./icons/Slider_Right.svg) no-repeat center;
+  mask: url(./icons/Plus.svg) no-repeat center;
 }
 
 .PlusIcon {
@@ -42,11 +67,12 @@
 /* Filter button group */
 
 .filter_button_group {
-  display: flex;
+  /* display: flex;
   flex-direction: row;
-  /* justify-content: space-between; */
+
   align-items: center;
-  margin-bottom: 1rem;
+
+  margin-bottom: 1rem; */
 }
 
 .button_report {
@@ -100,18 +126,84 @@
   margin-right: 0.5rem;
 }
 
-.audience_droppable_container {
+/* .audience_droppable_container {
   display: flex;
+} */
+
+.dropDown_row_bar {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.Dropdown_is_open {
+  margin-top: 1rem;
+  width: auto;
+  height: auto;
+  max-height: 35rem;
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 0.5px solid #8e8d91;
+  border-radius: 7px;
+  overflow-y: auto;
+  padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+  box-sizing: content-box;
+  z-index: 10;
+}
+
+.Dropdown_is_not_open {
+  margin-top: 1rem;
+  width: auto;
+  height: auto;
+  /* display: flex; */
+  max-height: 35rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* border: 0.5px solid #8e8d91; */
+  border-radius: 7px;
+  overflow-y: auto;
+  padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+
+  z-index: 10;
 }
 
 .filter_droppable_container {
+  /* padding: 0.6rem; */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 250px;
-  height: 40px;
-  z-index: 90;
-  /* border: 0.5px solid var(--audience-border-color); */
+  width: auto;
+  height: auto;
+  /* z-index: 90; */
+
+  /* margin-top: 2rem; */
 }
 
+.dropDown_button {
+  margin-left: 15rem;
+}
+
+/* .audience_container_with_buttons_and_filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+} */
 /* Filter button group */
+
+.buttons_reports {
+  left: 50%;
+}
+
+.buttons_for_audience {
+  position: absolute;
+  right: 0;
+}
+
+.filter_info {
+  color: #8e8d91;
+  font-family: "SF_Pro_Display_Bold";
+  margin-bottom: 2rem;
+}
