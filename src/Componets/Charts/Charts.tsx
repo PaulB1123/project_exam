@@ -13,6 +13,7 @@ export default function Chart() {
   const [title, setTitle] = useState("this is the title");
   const [arrayData, setArrayData] = useState();
   const [chartChange, setChargeChange] = useState();
+  const [selectedArray, setSelectedArray] = useState([]);
 
   useEffect(() => {
     setChargeChange(slectedChart);
@@ -28,6 +29,14 @@ export default function Chart() {
   //   console.log(dataSelected.selector);
 
   //   console.log(slectedChart);
+  console.log(ArrayDragged);
+
+  // ArrayDragged.map((e: any) => {
+
+  //   e.values.map((v:any)) => {
+  //     console.log(v);
+  //   }
+  // });
 
   const [items, setitem] = useState([]) as any;
   const [newItem, setNewItem] = useState([]) as any;

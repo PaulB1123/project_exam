@@ -6,7 +6,7 @@ import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
 import UserContext from "../Data/UserContext";
 import FilterContext from "../Data/FilterContext";
-import { ClientItem, getClientsResponse } from "../API";
+import { ClientItem } from "../API";
 
 function Database() {
   const { user } = useContext(UserContext);
