@@ -23,7 +23,8 @@ export const DeleteModal = () => {
     slectedChart,
     setSelectedChart,
   } = useGlobalModalContext();
-  const { data, categorical, selectedModelId } = useContext(FilterContext);
+  const { data, categorical, selectedModelId, ArrayDragged } =
+    useContext(FilterContext);
   // const [selectedAudition, setSelectedAudition] = useState("");
   // const [slectedChart, setSelectedChart] = useState("");
   // const chart1 = "chart1";
@@ -80,7 +81,7 @@ export const DeleteModal = () => {
         </div>
 
         <div className="Header_Modal" id="Header_Modal_GenerateReport">
-          <h3>Choose the Audience </h3>
+          <h3>Choose the chart variable </h3>
           {/* <Button onClick={triggerFunction}>This is button</Button> */}
 
           <select

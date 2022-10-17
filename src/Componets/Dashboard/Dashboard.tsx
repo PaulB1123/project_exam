@@ -38,6 +38,10 @@ export default function Dashboard() {
         <div className="ChartsArray">
           <div>
             <Chart />
+            {/* <Chart /> */}
+          </div>
+          {/* <div>
+            <Chart />
             <Chart />
           </div>
           <div>
@@ -47,11 +51,7 @@ export default function Dashboard() {
           <div>
             <Chart />
             <Chart />
-          </div>
-          <div>
-            <Chart />
-            <Chart />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

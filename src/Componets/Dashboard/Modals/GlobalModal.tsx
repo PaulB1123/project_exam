@@ -43,6 +43,8 @@ type GlobalModalContext = {
   inputarr: AudienceInfo[];
   name: any;
   setName: (event: any) => any;
+  // buttonIsOpen: any;
+  // setbuttonIsOpen:() => any;
 };
 
 const initalState: GlobalModalContext = {
@@ -65,6 +67,8 @@ const initalState: GlobalModalContext = {
   inputarr: [],
   name: "",
   setName: () => {},
+  // buttonIsOpen: "",
+  // setbuttonIsOpen:() => "",
 };
 
 type Context = {
@@ -105,9 +109,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [message, setMessage] = useState({ name: "" });
   const [name, setName] = useState("") as any;
 
-  // function changehandle(e: any) {
-  // SetInputData({...inputdata, [e.target.name]: e.target.value})
-  // }
+  const [buttonIsOpen, setbuttonIsOpen] = useState(false);
 
   const useInputValue = (initialValue: any) => {
     const [value, setValue] = useState(initialValue);
@@ -189,30 +191,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     }
   }
 
-  // async function ChartFetch() {
-  //   try {
-  //     const response = (await API.graphql({
-  //       query: getChartData,
-  //       variables: {
-  //         Model_id: selectedModelId,
-  //         Audience: {
-  //           variable_type: dataSelected.variable_type,
-  //           selector: dataSelected.id,
-  //           filters: { categorical: [], numerical: [] },
-  //         } as getChartDataAudience,
-  //       },
-  //     })) as { data: GetChartDataQuery };
-
-  //     // console.log(response.data.getChartData);
-  //     const response_data = response.data.getChartData;
-  //     setDataForChart(response_data);
-  //   } catch (err) {
-  //     console.log({ err });
-  //   }
-  // }
-
-  // setSavedAudience ()
-
   const renderComponent = () => {
     const ModalComponent = MODAL_COMPONENTS[modalType];
     if (!modalType || !ModalComponent) {
@@ -243,6 +221,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         inputarr,
         name,
         setName,
+        // buttonIsOpen,
+        // setbuttonIsOpen,
       }}
     >
       {renderComponent()}
@@ -250,22 +230,3 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     </GlobalModalContext.Provider>
   );
 };
-
-// const MODAL_COMPONENTS: any = {
-//   CreateModal,
-//   DeleteModal,
-//   UpdateModal,
-// };
-
-// type GlobalModalContext = {
-//   showModal: (modalType: string, modalProps?: any) => void;
-//   hideModal: () => void;
-//   store: any;
-// };
-
-// type Context = {
-//   children: any;
-//   modalType: {};
-//   modalProps: {};
-//   store: any;
-// };

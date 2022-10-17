@@ -45,6 +45,8 @@ const FilterContext = createContext({
   setData: (params: any) => {},
   newArray: [] as any,
   categorical: [] as any,
+  ArrayDragged: [] as any,
+  setArrayDragged: (param: any) => {},
 });
 
 type FilterContextProviderProps = {
@@ -84,6 +86,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const { secondId } = useParams();
   const [categorical, setCategorical] = useState([] as GeneralSelector[]);
   const [newArray, setNewArray] = useState([] as any);
+  const [ArrayDragged, setArrayDragged] = useState([] as GeneralSelector[]);
+  const [ArrayDragging, setArrayDragging] = useState();
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
@@ -381,6 +385,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   useEffect(() => {
     const hasSelectedValues = categorical.filter((c) => HasSelector(c));
     const dosentHasSelectedValues = categorical.filter((c) => !HasSelector(c));
+    setArrayDragged(hasSelectedValues);
+    console.log(hasSelectedValues);
 
     setData([
       {
@@ -395,14 +401,18 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   }, [categorical]);
 
   useEffect(() => {
+    console.log(ArrayDragged);
+  }, [ArrayDragged]);
+
+  useEffect(() => {
     const firstList = data[0];
-    console.log(data);
-    console.log(firstList);
+    // console.log(data);
+    // console.log(firstList);
   }, [data]);
 
   if (newArray.length > 0) {
     setNewArray(data[0].items);
-    console.log(newArray);
+    // console.log(newArray);
   }
 
   return (
@@ -425,6 +435,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         updateSelectorSelectedValue,
         newArray,
         categorical,
+        ArrayDragged,
+        setArrayDragged,
       }}
     >
       {props.children}

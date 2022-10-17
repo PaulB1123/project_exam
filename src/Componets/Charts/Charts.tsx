@@ -3,11 +3,13 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import XIcon from "../Filters/icons/X.svg";
 import "./Charts.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import FilterContext from "../../Data/FilterContext";
 
 export default function Chart() {
   const { dataForChart, dataSelected, slectedChart, chart1, chart2 } =
     useGlobalModalContext();
+  const { ArrayDragged } = useContext(FilterContext);
   const [title, setTitle] = useState("this is the title");
   const [arrayData, setArrayData] = useState();
   const [chartChange, setChargeChange] = useState();

@@ -6,13 +6,17 @@ import "../../Filters/Modal.css";
 import { useContext, useState } from "react";
 import { API } from "aws-amplify";
 import { saveAudience } from "../../../graphql/mutations";
-import { SaveAudienceMutationVariables } from "../../../API";
+import {
+  SaveAudienceMutation,
+  SaveAudienceMutationVariables,
+  saveAudienceResponse,
+} from "../../../API";
 import FilterContext from "../../../Data/FilterContext";
 
 export const UpdateModal = () => {
   const { hideModal, message, handleChange, setSavedAudience, name, setName } =
     useGlobalModalContext();
-  const { selectedModelId } = useContext(FilterContext);
+  const { selectedModelId, ArrayDragged } = useContext(FilterContext);
 
   //   const [message, setMessage] = useState("");
 
@@ -30,9 +34,26 @@ export const UpdateModal = () => {
           Model_id: selectedModelId,
           Audience_name: name,
         } as SaveAudienceMutationVariables,
-      })) as { data: SaveAudienceMutationVariables };
+      })) as { data: SaveAudienceMutation };
 
+      const { data: response_data } = response;
+      const { saveAudience: actual_list } = response_data;
+      const { data, error, StatusCode }: saveAudienceResponse = actual_list;
+
+      console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          PostResponse(data.Url);
+          console.log(data.Url);
+        } else {
+        }
+      } else console.log(error);
+
+      if (response != null) {
+        // PostResponse();
+      }
       console.log(response);
+      console.log();
     } catch (err) {}
   }
 
@@ -42,6 +63,7 @@ export const UpdateModal = () => {
     PreseignedURL();
     console.log(selectedModelId);
     console.log("this has been clicked ");
+    console.log(ArrayDragged);
 
     // if (e.key === "Enter") {
     //   handleChange(name as string);
@@ -49,6 +71,19 @@ export const UpdateModal = () => {
     // }
     // setSavedAudience(message);
     // handleChange();
+  }
+
+  async function PostResponse(e: string) {
+    try {
+      const response = await fetch(e, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: ArrayDragged,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log({ err });
+    }
   }
 
   function updateName(val: any) {
