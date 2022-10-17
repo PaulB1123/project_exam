@@ -435,3 +435,8 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* Dropdown_container */
+
+.dnd-item {
+  display: flex;
+  flex-direction: row !important;
+}

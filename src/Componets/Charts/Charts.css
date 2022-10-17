@@ -23,6 +23,12 @@
   flex-direction: column;
 }
 
+.Chart_with_space {
+  margin-left: 22rem;
+  display: flex;
+  flex-direction: column;
+}
+
 .Button_settings {
   display: flex;
   align-items: center;
@@ -102,4 +108,8 @@
 
 .title_chart img {
   /* margin-left: 5rem; */
+}
+
+.hide {
+  display: none !important;
 }

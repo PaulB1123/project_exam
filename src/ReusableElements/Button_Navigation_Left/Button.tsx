@@ -227,15 +227,31 @@ export function AudiencesButton() {
         <div>
           <div>
             <div className="Dropdown_container" id="Dropdown_container">
-              {inputarr.map((i) => (
-                <li
-                  key={i.AudienceId}
-                  onClick={(e) => handelclickReport(i.AudienceId)}
-                  className={checkLi === i.AudienceId ? "liActive" : ""}
-                >
-                  {i.AudienceName}
-                </li>
-              ))}
+              {inputarr.map(
+                (i: {
+                  AudienceId: React.Key | null | undefined;
+                  AudienceName:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | React.ReactFragment
+                    | React.ReactPortal
+                    | null
+                    | undefined;
+                }) => (
+                  <li
+                    key={i.AudienceId}
+                    onClick={(e) => handelclickReport(i.AudienceId)}
+                    className={checkLi === i.AudienceId ? "liActive" : ""}
+                  >
+                    {i.AudienceName}
+                  </li>
+                )
+              )}
             </div>
 
             {/* <button className="button_with_all_graphs">Select filter</button> */}

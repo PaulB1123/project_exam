@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../../Componets/Styles/global.css";
 import "./Button.css";
 import "../../Componets/Filters/Filter.css";
 import "./DragnDrop.css";
+import FilterContext from "../../Data/FilterContext";
 
 // interface DataDropdwon {
 //   isOpenSlide: any;
@@ -16,10 +17,13 @@ type DragnDrop = {
 const SlideButton = (props: DragnDrop) => {
   const [isOpenSlide, setOpenSlide] = React.useState(false);
   const [isActiveSlide, setIsActiveSlide] = useState(false);
+  const { setIsPlusButtonOpen } = useContext(FilterContext);
 
   const handleClick = () => {
     setOpenSlide(!isOpenSlide);
     setIsActiveSlide((current) => !current);
+    // console.log("this is where the change should be", isActiveSlide);
+    setIsPlusButtonOpen(isActiveSlide);
   };
   // console.log(isOpenSlide);
 

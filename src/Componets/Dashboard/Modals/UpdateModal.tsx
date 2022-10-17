@@ -78,7 +78,7 @@ export const UpdateModal = () => {
       const response = await fetch(e, {
         method: "PUT",
         headers: { "content-type": "application/json" },
-        body: ArrayDragged,
+        body: JSON.stringify(ArrayDragged),
       });
       console.log(response);
     } catch (err) {

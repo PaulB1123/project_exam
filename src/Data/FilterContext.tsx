@@ -17,9 +17,7 @@ import {
 } from "../graphql/queries";
 import {
   ClientItem,
-  GetClientsQuery,
   getClientsResponse,
-  // getModelForClientResponse,
   getModelsForClientResponse,
   getSelectorsForModelResponse,
   ModelItem,
@@ -45,8 +43,10 @@ const FilterContext = createContext({
   setData: (params: any) => {},
   newArray: [] as any,
   categorical: [] as any,
-  ArrayDragged: [] as any,
-  setArrayDragged: (param: any) => {},
+  ArrayDragged: [] as GeneralSelector[],
+  setArrayDragged: (param: GeneralSelector[]) => {},
+  isPlusButtonOpen: "" as any,
+  setIsPlusButtonOpen: (params: any) => {},
 });
 
 type FilterContextProviderProps = {
@@ -67,16 +67,10 @@ export type GeneralSelector = {
 
 export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [clientNewData, setClientNewData] = useState([] as ClientItem[]);
-
   const [availableModels, setAvailableModels] = useState([] as ModelItem[]);
-
   const [selectedModelId, setSelectedModelId] = useState<string | undefined>(
     undefined
   );
-
-  // const [selectors, setSelectors] = useState([] as GeneralSelector[]);
-
-  // const [filterAudience, setFilterAudience] = useState([] as any);
   const { user, allUserData } = useContext(UserContext);
   const [selectedClient, setSelectedClient] = React.useState("");
   const [data, setData] = useState([] as any);
@@ -88,6 +82,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [newArray, setNewArray] = useState([] as any);
   const [ArrayDragged, setArrayDragged] = useState([] as GeneralSelector[]);
   const [ArrayDragging, setArrayDragging] = useState();
+  const [isPlusButtonOpen, setIsPlusButtonOpen] = useState();
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
@@ -132,33 +127,6 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   useEffect(() => {
     console.log(clientNewData);
   }, [clientNewData]);
-
-  // useEffect(() => {
-  //   async function Mihai() {
-  //     try {
-  //       const response = (await API.graphql({
-  //         query: getClients,
-  //       })) as { data: { getClients: getClientsResponse[] } };
-  //       console.log(response);
-  //       const { data: response_data } = response;
-  //       const { getClients: actual_list } = response_data;
-  //       setClientNewData(actual_list);
-  //       const splitClientName = actual_list[0].Client_code.split("#");
-  //       setClient(splitClientName[0]);
-  //       setCountry(splitClientName[1]);
-  //       if (actual_list.length > 0) {
-  //         setSelectedClient(actual_list[0].Client_code);
-  //       }
-  //     } catch (err) {
-  //       console.log({ err });
-  //     }
-  //   }
-
-  //   if (allUserData.length > 0) {
-  //     Mihai();
-  //   }
-  // }, [allUserData]);
-  // // console.log(clientNewData);
 
   useEffect(() => {
     async function DatabaseFetch() {
@@ -278,57 +246,6 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     }
   }, [selectedModelId]);
 
-  // async function DatabaseFetch() {
-  //   try {
-  //     const response = (await API.graphql({
-  //       query: getSelectorsForModel,
-  //       variables: { Model_id: selectedModelId },
-  //     })) as {
-  //       data: { getSelectorsForModel: getSelectorForModelResponse[] };
-  //     };
-  //     //  now I have fecthed the data with the selectedModelId so I received the filter array
-  //     console.log("this is all of my data", response);
-  //     const { data: response_data } = response;
-  //     const { getSelectorsForModel: actual_list } = response_data;
-  //     // console.log(response);
-  //     const filteredList = actual_list.filter(
-  //       (i) => i.variable_type === "categorical"
-  //     ) as SelectorFactor[];
-  //     if (filteredList.length > 0) {
-  //       const a = filteredList.map((i: SelectorFactor) => {
-  //         const {
-  //           values: filteredValues,
-  //           variable_type,
-  //           id,
-  //           selector,
-  //           category,
-  //         } = i;
-  //         if (variable_type && id && selector && category) {
-  //           const valuesWithFalse = filteredValues?.map((v) => {
-  //             return { ...v, isSelected: false };
-  //           });
-
-  //           return {
-  //             variable_type: variable_type,
-  //             id: id,
-  //             selector: selector,
-  //             category: category,
-  //             values: valuesWithFalse,
-  //           } as GeneralSelector;
-  //         }
-  //       });
-  //       console.log("this should work", a);
-
-  //       if (a) {
-  //         const newLocal = a.filter((s) => s != undefined);
-  //         setCategorical(newLocal as GeneralSelector[]);
-  //       }
-  //     }
-  //   } catch (err) {
-  //     console.log({ err });
-  //   }
-  // }
-
   useEffect(() => {
     if (selectedModelId) {
       DatabaseFetc();
@@ -336,36 +253,25 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     }
   }, [DatabaseFetc, selectedModelId]);
 
-  // console.log("this is the second time ", categorical);
-
   const updateSelectorSelectedValue = (
     selector_id: string,
     valueId: number
   ) => {
-    // console.log("it goes here ", selector_id, valueId);
-    // console.log(categorical);
     const updated_selectors = categorical.map((s: any) => {
       // first check if selector is updated otherwise just return the selector
       if (s.id === selector_id) {
         const { values } = s;
-        // console.log(values);
-        // console.log(valueId);
-        // loop thru values and update only valueId
         const new_val = values.map((vm: any) => {
           if (vm.id === valueId) {
             // console.log(vm.id);
             return { ...vm, isSelected: !vm.isSelected };
           }
-
           return vm;
         });
-        // console.log(new_val);
         return { ...s, values: new_val };
       }
       return s;
     });
-    // console.log(updated_selectors);
-    // setSelectors(updated_selectors);
     setCategorical(updated_selectors);
   };
 
@@ -406,8 +312,6 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
   useEffect(() => {
     const firstList = data[0];
-    // console.log(data);
-    // console.log(firstList);
   }, [data]);
 
   if (newArray.length > 0) {
@@ -436,6 +340,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         newArray,
         categorical,
         ArrayDragged,
+        isPlusButtonOpen,
+        setIsPlusButtonOpen,
         setArrayDragged,
       }}
     >
@@ -446,44 +352,9 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
 export default FilterContext;
 function HasSelector(c: GeneralSelector) {
-  // console.log(c);
-
   const { values } = c;
-
   const hasSelector = values.some((v) => v.isSelected);
   console.log(hasSelector);
 
   return hasSelector;
 }
-
-// console.count("set data");
-// setData([
-//   {
-//     title: "dropdown_audition",
-//     items: [],
-//   },
-//   {
-//     title: "audition_bar",
-//     items: categorical,
-//   },
-// ]);
-// if (data.length > 0) {
-//   console.log(
-//     // data.map((el: any) => (el.items.va === 1 ? el.items[1] : el.items[1]))
-//     data.map((el: any) =>
-//       el.items.map((vm: any) =>
-//         vm.variable_type === "categorical"
-//           ? el.items[1]
-//           : "there is nothing"
-//       )
-//     )
-//   );
-// }
-// setData((ps: any) => ({
-//   ...ps.map((el: any) =>
-//     el.items.map((vm: any) =>
-//       vm.variable_type === "categorical" ? el.items[1] : "there is nothing" )),
-// }));
-// setData ((ps:any) => ({
-//   ...ps.data.items.map((el:any) => el.key === )
-// }))

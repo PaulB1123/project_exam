@@ -1,6 +1,7 @@
 import { API } from "aws-amplify";
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import {
+  categoricalInput,
   getChartDataAudience,
   GetChartDataQuery,
   getChartDataResponse,
@@ -86,7 +87,8 @@ export const useGlobalModalContext = () => useContext(GlobalModalContext);
 
 export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [store, setStore] = useState();
-  const { data, categorical, selectedModelId } = useContext(FilterContext);
+  const { data, categorical, selectedModelId, ArrayDragged } =
+    useContext(FilterContext);
   const { modalType, modalProps }: any = store || {};
   const [selectedAudition, setSelectedAudition] = useState("");
   const [dataForChart, setDataForChart] = useState() as any;
@@ -155,6 +157,56 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     (item: any) => item.id === selectedAudition
   );
 
+  const [arrayData, setArrayData] = useState([] as categoricalInput[]);
+  const [antherone, setAntherone] = useState([]) as any;
+
+  useEffect(() => {
+    let id;
+
+    const something = ArrayDragged.map((e) => {
+      // let val = [] as categoricalInput[];
+      console.log(e);
+
+      id = e.id;
+
+      const aa = e.values.filter((v) => v.isSelected);
+
+      const bb = aa.map((a) => a.id);
+
+      return {
+        id: e.id,
+        values: bb,
+      } as categoricalInput;
+
+      // e.values.map((v) => {
+      //   if (v.isSelected === true) {
+      //     // setArrayData([...v, v]);
+      //     // delete v.isSelected;
+
+      //     val.push({
+      //       id: v.id.toString(),
+      //       values:v.value
+      //     });
+      //   }
+      // });
+      // return val;
+    });
+
+    console.log(something);
+    // values = something.map((e: any) => {
+    //   e.map((v: any) => {
+    //     console.log(v.value);
+    //   });
+    // });
+    // console.log(id);
+
+    setArrayData(something);
+  }, [ArrayDragged]);
+
+  console.log(ArrayDragged);
+
+  console.log(arrayData);
+
   async function ChartFetch() {
     try {
       const response = (await API.graphql({
@@ -164,7 +216,10 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
           Audience: {
             variable_type: dataSelected.variable_type,
             selector: dataSelected.id,
-            filters: { categorical: [], numerical: [] },
+            filters: {
+              categorical: arrayData,
+              numerical: [],
+            },
           } as getChartDataAudience,
         },
       })) as { data: GetChartDataQuery };

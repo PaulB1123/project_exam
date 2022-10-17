@@ -9,9 +9,10 @@ import FilterContext from "../../Data/FilterContext";
 export default function Chart() {
   const { dataForChart, dataSelected, slectedChart, chart1, chart2 } =
     useGlobalModalContext();
-  const { ArrayDragged } = useContext(FilterContext);
+  const { isPlusButtonOpen, ArrayDragged } = useContext(FilterContext);
+
   const [title, setTitle] = useState("this is the title");
-  const [arrayData, setArrayData] = useState();
+
   const [chartChange, setChargeChange] = useState();
   const [selectedArray, setSelectedArray] = useState([]);
 
@@ -26,17 +27,10 @@ export default function Chart() {
   //     console.log(title);
   //   }
 
-  //   console.log(dataSelected.selector);
+  // console.log(dataSelected.selector);
 
-  //   console.log(slectedChart);
-  console.log(ArrayDragged);
-
-  // ArrayDragged.map((e: any) => {
-
-  //   e.values.map((v:any)) => {
-  //     console.log(v);
-  //   }
-  // });
+  // console.log(slectedChart);
+  // console.log(ArrayDragged);
 
   const [items, setitem] = useState([]) as any;
   const [newItem, setNewItem] = useState([]) as any;
@@ -226,14 +220,26 @@ export default function Chart() {
     series: items,
   };
 
+  function hide() {
+    console.log("it is here");
+    const Exist = document.querySelector(".Chart") as any;
+    Exist.classList.add("hide");
+  }
+
   return (
     <div className="Chart">
       {dataForChart != null ? (
-        <div className="Chart_with_buttons">
+        <div
+          className={
+            isPlusButtonOpen === true
+              ? "Chart_with_buttons"
+              : "Chart_with_space"
+          }
+        >
           <div className="containerChart">
-            <div className="Exist">
+            <button className="Exist" onClick={hide}>
               <img src={XIcon} alt="" />
-            </div>
+            </button>
             <div className="continer_with_title_and_exist">
               <div className="title_chart">
                 <div> {title}</div>
