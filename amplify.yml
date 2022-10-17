@@ -1,0 +1,20 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - pip3 install awscli --upgrade --user
+        - aws codeartifact login --tool npm --repository cdk-constructs --domain annalect-nordics --domain-owner 236647543177
+        - npm ci
+    build:
+      commands:
+        - if [ "${AWS_BRANCH}" = "staging" ]; then npm run build:staging; fi
+        - if [ "${AWS_BRANCH}" = "master" ]; then npm run build:production; fi
+        - if [ "${AWS_BRANCH}" = "demo" ]; then npm run build:demo; fi
+  artifacts:
+    baseDirectory: build
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
