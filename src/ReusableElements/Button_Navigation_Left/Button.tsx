@@ -2,7 +2,7 @@ import "../../Componets/Styles/global.css";
 import "./Button.css";
 import "../../Componets/Filters/Filter.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import * as React from "react";
 import Doughnutchart from "../../Componets/Navigation/icons/Doughnut.svg";
 import BarChart from "../../Componets/Navigation/icons/BarChart.png";
@@ -16,6 +16,7 @@ import ArrrowdownIcon from "../../Componets/Navigation/icons/ArrowDown.svg";
 import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
 import Filter from "../../Componets/Navigation/icons/Filter.svg";
 import { useGlobalModalContext } from "../../Componets/Dashboard/Modals/GlobalModal";
+import FilterContext from "../../Data/FilterContext";
 // import { AuditionFilter } from "../../Data/audition_filters";
 
 export default function ChartsButton() {
@@ -169,6 +170,7 @@ export function AudiencesButton() {
   const [arrayWithAudiences, setArrayWithAudiences] = useState([]) as any;
   const { message, inputarr } = useGlobalModalContext();
   const [checkLi, setCheckLi] = useState();
+  const { audienceId } = useContext(FilterContext);
   useEffect(() => {
     if (message !== undefined) {
       setArrayWithAudiences([message]);
@@ -187,6 +189,10 @@ export function AudiencesButton() {
     setCheckLi(key);
     console.log(checkLi);
   };
+
+  // if (audienceId !== null) {
+  //   console.log(audienceId[0].Audience_name);
+  // }
 
   return (
     <>
@@ -252,6 +258,7 @@ export function AudiencesButton() {
                   </li>
                 )
               )}
+              <li>{audienceId[0].Audience_name}</li>
             </div>
 
             {/* <button className="button_with_all_graphs">Select filter</button> */}

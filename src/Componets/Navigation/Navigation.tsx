@@ -11,9 +11,11 @@ import {
 import { useContext } from "react";
 import * as React from "react";
 import UserContext from "../../Data/UserContext";
+import FilterContext from "../../Data/FilterContext";
 
 export default function Navigation() {
   const { logout } = useContext(UserContext);
+  const { audienceId } = useContext(FilterContext);
 
   return (
     <>
