@@ -4,7 +4,13 @@ import "./Componets/Styles/global.css";
 import LogIn from "./Pages/LogIn";
 import Database from "./Pages/Database";
 import Report from "./Report";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
+import { useEffect } from "react";
 
 const {
   REACT_APP_IDENTITY_POOL_ID,
@@ -51,7 +57,7 @@ function App() {
         <Route path="/" element={<LogIn path="Database"></LogIn>}></Route>
         <Route path="/Database" element={<Database />}></Route>
         <Route
-          path="/Report/:client/:country/:databaseId"
+          path="/Report/:client/:country/:modelId"
           element={<Report />}
         ></Route>
       </Routes>

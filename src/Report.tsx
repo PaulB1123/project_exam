@@ -5,6 +5,9 @@ import Header from "./Componets/Header/Header";
 import FilterComponent from "./Componets/Filters/Filter";
 import Dashboard from "./Componets/Dashboard/Dashboard";
 import useLocalStorage from "use-local-storage";
+import { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import FilterContext from "./Data/FilterContext";
 
 function Report() {
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -12,6 +15,14 @@ function Report() {
     "theme",
     defaultDark ? "dark" : "light"
   );
+  const { modelId } = useParams();
+
+  const { setSelectedModelId } = useContext(FilterContext);
+
+  useEffect(() => {
+    console.log("report  set modelId", modelId);
+    setSelectedModelId(modelId);
+  }, [modelId, setSelectedModelId]);
 
   // console.log(clientData);
   // console.log(Data);

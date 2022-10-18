@@ -15,13 +15,18 @@ import {
   getClients,
   getModelsForClient,
   getSelectorsForModel,
+  loadAudience,
 } from "../graphql/queries";
 import {
   ClientItem,
+  GetAudiencesQuery,
   GetAudiencesQueryVariables,
+  getAudiencesResponse,
   getClientsResponse,
   getModelsForClientResponse,
   getSelectorsForModelResponse,
+  LoadAudienceQuery,
+  LoadAudienceQueryVariables,
   ModelItem,
   SelectorFactor,
   selectorValue,
@@ -49,6 +54,7 @@ const FilterContext = createContext({
   setArrayDragged: (param: GeneralSelector[]) => {},
   isPlusButtonOpen: "" as any,
   setIsPlusButtonOpen: (params: any) => {},
+  audienceId: [] as any,
 });
 
 type FilterContextProviderProps = {
@@ -79,15 +85,20 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [client, setClient] = useState("");
   const [country, setCountry] = useState("");
   const [modelId, setModelId] = useState("" as any);
-  const { secondId } = useParams();
+  // const params = useParams();
   const [categorical, setCategorical] = useState([] as GeneralSelector[]);
   const [newArray, setNewArray] = useState([] as any);
   const [ArrayDragged, setArrayDragged] = useState([] as GeneralSelector[]);
   const [ArrayDragging, setArrayDragging] = useState();
   const [isPlusButtonOpen, setIsPlusButtonOpen] = useState(true);
+  const [audienceId, setAudienceId] = useState() as any;
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
+
+  // useEffect(() => {
+  //   console.log(params);
+  // }, [params]);
 
   useEffect(() => {
     async function Mihai() {
@@ -277,13 +288,15 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     setCategorical(updated_selectors);
   };
 
-  useEffect(() => {
-    if (modelId !== "") {
-      console.log("now is here ");
+  // useEffect(() => {
+  //   if (modelId !== "") {
+  //     console.log("now is here ", secondId);
 
-      setModelId(secondId);
-    }
-  }, [secondId]);
+  //     setModelId(secondId);
+  //   }
+  // }, [secondId]);
+
+  console.log("now is here ", modelId);
 
   useEffect(() => {
     if (user != null) {
@@ -321,61 +334,74 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     // console.log(newArray);
   }
 
-  // async function getAudienceData() {
-  //   try {
-  //     const response = (await API.graphql({
-  //       query:  getAudiences,
-  //       variables: {
-  //           Model_id: "f641cdd7-d735-4fde-b67b-249a1e81c222",
-  //           all: true,
-  //       } as GetAudiencesQueryVariables
-  //     }))
-  //   } as { data : GetAudiencesQuery};
-  //   if (StatusCode === 200) {
-  //           if (data) {
-  //             if (data.length > 0) {
-  //             } else {
-  //             }
-  //           }
-  //         } else console.log(error);
-  //       } catch (err) {
-  //         console.log({ err });
-  //       }
+  useEffect(() => {
+    async function getAudienceData() {
+      try {
+        const response = (await API.graphql({
+          query: getAudiences,
+          variables: {
+            Model_id: "f641cdd7-d735-4fde-b67b-249a1e81c222",
+            all: true,
+          } as GetAudiencesQueryVariables,
+        })) as { data: GetAudiencesQuery };
 
-  // async function ChartFetch() {
-  //   try {
-  //     const response = (await API.graphql({
-  //       query: getChartData,
-  //       variables: {
-  //         Model_id: selectedModelId,
-  //         Audience: {
-  //           variable_type: dataSelected.variable_type,
-  //           selector: dataSelected.id,
-  //           filters: {
-  //             categorical: arrayData,
-  //             numerical: [],
-  //           },
-  //         } as getChartDataAudience,
-  //       },
-  //     })) as { data: GetChartDataQuery };
-  //     const { data: response_data } = response;
-  //     const { getChartData: actual_list } = response_data;
-  //     const { data, error, StatusCode }: getChartDataResponse = actual_list;
+        const { data: response_data } = response;
+        const { getAudiences: actual_list } = response_data;
+        const { data, error, StatusCode }: getAudiencesResponse = actual_list;
+        console.log(data);
 
-  //     console.log(actual_list);
-  //     if (StatusCode === 200) {
-  //       if (data) {
-  //         if (data.length > 0) {
-  //           setDataForChart(data);
-  //         } else {
-  //           setDataForChart([]);
-  //         }
-  //       }
-  //     } else console.log(error);
-  //   } catch (err) {
-  //     console.log({ err });
-  //   }
-  // }
+        // console.log(response);
+
+        if (StatusCode === 200) {
+          if (data) {
+            if (data.length > 0) {
+              setAudienceId(data);
+              getAudienceURL();
+            } else {
+              setAudienceId([]);
+            }
+          }
+        } else console.log(error);
+      } catch (err) {
+        console.log({ err });
+      }
+    }
+
+    async function getAudienceURL() {
+      console.log("this is working", audienceId[0].Audience_id);
+
+      try {
+        const response = (await API.graphql({
+          query: loadAudience,
+          variables: {
+            Audience_id: audienceId[0].Audience_id,
+          } as LoadAudienceQueryVariables,
+        })) as { data: LoadAudienceQuery };
+
+        // const { data: response_data } = response;
+        // const { getAudiences: actual_list } = response_data;
+        // const { data, error, StatusCode }: getAudiencesResponse = actual_list;
+        console.log(response);
+
+        // console.log(response);
+
+        // if (StatusCode === 200) {
+        //   if (data) {
+        //     if (data.length > 0) {
+
+        //     } else {
+
+        //     }
+        //   }
+        // } else console.log(error);
+      } catch (err) {
+        console.log({ err });
+      }
+    }
+
+    getAudienceData();
+  }, []);
+  console.log(audienceId);
 
   return (
     <FilterContext.Provider
@@ -401,6 +427,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         isPlusButtonOpen,
         setIsPlusButtonOpen,
         setArrayDragged,
+        audienceId,
       }}
     >
       {props.children}
