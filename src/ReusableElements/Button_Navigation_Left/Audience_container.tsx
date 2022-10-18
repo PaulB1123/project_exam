@@ -5,6 +5,7 @@ import OkayIcon from "../../Componets/Navigation/icons/Okay.svg";
 import SegmentIcon from "../../Componets/Filters/icons/Segment.svg";
 import "./Audience_container.css";
 import FilterContext from "../../Data/FilterContext";
+import { useGlobalModalContext } from "../../Componets/Dashboard/Modals/GlobalModal";
 
 type Props = {
   item: any;
@@ -30,6 +31,8 @@ const AudienceContainer = (props: Props) => {
   // const [newArray, setNewArray] = useState([]);
 
   const { updateSelectorSelectedValue } = useContext(FilterContext);
+  const { ChartFetch, loading, setLoading } = useGlobalModalContext();
+  const [clickUpdate, setClickupdate] = useState();
 
   const params = {
     grpI: props.grpI,
@@ -143,7 +146,11 @@ const AudienceContainer = (props: Props) => {
     handleClickDropDown();
   }
 
-  // console.log("THIS IS YOUR FUCKING LIST", list);
+  // setClickupdate(loading);
+  // if (clickUpdate === true) {
+  //   // setClickupdate(false);
+  // }
+
   return (
     <>
       <div
@@ -261,8 +268,13 @@ const AudienceContainer = (props: Props) => {
               ))}
             </div>
 
-            <div className="Delete_button">
-              <button>Delete filter</button>
+            <div className="buttons_audience">
+              <div className="Delete_button" id="update_button">
+                <button onClick={ChartFetch}>Update Report</button>
+              </div>
+              <div className="Delete_button">
+                <button>Delete filter</button>
+              </div>
             </div>
           </div>
         )}

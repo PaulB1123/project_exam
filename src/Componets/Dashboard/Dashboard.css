@@ -31,7 +31,7 @@
 .MainDashbaord {
   margin-top: 5rem;
   margin-left: 2rem;
-  width: 70%;
+  width: 100%;
 }
 
 .MainDashbaord div {
@@ -43,10 +43,15 @@
 .ChartsArray {
   display: flex !important;
   flex-direction: row !important;
+  flex-wrap: wrap;
 }
 
 .Chart {
   margin: 1rem;
   margin-left: 0rem;
   margin-top: 0rem;
+}
+
+.no_spacing .Chart .Chart_with_space {
+  margin-left: 1rem !important;
 }

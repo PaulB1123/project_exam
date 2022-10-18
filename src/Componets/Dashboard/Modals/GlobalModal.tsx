@@ -40,12 +40,15 @@ type GlobalModalContext = {
   store: any;
   chart1: any;
   chart2: any;
+  chart3: any;
   slectedChart: any;
   inputarr: AudienceInfo[];
   name: any;
   setName: (event: any) => any;
   // buttonIsOpen: any;
   // setbuttonIsOpen:() => any;
+  loading: any;
+  setLoading: (event: boolean) => any;
 };
 
 const initalState: GlobalModalContext = {
@@ -64,10 +67,13 @@ const initalState: GlobalModalContext = {
   store: {},
   chart1: "",
   chart2: "",
+  chart3: "",
   slectedChart: "",
   inputarr: [],
   name: "",
   setName: () => {},
+  loading: false,
+  setLoading: (event: boolean) => {},
   // buttonIsOpen: "",
   // setbuttonIsOpen:() => "",
 };
@@ -95,6 +101,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [slectedChart, setSelectedChart] = useState("");
   const chart1 = "chart1";
   const chart2 = "chart2";
+  const chart3 = "chart3";
+  const [loading, setLoading] = useState(false);
 
   const [savedAudience, setSavedAudience] = useState([
     {
@@ -123,9 +131,15 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
 
   const handleChange = (audienceName: string) => {
     // setMessage({ ...message, [e.target.name]: e.target.value });
+
     // 1) call save audience api give you back id, and s3link
+    // this is done
+
     // 2) from comtext make jsion file
+    // this is done
+
     // 3) save on S3 using s3link
+
     // 4) update state inputArr with new audienceinfo
 
     const aInfo = {
@@ -208,6 +222,11 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   console.log(arrayData);
 
   async function ChartFetch() {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
     try {
       const response = (await API.graphql({
         query: getChartData,
@@ -244,6 +263,15 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     } catch (err) {
       console.log({ err });
     }
+
+    // useEffect(() => {
+    //   console.log("this is loading");
+
+    //   setLoading(true);
+    //   setTimeout(() => {
+    //     setLoading(false);
+    //   }, 10000);
+    // }, []);
   }
 
   const renderComponent = () => {
@@ -271,13 +299,17 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         dataSelected,
         slectedChart,
         setSelectedChart,
+
         chart2,
         chart1,
+        chart3,
         inputarr,
         name,
         setName,
         // buttonIsOpen,
         // setbuttonIsOpen,
+        loading,
+        setLoading,
       }}
     >
       {renderComponent()}

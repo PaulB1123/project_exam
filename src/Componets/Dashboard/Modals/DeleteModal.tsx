@@ -20,6 +20,7 @@ export const DeleteModal = () => {
     ChartFetch,
     chart1,
     chart2,
+    chart3,
     slectedChart,
     setSelectedChart,
   } = useGlobalModalContext();
@@ -132,6 +133,23 @@ export const DeleteModal = () => {
               </div>
               <p>This is a {chart2}</p>
             </Button>
+
+            {/* <Button
+              id="2"
+              value="Chart2"
+              onClick={() => {
+                selectChart(chart3);
+              }}
+              className={slectedChart === chart3 ? "borderactive" : ""}
+            >
+              <div className="image_chart">
+                <img
+                  src={slectedChart === chart3 ? Chart2Color : Chart2}
+                  alt=""
+                />
+              </div>
+              <p>This is a {chart3}</p>
+            </Button> */}
           </div>
         </div>
 

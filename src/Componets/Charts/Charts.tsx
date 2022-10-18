@@ -5,10 +5,19 @@ import XIcon from "../Filters/icons/X.svg";
 import "./Charts.css";
 import { useContext, useEffect, useState } from "react";
 import FilterContext from "../../Data/FilterContext";
+import GridLoader from "react-spinners/GridLoader";
 
 export default function Chart() {
-  const { dataForChart, dataSelected, slectedChart, chart1, chart2 } =
-    useGlobalModalContext();
+  const {
+    dataForChart,
+    dataSelected,
+    slectedChart,
+    chart1,
+    chart2,
+    chart3,
+    loading,
+    setLoading,
+  } = useGlobalModalContext();
   const { isPlusButtonOpen, ArrayDragged } = useContext(FilterContext);
 
   const [title, setTitle] = useState("this is the title");
@@ -18,19 +27,7 @@ export default function Chart() {
 
   useEffect(() => {
     setChargeChange(slectedChart);
-    // console.log(chartChange);
-    // console.log(chartChange === chart1);
   }, [chartChange, slectedChart]);
-
-  //   if (dataSelected != null) {
-  //     setTitle(dataSelected.selector);
-  //     console.log(title);
-  //   }
-
-  // console.log(dataSelected.selector);
-
-  // console.log(slectedChart);
-  // console.log(ArrayDragged);
 
   const [items, setitem] = useState([]) as any;
   const [newItem, setNewItem] = useState([]) as any;
@@ -47,30 +44,11 @@ export default function Chart() {
             data: [item.count],
           }))
         );
-
-        // dataForChart.map((item: any) => {
-        //   setitem({ name: item.value, data: [item.count] });
-        //   setNewItem(...Object.keys(items), Object.keys(items));
-        //   console.log(newItem);
-        //   // setNewItem([...item, item]);
-        //   // setNewItem(...item, item);
-        // });
       }
 
       if (items !== null) {
         console.log(items);
       }
-      // console.log(newItem);
-
-      //   console.log(title);
-      //   console.log(dataForChart);
-
-      //   dataForChart.map((item: any) => {
-      //     const newObject = { name: item.value, data: [item.count] };
-      //     console.log(newObject);
-
-      //     // setArrayData(newObject)
-      //   });
     }
   }, [dataSelected, dataForChart]);
 
@@ -220,6 +198,33 @@ export default function Chart() {
     series: items,
   };
 
+  const options3 = {
+    chart: {
+      type: "bar",
+    },
+    title: {
+      text: "UEFA CL top scorers by season",
+    },
+    xAxis: {
+      categories: ["2020/21", "2019/20", "2018/19", "2017/18", "2016/17"],
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: "Goals",
+      },
+    },
+    legend: {
+      reversed: true,
+    },
+    plotOptions: {
+      series: {
+        stacking: "normal",
+      },
+    },
+    series: items,
+  };
+
   function hide() {
     console.log("it is here");
     const Exist = document.querySelector(".Chart") as any;
@@ -247,21 +252,26 @@ export default function Chart() {
             </div>
 
             <div className="container_for_chart">
-              <HighchartsReact
-                className="containerChart"
-                highcharts={Highcharts}
-                options={chartChange === chart1 ? options2 : options}
-              />
+              {loading ? (
+                <div className="wrapper_loader">
+                  <GridLoader
+                    color={"#104666"}
+                    loading={loading}
+                    size={15}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                </div>
+              ) : (
+                <HighchartsReact
+                  className="containerChart"
+                  highcharts={Highcharts}
+                  options={chartChange === chart1 ? options2 : options}
+                />
+              )}
             </div>
 
-            {dataForChart.map((item: any) => {
-              //   <div className="Chartcontianer">
-              //     <ul>
-              //       <li> {item.value}</li>
-              //       <li>{item.count}</li>
-              //     </ul>
-              //   </div>
-            })}
+            {dataForChart.map((item: any) => {})}
 
             <div className="Button_adds">
               <div className="Button_settings">

@@ -11,12 +11,14 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { API } from "aws-amplify";
 import {
+  getAudiences,
   getClients,
   getModelsForClient,
   getSelectorsForModel,
 } from "../graphql/queries";
 import {
   ClientItem,
+  GetAudiencesQueryVariables,
   getClientsResponse,
   getModelsForClientResponse,
   getSelectorsForModelResponse,
@@ -82,7 +84,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [newArray, setNewArray] = useState([] as any);
   const [ArrayDragged, setArrayDragged] = useState([] as GeneralSelector[]);
   const [ArrayDragging, setArrayDragging] = useState();
-  const [isPlusButtonOpen, setIsPlusButtonOpen] = useState();
+  const [isPlusButtonOpen, setIsPlusButtonOpen] = useState(true);
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
@@ -318,6 +320,62 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     setNewArray(data[0].items);
     // console.log(newArray);
   }
+
+  // async function getAudienceData() {
+  //   try {
+  //     const response = (await API.graphql({
+  //       query:  getAudiences,
+  //       variables: {
+  //           Model_id: "f641cdd7-d735-4fde-b67b-249a1e81c222",
+  //           all: true,
+  //       } as GetAudiencesQueryVariables
+  //     }))
+  //   } as { data : GetAudiencesQuery};
+  //   if (StatusCode === 200) {
+  //           if (data) {
+  //             if (data.length > 0) {
+  //             } else {
+  //             }
+  //           }
+  //         } else console.log(error);
+  //       } catch (err) {
+  //         console.log({ err });
+  //       }
+
+  // async function ChartFetch() {
+  //   try {
+  //     const response = (await API.graphql({
+  //       query: getChartData,
+  //       variables: {
+  //         Model_id: selectedModelId,
+  //         Audience: {
+  //           variable_type: dataSelected.variable_type,
+  //           selector: dataSelected.id,
+  //           filters: {
+  //             categorical: arrayData,
+  //             numerical: [],
+  //           },
+  //         } as getChartDataAudience,
+  //       },
+  //     })) as { data: GetChartDataQuery };
+  //     const { data: response_data } = response;
+  //     const { getChartData: actual_list } = response_data;
+  //     const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+  //     console.log(actual_list);
+  //     if (StatusCode === 200) {
+  //       if (data) {
+  //         if (data.length > 0) {
+  //           setDataForChart(data);
+  //         } else {
+  //           setDataForChart([]);
+  //         }
+  //       }
+  //     } else console.log(error);
+  //   } catch (err) {
+  //     console.log({ err });
+  //   }
+  // }
 
   return (
     <FilterContext.Provider

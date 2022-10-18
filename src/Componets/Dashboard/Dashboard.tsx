@@ -1,5 +1,5 @@
 import { ContextSelectorFooter } from "@patternfly/react-core";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../Styles/global.css";
 import "./Dashboard.css";
 import HeroDashboardImage from "./icons/Hero_Image.svg";
@@ -38,20 +38,21 @@ export default function Dashboard() {
         <div className="ChartsArray">
           <div>
             <Chart />
-            {/* <Chart /> */}
-          </div>
-          {/* <div>
-            <Chart />
+
             <Chart />
           </div>
-          <div>
+          <div className="no_spacing">
             <Chart />
             <Chart />
           </div>
-          <div>
+          <div className="no_spacing">
             <Chart />
             <Chart />
-          </div> */}
+          </div>
+          <div className="no_spacing">
+            <Chart />
+            <Chart />
+          </div>
         </div>
       </div>
     </>
