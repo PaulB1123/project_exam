@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.0.6",
     "aws-amplify": "^4.3.35",
     "chart.js": "^3.9.1",
+    "env-cmd": "^10.1.0",
     "eslint-plugin-react": "^7.31.8",
     "highcharts": "^10.2.1",
     "highcharts-react-official": "^3.1.0",
@@ -37,8 +38,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:staging": "env-cmd -f .env.staging npm run build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "preinstall": "npm run co:login",
+    "co:login": "aws codeartifact login --tool npm --repository cdk-constructs --domain annalect-nordics"
   },
   "eslintConfig": {
     "extends": [
