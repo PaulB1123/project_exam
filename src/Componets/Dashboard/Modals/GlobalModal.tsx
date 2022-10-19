@@ -222,6 +222,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   console.log(arrayData);
 
   async function ChartFetch() {
+    console.log("why is this not showing ");
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -243,7 +245,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         },
       })) as { data: GetChartDataQuery };
 
-      // console.log(response.data.getChartData);
+      console.log(response);
       // const response_data = response.data.getChartData;
 
       const { data: response_data } = response;

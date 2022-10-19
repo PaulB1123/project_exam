@@ -356,7 +356,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
           if (data) {
             if (data.length > 0) {
               setAudienceId(data);
-              getAudienceURL();
+              // getAudienceURL();
             } else {
               setAudienceId([]);
             }
@@ -367,40 +367,41 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       }
     }
 
-    async function getAudienceURL() {
-      console.log("this is working", audienceId[0].Audience_id);
+    // async function getAudienceURL() {
+    //   console.log("this is working", audienceId);
 
-      try {
-        const response = (await API.graphql({
-          query: loadAudience,
-          variables: {
-            Audience_id: audienceId[0].Audience_id,
-          } as LoadAudienceQueryVariables,
-        })) as { data: LoadAudienceQuery };
+    //   try {
+    //     const response = (await API.graphql({
+    //       query: loadAudience,
+    //       variables: {
+    //         Audience_id: audienceId[0].Audience_id,
+    //       } as LoadAudienceQueryVariables,
+    //     })) as { data: LoadAudienceQuery };
 
-        // const { data: response_data } = response;
-        // const { getAudiences: actual_list } = response_data;
-        // const { data, error, StatusCode }: getAudiencesResponse = actual_list;
-        console.log(response);
+    //     // const { data: response_data } = response;
+    //     // const { getAudiences: actual_list } = response_data;
+    //     // const { data, error, StatusCode }: getAudiencesResponse = actual_list;
+    //     console.log(response);
 
-        // console.log(response);
+    //     // console.log(response);
 
-        // if (StatusCode === 200) {
-        //   if (data) {
-        //     if (data.length > 0) {
+    //     // if (StatusCode === 200) {
+    //     //   if (data) {
+    //     //     if (data.length > 0) {
 
-        //     } else {
+    //     //     } else {
 
-        //     }
-        //   }
-        // } else console.log(error);
-      } catch (err) {
-        console.log({ err });
-      }
-    }
+    //     //     }
+    //     //   }
+    //     // } else console.log(error);
+    //   } catch (err) {
+    //     console.log({ err });
+    //   }
+    // }
 
     getAudienceData();
   }, []);
+
   console.log(audienceId);
 
   return (

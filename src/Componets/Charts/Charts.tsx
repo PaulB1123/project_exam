@@ -52,6 +52,12 @@ export default function Chart() {
     }
   }, [dataSelected, dataForChart]);
 
+  function hide() {
+    console.log("it is here");
+    const Exist = document.querySelector(".Chart") as any;
+    Exist.classList.add("hide");
+  }
+
   const options = {
     chart: {
       type: "column",
@@ -198,39 +204,6 @@ export default function Chart() {
     series: items,
   };
 
-  const options3 = {
-    chart: {
-      type: "bar",
-    },
-    title: {
-      text: "UEFA CL top scorers by season",
-    },
-    xAxis: {
-      categories: ["2020/21", "2019/20", "2018/19", "2017/18", "2016/17"],
-    },
-    yAxis: {
-      min: 0,
-      title: {
-        text: "Goals",
-      },
-    },
-    legend: {
-      reversed: true,
-    },
-    plotOptions: {
-      series: {
-        stacking: "normal",
-      },
-    },
-    series: items,
-  };
-
-  function hide() {
-    console.log("it is here");
-    const Exist = document.querySelector(".Chart") as any;
-    Exist.classList.add("hide");
-  }
-
   return (
     <div className="Chart">
       {dataForChart != null ? (
@@ -246,13 +219,11 @@ export default function Chart() {
               <img src={XIcon} alt="" />
             </button>
             <div className="continer_with_title_and_exist">
-              <div className="title_chart">
-                <div> {title}</div>
-              </div>
+              <div className="title_chart">{/* <div> {title}</div> */}</div>
             </div>
 
             <div className="container_for_chart">
-              {loading ? (
+              {/* {loading ? (
                 <div className="wrapper_loader">
                   <GridLoader
                     color={"#104666"}
@@ -268,12 +239,12 @@ export default function Chart() {
                   highcharts={Highcharts}
                   options={chartChange === chart1 ? options2 : options}
                 />
-              )}
+              )} */}
             </div>
 
             {dataForChart.map((item: any) => {})}
 
-            <div className="Button_adds">
+            {/* <div className="Button_adds">
               <div className="Button_settings">
                 <button>See advance scores</button>
               </div>
@@ -284,7 +255,7 @@ export default function Chart() {
                 <li id="pureDisplay">|</li>
                 <li>Advertiser Disclousure</li>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       ) : (
