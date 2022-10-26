@@ -17,7 +17,7 @@ function Report() {
   );
   const { modelId } = useParams();
 
-  const { setSelectedModelId } = useContext(FilterContext);
+  const { setSelectedModelId, getAudienceData } = useContext(FilterContext);
 
   useEffect(() => {
     console.log("report  set modelId", modelId);
@@ -31,6 +31,12 @@ function Report() {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
   };
+
+  // console.log(modelId);
+  useEffect(() => {
+    console.log(modelId);
+    getAudienceData(modelId as string);
+  }, [modelId]);
 
   return (
     <div className="Main_App" data-theme={theme}>

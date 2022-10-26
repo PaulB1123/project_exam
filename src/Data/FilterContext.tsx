@@ -31,6 +31,10 @@ import {
   SelectorFactor,
   selectorValue,
 } from "../API";
+import {
+  GlobalModal,
+  useGlobalModalContext,
+} from "../Componets/Dashboard/Modals/GlobalModal";
 
 const FilterContext = createContext({
   data: [] as IGroup[],
@@ -55,6 +59,7 @@ const FilterContext = createContext({
   isPlusButtonOpen: "" as any,
   setIsPlusButtonOpen: (params: any) => {},
   audienceId: [] as any,
+  getAudienceData: (event: string) => {},
 });
 
 type FilterContextProviderProps = {
@@ -80,6 +85,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     undefined
   );
   const { user, allUserData } = useContext(UserContext);
+  const { arrayData } = useGlobalModalContext();
   const [selectedClient, setSelectedClient] = React.useState("");
   const [data, setData] = useState([] as any);
   const [client, setClient] = useState("");
@@ -106,15 +112,15 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         const response = (await API.graphql({
           query: getClients,
         })) as { data: { getClients: getClientsResponse } };
-        console.log(response);
+        // console.log(response);
         const { data: response_data } = response;
         const { getClients: actual_list } = response_data;
         const { data, error, StatusCode }: getClientsResponse = actual_list;
 
-        console.log(actual_list);
+        // console.log(actual_list);
         if (StatusCode === 200) {
           if (data) {
-            console.log(data);
+            // console.log(data);
             setClientNewData(data);
 
             if (data.length > 0) {
@@ -124,7 +130,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
               setSelectedClient(data[0].Client_code);
             }
           }
-          console.log(clientNewData);
+          // console.log(clientNewData);
         } else console.log(error);
       } catch (err) {
         console.log({ err });
@@ -138,7 +144,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   // console.log(clientNewData);
 
   useEffect(() => {
-    console.log(clientNewData);
+    // console.log(clientNewData);
   }, [clientNewData]);
 
   useEffect(() => {
@@ -148,17 +154,17 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
           query: getModelsForClient,
           variables: { Client_code: selectedClient },
         })) as { data: { getModelsForClient: getModelsForClientResponse } };
-        console.log(response);
+        // console.log(response);
         const { data: response_data } = response;
         const { getModelsForClient: actual_list } = response_data;
 
         const { data, error, StatusCode }: getModelsForClientResponse =
           actual_list;
 
-        console.log(actual_list);
+        // console.log(actual_list);
         if (StatusCode === 200) {
           if (data) {
-            console.log(data);
+            // console.log(data);
             if (data.length > 0) {
               setAvailableModels(data);
               setSelectedModelId(data[0].Model_id);
@@ -184,13 +190,13 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       const selectedModel = availableModels.filter(
         (m) => m.Model_id === selectedModelId
       );
-      console.log(selectedModel);
+      // console.log(selectedModel);
 
       if (selectedModel.length > 0) {
         // console.log(selectedModel, selectedModelId);
       }
     }
-    console.log(selectedModelId);
+    // console.log(selectedModelId);
   }, [selectedModelId, availableModels]);
 
   const DatabaseFetc = useCallback(async () => {
@@ -202,14 +208,14 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         data: { getSelectorsForModel: getSelectorsForModelResponse };
       };
       //  now I have fecthed the data with the selectedModelId so I received the filter array
-      console.log("this is all of my data", response);
+      // console.log("this is all of my data", response);
       const { data: response_data } = response;
       const { getSelectorsForModel: actual_list } = response_data;
 
       const { data, error, StatusCode }: getSelectorsForModelResponse =
         actual_list;
 
-      console.log(actual_list);
+      // console.log(actual_list);
       if (StatusCode === 200) {
         if (data) {
           // console.log(data);
@@ -218,7 +224,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
             const filteredList = data.filter(
               (i) => i.variable_type === "categorical"
             ) as SelectorFactor[];
-            console.log("this should work", filteredList);
+            // console.log("this should work", filteredList);
             if (filteredList.length > 0) {
               const a = filteredList.map((i: SelectorFactor) => {
                 const {
@@ -242,7 +248,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
                   } as GeneralSelector;
                 }
               });
-              console.log("this should work", a);
+              // console.log("this should work", a);
 
               if (a) {
                 const newLocal = a.filter((s) => s !== undefined);
@@ -262,7 +268,6 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   useEffect(() => {
     if (selectedModelId) {
       DatabaseFetc();
-      console.log("blabla", selectedModelId);
     }
   }, [DatabaseFetc, selectedModelId]);
 
@@ -288,16 +293,6 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     setCategorical(updated_selectors);
   };
 
-  // useEffect(() => {
-  //   if (modelId !== "") {
-  //     console.log("now is here ", secondId);
-
-  //     setModelId(secondId);
-  //   }
-  // }, [secondId]);
-
-  console.log("now is here ", modelId);
-
   useEffect(() => {
     if (user != null) {
     }
@@ -305,9 +300,10 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
   useEffect(() => {
     const hasSelectedValues = categorical.filter((c) => HasSelector(c));
+
     const dosentHasSelectedValues = categorical.filter((c) => !HasSelector(c));
-    setArrayDragged(hasSelectedValues);
-    console.log(hasSelectedValues);
+    // setArrayDragged(hasSelectedValues);
+    // console.log(hasSelectedValues);
 
     setData([
       {
@@ -322,7 +318,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   }, [categorical]);
 
   useEffect(() => {
-    console.log(ArrayDragged);
+    // console.log(ArrayDragged);
   }, [ArrayDragged]);
 
   useEffect(() => {
@@ -334,75 +330,42 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     // console.log(newArray);
   }
 
-  useEffect(() => {
-    async function getAudienceData() {
-      try {
-        const response = (await API.graphql({
-          query: getAudiences,
-          variables: {
-            Model_id: "f641cdd7-d735-4fde-b67b-249a1e81c222",
-            all: true,
-          } as GetAudiencesQueryVariables,
-        })) as { data: GetAudiencesQuery };
+  async function getAudienceData(modelId: string) {
+    console.log(modelId);
 
-        const { data: response_data } = response;
-        const { getAudiences: actual_list } = response_data;
-        const { data, error, StatusCode }: getAudiencesResponse = actual_list;
-        console.log(data);
+    try {
+      const response = (await API.graphql({
+        query: getAudiences,
+        variables: {
+          Model_id: modelId,
+          all: true,
+        } as GetAudiencesQueryVariables,
+      })) as { data: GetAudiencesQuery };
 
-        // console.log(response);
+      const { data: response_data } = response;
+      const { getAudiences: actual_list } = response_data;
+      const { data, error, StatusCode }: getAudiencesResponse = actual_list;
 
-        if (StatusCode === 200) {
-          if (data) {
-            if (data.length > 0) {
-              setAudienceId(data);
-              // getAudienceURL();
-            } else {
-              setAudienceId([]);
-            }
+      console.log(data);
+
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            setAudienceId(data);
+            // getAudienceURL();
+          } else {
+            setAudienceId([]);
           }
-        } else console.log(error);
-      } catch (err) {
-        console.log({ err });
-      }
+        }
+      } else console.log(error);
+    } catch (err) {
+      console.log({ err });
     }
+  }
 
-    // async function getAudienceURL() {
-    //   console.log("this is working", audienceId);
-
-    //   try {
-    //     const response = (await API.graphql({
-    //       query: loadAudience,
-    //       variables: {
-    //         Audience_id: audienceId[0].Audience_id,
-    //       } as LoadAudienceQueryVariables,
-    //     })) as { data: LoadAudienceQuery };
-
-    //     // const { data: response_data } = response;
-    //     // const { getAudiences: actual_list } = response_data;
-    //     // const { data, error, StatusCode }: getAudiencesResponse = actual_list;
-    //     console.log(response);
-
-    //     // console.log(response);
-
-    //     // if (StatusCode === 200) {
-    //     //   if (data) {
-    //     //     if (data.length > 0) {
-
-    //     //     } else {
-
-    //     //     }
-    //     //   }
-    //     // } else console.log(error);
-    //   } catch (err) {
-    //     console.log({ err });
-    //   }
-    // }
-
-    getAudienceData();
-  }, []);
-
-  console.log(audienceId);
+  useEffect(() => {
+    console.log(audienceId);
+  }, [audienceId]);
 
   return (
     <FilterContext.Provider
@@ -429,6 +392,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         setIsPlusButtonOpen,
         setArrayDragged,
         audienceId,
+
+        getAudienceData,
       }}
     >
       {props.children}
@@ -440,7 +405,7 @@ export default FilterContext;
 function HasSelector(c: GeneralSelector) {
   const { values } = c;
   const hasSelector = values.some((v) => v.isSelected);
-  console.log(hasSelector);
+  // console.log(hasSelector);
 
   return hasSelector;
 }

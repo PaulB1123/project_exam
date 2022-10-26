@@ -17,6 +17,7 @@ import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
 import Filter from "../../Componets/Navigation/icons/Filter.svg";
 import { useGlobalModalContext } from "../../Componets/Dashboard/Modals/GlobalModal";
 import FilterContext from "../../Data/FilterContext";
+import TrashIcon from "../../Componets/Navigation/icons/Trash.svg";
 // import { AuditionFilter } from "../../Data/audition_filters";
 
 export default function ChartsButton() {
@@ -164,12 +165,14 @@ export function AudiencesButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
 
-  const [isOpenReport, setOpenReport] = useState(false);
-  const [isActiveReport, setIsActiveReport] = useState(false);
+  const [isOpenReport, setOpenAudience] = useState(false);
+  const [isActiveReport, setIsActiveAudience] = useState(false);
 
   const [arrayWithAudiences, setArrayWithAudiences] = useState([]) as any;
-  const { message, inputarr } = useGlobalModalContext();
-  const [checkLi, setCheckLi] = useState();
+
+  const [checkLi, setCheckLi] = useState("");
+  const { message, inputarr, loadAudienceUrl, deleteItemAudience } =
+    useGlobalModalContext();
   const { audienceId } = useContext(FilterContext);
   useEffect(() => {
     if (message !== undefined) {
@@ -178,21 +181,19 @@ export function AudiencesButton() {
     }
   }, [message]);
 
-  const handleClickReports = () => {
+  const handleClickAudienceContainer = () => {
     setOpenReports(!isOpenReports);
     setIsActiveReports((current) => !current);
   };
 
-  const handelclickReport = (key: any) => {
-    setOpenReport(!isOpenReport);
-    setIsActiveReport((current) => !current);
-    setCheckLi(key);
-    console.log(checkLi);
-  };
+  const handelclickAudience = (key: string) => {
+    console.log(key);
 
-  // if (audienceId !== null) {
-  //   console.log(audienceId[0].Audience_name);
-  // }
+    // setOpenAudience(!isOpenReport);
+    // setIsActiveAudience((current) => !current);
+    setCheckLi(key);
+    loadAudienceUrl(key);
+  };
 
   return (
     <>
@@ -200,7 +201,7 @@ export function AudiencesButton() {
         type="button"
         className="Reports_button"
         onClick={() => {
-          handleClickReports();
+          handleClickAudienceContainer();
         }}
       >
         {isOpenReports ? (
@@ -233,35 +234,21 @@ export function AudiencesButton() {
         <div>
           <div>
             <div className="Dropdown_container" id="Dropdown_container">
-              {inputarr.map(
-                (i: {
-                  AudienceId: React.Key | null | undefined;
-                  AudienceName:
-                    | string
-                    | number
-                    | boolean
-                    | React.ReactElement<
-                        any,
-                        string | React.JSXElementConstructor<any>
-                      >
-                    | React.ReactFragment
-                    | React.ReactPortal
-                    | null
-                    | undefined;
-                }) => (
+              {audienceId.map((i: any) => {
+                return (
                   <li
-                    key={i.AudienceId}
-                    onClick={(e) => handelclickReport(i.AudienceId)}
-                    className={checkLi === i.AudienceId ? "liActive" : ""}
+                    key={i.Audience_id}
+                    onClick={() => handelclickAudience(i.Audience_id)}
+                    className={checkLi === i.Audience_id ? "liActive" : ""}
                   >
-                    {i.AudienceName}
+                    {i.Audience_name}
+                    <button onClick={() => deleteItemAudience(i.Audience_id)}>
+                      <img src={TrashIcon} alt="trashIcon" />
+                    </button>
                   </li>
-                )
-              )}
-              <li>{audienceId[0].Audience_name}</li>
+                );
+              })}
             </div>
-
-            {/* <button className="button_with_all_graphs">Select filter</button> */}
           </div>
         </div>
       )}

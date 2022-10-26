@@ -1,95 +1,29 @@
-// import React, { useRef, useState } from "react";
 import { Modal, ModalVariant, Button } from "@patternfly/react-core";
 import { useGlobalModalContext } from "./GlobalModal";
 import XIcon from "../../Filters/icons/X.svg";
 import "../../Filters/Modal.css";
-import { useContext, useState } from "react";
-import { API } from "aws-amplify";
-import { saveAudience } from "../../../graphql/mutations";
-import {
-  SaveAudienceMutation,
-  SaveAudienceMutationVariables,
-  saveAudienceResponse,
-} from "../../../API";
+import { useContext } from "react";
 import FilterContext from "../../../Data/FilterContext";
 
 export const UpdateModal = () => {
-  const { hideModal, message, handleChange, setSavedAudience, name, setName } =
-    useGlobalModalContext();
+  const { hideModal, handleChange, name, setName } = useGlobalModalContext();
   const { selectedModelId, ArrayDragged } = useContext(FilterContext);
-
-  //   const [message, setMessage] = useState("");
 
   const handleModalToggle = () => {
     hideModal();
   };
 
-  //   const inputRef = useRef("" as any);
-
-  async function PreseignedURL() {
-    try {
-      const response = (await API.graphql({
-        query: saveAudience,
-        variables: {
-          Model_id: selectedModelId,
-          Audience_name: name,
-        } as SaveAudienceMutationVariables,
-      })) as { data: SaveAudienceMutation };
-
-      const { data: response_data } = response;
-      const { saveAudience: actual_list } = response_data;
-      const { data, error, StatusCode }: saveAudienceResponse = actual_list;
-
-      console.log(actual_list);
-      if (StatusCode === 200) {
-        if (data) {
-          PostResponse(data.Url);
-          console.log(data.Url);
-        } else {
-        }
-      } else console.log(error);
-
-      if (response != null) {
-        // PostResponse();
-      }
-      console.log(response);
-      console.log();
-    } catch (err) {}
-  }
-
-  function UntityFucntion(e: any) {
+  function UntityFunction(e: any) {
     handleChange(name as string);
     handleModalToggle();
-    PreseignedURL();
-    console.log(selectedModelId);
-    console.log("this has been clicked ");
-    console.log(ArrayDragged);
 
-    // if (e.key === "Enter") {
-    //   handleChange(name as string);
-    //   handleModalToggle();
-    // }
-    // setSavedAudience(message);
-    // handleChange();
-  }
-
-  async function PostResponse(e: string) {
-    try {
-      const response = await fetch(e, {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(ArrayDragged),
-      });
-      console.log(response);
-    } catch (err) {
-      console.log({ err });
-    }
+    // console.log(selectedModelId);
+    // console.log("this has been clicked ");
+    // console.log(ArrayDragged);
   }
 
   function updateName(val: any) {
-    // setName((e: any) => e.target.value);
     setName(val.target.value);
-    // console.log(val.target.value);
   }
 
   return (
@@ -121,19 +55,10 @@ export const UpdateModal = () => {
         </div>
 
         <div className="Buttons_Modal_Saving">
-          {/* <Button
-            key="cancel"
-            variant="link"
-            onClick={handleModalToggle}
-            className="Cancel"
-          >
-            Cancel
-          </Button> */}
-
           <Button
             key="confirm"
             variant="primary"
-            onClick={(e) => UntityFucntion(e)}
+            onClick={(e) => UntityFunction(e)}
             className="Contiune"
           >
             Confirm

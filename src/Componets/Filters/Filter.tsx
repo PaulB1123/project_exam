@@ -8,10 +8,11 @@ import {
   MODAL_TYPES,
   useGlobalModalContext,
 } from "../Dashboard/Modals/GlobalModal";
+import { DeleteModal } from "../Dashboard/Modals/DeleteModal";
 
 export default function FilterComponent() {
   const [openModal, setOpenModal] = useState(false);
-  const { showModal, ChartFetch } = useGlobalModalContext();
+  const { showModal } = useGlobalModalContext();
 
   const createModal = () => {
     showModal(MODAL_TYPES.CREATE_MODAL, {
@@ -27,9 +28,9 @@ export default function FilterComponent() {
   //   });
   // };
 
-  // const deleteModal = () => {
-  //   showModal(MODAL_TYPES.DELETE_MODAL);
-  // };
+  const deleteModal = () => {
+    showModal(MODAL_TYPES.DELETE_MODAL);
+  };
 
   return (
     <>
@@ -68,7 +69,8 @@ export default function FilterComponent() {
               <button
                 className="button_report"
                 onClick={() => {
-                  ChartFetch();
+                  // ChartFetch();
+                  deleteModal();
                   // createModalReport();
                 }}
               >

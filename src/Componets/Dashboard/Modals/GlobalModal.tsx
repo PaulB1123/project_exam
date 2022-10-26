@@ -1,13 +1,23 @@
 import { API } from "aws-amplify";
 import React, { useState, createContext, useContext, useEffect } from "react";
 import {
+  AudienceDataItem,
+  AudienceItem,
   categoricalInput,
+  DeleteAudienceMutationVariables,
   getChartDataAudience,
   GetChartDataQuery,
   getChartDataResponse,
+  LoadAudienceQuery,
+  LoadAudienceQueryVariables,
+  loadAudienceResponse,
+  SaveAudienceMutation,
+  SaveAudienceMutationVariables,
+  saveAudienceResponse,
 } from "../../../API";
 import FilterContext from "../../../Data/FilterContext";
-import { getChartData } from "../../../graphql/queries";
+import { deleteAudience, saveAudience } from "../../../graphql/mutations";
+import { getChartData, loadAudience } from "../../../graphql/queries";
 import { CreateModal } from "./CreateModal";
 import { DeleteModal } from "./DeleteModal";
 import { UpdateModal } from "./UpdateModal";
@@ -29,12 +39,12 @@ type GlobalModalContext = {
   hideModal: () => any;
   handleChange: (event: any) => any;
   setSavedAudience: (event: any) => any;
-  ChartFetch: () => any;
+  // ChartFetch: () => any;
   setSelectedAudition: (event: any) => any;
   setSelectedChart: (event: any) => any;
   selectedAudition: any;
   message: any;
-  dataForChart: any;
+  // dataForChart: any;
   dataSelected: any;
   // setDataForChart: () => any;
   store: any;
@@ -49,6 +59,16 @@ type GlobalModalContext = {
   // setbuttonIsOpen:() => any;
   loading: any;
   setLoading: (event: boolean) => any;
+  PostResponse: (event: string, e: AudienceDataItem) => any;
+  SaveAudineceURL: (event: any) => any;
+  audienceIdReloded: string;
+  loadAudienceUrl: (event: string) => any;
+  deleteItemAudience: (event: string) => any;
+  arrayData: any;
+  ChartNumber: any;
+  setChartNumber: (event: any) => any;
+  SelectionArray: any;
+  setSelectionArray: (event: any) => any;
 };
 
 const initalState: GlobalModalContext = {
@@ -56,10 +76,10 @@ const initalState: GlobalModalContext = {
   hideModal: () => {},
   handleChange: () => "",
   setSavedAudience: () => {},
-  ChartFetch: () => {},
+  // ChartFetch: () => {},
   setSelectedAudition: () => {},
   setSelectedChart: () => {},
-  dataForChart: {},
+  // dataForChart: {},
   // setDataForChart: () => {},
   message: "",
   dataSelected: "",
@@ -74,8 +94,18 @@ const initalState: GlobalModalContext = {
   setName: () => {},
   loading: false,
   setLoading: (event: boolean) => {},
+  PostResponse: (event: string, e: AudienceDataItem) => {},
+  SaveAudineceURL: (event) => {},
+  audienceIdReloded: "",
+  loadAudienceUrl: (event: string) => {},
+  deleteItemAudience: (event: string) => {},
+  arrayData: [],
+  ChartNumber: [],
+  setChartNumber: (e: any) => [],
   // buttonIsOpen: "",
   // setbuttonIsOpen:() => "",
+  SelectionArray: [],
+  setSelectionArray: (e: any) => [],
 };
 
 type Context = {
@@ -97,12 +127,16 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     useContext(FilterContext);
   const { modalType, modalProps }: any = store || {};
   const [selectedAudition, setSelectedAudition] = useState("");
-  const [dataForChart, setDataForChart] = useState() as any;
+  // const [dataForChart, setDataForChart] = useState() as any;
   const [slectedChart, setSelectedChart] = useState("");
   const chart1 = "chart1";
   const chart2 = "chart2";
   const chart3 = "chart3";
   const [loading, setLoading] = useState(false);
+  const [audienceReceivedId, setAudienceReceviedId] = useState("");
+  const [audienceIdReloded, setAudienceIdReloaded] = useState("");
+  const [audience, setAudience] = useState({} as AudienceItem);
+  const [ChartNumber, setChartNumber] = useState([]);
 
   const [savedAudience, setSavedAudience] = useState([
     {
@@ -118,6 +152,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [inputarr, setInputArr] = useState([] as AudienceInfo[]);
   const [message, setMessage] = useState({ name: "" });
   const [name, setName] = useState("") as any;
+  const [SelectionArray, setSelectionArray] = useState([]) as any;
 
   const [buttonIsOpen, setbuttonIsOpen] = useState(false);
 
@@ -127,28 +162,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       value,
       onChange: (e: any) => setValue(e.target.value),
     };
-  };
-
-  const handleChange = (audienceName: string) => {
-    // setMessage({ ...message, [e.target.name]: e.target.value });
-
-    // 1) call save audience api give you back id, and s3link
-    // this is done
-
-    // 2) from comtext make jsion file
-    // this is done
-
-    // 3) save on S3 using s3link
-
-    // 4) update state inputArr with new audienceinfo
-
-    const aInfo = {
-      AudienceId: "a" + Math.round(Math.random() * 100),
-      AudienceName: audienceName,
-    } as AudienceInfo;
-
-    setInputArr((p) => [...p, aInfo]);
-    console.log(inputarr);
   };
 
   const showModal = (modalType: string, modalProps: any = {}) => {
@@ -171,15 +184,16 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     (item: any) => item.id === selectedAudition
   );
 
-  const [arrayData, setArrayData] = useState([] as categoricalInput[]);
-  const [antherone, setAntherone] = useState([]) as any;
+  const [arrayData, setArrayData] = useState([] as any);
+
+  // const [antherone, setAntherone] = useState([]) as any;
 
   useEffect(() => {
     let id;
 
     const something = ArrayDragged.map((e) => {
       // let val = [] as categoricalInput[];
-      console.log(e);
+      // console.log(e);
 
       id = e.id;
 
@@ -191,98 +205,195 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         id: e.id,
         values: bb,
       } as categoricalInput;
-
-      // e.values.map((v) => {
-      //   if (v.isSelected === true) {
-      //     // setArrayData([...v, v]);
-      //     // delete v.isSelected;
-
-      //     val.push({
-      //       id: v.id.toString(),
-      //       values:v.value
-      //     });
-      //   }
-      // });
-      // return val;
     });
-
-    console.log(something);
-    // values = something.map((e: any) => {
-    //   e.map((v: any) => {
-    //     console.log(v.value);
-    //   });
-    // });
-    // console.log(id);
-
     setArrayData(something);
   }, [ArrayDragged]);
 
-  console.log(ArrayDragged);
-
-  console.log(arrayData);
-
-  async function ChartFetch() {
-    console.log("why is this not showing ");
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000);
-
-    try {
-      const response = (await API.graphql({
-        query: getChartData,
-        variables: {
-          Model_id: selectedModelId,
-          Audience: {
-            variable_type: dataSelected.variable_type,
-            selector: dataSelected.id,
-            filters: {
-              categorical: arrayData,
-              numerical: [],
-            },
-          } as getChartDataAudience,
-        },
-      })) as { data: GetChartDataQuery };
-
-      console.log(response);
-      // const response_data = response.data.getChartData;
-
-      const { data: response_data } = response;
-      const { getChartData: actual_list } = response_data;
-      const { data, error, StatusCode }: getChartDataResponse = actual_list;
-
-      console.log(actual_list);
-      if (StatusCode === 200) {
-        if (data) {
-          if (data.length > 0) {
-            setDataForChart(data);
-          } else {
-            setDataForChart([]);
-          }
-        }
-      } else console.log(error);
-    } catch (err) {
-      console.log({ err });
-    }
-
-    // useEffect(() => {
-    //   console.log("this is loading");
-
-    //   setLoading(true);
-    //   setTimeout(() => {
-    //     setLoading(false);
-    //   }, 10000);
-    // }, []);
-  }
+  // console.log(ArrayDragged);
+  // console.log(arrayData);
 
   const renderComponent = () => {
     const ModalComponent = MODAL_COMPONENTS[modalType];
     if (!modalType || !ModalComponent) {
       return null;
     }
-    return <ModalComponent id="global-modal" {...modalProps} />;
+    return <ModalComponent id="global-modal" modalProps={modalProps} />;
   };
+
+  // here I use the function to put take the URL and assign the JSON file
+
+  // this is the first one
+
+  async function SaveAudineceURL() {
+    try {
+      const response = (await API.graphql({
+        query: saveAudience,
+        variables: {
+          Model_id: selectedModelId,
+          Audience_name: name,
+        } as SaveAudienceMutationVariables,
+      })) as { data: SaveAudienceMutation };
+      console.log(response);
+
+      const { data: response_data } = response;
+      const { saveAudience: actual_list } = response_data;
+      const { data, error, StatusCode }: saveAudienceResponse = actual_list;
+
+      if (StatusCode === 200) {
+        if (data) {
+          setAudience(data.Audience);
+          return data;
+        } else {
+          console.log(error);
+        }
+      } else console.log(error);
+
+      if (response != null) {
+        // PostResponse();
+      }
+      // console.log(response);
+      // console.log();
+    } catch (err) {}
+
+    // PostResponse(data.Url, data);
+  }
+
+  // this is the second one
+
+  async function PostResponse(e: string, data: AudienceDataItem) {
+    try {
+      const response = await fetch(e, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(ArrayDragged),
+      });
+      console.log(response);
+      // console.log(data.Audience.Audience_id);
+      let audience = data.Audience.Audience_id as string;
+
+      // const timer = setTimeout(() => {
+      // loadAudienceUrl(data.Audience.Audience_id as string);
+      //   clearTimeout(timer);
+      // }, 1000);
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  useEffect(() => {
+    console.log(audienceReceivedId);
+  }, [audienceReceivedId]);
+
+  // this is the third one
+
+  async function loadAudienceUrl(audience: string) {
+    console.log("this is coming from the second fetch");
+
+    console.log(audience);
+    setAudienceIdReloaded(audience);
+    try {
+      const response = (await API.graphql({
+        query: loadAudience,
+        variables: {
+          Audience_id: audience,
+        } as LoadAudienceQueryVariables,
+      })) as { data: LoadAudienceQuery };
+
+      console.log(response);
+      const { data: response_data } = response;
+      const { loadAudience: actual_list } = response_data;
+      const { data, error, StatusCode }: loadAudienceResponse = actual_list;
+
+      if (StatusCode === 200) {
+        if (data) {
+          // console.log(data);
+          LoadAudience(data.Url);
+          return data.Url as string;
+
+          // console.log(data.Url);
+        } else {
+        }
+      } else console.log(error);
+
+      if (response != null) {
+        // PostResponse();
+      }
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  // this is the forth one
+
+  async function LoadAudience(reponse: string) {
+    try {
+      const response = fetch(reponse, {
+        method: "GET",
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          console.log(data);
+          setArrayData(data);
+        });
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  useEffect(() => {
+    console.log(audience);
+    const aInfo = {
+      AudienceId: audience.Audience_id,
+      AudienceName: audience.Audience_name,
+    } as AudienceInfo;
+
+    // console.log("this went here ", audienceReceivedId);
+    // console.log(inputarr);
+
+    setInputArr((p) => {
+      const filt = p.filter((a) => a.AudienceId !== undefined);
+      return [...filt, aInfo];
+    });
+  }, [audience]);
+
+  useEffect(() => {
+    console.log(inputarr);
+  }, [inputarr]);
+
+  const handleChange = async (audienceName: string) => {
+    const data: any = await SaveAudineceURL();
+    await PostResponse(data.Url, data);
+    // const URl: any = await loadAudienceUrl(data.Audience.Audience_id as string);
+    // await LoadAudience(URl);
+  };
+
+  // setTimeout(function() {
+
+  // })
+
+  useEffect(() => {
+    console.log(arrayData);
+  }, [arrayData]);
+
+  async function deleteItemAudience(reponse: string) {
+    try {
+      const response2 = await API.graphql({
+        query: deleteAudience,
+        variables: {
+          Audience_id: reponse,
+        } as DeleteAudienceMutationVariables,
+      });
+      console.log(response2);
+      loadAudienceUrl(reponse);
+      // setAudienceId(data);
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  // console.log(ChartNumber);
+  // console.log(selectedAudition);
+  // console.log(slectedChart);
 
   return (
     <GlobalModalContext.Provider
@@ -293,15 +404,15 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         handleChange,
         showModal,
         hideModal,
-        ChartFetch,
+        // ChartFetch,
         selectedAudition,
         // setDataForChart,
         setSelectedAudition,
-        dataForChart,
+        // dataForChart,
         dataSelected,
         slectedChart,
         setSelectedChart,
-
+        audienceIdReloded,
         chart2,
         chart1,
         chart3,
@@ -312,6 +423,16 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         // setbuttonIsOpen,
         loading,
         setLoading,
+        PostResponse,
+        SaveAudineceURL,
+        loadAudienceUrl,
+        deleteItemAudience,
+        arrayData,
+        ChartNumber,
+        setChartNumber,
+        SelectionArray,
+        setSelectionArray,
+        // dataForChart,
       }}
     >
       {renderComponent()}
@@ -319,3 +440,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     </GlobalModalContext.Provider>
   );
 };
+
+// useEffect(() => {
+//   setSelectionArray(object);
+// });

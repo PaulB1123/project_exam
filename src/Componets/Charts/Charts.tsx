@@ -6,19 +6,41 @@ import "./Charts.css";
 import { useContext, useEffect, useState } from "react";
 import FilterContext from "../../Data/FilterContext";
 import GridLoader from "react-spinners/GridLoader";
+import TemplateChart from "./TempleteChart";
+import { API } from "aws-amplify";
+import { getChartData } from "../../graphql/queries";
+import {
+  getChartDataAudience,
+  GetChartDataQuery,
+  getChartDataResponse,
+} from "../../API";
 
-export default function Chart() {
+export interface PropsChart {
+  el: number;
+  chart: number;
+  ArrayCharts: Array<number>;
+  setArrayCharts(e: any): any;
+  // setDataForChart(e: any): any;
+  dataForChart: any;
+  chartTitle: any;
+}
+
+export default function Charts(props: PropsChart, slectedChart: any) {
   const {
-    dataForChart,
     dataSelected,
-    slectedChart,
     chart1,
     chart2,
     chart3,
     loading,
     setLoading,
+    ChartNumber,
+    arrayData,
   } = useGlobalModalContext();
-  const { isPlusButtonOpen, ArrayDragged } = useContext(FilterContext);
+
+  // SelectionArray
+
+  const { isPlusButtonOpen, ArrayDragged, selectedModelId } =
+    useContext(FilterContext);
 
   const [title, setTitle] = useState("this is the title");
 
@@ -32,14 +54,23 @@ export default function Chart() {
   const [items, setitem] = useState([]) as any;
   const [newItem, setNewItem] = useState([]) as any;
 
+  // useEffect(() => {
+  //   console.log(props.chart);
+  //   console.log(props.el);
+  // }, [props.chart]);
+
+  console.log(props.dataForChart, props.el);
+
   useEffect(() => {
+    console.log(dataSelected);
     if (dataSelected !== undefined) {
       setTitle(dataSelected.selector);
 
-      if (dataForChart !== undefined) {
-        console.log("it went here", dataForChart);
+      if (props.dataForChart !== undefined) {
+        console.log("it went here", props.dataForChart);
+
         setitem(
-          dataForChart.map((item: any) => ({
+          props.dataForChart.map((item: any) => ({
             name: item.value,
             data: [item.count],
           }))
@@ -50,7 +81,7 @@ export default function Chart() {
         console.log(items);
       }
     }
-  }, [dataSelected, dataForChart]);
+  }, [dataSelected, props.dataForChart]);
 
   function hide() {
     console.log("it is here");
@@ -204,9 +235,23 @@ export default function Chart() {
     series: items,
   };
 
+  // console.log(dataForChart);
+  // console.log(props.ArrayCharts);
+  // console.log(ChartNumber);
+
+  const [alin, setAlin] = useState();
+
+  useEffect(() => {
+    props.ArrayCharts.forEach((item: any) =>
+      item === ChartNumber ? setAlin(item) : console.log("this is not okay")
+    );
+
+    console.log(alin);
+  });
+
   return (
     <div className="Chart">
-      {dataForChart != null ? (
+      {props.dataForChart !== undefined ? (
         <div
           className={
             isPlusButtonOpen === true
@@ -219,11 +264,13 @@ export default function Chart() {
               <img src={XIcon} alt="" />
             </button>
             <div className="continer_with_title_and_exist">
-              <div className="title_chart">{/* <div> {title}</div> */}</div>
+              <div className="title_chart">
+                <div> {props.chartTitle}</div>
+              </div>
             </div>
 
             <div className="container_for_chart">
-              {/* {loading ? (
+              {loading ? (
                 <div className="wrapper_loader">
                   <GridLoader
                     color={"#104666"}
@@ -239,10 +286,10 @@ export default function Chart() {
                   highcharts={Highcharts}
                   options={chartChange === chart1 ? options2 : options}
                 />
-              )} */}
+              )}
             </div>
 
-            {dataForChart.map((item: any) => {})}
+            {props.dataForChart.map((item: any) => {})}
 
             {/* <div className="Button_adds">
               <div className="Button_settings">
@@ -259,7 +306,14 @@ export default function Chart() {
           </div>
         </div>
       ) : (
-        <></>
+        <>
+          <h3>This is again the chart holder with the charts</h3>
+          {/* <TemplateChartDashboard
+            el={props.el}
+            ArrayCharts={[]}
+            setArrayCharts={(e: any) => props.setArrayCharts(e)}
+          /> */}
+        </>
       )}
     </div>
   );

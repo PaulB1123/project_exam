@@ -8,7 +8,7 @@ import "../../Filters/Modal.css";
 export const CreateModal = () => {
   const { showModal, hideModal, store } = useGlobalModalContext();
 
-  const { modalProps } = store || {};
+  // const { modalProps } = store || {};
 
   const handleModalToggle = () => {
     hideModal();
