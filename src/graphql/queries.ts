@@ -94,8 +94,8 @@ export const getModelsForClient = /* GraphQL */ `
   }
 `;
 export const getSelectorsForModel = /* GraphQL */ `
-  query GetSelectorsForModel($Model_id: ID!) {
-    getSelectorsForModel(Model_id: $Model_id) {
+  query GetSelectorsForModel($Client_code: String, $Model_id: ID!) {
+    getSelectorsForModel(Client_code: $Client_code, Model_id: $Model_id) {
       data {
         ... on SelectorFactor {
           variable_type
@@ -125,8 +125,8 @@ export const getSelectorsForModel = /* GraphQL */ `
   }
 `;
 export const getAudiences = /* GraphQL */ `
-  query GetAudiences($Model_id: ID!, $all: Boolean) {
-    getAudiences(Model_id: $Model_id, all: $all) {
+  query GetAudiences($Client_code: String, $Model_id: ID!, $all: Boolean) {
+    getAudiences(Client_code: $Client_code, Model_id: $Model_id, all: $all) {
       data {
         Audience_id
         Audience_name
@@ -144,16 +144,43 @@ export const getAudiences = /* GraphQL */ `
   }
 `;
 export const loadAudience = /* GraphQL */ `
-  query LoadAudience($Audience_id: ID!) {
-    loadAudience(Audience_id: $Audience_id)
+  query LoadAudience($Client_code: String, $Audience_id: ID!) {
+    loadAudience(Client_code: $Client_code, Audience_id: $Audience_id) {
+      data {
+        Url
+        Audience {
+          Audience_name
+          Audience_id
+        }
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
   }
 `;
 export const getChartData = /* GraphQL */ `
-  query GetChartData($Model_id: ID!, $Audience: getChartDataAudience!) {
-    getChartData(Model_id: $Model_id, Audience: $Audience) {
+  query GetChartData(
+    $Client_code: String
+    $Model_id: ID!
+    $Audience: getChartDataAudience!
+  ) {
+    getChartData(
+      Client_code: $Client_code
+      Model_id: $Model_id
+      Audience: $Audience
+    ) {
       data {
-        value
-        count
+        ... on ChartItem {
+          value
+          count
+        }
+        ... on ChartItemSingle {
+          avg_value
+          count_value
+        }
       }
       error {
         type
@@ -164,20 +191,27 @@ export const getChartData = /* GraphQL */ `
   }
 `;
 export const getReports = /* GraphQL */ `
-  query GetReports($Model_id: ID!, $all: Boolean) {
-    getReports(Model_id: $Model_id, all: $all) {
-      Report_id
-      Report_name
-      meta_table
-      createdBy
-      createdAt
-      Audiences {
-        chart_type
-        variable_type
-        selector
-        id
-        position
+  query GetReports($Client_code: String, $Model_id: ID!, $all: Boolean) {
+    getReports(Client_code: $Client_code, Model_id: $Model_id, all: $all) {
+      data {
+        Report_id
+        Report_name
+        meta_table
+        createdBy
+        createdAt
+        Audiences {
+          chart_type
+          variable_type
+          selector
+          id
+          position
+        }
       }
+      error {
+        type
+        message
+      }
+      StatusCode
     }
   }
 `;
@@ -198,20 +232,17 @@ export const paddingtonGetClients = /* GraphQL */ `
     }
   }
 `;
-export const utilGetCluster = /* GraphQL */ `
-  query UtilGetCluster($Cluster_id: ID!) {
-    utilGetCluster(Cluster_id: $Cluster_id) {
-      PK
-      Cluster_name
-    }
-  }
-`;
-export const utilGetDatabase = /* GraphQL */ `
-  query UtilGetDatabase($Database_id: ID) {
-    utilGetDatabase(Database_id: $Database_id) {
-      PK
-      Cluster_id
-      Database_name
+export const isAuthorized = /* GraphQL */ `
+  query IsAuthorized($Client_code: String, $Client_country: String) {
+    isAuthorized(Client_code: $Client_code, Client_country: $Client_country) {
+      data {
+        UserIsAuthorized
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
     }
   }
 `;

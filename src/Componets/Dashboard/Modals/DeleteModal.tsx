@@ -11,18 +11,27 @@ import FilterContext from "../../../Data/FilterContext";
 import { API } from "aws-amplify";
 import { getChartData } from "../../../graphql/queries";
 import { getChartDataAudience, getChartDataResponse } from "../../../API";
+import Charts from "../../Charts/Charts";
 
-export const DeleteModal = () => {
+export interface Props {
+  modalProps: any;
+}
+
+export const DeleteModal = (props: Props) => {
   const {
     hideModal,
     selectedAudition,
     setSelectedAudition,
-    ChartFetch,
+    // ChartFetch,
     chart1,
     chart2,
     chart3,
     slectedChart,
     setSelectedChart,
+    setChartNumber,
+    ChartNumber,
+    SelectionArray,
+    setSelectionArray,
   } = useGlobalModalContext();
   const { data, categorical, selectedModelId, ArrayDragged } =
     useContext(FilterContext);
@@ -30,10 +39,14 @@ export const DeleteModal = () => {
   // const [slectedChart, setSelectedChart] = useState("");
   // const chart1 = "chart1";
   // const chart2 = "chart2";
+  const [audtion, setAudition] = useState<any>();
+  const [chart, setchart] = useState<any>();
 
   const handleModalToggle = () => {
     hideModal();
   };
+
+  console.log(props.modalProps);
 
   useEffect(() => {
     categorical.length > 0
@@ -64,9 +77,24 @@ export const DeleteModal = () => {
   console.log(selectedModelId);
 
   function CloseAndFetchData() {
-    ChartFetch();
     handleModalToggle();
+
+    const placeholderNumber = props.modalProps[0];
+    setSelectionArray((preState: any) => [
+      ...preState,
+      {
+        chartNumber: placeholderNumber,
+        selectedAudition: audtion,
+        slectedChart: chart,
+      },
+    ]);
   }
+
+  // function DeleteChart() {
+  //   props.setArrayCharts((preState: any) => [
+  //     ...preState.filter((item: number) => item !== props.el),
+  //   ]);
+  // }
 
   return (
     <div className="">
@@ -86,8 +114,8 @@ export const DeleteModal = () => {
           {/* <Button onClick={triggerFunction}>This is button</Button> */}
 
           <select
-            value={selectedAudition}
-            onChange={(event) => setSelectedAudition(event.target.value)}
+            value={audtion}
+            onChange={(event) => setAudition(event.target.value)}
           >
             {categorical.map((item: any, index: any) => (
               <option key={index} value={item.id}>
@@ -104,7 +132,7 @@ export const DeleteModal = () => {
               id="1"
               value={chart1}
               onClick={() => {
-                selectChart(chart1);
+                setchart(chart1);
               }}
               className={slectedChart === chart1 ? "borderactive" : ""}
             >
@@ -121,7 +149,7 @@ export const DeleteModal = () => {
               id="2"
               value="Chart2"
               onClick={() => {
-                selectChart(chart2);
+                setchart(chart2);
               }}
               className={slectedChart === chart2 ? "borderactive" : ""}
             >

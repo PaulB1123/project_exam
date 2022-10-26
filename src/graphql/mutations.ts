@@ -64,8 +64,16 @@ export const updateModel = /* GraphQL */ `
   }
 `;
 export const saveAudience = /* GraphQL */ `
-  mutation SaveAudience($Model_id: ID!, $Audience_name: String!) {
-    saveAudience(Model_id: $Model_id, Audience_name: $Audience_name) {
+  mutation SaveAudience(
+    $Client_code: String
+    $Model_id: ID!
+    $Audience_name: String!
+  ) {
+    saveAudience(
+      Client_code: $Client_code
+      Model_id: $Model_id
+      Audience_name: $Audience_name
+    ) {
       data {
         Url
         Audience {
@@ -82,8 +90,13 @@ export const saveAudience = /* GraphQL */ `
   }
 `;
 export const updateAudienceName = /* GraphQL */ `
-  mutation UpdateAudienceName($Audience_id: ID!, $Audience_name: String!) {
+  mutation UpdateAudienceName(
+    $Client_code: String
+    $Audience_id: ID!
+    $Audience_name: String!
+  ) {
     updateAudienceName(
+      Client_code: $Client_code
       Audience_id: $Audience_id
       Audience_name: $Audience_name
     ) {
@@ -100,8 +113,8 @@ export const updateAudienceName = /* GraphQL */ `
   }
 `;
 export const updateAudience = /* GraphQL */ `
-  mutation UpdateAudience($Audience_id: ID!) {
-    updateAudience(Audience_id: $Audience_id) {
+  mutation UpdateAudience($Client_code: String, $Audience_id: ID!) {
+    updateAudience(Client_code: $Client_code, Audience_id: $Audience_id) {
       data {
         Url
         Audience {
@@ -118,8 +131,8 @@ export const updateAudience = /* GraphQL */ `
   }
 `;
 export const deleteAudience = /* GraphQL */ `
-  mutation DeleteAudience($Audience_id: ID!) {
-    deleteAudience(Audience_id: $Audience_id) {
+  mutation DeleteAudience($Client_code: String, $Audience_id: ID!) {
+    deleteAudience(Client_code: $Client_code, Audience_id: $Audience_id) {
       data
       error {
         type
@@ -131,11 +144,13 @@ export const deleteAudience = /* GraphQL */ `
 `;
 export const saveReport = /* GraphQL */ `
   mutation SaveReport(
+    $Client_code: String
     $Model_id: ID!
     $Report_name: String!
     $Audiences: [saveReportAudienceInput!]!
   ) {
     saveReport(
+      Client_code: $Client_code
       Model_id: $Model_id
       Report_name: $Report_name
       Audiences: $Audiences
@@ -163,8 +178,16 @@ export const saveReport = /* GraphQL */ `
   }
 `;
 export const updateReport = /* GraphQL */ `
-  mutation UpdateReport($Report_id: ID!, $Report: updateReportInput!) {
-    updateReport(Report_id: $Report_id, Report: $Report) {
+  mutation UpdateReport(
+    $Client_code: String
+    $Report_id: ID!
+    $Report: updateReportInput!
+  ) {
+    updateReport(
+      Client_code: $Client_code
+      Report_id: $Report_id
+      Report: $Report
+    ) {
       data {
         Report_id
         Report_name
@@ -188,8 +211,8 @@ export const updateReport = /* GraphQL */ `
   }
 `;
 export const deleteReport = /* GraphQL */ `
-  mutation DeleteReport($Report_id: ID!) {
-    deleteReport(Report_id: $Report_id) {
+  mutation DeleteReport($Client_code: String, $Report_id: ID!) {
+    deleteReport(Client_code: $Client_code, Report_id: $Report_id) {
       data
       error {
         type
@@ -197,5 +220,10 @@ export const deleteReport = /* GraphQL */ `
       }
       StatusCode
     }
+  }
+`;
+export const addClientToGroup = /* GraphQL */ `
+  mutation AddClientToGroup($Client_code: String!, $Client_country: String!) {
+    addClientToGroup(Client_code: $Client_code, Client_country: $Client_country)
   }
 `;

@@ -9,6 +9,10 @@ import AudienceContainer from "./Audience_container";
 import FilterContext, { GeneralSelector } from "../../Data/FilterContext";
 import SegmentIcon from "../../Componets/Filters/icons/Segment.svg";
 import PlusIcon from "../../Componets/Filters/icons/Plus.svg";
+import {
+  GlobalModal,
+  useGlobalModalContext,
+} from "../../Componets/Dashboard/Modals/GlobalModal";
 
 interface DataProps {}
 // type IItem = {
@@ -25,6 +29,7 @@ export interface IGroup {
 
 export const DragNDrop: React.FC<DataProps> = () => {
   const { data, setData } = useContext(FilterContext);
+  const { arrayData } = useGlobalModalContext();
 
   const [isOpen, setOpen] = React.useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -53,6 +58,14 @@ export const DragNDrop: React.FC<DataProps> = () => {
     setOpen(!isOpen);
     setIsActive((current) => !current);
   };
+
+  console.log(arrayData);
+
+  if (arrayData.length > 0) {
+    data[0].items = arrayData;
+  }
+
+  console.log(data);
 
   const handleDrop = () => {
     setDrop(drop + 1);

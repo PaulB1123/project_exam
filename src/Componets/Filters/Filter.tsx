@@ -3,11 +3,12 @@ import "./Filter.css";
 import SaveIcon from "./icons/Save.svg";
 import DragNDrop from "../../ReusableElements/Button_Navigation_Left/DragnDrop";
 import Modal from "./Modal";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   MODAL_TYPES,
   useGlobalModalContext,
 } from "../Dashboard/Modals/GlobalModal";
+import { DeleteModal } from "../Dashboard/Modals/DeleteModal";
 
 export default function FilterComponent() {
   const [openModal, setOpenModal] = useState(false);
@@ -20,16 +21,16 @@ export default function FilterComponent() {
     });
   };
 
-  const createModalReport = () => {
-    showModal(MODAL_TYPES.DELETE_MODAL, {
-      title: "Create instance form",
-      confirmBtn: "Save",
-    });
-  };
-
-  // const deleteModal = () => {
-  //   showModal(MODAL_TYPES.DELETE_MODAL);
+  // const createModalReport = () => {
+  //   showModal(MODAL_TYPES.DELETE_MODAL, {
+  //     title: "Create instance form",
+  //     confirmBtn: "Save",
+  //   });
   // };
+
+  const deleteModal = () => {
+    showModal(MODAL_TYPES.DELETE_MODAL);
+  };
 
   return (
     <>
@@ -68,7 +69,9 @@ export default function FilterComponent() {
               <button
                 className="button_report"
                 onClick={() => {
-                  createModalReport();
+                  // ChartFetch();
+                  deleteModal();
+                  // createModalReport();
                 }}
               >
                 <div>Generate Report</div>

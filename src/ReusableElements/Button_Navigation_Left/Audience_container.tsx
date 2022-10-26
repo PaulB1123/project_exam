@@ -31,7 +31,7 @@ const AudienceContainer = (props: Props) => {
   // const [newArray, setNewArray] = useState([]);
 
   const { updateSelectorSelectedValue } = useContext(FilterContext);
-  const { ChartFetch, loading, setLoading } = useGlobalModalContext();
+  const { loading, setLoading } = useGlobalModalContext();
   const [clickUpdate, setClickupdate] = useState();
 
   const params = {
@@ -270,7 +270,7 @@ const AudienceContainer = (props: Props) => {
 
             <div className="buttons_audience">
               <div className="Delete_button" id="update_button">
-                <button onClick={ChartFetch}>Update Report</button>
+                <button>Update Report</button>
               </div>
               <div className="Delete_button">
                 <button>Delete filter</button>
