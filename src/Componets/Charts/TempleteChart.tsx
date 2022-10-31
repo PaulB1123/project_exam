@@ -102,9 +102,6 @@ export default function TemplateChart(props: Props) {
         },
       })) as { data: GetChartDataQuery };
 
-      console.log("THIS IS OUR FUCKING RESPONSE", response);
-      // const response_data = response.data.getChartData;
-
       const { data: response_data } = response;
       const { getChartData: actual_list } = response_data;
       const { data, error, StatusCode }: getChartDataResponse = actual_list;
@@ -124,15 +121,6 @@ export default function TemplateChart(props: Props) {
     } catch (err) {
       console.log({ err });
     }
-
-    // useEffect(() => {
-    //   console.log("this is loading");
-
-    //   setLoading(true);
-    //   setTimeout(() => {
-    //     setLoading(false);
-    //   }, 10000);
-    // }, []);
   }
 
   return (

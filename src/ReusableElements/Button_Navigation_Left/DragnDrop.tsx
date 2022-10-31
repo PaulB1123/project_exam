@@ -4,7 +4,6 @@ import "../../Componets/Filters/Filter.css";
 import "./DragnDrop.css";
 import React, { useState, useRef, useContext } from "react";
 import SlideButton from "./SlideButton";
-// import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
 import AudienceContainer from "./Audience_container";
 import FilterContext, { GeneralSelector } from "../../Data/FilterContext";
 import SegmentIcon from "../../Componets/Filters/icons/Segment.svg";
@@ -15,13 +14,7 @@ import {
 } from "../../Componets/Dashboard/Modals/GlobalModal";
 
 interface DataProps {}
-// type IItem = {
-//   selector: string;
-//   variable_type: string;
-//   category: string;
-//   id: string;
-//   values: GeneralSelector;
-// };
+
 export interface IGroup {
   items: GeneralSelector[];
   title: string;
@@ -35,24 +28,8 @@ export const DragNDrop: React.FC<DataProps> = () => {
   const [isActive, setIsActive] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [drop, setDrop] = useState(0);
-  // const [data, setList] = useState(data as any);
-  // const [audienceBar, setAudienceBar] = useState(data[0]);
+
   const [listAudience, setListAudience] = useState();
-  // const [listBig, setListBig] = useState(data);
-  // const [listFilter, setListFilter] = useState();
-  // let { id, client, country, cluster } = useParams();
-
-  // console.log(cluster);
-  // console.log(data);
-
-  // useEffect(() => {
-  //   // setList(() => data);
-  // }, [data]);
-  // console.log(data);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const handleClick = () => {
     setOpen(!isOpen);
@@ -89,17 +66,6 @@ export const DragNDrop: React.FC<DataProps> = () => {
     // console.log("Entering drag", params);
     const currentItem = dragItem.current;
     if (e.target !== dragNode.current)
-      // setList((oldList: any) => {
-      //   let newList = JSON.parse(JSON.stringify(oldList));
-      //   newList[params.grpI].items.splice(
-      //     params.itemI,
-      //     0,
-      //     newList[currentItem.grpI].items.splice(currentItem.itemI, 1)[0]
-      //   );
-      //   dragItem.current = params;
-      //   localStorage.setItem("List", JSON.stringify(newList));
-      //   return newList;
-      // });
       setData((oldList: any) => {
         let newList = JSON.parse(JSON.stringify(oldList));
         newList[params.grpI].items.splice(
@@ -129,19 +95,10 @@ export const DragNDrop: React.FC<DataProps> = () => {
       currentItem.grpI === params.grpI &&
       currentItem.itemI === params.itemI
     ) {
-      //    console.log(currentItem.grpI, params.grpI, currentItem.itemI, params.itemI)
       return "current dnd-item";
     }
     return "dnd-item";
   };
-
-  // function handleRemoveBig(id: any) {
-  //   console.log(listBig);
-
-  //   // setListBig((ps: any) => [...ps.filter((obj: any) => id !== obj)]);
-  //   // console.log(listBig);
-  // }
-  // console.log(data);
 
   return (
     <div className="entire_slider_audience">
