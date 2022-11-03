@@ -42,8 +42,8 @@ function Report() {
     <div className="Main_App" data-theme={theme}>
       <Navigation></Navigation>
       <div className="Right_Side_Dashboard">
-        <Header></Header>
         <div>
+          <Header></Header>
           <FilterComponent></FilterComponent>
           <Dashboard></Dashboard>
           <div className="dark_mode" onClick={switchTheme}>

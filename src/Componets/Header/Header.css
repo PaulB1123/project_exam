@@ -11,7 +11,7 @@ h1 {
 .h2 {
   font-family: "SF_Pro_Display_Regular";
   color: #929292;
-  font-size: 25px;
+  font-size: 22px;
   letter-spacing: 0.05rem;
 }
 
@@ -46,3 +46,27 @@ h1 {
 }
 
 /* Profile Container */
+
+.button_Dashboard {
+  margin-top: 2rem;
+  display: flex;
+}
+
+.Save_Dashboard {
+  background-color: #496d84;
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.Save_Dashboard span {
+  margin-right: 1rem;
+  color: white;
+  font-family: "SF_Pro_Display_Medium";
+  font-size: 15px;
+}

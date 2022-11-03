@@ -76,13 +76,7 @@ export default function FilterComponent() {
               >
                 <div>Generate Report</div>
               </button>
-              {/* {openModal && (
-                <Modal
-                  setOpenModal={(openModal: boolean) => {
-                    setOpenModal(openModal);
-                  }}
-                ></Modal>
-              )} */}
+
               <div></div>
             </div>
           </div>

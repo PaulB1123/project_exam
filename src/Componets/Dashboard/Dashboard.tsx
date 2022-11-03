@@ -11,10 +11,12 @@ import TemplateChart from "./../Charts/TempleteChart";
 
 export default function Dashboard() {
   const [Charts, setCharts] = useState();
-  const [ReportStatus, setReportStatus] = useState(true);
+  const [ReportStatus, setReportStatus] = useState(false);
   // const { dataForChart } = useGlobalModalContext();
 
   const [ArrayCharts, setArrayCharts] = useState([0]);
+  const { isPlusButtonOpen, ArrayDragged, selectedModelId } =
+    useContext(FilterContext);
 
   // useEffect(() => {
   //   setTimeout(() => {
@@ -43,6 +45,7 @@ export default function Dashboard() {
   }
 
   function MakeAnotherTemplate() {
+    setReportStatus(true);
     let valueOfLast = ArrayCharts.at(-1) as number;
     const test = valueOfLast + 1;
 
@@ -58,6 +61,9 @@ export default function Dashboard() {
   return (
     <>
       <div className="Dashboard">
+        <div className="container_button">
+          <AddChart />
+        </div>
         <div className="template">
           <div className="MainDashbaord">
             {ReportStatus === false ? (
@@ -74,7 +80,13 @@ export default function Dashboard() {
               </div>
             ) : (
               <div className="Chart_dashboard">
-                <div className="container_graphs">
+                <div
+                  className={
+                    isPlusButtonOpen === true
+                      ? "container_graphs"
+                      : "container_graphs_space"
+                  }
+                >
                   {ArrayCharts.map((el: number, index) => (
                     <TemplateChart
                       el={el}
@@ -83,10 +95,6 @@ export default function Dashboard() {
                       key={index}
                     />
                   ))}
-                </div>
-
-                <div className="container_button">
-                  <AddChart />
                 </div>
               </div>
             )}

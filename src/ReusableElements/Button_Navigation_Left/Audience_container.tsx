@@ -30,9 +30,10 @@ const AudienceContainer = (props: Props) => {
   // const [newstate, setNewstate] = useState({});
   // const [newArray, setNewArray] = useState([]);
 
-  const { updateSelectorSelectedValue } = useContext(FilterContext);
+  const { updateSelectorSelectedValue, data } = useContext(FilterContext);
   const { loading, setLoading } = useGlobalModalContext();
   const [clickUpdate, setClickupdate] = useState();
+  const [selectedAudienceOptions, setSelectedAudienceOptions] = useState([]);
 
   const params = {
     grpI: props.grpI,
@@ -144,6 +145,12 @@ const AudienceContainer = (props: Props) => {
 
   function Allfunctions() {
     handleClickDropDown();
+  }
+
+  function updateCharts() {
+    console.log(data);
+
+    // setSelectedAudienceOptions(liter)
   }
 
   // setClickupdate(loading);
@@ -270,7 +277,13 @@ const AudienceContainer = (props: Props) => {
 
             <div className="buttons_audience">
               <div className="Delete_button" id="update_button">
-                <button>Update Report</button>
+                <button
+                  onClick={() => {
+                    updateCharts();
+                  }}
+                >
+                  Update Report
+                </button>
               </div>
               <div className="Delete_button">
                 <button>Delete filter</button>

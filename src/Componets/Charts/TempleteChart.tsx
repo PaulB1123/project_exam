@@ -8,6 +8,7 @@ import ChartIMG from "./Chart.svg";
 import Charts from "../Charts/Charts";
 import { DeleteModal } from "../Dashboard/Modals/DeleteModal";
 import { API } from "aws-amplify";
+import XIcon from "../Filters/icons/X.svg";
 import { getChartData } from "../../graphql/queries";
 import {
   getChartDataAudience,
@@ -126,7 +127,7 @@ export default function TemplateChart(props: Props) {
   return (
     <>
       {dataForChart !== undefined ? (
-        <div>
+        <div className="this_is_container_visiable_chart">
           <Charts
             el={props.el}
             chart={chart}
@@ -140,8 +141,8 @@ export default function TemplateChart(props: Props) {
         <>
           <div className="this_is_container_main_chart">
             <div className="templateChart_container">
-              <button type="button" onClick={() => DeleteChart()}>
-                remove
+              <button className="Exist" onClick={() => DeleteChart()}>
+                <img src={XIcon} alt="" />
               </button>
               <div className="templateChart_header">
                 {/* {selectedArrayToFetchData.selectedAudition === undefined ? (

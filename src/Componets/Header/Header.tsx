@@ -3,6 +3,7 @@ import "./Header.css";
 import ProfilePicture from "../images/profile_picture.jpg";
 import { useContext } from "react";
 import UserContext from "../../Data/UserContext";
+import SaveButton from "../Filters/icons/Save_Button.svg";
 
 export default function Header() {
   const { user } = useContext(UserContext);
@@ -29,6 +30,12 @@ export default function Header() {
         </div>
 
         <div className="h2">Welcome to your dashboard, {user?.name}</div>
+        <div className="button_Dashboard">
+          <button className="Save_Dashboard">
+            <span>Save Dashboard</span>
+            <img src={SaveButton}></img>
+          </button>
+        </div>
       </div>
     </>
   );
