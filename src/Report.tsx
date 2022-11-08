@@ -1,8 +1,7 @@
 import "./App.css";
 import "./Componets/Styles/global.css";
 import Navigation from "./Componets/Navigation/Navigation";
-import Header from "./Componets/Header/Header";
-import FilterComponent from "./Componets/Filters/Filter";
+
 import Dashboard from "./Componets/Dashboard/Dashboard";
 import useLocalStorage from "use-local-storage";
 import { useContext, useEffect } from "react";
@@ -24,9 +23,6 @@ function Report() {
     setSelectedModelId(modelId);
   }, [modelId, setSelectedModelId]);
 
-  // console.log(clientData);
-  // console.log(Data);
-
   const switchTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -43,8 +39,7 @@ function Report() {
       <Navigation></Navigation>
       <div className="Right_Side_Dashboard">
         <div>
-          <Header></Header>
-          <FilterComponent></FilterComponent>
+          {/* <FilterComponent></FilterComponent> */}
           <Dashboard></Dashboard>
           <div className="dark_mode" onClick={switchTheme}>
             <ul>{theme === "light" ? "Dark" : "Light"} Mode</ul>

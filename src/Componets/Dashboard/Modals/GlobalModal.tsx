@@ -5,9 +5,6 @@ import {
   AudienceItem,
   categoricalInput,
   DeleteAudienceMutationVariables,
-  getChartDataAudience,
-  GetChartDataQuery,
-  getChartDataResponse,
   LoadAudienceQuery,
   LoadAudienceQueryVariables,
   loadAudienceResponse,
@@ -39,14 +36,11 @@ type GlobalModalContext = {
   hideModal: () => any;
   handleChange: (event: any) => any;
   setSavedAudience: (event: any) => any;
-  // ChartFetch: () => any;
   setSelectedAudition: (event: any) => any;
   setSelectedChart: (event: any) => any;
   selectedAudition: any;
   message: any;
-  // dataForChart: any;
   dataSelected: any;
-  // setDataForChart: () => any;
   store: any;
   chart1: any;
   chart2: any;
@@ -55,8 +49,6 @@ type GlobalModalContext = {
   inputarr: AudienceInfo[];
   name: any;
   setName: (event: any) => any;
-  // buttonIsOpen: any;
-  // setbuttonIsOpen:() => any;
   loading: any;
   setLoading: (event: boolean) => any;
   PostResponse: (event: string, e: AudienceDataItem) => any;
@@ -69,6 +61,7 @@ type GlobalModalContext = {
   setChartNumber: (event: any) => any;
   SelectionArray: any;
   setSelectionArray: (event: any) => any;
+  audience: any;
 };
 
 const initalState: GlobalModalContext = {
@@ -76,11 +69,8 @@ const initalState: GlobalModalContext = {
   hideModal: () => {},
   handleChange: () => "",
   setSavedAudience: () => {},
-  // ChartFetch: () => {},
   setSelectedAudition: () => {},
   setSelectedChart: () => {},
-  // dataForChart: {},
-  // setDataForChart: () => {},
   message: "",
   dataSelected: "",
   selectedAudition: "",
@@ -102,10 +92,9 @@ const initalState: GlobalModalContext = {
   arrayData: [],
   ChartNumber: [],
   setChartNumber: (e: any) => [],
-  // buttonIsOpen: "",
-  // setbuttonIsOpen:() => "",
   SelectionArray: [],
   setSelectionArray: (e: any) => [],
+  audience: "",
 };
 
 type Context = {
@@ -127,7 +116,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     useContext(FilterContext);
   const { modalType, modalProps }: any = store || {};
   const [selectedAudition, setSelectedAudition] = useState("");
-  // const [dataForChart, setDataForChart] = useState() as any;
   const [slectedChart, setSelectedChart] = useState("");
   const chart1 = "chart1";
   const chart2 = "chart2";
@@ -153,8 +141,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [message, setMessage] = useState({ name: "" });
   const [name, setName] = useState("") as any;
   const [SelectionArray, setSelectionArray] = useState([]) as any;
-
-  const [buttonIsOpen, setbuttonIsOpen] = useState(false);
 
   const useInputValue = (initialValue: any) => {
     const [value, setValue] = useState(initialValue);
@@ -186,21 +172,13 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
 
   const [arrayData, setArrayData] = useState([] as any);
 
-  // const [antherone, setAntherone] = useState([]) as any;
-
   useEffect(() => {
     let id;
 
     const something = ArrayDragged.map((e) => {
-      // let val = [] as categoricalInput[];
-      // console.log(e);
-
       id = e.id;
-
       const aa = e.values.filter((v) => v.isSelected);
-
       const bb = aa.map((a) => a.id);
-
       return {
         id: e.id,
         values: bb,
@@ -208,9 +186,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     });
     setArrayData(something);
   }, [ArrayDragged]);
-
-  // console.log(ArrayDragged);
-  // console.log(arrayData);
 
   const renderComponent = () => {
     const ModalComponent = MODAL_COMPONENTS[modalType];
@@ -249,18 +224,15 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       } else console.log(error);
 
       if (response != null) {
-        // PostResponse();
       }
-      // console.log(response);
-      // console.log();
     } catch (err) {}
-
-    // PostResponse(data.Url, data);
   }
 
   // this is the second one
 
   async function PostResponse(e: string, data: AudienceDataItem) {
+    console.log("it went here");
+
     try {
       const response = await fetch(e, {
         method: "PUT",
@@ -268,28 +240,23 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         body: JSON.stringify(ArrayDragged),
       });
       console.log(response);
-      // console.log(data.Audience.Audience_id);
       let audience = data.Audience.Audience_id as string;
-
-      // const timer = setTimeout(() => {
-      // loadAudienceUrl(data.Audience.Audience_id as string);
-      //   clearTimeout(timer);
-      // }, 1000);
     } catch (err) {
       console.log({ err });
     }
   }
 
-  useEffect(() => {
-    console.log(audienceReceivedId);
-  }, [audienceReceivedId]);
+  // useEffect(() => {
+  //   console.log(audienceReceivedId);
+  // }, [audienceReceivedId]);
 
   // this is the third one
 
   async function loadAudienceUrl(audience: string) {
     console.log("this is coming from the second fetch");
 
-    console.log(audience);
+    // console.log(audience);
+
     setAudienceIdReloaded(audience);
     try {
       const response = (await API.graphql({
@@ -306,17 +273,12 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
 
       if (StatusCode === 200) {
         if (data) {
-          // console.log(data);
           LoadAudience(data.Url);
           return data.Url as string;
-
-          // console.log(data.Url);
         } else {
         }
       } else console.log(error);
-
       if (response != null) {
-        // PostResponse();
       }
     } catch (err) {
       console.log({ err });
@@ -341,14 +303,11 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   }
 
   useEffect(() => {
-    console.log(audience);
+    // console.log(audience);
     const aInfo = {
       AudienceId: audience.Audience_id,
       AudienceName: audience.Audience_name,
     } as AudienceInfo;
-
-    // console.log("this went here ", audienceReceivedId);
-    // console.log(inputarr);
 
     setInputArr((p) => {
       const filt = p.filter((a) => a.AudienceId !== undefined);
@@ -356,24 +315,20 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     });
   }, [audience]);
 
-  useEffect(() => {
-    console.log(inputarr);
-  }, [inputarr]);
+  // useEffect(() => {
+  //   console.log(inputarr);
+  // }, [inputarr]);
+
+  // useEffect(() => {
+  //   console.log(arrayData);
+  // }, [arrayData]);
 
   const handleChange = async (audienceName: string) => {
     const data: any = await SaveAudineceURL();
+    console.log(data);
+
     await PostResponse(data.Url, data);
-    // const URl: any = await loadAudienceUrl(data.Audience.Audience_id as string);
-    // await LoadAudience(URl);
   };
-
-  // setTimeout(function() {
-
-  // })
-
-  useEffect(() => {
-    console.log(arrayData);
-  }, [arrayData]);
 
   async function deleteItemAudience(reponse: string) {
     try {
@@ -385,15 +340,12 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       });
       console.log(response2);
       loadAudienceUrl(reponse);
-      // setAudienceId(data);
     } catch (err) {
       console.log({ err });
     }
   }
 
-  // console.log(ChartNumber);
-  // console.log(selectedAudition);
-  // console.log(slectedChart);
+  // console.log(audience);
 
   return (
     <GlobalModalContext.Provider
@@ -404,11 +356,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         handleChange,
         showModal,
         hideModal,
-        // ChartFetch,
         selectedAudition,
-        // setDataForChart,
         setSelectedAudition,
-        // dataForChart,
         dataSelected,
         slectedChart,
         setSelectedChart,
@@ -419,8 +368,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         inputarr,
         name,
         setName,
-        // buttonIsOpen,
-        // setbuttonIsOpen,
         loading,
         setLoading,
         PostResponse,
@@ -432,7 +379,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         setChartNumber,
         SelectionArray,
         setSelectionArray,
-        // dataForChart,
+        audience,
       }}
     >
       {renderComponent()}
@@ -440,7 +387,3 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     </GlobalModalContext.Provider>
   );
 };
-
-// useEffect(() => {
-//   setSelectionArray(object);
-// });

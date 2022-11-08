@@ -1,0 +1,39 @@
+.KPI_contianer {
+  width: 75%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+
+.KPI_item {
+  background-color: white;
+  width: 330px;
+  height: 240px;
+  margin-right: 1rem;
+  border-radius: 7px;
+  border: 1px solid #e2e2e2;
+}
+
+.KPI_item h3 {
+  display: flex;
+  width: 100%;
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 18px;
+}
+
+.KPI_holder {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.KPI_chart_contianer {
+  width: 95%;
+  height: 185px;
+  border: 1px solid #e2e2e2;
+}

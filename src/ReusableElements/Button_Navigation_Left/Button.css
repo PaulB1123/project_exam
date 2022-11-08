@@ -64,12 +64,14 @@ button:focus {
   flex-direction: row;
   align-items: center;
   padding: 0.6rem;
+  padding-top: 0rem;
+  padding-right: 0rem;
   color: var(--navigation-text);
 }
 
 .Dropdown_container img {
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   object-fit: contain;
 }
 
@@ -96,8 +98,8 @@ button:focus {
   border: 0.5px solid var(--audience-border-color);
   color: var(--navigation-text);
   position: absolute;
-  margin-top: 3.2rem;
-  margin-left: 3.2rem;
+  margin-top: 0rem;
+  margin-left: 15.6rem;
   border-radius: 7px;
   z-index: 2;
 }
@@ -115,9 +117,11 @@ button:focus {
 }
 
 .Dropdown_container {
-  width: 200px;
-  margin-bottom: 0.5rem;
+  width: 190px;
+  margin: 0rem;
   justify-content: space-between;
+  display: flex;
+  flex-direction: column;
 }
 
 .buttonaudience {
@@ -130,7 +134,7 @@ button:focus {
 }
 
 .Reports_button {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
 }
 
 .Dropdown_plus_sign {
@@ -188,7 +192,7 @@ button:focus {
   border: 1px solid #d9d9d9;
   margin: 0.15rem;
   margin-left: 0rem;
-  padding-left: 1.5rem;
+  padding-left: 1rem;
   inline-size: 180px;
   word-break: break-all;
 }
@@ -199,4 +203,29 @@ button:focus {
 
 .Dropdown_container li:hover {
   background-color: #d9d9d9;
+}
+
+.liActive {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.button_drag_and_drop {
+  /* padding-left: 3rem !important; */
+  width: 100%;
+  padding: 0rem;
+}
+
+.button_container {
+  padding-right: 0.5rem;
+  padding-top: 0.7rem;
+  /* margin: 0.15rem; */
+  /* padding-left: 1rem; */
+}
+
+.contianer_buttons_audience .button_drag_and_drop {
+  margin-right: 0.2rem;
+}
+
+.buttons_dragNdrop_container {
 }

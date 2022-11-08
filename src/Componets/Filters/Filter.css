@@ -17,7 +17,8 @@
 } */
 
 .PlusIcon_container {
-  width: 20px;
+  width: 10px;
+  height: 10px;
   border: 0.5px solid var(--audience-border-plus);
   /* margin-top: 0.4rem; */
   padding: 0.5rem;
@@ -26,7 +27,7 @@
 }
 
 .PlusIcon_container_open {
-  width: 20px;
+  /* width: 20px; */
   border: 0.5px solid var(--background);
   background-color: #d9d9d9;
   padding: 0.5rem;
@@ -57,8 +58,8 @@
 }
 
 .PlusIcon {
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   background-color: var(--audience-border-plus);
   -webkit-mask: url(./icons/Plus.svg) no-repeat center;
   mask: url(./icons/Plus.svg) no-repeat center;
@@ -100,15 +101,18 @@
 .button_filter {
   display: flex;
   flex-direction: row;
-  font-family: "SF_Pro_Display_Regular";
+  font-family: "SF_Pro_Display_Medium";
   justify-content: end;
-  padding-block: 0.7rem;
+  padding-block: 0.4rem;
   padding-inline: 1rem;
   border-radius: 7px;
-  color: white;
+  color: #707070;
+  border: 1px solid #707070;
   background-color: var(--audience-save-color);
   letter-spacing: 0.04rem;
   cursor: pointer;
+  align-items: flex-end;
+  font-size: 14px;
 }
 
 .buttons_reports {
@@ -137,10 +141,11 @@
 }
 
 .Dropdown_is_open {
+  /* width: 69% !important; */
   margin-top: 1rem;
   width: auto;
   height: auto;
-  max-height: 40rem;
+  height: 23rem;
   /* display: flex; */
   align-items: center;
   justify-content: center;
@@ -157,8 +162,9 @@
   margin-top: 1rem;
   width: auto;
   height: auto;
-  /* display: flex; */
-  max-height: 40rem;
+
+  /* max-height: 40rem; */
+
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -172,6 +178,8 @@
 
 .filter_droppable_container {
   /* padding: 0.6rem; */
+  /* width: 260px !important; */
+  /* height: 16rem;  */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -182,9 +190,9 @@
   /* margin-top: 2rem; */
 }
 
-.dropDown_button {
+/* .dropDown_button {
   margin-left: 15rem;
-}
+} */
 
 /* .audience_container_with_buttons_and_filter {
   position: absolute;

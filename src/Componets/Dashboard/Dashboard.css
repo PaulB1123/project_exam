@@ -1,19 +1,33 @@
 :root {
-  --card_width: 350px;
+  --card_width: 390px;
   --card_border_radius: 7px;
   --row_increment: 10px;
-  --card_small: 24;
-  --card_large: 34;
+  --card_small: 25;
+  --card_large: 37;
+}
+
+.Dashboard {
+  background-color: #f7f7f7;
 }
 
 .container_graphs {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-wrap: wrap; */
 
-  /* display: grid;
+  display: grid;
   grid-template-columns: repeat(auto-fill, var(--card_width));
-  grid-auto-rows: var(--row_increment); */
+
+  column-gap: 6px;
+  grid-auto-rows: var(--row_increment);
+}
+
+.card_small {
+  grid-row-end: span var(--card_small);
+}
+
+.card_large {
+  grid-row-end: span var(--card_large);
 }
 
 .templateChart_container {
@@ -25,19 +39,45 @@
   border: 1px solid #e2e2e2;
   border-radius: var(--card_border_radius);
   padding: 1rem;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  grid-row-end: span var(--card_small);
+  background-color: white;
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+  /* height: 200px; */
+  /* grid-row-end: span var(--card_small); */
+}
+
+.templateChart_header {
+  padding: 0rem;
+  margin: 1rem;
+  margin-bottom: 0rem;
+  margin-top: 0rem;
+}
+
+.templateChart_header h1 {
+  padding: 0rem;
+  margin: 0rem;
+}
+
+.templateChart_container_paragraph {
+  font-size: 12px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .this_is_container_visiable_chart {
   /* grid-row-end: span var(--card_large); */
-  padding: 1rem;
+  /* margin: 15px 10px; */
+
+  /* padding: 1rem;
   padding-top: 0rem;
-  padding-left: 0rem;
+  padding-left: 0rem; */
 }
 
+/* .this_is_container_main_chart {
+  margin: 15px 10px;
+} */
+
 .dashboard_container_group {
-  margin-top: 4rem;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,7 +121,7 @@
   flex-direction: row !important;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: cente;
+  align-items: center;
 }
 
 /* .Chart {
@@ -98,10 +138,26 @@
   /* height: 1rem; */
   display: flex;
   flex-direction: row;
-  border: 1px solid black;
+  border: 1px solid #707070;
   margin-left: 1rem;
-  border-radius: 9px;
-  padding: 0.5rem;
+  border-radius: 6px;
+  padding: 1rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  background-color: white;
+  margin-bottom: 2rem;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#PluswithChart div {
+  font-size: 14px;
+  font-family: "SF_Pro_Display_Medium";
+  color: #707070;
+}
+
+#PluswithChart img {
+  margin-right: 0.5rem;
 }
 
 .Chart_holder {
@@ -133,4 +189,29 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.KPI_with_Dashboard {
+  display: flex;
+  flex-direction: row;
+}
+
+.Download_Dashboard {
+  margin-left: 1.25rem;
+  border-radius: 5px;
+  background-color: #e7e7ef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "SF_Pro_Display_Medium";
+  font-size: 15px;
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: #929292;
+}
+
+.Download_Dashboard span {
+  margin-right: 1rem;
+  /* margin-left: 0.5rem; */
 }

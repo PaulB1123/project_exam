@@ -1,46 +1,32 @@
-import * as ReactDOMClient from "react-dom/client";
-import { ContextSelectorFooter } from "@patternfly/react-core";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import "../Styles/global.css";
 import "./Dashboard.css";
 import HeroDashboardImage from "./icons/Hero_Image.svg";
-import { useGlobalModalContext } from "./Modals/GlobalModal";
-import Charts from "../Charts/Charts";
 import FilterContext from "../../Data/FilterContext";
 import TemplateChart from "./../Charts/TempleteChart";
+import UserContext from "../../Data/UserContext";
+import ProfilePicture from "../images/profile_picture.jpg";
+import SaveButton from "../Filters/icons/Save_Button.svg";
+import "../Header/Header.css";
+import KPI from "../Charts/KPIs";
+import PlusSign from "./icons/Plus_sign.svg";
 
 export default function Dashboard() {
-  const [Charts, setCharts] = useState();
   const [ReportStatus, setReportStatus] = useState(false);
-  // const { dataForChart } = useGlobalModalContext();
-
   const [ArrayCharts, setArrayCharts] = useState([0]);
-  const { isPlusButtonOpen, ArrayDragged, selectedModelId } =
-    useContext(FilterContext);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     ChangeReportStatus();
-  //     // clearTimeout(myTimeout);
-  //   }, 1000);
-  // }, []);
-
-  // function ChangeReportStatus() {
-  //   setReportStatus(!ReportStatus);
-  // }
-
-  // setArrayCharts ([ ])
+  const { isPlusButtonOpen } = useContext(FilterContext);
+  const { user } = useContext(UserContext);
 
   function AddChart() {
     return (
-      <div
+      <button
         className="Plus_Icon"
         id="PluswithChart"
         onClick={() => MakeAnotherTemplate()}
       >
-        <div className="PlusIcon">PlusIcon</div>
+        <img src={PlusSign} alt="" />
         <div> Add Chart</div>
-      </div>
+      </button>
     );
   }
 
@@ -52,15 +38,48 @@ export default function Dashboard() {
     setArrayCharts((prevState) => [...prevState, test]);
   }
 
-  console.log(ArrayCharts);
-
-  // useEffect(() => {
-  //   console.log(ArrayCharts);
-  // }, [ArrayCharts]);
+  // console.log(ArrayCharts);
 
   return (
     <>
       <div className="Dashboard">
+        <div className="KPI_with_Dashboard">
+          <div className="KPI_contianer">
+            <KPI />
+            <KPI />
+          </div>
+          <div className="header_container_group">
+            <div className="header_container">
+              <h1>Demographic Dashboard</h1>
+
+              {user ? (
+                <div className="profile_container">
+                  <img src={ProfilePicture} alt=""></img>
+                  <div className="profile_name">
+                    {user?.name} {user?.family_name}
+                  </div>
+                </div>
+              ) : (
+                <div className="profile_container">
+                  <div className="profile_name">User is not logged in</div>
+                </div>
+              )}
+            </div>
+
+            <div className="h2">Welcome to your dashboard, {user?.name}</div>
+            <div className="button_Dashboard">
+              <button className="Save_Dashboard">
+                <span>Save Dashboard</span>
+                <img src={SaveButton} alt=""></img>
+              </button>
+              <button className="Download_Dashboard">
+                <span>Download Dashboard</span>
+                <img src={SaveButton} alt=""></img>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div className="container_button">
           <AddChart />
         </div>
@@ -104,11 +123,3 @@ export default function Dashboard() {
     </>
   );
 }
-
-// function MakeAnotherTemplate() {
-//   console.log("this has been clicked");
-//   const root = ReactDOMClient.createRoot(
-//     document.getElementById("Chart_holder")
-//   );
-//   root.render(<TemplateChartDashboard />);
-// }

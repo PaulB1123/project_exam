@@ -1,5 +1,5 @@
 .Filter_on_left_side {
-  width: 100%;
+  width: 83% !important;
   display: flex;
   justify-content: space-between;
   padding: 0.5rem;
@@ -12,10 +12,6 @@
   display: flex;
   justify-content: space-between;
 }
-
-/* #Dropdown_container {
-  width: 250px;
-} */
 
 .Filter_on_left_side_contianer {
   width: 100%;
@@ -30,6 +26,7 @@
 }
 
 .Filter_on_left_side_active {
+  width: 83%;
   padding: 0.5rem;
   border-radius: 7px;
   background-color: var(--navigation-button-dropdown-hovering);
@@ -38,22 +35,6 @@
   border: 1px solid #cccccc;
   border-radius: 7px;
 }
-
-/* #Dropdown_container:hover,
-#Dropdown_container:active {
-  border-radius: 7px;
-  background-color: var(--navigation-button-dropdown-hovering);
-  box-shadow: var(--audience-background-hover-plus) 0px 30px 60px -12px inset,
-    var(--audience-background-hover-plus) 0px 18px 36px -18px inset;
-  cursor: pointer;
-} */
-
-/* .Dropdown_container:hover,
-.Dropdown_container:active {
-  border-radius: 7px;
-  background-color: var(--navigation-button-dropdown-hovering);
-  cursor: pointer;
-} */
 
 #Dropdown_container {
   display: flex;
@@ -85,13 +66,8 @@
 
 #Dropdown_container {
   width: 200px;
-  /* margin-bottom: 0.5rem; */
+
   justify-content: space-between;
-
-  /* margin-left: 0.5rem; */
-
-  /* display: flex;
-    flex-direction: column; */
 }
 
 #Dropdown_container_arrow_button_open img {
@@ -100,7 +76,6 @@
 
 #Dropdown_container_arrow_button_open {
   width: 200px;
-  /* margin-bottom: 0.5rem; */
   justify-content: space-between;
 }
 
@@ -134,11 +109,7 @@
 }
 
 .filters_all {
-  /* margin: 0.5rem; */
   width: 100%;
-  /* margin: 0.6rem;
-  margin-top: 0rem; */
-  /* padding: 0.2rem; */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -160,8 +131,6 @@
   border-radius: 5px;
   margin-right: 0.8rem;
   padding: 0.35rem;
-  /* padding-left: 1rem;
-  padding-right: 1rem; */
   border: 1px solid #e2e2e2;
   font-family: "SF_Pro_Display_Regular";
   font-size: 15px;
@@ -208,88 +177,6 @@
 .filter_elements {
   padding: 0.6rem;
 }
-
-/* .filters_all li:hover {
-  border-radius: 7px;
-  background-color: var(--navigation-button-dropdown-hovering);
-  box-shadow: var(--audience-background-hover-plus) 0px 30px 60px -12px inset,
-    var(--audience-background-hover-plus) 0px 18px 36px -18px inset;
-  cursor: pointer;
-}
-
-
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  appearance: none;
-}
-*/
-
-/* .Min {
-  display: flex;
-}
-
-.Min input {
-  width: 30px;
-}
-
-.Max {
-  display: flex;
-}
-
-.Max input {
-  width: 30px;
-} */
-
-/* .price-input input {
-  width: 30px;
-}
-
-.filed_container {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.slider {
-  margin-top: 1rem;
-  height: 5px;
-  border-radius: 5px;
-  background-color: red;
-} */
-
-/* .slider .progress {
-  height: 5px;
-  left: 25%;
-  right: 25%;
-  position: absolute;
-  background-color: #929292;
-} */
-
-/* input[type="range"]::-webkit-slider-thumb {
-  height: 17px;
-  width: 17px;
-  border-radius: 50%;
-  pointer-events: auto;
-  appearance: none;
-  background-color: #929292;
-}
-
-input[type="range"]::-moz-range-thumb {
-  height: 17px;
-  width: 17px;
-  border: none;
-  border-radius: 50%;
-  pointer-events: auto;
-  appearance: none;
-  background-color: #929292;
-}
-
-.field input {
-  -moz-appearance: none;
-} */
-
-/* Thi is the other code  */
 
 .wrapper {
   width: 165px;
@@ -391,10 +278,6 @@ input[type="range"]::-moz-range-thumb {
   display: none;
 }
 
-/* .Class {
-
-} */
-
 .items_list li:hover {
   background-color: #929292;
   color: white;
@@ -409,20 +292,6 @@ input[type="range"]::-moz-range-thumb {
 .InputNumber {
   width: 50px;
 }
-/* @import "rsuite/dist/rsuite.css"; */
-
-/* .rs-row {
-  width: 300px;
-}
-
-/* .rs-col rs-col-md-10 {
-  width: 100px;
-} */
-
-/* .rs-row {
-  display: flex;
-  flex-direction: column;
-}  */
 
 #Dropdown_container {
   display: flex;
@@ -431,10 +300,11 @@ input[type="range"]::-moz-range-thumb {
 }
 
 #Dropdown_container li {
-  padding-bottom: 0.55rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
-
-/* Dropdown_container */
 
 .dnd-item {
   display: flex;
@@ -473,3 +343,14 @@ input[type="range"]::-moz-range-thumb {
   background-color: #8e8d91;
   color: white;
 }
+
+.Dropdown_filter_container_li {
+  inline-size: 90px;
+}
+
+/* #Dropdown_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+} */

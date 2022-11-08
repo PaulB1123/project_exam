@@ -285,7 +285,7 @@ export default function Charts(props: PropsChart, slectedChart: any) {
 
             {props.dataForChart.map((item: any) => {})}
 
-            <div className="Button_adds">
+            {/* <div className="Button_adds">
               <div className="Button_settings">
                 <button>See advance scores</button>
               </div>
@@ -296,7 +296,7 @@ export default function Charts(props: PropsChart, slectedChart: any) {
                 <li id="pureDisplay">|</li>
                 <li>Advertiser Disclousure</li>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       ) : (

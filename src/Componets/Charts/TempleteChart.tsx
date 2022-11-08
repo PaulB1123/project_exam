@@ -127,7 +127,7 @@ export default function TemplateChart(props: Props) {
   return (
     <>
       {dataForChart !== undefined ? (
-        <div className="this_is_container_visiable_chart">
+        <div className="this_is_container_visiable_chart card_large">
           <Charts
             el={props.el}
             chart={chart}
@@ -139,7 +139,7 @@ export default function TemplateChart(props: Props) {
         </div>
       ) : (
         <>
-          <div className="this_is_container_main_chart">
+          <div className="this_is_container_main_chart card_small">
             <div className="templateChart_container">
               <button className="Exist" onClick={() => DeleteChart()}>
                 <img src={XIcon} alt="" />
@@ -181,11 +181,3 @@ export default function TemplateChart(props: Props) {
     </>
   );
 }
-
-// export function TemplateChartKPI() {
-//   <div>
-//     <div>
-//       <h1>This is the KPI </h1>
-//     </div>
-//   </div>;
-// }

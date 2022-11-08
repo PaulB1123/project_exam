@@ -2,7 +2,7 @@ import "../../Componets/Styles/global.css";
 import "./Button.css";
 import "../../Componets/Filters/Filter.css";
 import "./DragnDrop.css";
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import SlideButton from "./SlideButton";
 import AudienceContainer from "./Audience_container";
 import FilterContext, { GeneralSelector } from "../../Data/FilterContext";
@@ -10,19 +10,26 @@ import SegmentIcon from "../../Componets/Filters/icons/Segment.svg";
 import PlusIcon from "../../Componets/Filters/icons/Plus.svg";
 import {
   GlobalModal,
+  MODAL_TYPES,
   useGlobalModalContext,
 } from "../../Componets/Dashboard/Modals/GlobalModal";
+import AudienceDownAudience from "../../Componets/Navigation/icons/ArrowDownAudience.svg";
 
-interface DataProps {}
+// interface DataProps {}
+
+type Props = {
+  // id: string;
+};
 
 export interface IGroup {
   items: GeneralSelector[];
   title: string;
 }
 
-export const DragNDrop: React.FC<DataProps> = () => {
-  const { data, setData } = useContext(FilterContext);
-  const { arrayData } = useGlobalModalContext();
+export const DragnDrop = (id: Props) => {
+  const { data, setData, setArrayLeft, setArrayRight } =
+    useContext(FilterContext);
+  const { arrayData, audience } = useGlobalModalContext();
 
   const [isOpen, setOpen] = React.useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -31,18 +38,36 @@ export const DragNDrop: React.FC<DataProps> = () => {
 
   const [listAudience, setListAudience] = useState();
 
+  const [openModal, setOpenModal] = React.useState(false);
+  const { showModal } = useGlobalModalContext();
+
+  // useEffect(() => {
+  //   console.log(id);
+  // }, [id]);
+
+  const createModal = () => {
+    showModal(MODAL_TYPES.CREATE_MODAL, {
+      title: "Create instance form",
+      confirmBtn: "Save",
+    });
+  };
+
+  const deleteModal = () => {
+    showModal(MODAL_TYPES.DELETE_MODAL);
+  };
+
   const handleClick = () => {
     setOpen(!isOpen);
     setIsActive((current) => !current);
   };
 
-  console.log(arrayData);
+  // console.log(arrayData);
 
   if (arrayData.length > 0) {
     data[0].items = arrayData;
   }
 
-  console.log(data);
+  // console.log(data);
 
   const handleDrop = () => {
     setDrop(drop + 1);
@@ -75,12 +100,19 @@ export const DragNDrop: React.FC<DataProps> = () => {
         );
         dragItem.current = params;
         localStorage.setItem("List", JSON.stringify(newList));
+        console.log(newList);
         return newList;
       });
+    // console.log(data[0].items);
+    setArrayLeft(data[0].items);
+    setArrayRight(data[1].items);
   };
+
+  // console.log(audience);
 
   const handleDragEnd = () => {
     // console.log("Ending drag");
+    // console.log(id);
 
     setDragging(false);
     dragNode.current.removeEventListener("dragend", handleDragEnd);
@@ -102,73 +134,72 @@ export const DragNDrop: React.FC<DataProps> = () => {
 
   return (
     <div className="entire_slider_audience">
-      <SlideButton>
-        <div className="drag-n-drop">
-          {data.map((grp: IGroup, grpI: number) => {
-            // console.log(grp.items);
-            if (grp.title === "audition_bar") {
-              return (
-                <div
-                  // className="filterbuttonAudience"
-                  key={grp.title}
-                  onDragEnter={
-                    dragging && !grp.items.length
-                      ? (e) => handleDragEnter(e, { grpI, itemI: 0 })
-                      : undefined
-                  }
-                  className="dropDown_button"
+      <div className="drag-n-drop">
+        {/* {key === } */}
+        {data.map((grp: IGroup, grpI: number) => {
+          if (grp.title === "audition_bar") {
+            return (
+              <div
+                key={grp.title}
+                onDragEnter={
+                  dragging && !grp.items.length
+                    ? (e) => handleDragEnter(e, { grpI, itemI: 0 })
+                    : undefined
+                }
+                className="dropDown_button"
+              >
+                <button
+                  type="button"
+                  className="buttonaudience"
+                  onClick={() => {
+                    handleClick();
+                  }}
                 >
-                  <button
-                    type="button"
-                    className="buttonaudience"
-                    onClick={() => {
-                      handleClick();
+                  <div
+                    className="filterbuttonAudience"
+                    style={{
+                      backgroundColor: isActive ? "#d9d9d9" : "white",
                     }}
                   >
                     <div
-                      className="filterbuttonAudience"
-                      style={{
-                        backgroundColor: isActive ? "#d9d9d9" : "white",
-                      }}
+                      className={
+                        isActive
+                          ? "PlusIcon_container_open"
+                          : "PlusIcon_container"
+                      }
                     >
-                      <div
-                        className={
-                          isActive
-                            ? "PlusIcon_container_open"
-                            : "PlusIcon_container"
-                        }
-                      >
-                        <div className="PlusIcon"></div>
-                      </div>
+                      <div className="PlusIcon"></div>
                     </div>
-                  </button>
+                  </div>
+                </button>
 
-                  {isOpen && (
-                    <div className="Dropdown_Audience_Main_Group">
-                      <div className="Dropdown_Audience">
-                        <div className="Dropdown_box_Audience">
-                          {grp.items !== null &&
-                            grp.items.map((item, itemI: number) => (
-                              <div
-                                draggable
-                                onDragStart={(e) =>
-                                  handleDragStart(e, { grpI, itemI })
-                                }
-                                onDragEnter={
-                                  dragging
-                                    ? (e) => {
-                                        handleDragEnter(e, { grpI, itemI });
-                                      }
-                                    : undefined
-                                }
-                                className={
-                                  dragging
-                                    ? getStyles({ grpI, itemI })
-                                    : "dnd-item"
-                                }
-                                key={item.id}
-                                id="Dropdown_container"
-                              >
+                {isOpen && (
+                  <div className="Dropdown_Audience_Main_Group">
+                    <div className="Dropdown_Audience">
+                      <div className="Dropdown_box_Audience">
+                        {grp.items !== null &&
+                          grp.items.map((item, itemI: number) => (
+                            <div
+                              draggable
+                              onDragStart={(e) =>
+                                handleDragStart(e, { grpI, itemI })
+                              }
+                              onDragEnter={
+                                dragging
+                                  ? (e) => {
+                                      handleDragEnter(e, { grpI, itemI });
+                                    }
+                                  : undefined
+                              }
+                              className={
+                                dragging
+                                  ? getStyles({ grpI, itemI })
+                                  : "dnd-item"
+                              }
+                              key={item.id}
+                              id="Dropdown_container"
+                            >
+                              <div className="Dropdown_filter_container">
                                 <div>
                                   <img
                                     className="Dropdown_plus_sign"
@@ -176,11 +207,7 @@ export const DragNDrop: React.FC<DataProps> = () => {
                                     alt="Dropdown_plus_sign"
                                   ></img>
                                 </div>
-                                <div className="Dropdown_filter_container">
-                                  <li>{item.selector}</li>
-                                  {/* <li>{item.category}</li> */}
-                                </div>
-
+                                <li>{item.selector}</li>
                                 <div className="Dropdown_plus_sign_container">
                                   <button>
                                     <img
@@ -191,16 +218,17 @@ export const DragNDrop: React.FC<DataProps> = () => {
                                   </button>
                                 </div>
                               </div>
-                            ))}
-                        </div>
+                            </div>
+                          ))}
                       </div>
                     </div>
-                  )}
-                </div>
-              );
-            } else {
-              return (
-                // {isOpen && (<div></) }
+                  </div>
+                )}
+              </div>
+            );
+          } else {
+            return (
+              <>
                 <div
                   key={grp.title}
                   onDragEnter={
@@ -216,7 +244,6 @@ export const DragNDrop: React.FC<DataProps> = () => {
                         {drop === 0 && (
                           <div className="filter_info">drop filters here</div>
                         )}
-
                         {grp.items.map((item: GeneralSelector, itemI: any) => (
                           <>
                             <AudienceContainer
@@ -241,6 +268,19 @@ export const DragNDrop: React.FC<DataProps> = () => {
                             ></AudienceContainer>
                           </>
                         ))}
+
+                        <div className="SaveFilter_button">
+                          <button
+                            className="button_filter"
+                            id="openModalBtn"
+                            onClick={() => {
+                              // setOpenModal(true);
+                              createModal();
+                            }}
+                          >
+                            <div>Save audience</div>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ) : (
@@ -248,8 +288,6 @@ export const DragNDrop: React.FC<DataProps> = () => {
                       <div className="filter_droppable_container">
                         {grp.items.map((item: GeneralSelector, itemI: any) => (
                           <>
-                            {/* {console.log(grp.items)} */}
-                            {/* {console.log(newArray)} */}
                             <AudienceContainer
                               dragging={dragging}
                               grpI={grpI}
@@ -276,13 +314,13 @@ export const DragNDrop: React.FC<DataProps> = () => {
                     </div>
                   )}
                 </div>
-              );
-            }
-          })}
-        </div>
-      </SlideButton>
+              </>
+            );
+          }
+        })}
+      </div>
     </div>
   );
 };
 
-export default DragNDrop;
+export default DragnDrop;

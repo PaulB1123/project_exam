@@ -8,14 +8,12 @@ import {
 import UserContext from "./UserContext";
 import { IGroup } from "../ReusableElements/Button_Navigation_Left/DragnDrop";
 import React from "react";
-import { useParams } from "react-router-dom";
 import { API } from "aws-amplify";
 import {
   getAudiences,
   getClients,
   getModelsForClient,
   getSelectorsForModel,
-  loadAudience,
 } from "../graphql/queries";
 import {
   ClientItem,
@@ -25,16 +23,11 @@ import {
   getClientsResponse,
   getModelsForClientResponse,
   getSelectorsForModelResponse,
-  LoadAudienceQuery,
-  LoadAudienceQueryVariables,
   ModelItem,
   SelectorFactor,
   selectorValue,
 } from "../API";
-import {
-  GlobalModal,
-  useGlobalModalContext,
-} from "../Componets/Dashboard/Modals/GlobalModal";
+import { useGlobalModalContext } from "../Componets/Dashboard/Modals/GlobalModal";
 
 const FilterContext = createContext({
   data: [] as IGroup[],
@@ -50,7 +43,11 @@ const FilterContext = createContext({
   setSelectedModelId: (params: any) => {},
   selectedClient: "" as any,
   setSelectedClient: (params: any) => {},
-  updateSelectorSelectedValue: (selector_id: string, valueId: number) => {},
+  updateSelectorSelectedValue: (
+    selector_id: string,
+    valueId: number,
+    item: any
+  ) => {},
   setData: (params: any) => {},
   newArray: [] as any,
   categorical: [] as any,
@@ -60,6 +57,8 @@ const FilterContext = createContext({
   setIsPlusButtonOpen: (params: any) => {},
   audienceId: [] as any,
   getAudienceData: (event: string) => {},
+  setArrayLeft: (params: any) => {},
+  setArrayRight: (params: any) => {},
 });
 
 type FilterContextProviderProps = {
@@ -85,26 +84,19 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     undefined
   );
   const { user, allUserData } = useContext(UserContext);
-  const { arrayData } = useGlobalModalContext();
   const [selectedClient, setSelectedClient] = React.useState("");
   const [data, setData] = useState([] as any);
   const [client, setClient] = useState("");
   const [country, setCountry] = useState("");
   const [modelId, setModelId] = useState("" as any);
-  // const params = useParams();
   const [categorical, setCategorical] = useState([] as GeneralSelector[]);
   const [newArray, setNewArray] = useState([] as any);
   const [ArrayDragged, setArrayDragged] = useState([] as GeneralSelector[]);
-  const [ArrayDragging, setArrayDragging] = useState();
   const [isPlusButtonOpen, setIsPlusButtonOpen] = useState(true);
   const [audienceId, setAudienceId] = useState() as any;
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
-
-  // useEffect(() => {
-  //   console.log(params);
-  // }, [params]);
 
   useEffect(() => {
     async function Mihai() {
@@ -273,8 +265,11 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
   const updateSelectorSelectedValue = (
     selector_id: string,
-    valueId: number
+    valueId: number,
+    item: any
   ) => {
+    // console.log(categorical);
+
     const updated_selectors = categorical.map((s: any) => {
       // first check if selector is updated otherwise just return the selector
       if (s.id === selector_id) {
@@ -290,6 +285,9 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       }
       return s;
     });
+    console.log(updated_selectors);
+    // console.log(item);
+
     setCategorical(updated_selectors);
   };
 
@@ -298,40 +296,36 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     }
   }, [user, modelId]);
 
+  const [ArrrayLeft, setArrayLeft] = useState([]) as any;
+  const [ArrrayRight, setArrayRight] = useState([]) as any;
+  // setArrayLeft (...hasSelectedValues, )
+
+  useEffect(() => {
+    console.log(ArrrayLeft);
+  }, [ArrrayLeft]);
+
   useEffect(() => {
     const hasSelectedValues = categorical.filter((c) => HasSelector(c));
-
-    const dosentHasSelectedValues = categorical.filter((c) => !HasSelector(c));
-    // setArrayDragged(hasSelectedValues);
     // console.log(hasSelectedValues);
+
+    // const dosentHasSelectedValues = categorical.filter((c) => !HasSelector(c));
+    setArrayRight(categorical);
+    // setArrayDragged(hasSelectedValues);
 
     setData([
       {
         title: "dropdown_audition",
-        items: hasSelectedValues,
+        items: ArrrayLeft,
       },
       {
         title: "audition_bar",
-        items: dosentHasSelectedValues,
+        items: ArrrayRight,
       },
     ]);
   }, [categorical]);
 
-  useEffect(() => {
-    // console.log(ArrayDragged);
-  }, [ArrayDragged]);
-
-  useEffect(() => {
-    const firstList = data[0];
-  }, [data]);
-
-  if (newArray.length > 0) {
-    setNewArray(data[0].items);
-    // console.log(newArray);
-  }
-
   async function getAudienceData(modelId: string) {
-    console.log(modelId);
+    // console.log(modelId);
 
     try {
       const response = (await API.graphql({
@@ -346,7 +340,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       const { getAudiences: actual_list } = response_data;
       const { data, error, StatusCode }: getAudiencesResponse = actual_list;
 
-      console.log(data);
+      // console.log(data);
 
       if (StatusCode === 200) {
         if (data) {
@@ -363,9 +357,9 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     }
   }
 
-  useEffect(() => {
-    console.log(audienceId);
-  }, [audienceId]);
+  // useEffect(() => {
+  //   console.log(audienceId);
+  // }, [audienceId]);
 
   return (
     <FilterContext.Provider
@@ -392,8 +386,9 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         setIsPlusButtonOpen,
         setArrayDragged,
         audienceId,
-
         getAudienceData,
+        setArrayLeft,
+        setArrayRight,
       }}
     >
       {props.children}
@@ -401,11 +396,18 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   );
 };
 
+// Problmes that I have with this code:
+// the filter option when it renders again it renders only the items which have a preselected value in the filter, other wise it does not work properly
+// the drag and drop is multipling the same values for all the filters
+// I need to remake the function of updating the charts
+// when is refreshed the database selector is not working properly
+
 export default FilterContext;
 function HasSelector(c: GeneralSelector) {
   const { values } = c;
   const hasSelector = values.some((v) => v.isSelected);
   // console.log(hasSelector);
+  console.log(hasSelector);
 
   return hasSelector;
 }

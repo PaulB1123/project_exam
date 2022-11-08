@@ -20,28 +20,34 @@ ul {
 /* Hero logo */
 
 .hero_logo {
-  margin-top: 2rem;
+  margin-top: 1rem;
 
   border-bottom: 0.5px solid var(--audience-border-color);
 }
 
 .hero_logo_container {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 /* Hero logo */
 
 /* Main Menu container */
 
 .main_menu_container {
-  margin-top: 2rem;
   border-bottom: 0.5px solid var(--audience-border-color);
   /* width: 180px; */
 }
 
 .header_main_menu {
   font-family: "SF_Pro_Display_Regular";
-  margin-top: 1.5rem;
+  margin-top: 0.7rem;
   color: var(--text-primary);
+}
+
+.main_menu_container ul {
+  padding: 0rem;
+  margin: 0.6rem;
+  margin-left: 0rem;
+  margin-right: 0rem;
 }
 
 #dashboardbutton {
@@ -79,6 +85,8 @@ ul {
   justify-content: space-between;
   list-style-type: none;
   color: var(--navigation-text);
+  background-color: white;
+  border: 1px solid #e2e2e2;
   padding-top: 0.7rem;
   padding-bottom: 0.8rem;
   padding-right: 0.5rem;
@@ -134,7 +142,10 @@ ul {
 /* Work Flow */
 
 .naviagtion_container_group {
+  display: flex;
+  flex-direction: column;
   width: 220px;
+  height: 100vh;
   margin-left: 1.5rem;
   background-color: var(--background);
 }
@@ -186,6 +197,34 @@ ul {
 
 /* Log out button */
 
+/* Log out button */
+
+/* Dark mode button */
+
+.dark_mode {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-family: "SF_Pro_Display_Medium";
+  color: var(--navigation-text);
+  z-index: 0;
+  /* background-color: var(--background); */
+}
+
+.dark_mode_icon {
+  width: 40px;
+  background-color: var(--navigation-text);
+  -webkit-mask: url(./icons/Switch_darkmode.svg) no-repeat center;
+  mask: url(./icons/Switch_darkmode.svg) no-repeat center;
+  z-index: 0;
+}
+
+/* Dark mode button */
+
+.logout {
+  margin-top: auto;
+}
+
 .logout_button_container {
   padding-bottom: 1rem;
   border-bottom: 0.5px solid var(--audience-border-color);
@@ -217,27 +256,3 @@ ul {
   font-family: "SF_Pro_Display_Medium";
   color: #929292;
 }
-
-/* Log out button */
-
-/* Dark mode button */
-
-.dark_mode {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  font-family: "SF_Pro_Display_Medium";
-  color: var(--navigation-text);
-  z-index: 0;
-  /* background-color: var(--background); */
-}
-
-.dark_mode_icon {
-  width: 40px;
-  background-color: var(--navigation-text);
-  -webkit-mask: url(./icons/Switch_darkmode.svg) no-repeat center;
-  mask: url(./icons/Switch_darkmode.svg) no-repeat center;
-  z-index: 0;
-}
-
-/* Dark mode button */

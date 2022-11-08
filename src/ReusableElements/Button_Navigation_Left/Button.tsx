@@ -15,9 +15,17 @@ import ReportIcon from "../../Componets/Navigation/icons/Reports.svg";
 import ArrrowdownIcon from "../../Componets/Navigation/icons/ArrowDown.svg";
 import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
 import Filter from "../../Componets/Navigation/icons/Filter.svg";
-import { useGlobalModalContext } from "../../Componets/Dashboard/Modals/GlobalModal";
+import {
+  MODAL_TYPES,
+  useGlobalModalContext,
+} from "../../Componets/Dashboard/Modals/GlobalModal";
 import FilterContext from "../../Data/FilterContext";
 import TrashIcon from "../../Componets/Navigation/icons/Trash.svg";
+import FilterComponent from "../../Componets/Filters/Filter";
+import DragnDrop from "./DragnDrop";
+import Modal from "../../Componets/Filters/Modal";
+import AudienceDownAudience from "../../Componets/Navigation/icons/ArrowDownAudience.svg";
+
 // import { AuditionFilter } from "../../Data/audition_filters";
 
 export default function ChartsButton() {
@@ -164,20 +172,18 @@ export function ReportsButton() {
 export function AudiencesButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
-
-  const [isOpenReport, setOpenAudience] = useState(false);
-  const [isActiveReport, setIsActiveAudience] = useState(false);
-
   const [arrayWithAudiences, setArrayWithAudiences] = useState([]) as any;
-
   const [checkLi, setCheckLi] = useState("");
   const { message, inputarr, loadAudienceUrl, deleteItemAudience } =
     useGlobalModalContext();
   const { audienceId } = useContext(FilterContext);
+  const [openModal, setOpenModal] = React.useState(false);
+  const { showModal } = useGlobalModalContext();
+  const [showDraggableList, setShowDraggableList] = useState(false);
+
   useEffect(() => {
     if (message !== undefined) {
       setArrayWithAudiences([message]);
-      // console.log(arrayWithAudiences);
     }
   }, [message]);
 
@@ -187,12 +193,23 @@ export function AudiencesButton() {
   };
 
   const handelclickAudience = (key: string) => {
-    console.log(key);
-
-    // setOpenAudience(!isOpenReport);
-    // setIsActiveAudience((current) => !current);
     setCheckLi(key);
     loadAudienceUrl(key);
+  };
+
+  const createModal = () => {
+    showModal(MODAL_TYPES.CREATE_MODAL, {
+      title: "Create instance form",
+      confirmBtn: "Save",
+    });
+  };
+
+  const deleteModal = () => {
+    showModal(MODAL_TYPES.DELETE_MODAL);
+  };
+
+  const showDragAndDrop = () => {
+    setShowDraggableList(!showDraggableList);
   };
 
   return (
@@ -233,21 +250,53 @@ export function AudiencesButton() {
       {isOpenReports && (
         <div>
           <div>
-            <div className="Dropdown_container" id="Dropdown_container">
+            <div className="Dropdown_container_drag_and_drop">
               {audienceId.map((i: any) => {
                 return (
                   <li
                     key={i.Audience_id}
                     onClick={() => handelclickAudience(i.Audience_id)}
-                    className={checkLi === i.Audience_id ? "liActive" : ""}
                   >
-                    {i.Audience_name}
-                    <button onClick={() => deleteItemAudience(i.Audience_id)}>
-                      <img src={TrashIcon} alt="trashIcon" />
-                    </button>
+                    <span>{i.Audience_name}</span>
+                    {/* <div className="buttons_dragNdrop_container">
+                      <button>
+                        <div className={"PlusIcon_container"}>
+                          <div className="PlusIcon"></div>
+                        </div>
+                      </button>
+                      <button>
+                        <div className={"PlusIcon_container"}>
+                          <div className="PlusIcon"></div>
+                        </div>
+                      </button>
+                    </div> */}
+
+                    {/* <div>{i.Audience_id}</div> */}
+                    <DragnDrop></DragnDrop>
                   </li>
                 );
               })}
+
+              <div className="button_container">
+                <button
+                  className="button_filter"
+                  id="openModalBtn"
+                  onClick={() => {
+                    // setOpenModal(true);
+                    createModal();
+                  }}
+                >
+                  <div>Add Audience</div>
+                </button>
+              </div>
+
+              {openModal && (
+                <Modal
+                  setOpenModal={(openModal: boolean) => {
+                    setOpenModal(openModal);
+                  }}
+                ></Modal>
+              )}
             </div>
           </div>
         </div>

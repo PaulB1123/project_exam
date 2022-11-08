@@ -10,12 +10,13 @@
 } */
 
 .containerChart {
-  width: 354px;
+  background-color: white;
+  width: 381px;
   /* height: 500px; */
   border: 1px solid #e2e2e2;
   border-radius: 9px;
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
-    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+  /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px; */
 }
 
 .Chart_with_buttons {
@@ -79,7 +80,7 @@
   width: auto;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
-  height: 280px;
+  /* height: 280px; */
   /* border: 1px solid black; */
 }
 
@@ -101,6 +102,8 @@
   align-items: flex-end;
   width: 20px;
   padding: 1rem;
+  border-radius: 20px;
+  background-color: white;
 }
 
 .continer_with_title_and_exist {

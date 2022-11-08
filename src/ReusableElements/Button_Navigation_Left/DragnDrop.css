@@ -1,6 +1,8 @@
 .drag-n-drop {
   display: flex;
   flex-direction: column-reverse;
+  align-items: flex-start;
+  width: 100%;
 }
 
 /* .dnd-group {
@@ -68,8 +70,26 @@
 } */
 
 .filter_info {
-  width: 200px;
+  /* width: 265px; */
+  height: 20.2rem;
   margin-bottom: 0.5rem;
   justify-content: space-between;
   display: flex;
 }
+
+.entire_slider_audience {
+  display: flex;
+  flex-direction: row;
+}
+
+.SaveFilter_button {
+  margin-top: auto;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+/* .dropDown_button {
+  
+  justify-content: flex-start;
+  align-items: flex-start;
+} */

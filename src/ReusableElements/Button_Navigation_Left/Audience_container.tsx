@@ -40,44 +40,7 @@ const AudienceContainer = (props: Props) => {
     itemI: props.itemI,
   };
 
-  // console.log(newArray);
-
-  // useEffect(() => {
-  //   if (listFilter.variable_type === "categorical") {
-  //     listFilter.values.map((itemList: any) => {
-  //       // itemList.isSelected = true;
-  //       console.log("a venit aici");
-  //     });
-  //   } else {
-  //   }
-  // }, []);
-
-  const handleClickDropDown = () => {
-    setOpenDropDown(!isOpenDropDown);
-    setIsActiveDropDown((current) => !current);
-
-    // const reformattedArray = list.values.map((item: any) => item);
-    // // console.log(reformattedArray);
-    // const result = reformattedArray.find(
-    //   ({ isSelected }: any) => isSelected === false
-    // );
-    // if (result === undefined) {
-    //   ele.checked = true;
-    // }
-    // if (result !== undefined) {
-    //   ele.checked = false;
-    // }
-    // setEle(ele.checked);
-    // // console.log(ele.checked);
-    // return ele.checked;
-  };
-
   useEffect(() => {
-    // console.log("here");
-
-    // const ele = document.getElementById("isChecked") as HTMLInputElement;
-    // console.log(list);
-
     if (listFilter.variable_type === "categorical") {
       const found = listFilter.values.some(
         (element: any) => element.isSelected === false
@@ -144,8 +107,26 @@ const AudienceContainer = (props: Props) => {
   // console.log(listFilter);
 
   function Allfunctions() {
-    handleClickDropDown();
+    setOpenDropDown(!isOpenDropDown);
+    setIsActiveDropDown((current) => !current);
   }
+
+  const handleClickDropDown = () => {
+    // const reformattedArray = list.values.map((item: any) => item);
+    // // console.log(reformattedArray);
+    // const result = reformattedArray.find(
+    //   ({ isSelected }: any) => isSelected === false
+    // );
+    // if (result === undefined) {
+    //   ele.checked = true;
+    // }
+    // if (result !== undefined) {
+    //   ele.checked = false;
+    // }
+    // setEle(ele.checked);
+    // // console.log(ele.checked);
+    // return ele.checked;
+  };
 
   function updateCharts() {
     console.log(data);
@@ -194,7 +175,9 @@ const AudienceContainer = (props: Props) => {
             </div>
 
             <div className="Dropdown_filter_container">
-              <li>{props.item.selector}</li>
+              <li className="Dropdown_filter_container_li">
+                {props.item.selector}
+              </li>
             </div>
 
             <button
@@ -255,8 +238,12 @@ const AudienceContainer = (props: Props) => {
                   value={item.id}
                   onClick={() => {
                     console.log(props.item.id);
-
-                    updateSelectorSelectedValue(props.item.id, item.id);
+                    console.log(item.id);
+                    updateSelectorSelectedValue(
+                      props.item.id,
+                      item.id,
+                      props.item
+                    );
                     // handleClickDropDownSign(item.id);
                     // item.isSelected === true
                     //   ? handleClickDropDownSign(item.id)
