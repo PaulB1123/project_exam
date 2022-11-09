@@ -138,6 +138,15 @@ const AudienceContainer = (props: Props) => {
   // if (clickUpdate === true) {
   //   // setClickupdate(false);
   // }
+  const [unserline, setUnderline] = useState() as any;
+
+  console.log(
+    props.item.values.map((v: any) => console.log(v))
+
+    // console.log(v.filter((v.isSelected) => v.isSelected === true ));
+  );
+
+  console.log(unserline);
 
   return (
     <>
@@ -166,18 +175,20 @@ const AudienceContainer = (props: Props) => {
                 : "Filter_on_left_side"
             }
           >
-            <div>
-              <img
-                className="Dropdown_plus_sign"
-                src={SegmentIcon}
-                alt="Dropdown_plus_sign"
-              ></img>
-            </div>
+            <div className="SegmnetIcon_and_title">
+              <div>
+                <img
+                  className="Dropdown_plus_sign"
+                  src={SegmentIcon}
+                  alt="Dropdown_plus_sign"
+                ></img>
+              </div>
 
-            <div className="Dropdown_filter_container">
-              <li className="Dropdown_filter_container_li">
-                {props.item.selector}
-              </li>
+              <div className="Dropdown_filter_container">
+                <li className="Dropdown_filter_container_li">
+                  {props.item.selector}
+                </li>
+              </div>
             </div>
 
             <button
@@ -201,6 +212,11 @@ const AudienceContainer = (props: Props) => {
               )}
             </button>
           </div>
+        </div>
+        <div className={isActiveDropDown ? "hidden" : "Underline"}>
+          {/* {props.item.values.map((v: any) => (
+            <li>{v}</li>
+          ))} */}
         </div>
       </div>
       <div className={isActiveDropDown ? "filters_all" : "hidden"}>
@@ -272,9 +288,9 @@ const AudienceContainer = (props: Props) => {
                   Update Report
                 </button>
               </div>
-              <div className="Delete_button">
+              {/* <div className="Delete_button">
                 <button>Delete filter</button>
-              </div>
+              </div> */}
             </div>
           </div>
         )}

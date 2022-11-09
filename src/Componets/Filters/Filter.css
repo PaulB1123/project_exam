@@ -17,22 +17,32 @@
 } */
 
 .PlusIcon_container {
-  width: 10px;
-  height: 10px;
+  width: 20px;
+  height: 20px;
   border: 0.5px solid var(--audience-border-plus);
   /* margin-top: 0.4rem; */
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   border-radius: 20%;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .PlusIcon_container_open {
   /* width: 20px; */
+  margin-top: 2px;
+  margin-right: 2px;
+  width: 20px;
+  height: 20px;
   border: 0.5px solid var(--background);
   background-color: #d9d9d9;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   border-radius: 20%;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .PlusIcon_container:hover,
@@ -49,6 +59,14 @@
   mask: url(./icons/Plus.svg) no-repeat center;
 }
 
+.DeleteButton {
+  width: 26px;
+  height: 26px;
+  background-color: var(--audience-border-plus);
+  /* -webkit-mask: url(./icons/Slider_Right.svg) no-repeat center; */
+  mask: url(../Navigation/icons/Trash.svg) no-repeat center;
+}
+
 .SldiericonRight {
   width: 20px;
   height: 20px;
@@ -58,8 +76,8 @@
 }
 
 .PlusIcon {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background-color: var(--audience-border-plus);
   -webkit-mask: url(./icons/Plus.svg) no-repeat center;
   mask: url(./icons/Plus.svg) no-repeat center;
@@ -135,14 +153,14 @@
 } */
 
 .dropDown_row_bar {
-  width: 100%;
+  width: 97%;
   height: 100%;
   overflow: hidden;
 }
 
 .Dropdown_is_open {
   /* width: 69% !important; */
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   width: auto;
   height: auto;
   height: 23rem;
@@ -153,13 +171,13 @@
   border: 0.5px solid #8e8d91;
   border-radius: 7px;
   overflow-y: auto;
-  padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
   box-sizing: content-box;
+  margin-bottom: 1rem;
   z-index: 10;
 }
 
 .Dropdown_is_not_open {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   width: auto;
   height: auto;
 
@@ -177,17 +195,12 @@
 }
 
 .filter_droppable_container {
-  /* padding: 0.6rem; */
-  /* width: 260px !important; */
-  /* height: 16rem;  */
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   width: auto;
   height: auto;
-  /* z-index: 90; */
-
-  /* margin-top: 2rem; */
 }
 
 /* .dropDown_button {

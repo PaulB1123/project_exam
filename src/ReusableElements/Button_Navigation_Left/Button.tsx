@@ -248,56 +248,40 @@ export function AudiencesButton() {
         )}
       </button>
       {isOpenReports && (
-        <div>
-          <div>
-            <div className="Dropdown_container_drag_and_drop">
-              {audienceId.map((i: any) => {
-                return (
-                  <li
-                    key={i.Audience_id}
-                    onClick={() => handelclickAudience(i.Audience_id)}
-                  >
-                    <span>{i.Audience_name}</span>
-                    {/* <div className="buttons_dragNdrop_container">
-                      <button>
-                        <div className={"PlusIcon_container"}>
-                          <div className="PlusIcon"></div>
-                        </div>
-                      </button>
-                      <button>
-                        <div className={"PlusIcon_container"}>
-                          <div className="PlusIcon"></div>
-                        </div>
-                      </button>
-                    </div> */}
-
-                    {/* <div>{i.Audience_id}</div> */}
-                    <DragnDrop></DragnDrop>
-                  </li>
-                );
-              })}
-
-              <div className="button_container">
-                <button
-                  className="button_filter"
-                  id="openModalBtn"
-                  onClick={() => {
-                    // setOpenModal(true);
-                    createModal();
-                  }}
+        <div className="Opened_Audience_button">
+          <div className="Dropdown_container_drag_and_drop">
+            {audienceId.map((i: any) => {
+              return (
+                <li
+                  key={i.Audience_id}
+                  onClick={() => handelclickAudience(i.Audience_id)}
+                  className="audiences_saved"
                 >
-                  <div>Add Audience</div>
-                </button>
-              </div>
+                  <DragnDrop name={i.Audience_name}></DragnDrop>
+                </li>
+              );
+            })}
 
-              {openModal && (
-                <Modal
-                  setOpenModal={(openModal: boolean) => {
-                    setOpenModal(openModal);
-                  }}
-                ></Modal>
-              )}
+            <div className="button_container">
+              <button
+                className="button_filter"
+                id="openModalBtn"
+                onClick={() => {
+                  // setOpenModal(true);
+                  createModal();
+                }}
+              >
+                <div>Add Audience</div>
+              </button>
             </div>
+
+            {openModal && (
+              <Modal
+                setOpenModal={(openModal: boolean) => {
+                  setOpenModal(openModal);
+                }}
+              ></Modal>
+            )}
           </div>
         </div>
       )}

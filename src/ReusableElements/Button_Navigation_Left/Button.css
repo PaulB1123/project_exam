@@ -98,8 +98,8 @@ button:focus {
   border: 0.5px solid var(--audience-border-color);
   color: var(--navigation-text);
   position: absolute;
-  margin-top: 0rem;
-  margin-left: 15.6rem;
+  margin-top: 2.8rem;
+  margin-left: 1.5rem;
   border-radius: 7px;
   z-index: 2;
 }
@@ -130,11 +130,23 @@ button:focus {
 /* Audience button */
 
 .filterbuttonAudience {
-  background-color: var(--background) !important;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  /* margin-left: 4.2rem; */
+}
+
+.PlusIcon_container {
+  margin: 0.15rem;
+  background-color: white;
 }
 
 .Reports_button {
   margin-bottom: 0.75rem;
+}
+
+.Opened_Audience_button {
+  padding-top: 2.5rem;
 }
 
 .Dropdown_plus_sign {
@@ -227,5 +239,12 @@ button:focus {
   margin-right: 0.2rem;
 }
 
-.buttons_dragNdrop_container {
+.Dropdown_container_drag_and_drop {
+  /* margin-top: 5rem; */
+}
+
+.audiences_saved {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }

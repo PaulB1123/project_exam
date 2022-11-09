@@ -7,14 +7,16 @@ import useLocalStorage from "use-local-storage";
 import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import FilterContext from "./Data/FilterContext";
+import { useGlobalModalContext } from "./Componets/Dashboard/Modals/GlobalModal";
 
-function Report() {
+export function Report() {
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
     "theme",
     defaultDark ? "dark" : "light"
   );
   const { modelId } = useParams();
+  const { loadAudienceUrl } = useGlobalModalContext();
 
   const { setSelectedModelId, getAudienceData } = useContext(FilterContext);
 
@@ -32,6 +34,7 @@ function Report() {
   useEffect(() => {
     console.log(modelId);
     getAudienceData(modelId as string);
+    // loadAudienceUrl(key);
   }, [modelId]);
 
   return (
@@ -41,6 +44,7 @@ function Report() {
         <div>
           {/* <FilterComponent></FilterComponent> */}
           <Dashboard></Dashboard>
+
           <div className="dark_mode" onClick={switchTheme}>
             <ul>{theme === "light" ? "Dark" : "Light"} Mode</ul>
             <div className="dark_mode_icon"></div>
@@ -50,5 +54,3 @@ function Report() {
     </div>
   );
 }
-
-export default Report;

@@ -19,6 +19,7 @@ import AudienceDownAudience from "../../Componets/Navigation/icons/ArrowDownAudi
 
 type Props = {
   // id: string;
+  name: string;
 };
 
 export interface IGroup {
@@ -26,7 +27,7 @@ export interface IGroup {
   title: string;
 }
 
-export const DragnDrop = (id: Props) => {
+export const DragnDrop = (name: Props) => {
   const { data, setData, setArrayLeft, setArrayRight } =
     useContext(FilterContext);
   const { arrayData, audience } = useGlobalModalContext();
@@ -132,6 +133,8 @@ export const DragnDrop = (id: Props) => {
     return "dnd-item";
   };
 
+  // console.log(name.name);
+
   return (
     <div className="entire_slider_audience">
       <div className="drag-n-drop">
@@ -148,17 +151,12 @@ export const DragnDrop = (id: Props) => {
                 }
                 className="dropDown_button"
               >
-                <button
-                  type="button"
-                  className="buttonaudience"
-                  onClick={() => {
-                    handleClick();
-                  }}
-                >
+                <span>{name.name}</span>
+                <button type="button" className="buttonaudience">
                   <div
                     className="filterbuttonAudience"
                     style={{
-                      backgroundColor: isActive ? "#d9d9d9" : "white",
+                      backgroundColor: isActive ? "white" : "white",
                     }}
                   >
                     <div
@@ -167,8 +165,19 @@ export const DragnDrop = (id: Props) => {
                           ? "PlusIcon_container_open"
                           : "PlusIcon_container"
                       }
+                      onClick={() => {
+                        handleClick();
+                      }}
                     >
                       <div className="PlusIcon"></div>
+                    </div>
+                    <div
+                      className="PlusIcon_container"
+                      onClick={() => {
+                        // handleClick();
+                      }}
+                    >
+                      <div className="DeleteButton"></div>
                     </div>
                   </div>
                 </button>

@@ -3,7 +3,7 @@ import "./App.css";
 import "./Componets/Styles/global.css";
 import LogIn from "./Pages/LogIn";
 import Database from "./Pages/Database";
-import Report from "./Report";
+import { Report } from "./Report";
 import {
   BrowserRouter as Router,
   Route,

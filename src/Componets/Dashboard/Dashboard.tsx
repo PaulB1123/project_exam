@@ -8,8 +8,11 @@ import UserContext from "../../Data/UserContext";
 import ProfilePicture from "../images/profile_picture.jpg";
 import SaveButton from "../Filters/icons/Save_Button.svg";
 import "../Header/Header.css";
-import KPI from "../Charts/KPIs";
+
 import PlusSign from "./icons/Plus_sign.svg";
+import KPI from "../Charts/KPIs";
+import SVG from "../KPI_Audience_Coverage";
+import SVG2 from "../GroupComponent";
 
 export default function Dashboard() {
   const [ReportStatus, setReportStatus] = useState(false);
@@ -45,8 +48,8 @@ export default function Dashboard() {
       <div className="Dashboard">
         <div className="KPI_with_Dashboard">
           <div className="KPI_contianer">
-            <KPI />
-            <KPI />
+            {/* <SVG /> */}
+            <SVG2 />
           </div>
           <div className="header_container_group">
             <div className="header_container">

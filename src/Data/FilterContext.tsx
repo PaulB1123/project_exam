@@ -153,10 +153,9 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         const { data, error, StatusCode }: getModelsForClientResponse =
           actual_list;
 
-        // console.log(actual_list);
         if (StatusCode === 200) {
           if (data) {
-            // console.log(data);
+            console.log(data);
             if (data.length > 0) {
               setAvailableModels(data);
               setSelectedModelId(data[0].Model_id);
@@ -192,6 +191,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   }, [selectedModelId, availableModels]);
 
   const DatabaseFetc = useCallback(async () => {
+    console.log(selectedModelId);
+
     try {
       const response = (await API.graphql({
         query: getSelectorsForModel,
@@ -209,6 +210,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
       // console.log(actual_list);
       if (StatusCode === 200) {
+        console.log(data);
         if (data) {
           // console.log(data);
           // console.log("this should work", data);
@@ -285,7 +287,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       }
       return s;
     });
-    console.log(updated_selectors);
+    // console.log(updated_selectors);
     // console.log(item);
 
     setCategorical(updated_selectors);
@@ -300,9 +302,9 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [ArrrayRight, setArrayRight] = useState([]) as any;
   // setArrayLeft (...hasSelectedValues, )
 
-  useEffect(() => {
-    console.log(ArrrayLeft);
-  }, [ArrrayLeft]);
+  // useEffect(() => {
+  //   console.log(ArrrayLeft);
+  // }, [ArrrayLeft]);
 
   useEffect(() => {
     const hasSelectedValues = categorical.filter((c) => HasSelector(c));
@@ -407,7 +409,7 @@ function HasSelector(c: GeneralSelector) {
   const { values } = c;
   const hasSelector = values.some((v) => v.isSelected);
   // console.log(hasSelector);
-  console.log(hasSelector);
+  // console.log(hasSelector);
 
   return hasSelector;
 }
