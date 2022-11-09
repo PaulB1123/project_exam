@@ -98,10 +98,11 @@ button:focus {
   border: 0.5px solid var(--audience-border-color);
   color: var(--navigation-text);
   position: absolute;
-  margin-top: 2.8rem;
-  margin-left: 1.5rem;
+  margin-top: 2.5rem;
+  margin-left: 0.4rem;
   border-radius: 7px;
   z-index: 2;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .Dropdown_box_Audience {

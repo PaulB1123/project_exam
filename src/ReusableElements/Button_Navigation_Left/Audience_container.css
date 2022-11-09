@@ -329,12 +329,22 @@ input[type="range"]::-moz-range-thumb {
 
 .Underline {
   width: 90%;
-  height: 0.9rem;
+  height: 1.3rem;
   margin-right: 1.15rem;
   border: 1px solid #cccccc;
   border-top: 0px;
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px;
+}
+
+.underline_li {
+  margin: 0rem;
+  padding: 0rem;
+}
+
+.underline_li span {
+  font-size: 12px;
+  margin-right: 0.25rem;
 }
 
 /* .Underline:hover {

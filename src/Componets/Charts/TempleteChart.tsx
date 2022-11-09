@@ -6,7 +6,7 @@ import {
 import "./TempleteChart.css";
 import ChartIMG from "./Chart.svg";
 import Charts from "../Charts/Charts";
-import { DeleteModal } from "../Dashboard/Modals/DeleteModal";
+import { DeleteModal } from "../Dashboard/Modals/SelectChart";
 import { API } from "aws-amplify";
 import XIcon from "../Filters/icons/X.svg";
 import { getChartData } from "../../graphql/queries";

@@ -40,7 +40,7 @@ export const UpdateModal = () => {
         </div>
 
         <div className="Header_Modal">
-          <h3>Would you like to save the audice? </h3>
+          <h3>What would be your audience name ? </h3>
         </div>
 
         <div className="Input_Modal">

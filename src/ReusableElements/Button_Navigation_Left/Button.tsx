@@ -257,7 +257,10 @@ export function AudiencesButton() {
                   onClick={() => handelclickAudience(i.Audience_id)}
                   className="audiences_saved"
                 >
-                  <DragnDrop name={i.Audience_name}></DragnDrop>
+                  <DragnDrop
+                    name={i.Audience_name}
+                    id={i.Audience_id}
+                  ></DragnDrop>
                 </li>
               );
             })}

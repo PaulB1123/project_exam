@@ -8,7 +8,7 @@ import {
   MODAL_TYPES,
   useGlobalModalContext,
 } from "../Dashboard/Modals/GlobalModal";
-import { DeleteModal } from "../Dashboard/Modals/DeleteModal";
+import { DeleteModal } from "../Dashboard/Modals/SelectChart";
 
 export default function FilterComponent() {
   // const [openModal, setOpenModal] = useState(false);

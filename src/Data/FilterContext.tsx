@@ -59,6 +59,7 @@ const FilterContext = createContext({
   getAudienceData: (event: string) => {},
   setArrayLeft: (params: any) => {},
   setArrayRight: (params: any) => {},
+  leftside: [] as any,
 });
 
 type FilterContextProviderProps = {
@@ -306,22 +307,25 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   //   console.log(ArrrayLeft);
   // }, [ArrrayLeft]);
 
+  const [leftside, setleftside] = useState() as any;
+
   useEffect(() => {
     const hasSelectedValues = categorical.filter((c) => HasSelector(c));
+    setleftside(hasSelectedValues);
     // console.log(hasSelectedValues);
 
-    // const dosentHasSelectedValues = categorical.filter((c) => !HasSelector(c));
+    const dosentHasSelectedValues = categorical.filter((c) => !HasSelector(c));
     setArrayRight(categorical);
     // setArrayDragged(hasSelectedValues);
 
     setData([
       {
         title: "dropdown_audition",
-        items: ArrrayLeft,
+        items: hasSelectedValues,
       },
       {
         title: "audition_bar",
-        items: ArrrayRight,
+        items: dosentHasSelectedValues,
       },
     ]);
   }, [categorical]);
@@ -391,6 +395,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         getAudienceData,
         setArrayLeft,
         setArrayRight,
+        leftside,
       }}
     >
       {props.children}

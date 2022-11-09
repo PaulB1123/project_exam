@@ -24,16 +24,12 @@ const AudienceContainer = (props: Props) => {
   const [isActiveDropDown, setIsActiveDropDown] = useState(false);
   const [ele, setEle] = useState(true) as any;
   const [listFilter, setListFilter] = useState(props.item);
-  // const [newList, setNewList] = useState(
-  //   JSON.parse(JSON.stringify(listFilter))
-  // );
-  // const [newstate, setNewstate] = useState({});
-  // const [newArray, setNewArray] = useState([]);
-
-  const { updateSelectorSelectedValue, data } = useContext(FilterContext);
-  const { loading, setLoading } = useGlobalModalContext();
+  const { updateSelectorSelectedValue, data, categorical } =
+    useContext(FilterContext);
+  const { loading, setLoading, deleteItemAudience } = useGlobalModalContext();
   const [clickUpdate, setClickupdate] = useState();
   const [selectedAudienceOptions, setSelectedAudienceOptions] = useState([]);
+  const [unserline, setUnderline] = useState() as any;
 
   const params = {
     grpI: props.grpI,
@@ -48,105 +44,19 @@ const AudienceContainer = (props: Props) => {
       setEle(found);
     } else if (listFilter.variable_type === "numerical") {
     }
-
-    // console.log(found);
   }, [listFilter]);
-  // console.log(ele);
-
-  // const handleClickDropDownSign = (id: any) => {
-  //   const index = listFilter.values.findIndex(
-  //     (element: any) => element.id === id
-  //   );
-
-  //   setListFilter((ps: any) => ({
-  //     ...ps,
-  //     values: [
-  //       ...ps.values.map((element: any) =>
-  //         element.id === id ? { ...element, isSelected: false } : element
-  //       ),
-  //     ],
-  //   }));
-  // };
-
-  // const handelClickDropDownSignDelete = (id: any) => {
-  //   setListFilter((ps: any) => ({
-  //     ...ps,
-  //     values: [
-  //       ...ps.values.map((element: any) =>
-  //         element.id === id ? { ...element, isSelected: true } : element
-  //       ),
-  //     ],
-  //   }));
-  // };
-
-  // const handelClickDropDownAll = () => {
-  //   setListFilter((ps: any) => ({
-  //     ...ps,
-  //     values: [
-  //       ...ps.values.map((element: any) =>
-  //         element.isSelected === true
-  //           ? { ...element, isSelected: false }
-  //           : element
-  //       ),
-  //     ],
-  //   }));
-  // };
-
-  // const handelClickDropDownAllDelete = () => {
-  //   setListFilter((ps: any) => ({
-  //     ...ps,
-  //     values: [
-  //       ...ps.values.map((element: any) =>
-  //         element.isSelected === false
-  //           ? { ...element, isSelected: true }
-  //           : element
-  //       ),
-  //     ],
-  //   }));
-  // };
-  // console.log(listFilter);
 
   function Allfunctions() {
     setOpenDropDown(!isOpenDropDown);
     setIsActiveDropDown((current) => !current);
   }
 
-  const handleClickDropDown = () => {
-    // const reformattedArray = list.values.map((item: any) => item);
-    // // console.log(reformattedArray);
-    // const result = reformattedArray.find(
-    //   ({ isSelected }: any) => isSelected === false
-    // );
-    // if (result === undefined) {
-    //   ele.checked = true;
-    // }
-    // if (result !== undefined) {
-    //   ele.checked = false;
-    // }
-    // setEle(ele.checked);
-    // // console.log(ele.checked);
-    // return ele.checked;
-  };
-
   function updateCharts() {
     console.log(data);
-
-    // setSelectedAudienceOptions(liter)
   }
 
-  // setClickupdate(loading);
-  // if (clickUpdate === true) {
-  //   // setClickupdate(false);
-  // }
-  const [unserline, setUnderline] = useState() as any;
-
-  console.log(
-    props.item.values.map((v: any) => console.log(v))
-
-    // console.log(v.filter((v.isSelected) => v.isSelected === true ));
-  );
-
-  console.log(unserline);
+  console.log(data[0].items[0].values);
+  console.log(categorical);
 
   return (
     <>
@@ -214,9 +124,11 @@ const AudienceContainer = (props: Props) => {
           </div>
         </div>
         <div className={isActiveDropDown ? "hidden" : "Underline"}>
-          {/* {props.item.values.map((v: any) => (
-            <li>{v}</li>
-          ))} */}
+          <span className="underline_li">
+            {props.item.values.map((item: any, key: any) => (
+              <span>{item.value} </span>
+            ))}
+          </span>
         </div>
       </div>
       <div className={isActiveDropDown ? "filters_all" : "hidden"}>
@@ -253,8 +165,8 @@ const AudienceContainer = (props: Props) => {
                   key={item.id}
                   value={item.id}
                   onClick={() => {
-                    console.log(props.item.id);
-                    console.log(item.id);
+                    // console.log(props.item.id);
+                    // console.log(item.id);
                     updateSelectorSelectedValue(
                       props.item.id,
                       item.id,
@@ -285,12 +197,9 @@ const AudienceContainer = (props: Props) => {
                     updateCharts();
                   }}
                 >
-                  Update Report
+                  Update Charts
                 </button>
               </div>
-              {/* <div className="Delete_button">
-                <button>Delete filter</button>
-              </div> */}
             </div>
           </div>
         )}

@@ -20,6 +20,7 @@ import AudienceDownAudience from "../../Componets/Navigation/icons/ArrowDownAudi
 type Props = {
   // id: string;
   name: string;
+  id: string;
 };
 
 export interface IGroup {
@@ -27,10 +28,10 @@ export interface IGroup {
   title: string;
 }
 
-export const DragnDrop = (name: Props) => {
+export const DragnDrop = (name: Props, id: Props) => {
   const { data, setData, setArrayLeft, setArrayRight } =
     useContext(FilterContext);
-  const { arrayData, audience } = useGlobalModalContext();
+  const { arrayData, audience, deleteItemAudience } = useGlobalModalContext();
 
   const [isOpen, setOpen] = React.useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -45,6 +46,8 @@ export const DragnDrop = (name: Props) => {
   // useEffect(() => {
   //   console.log(id);
   // }, [id]);
+  // console.log(id);
+  // console.log(name.id);
 
   const createModal = () => {
     showModal(MODAL_TYPES.CREATE_MODAL, {
@@ -174,7 +177,7 @@ export const DragnDrop = (name: Props) => {
                     <div
                       className="PlusIcon_container"
                       onClick={() => {
-                        // handleClick();
+                        deleteItemAudience(name.id);
                       }}
                     >
                       <div className="DeleteButton"></div>

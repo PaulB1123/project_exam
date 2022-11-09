@@ -98,8 +98,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* border: 1px solid black; */
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border: 1px solid #dfdfdf;
+  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
   padding: 0.25rem;
   border-radius: 7px;
   background-color: white;
@@ -109,11 +109,16 @@
   background-color: white;
 }
 
+.dropDown_button {
+  word-wrap: break-word;
+}
+
 .dropDown_button span {
   display: flex;
   align-items: center;
   padding-left: 0.6rem;
   width: 88%;
+
   font-size: 13px;
   font-family: "SF_Pro_Display_Medium";
 }

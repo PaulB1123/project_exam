@@ -31,7 +31,7 @@ export const CreateModal = () => {
         </div>
 
         <div className="Header_Modal">
-          <h3>Would you like to save the audice?</h3>
+          <h3>Would you like to add an audice?</h3>
         </div>
 
         <div className="Buttons_Modal">

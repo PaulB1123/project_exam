@@ -19,16 +19,10 @@ export type AuthUser = {
   idToken: string;
   jwtToken: string;
 };
-// type UserContextType = {
-//   user: AuthUser | null;
-//   setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>;
-// };
+
 type UserContextProviderProps = {
   children: React.ReactNode;
 };
-// type LoginProps = {
-//   path?: string;
-// };
 
 export const UserContextProvider = (props: UserContextProviderProps) => {
   const [user, setUser] = useState<AuthUser | null>(null);

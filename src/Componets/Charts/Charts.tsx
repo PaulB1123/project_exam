@@ -39,8 +39,13 @@ export default function Charts(props: PropsChart, slectedChart: any) {
 
   // SelectionArray
 
-  const { isPlusButtonOpen, ArrayDragged, selectedModelId } =
-    useContext(FilterContext);
+  const {
+    isPlusButtonOpen,
+    ArrayDragged,
+    selectedModelId,
+    categorical,
+    leftside,
+  } = useContext(FilterContext);
 
   const [title, setTitle] = useState("this is the title");
 
@@ -59,7 +64,13 @@ export default function Charts(props: PropsChart, slectedChart: any) {
   //   console.log(props.el);
   // }, [props.chart]);
 
-  console.log(props.dataForChart, props.el);
+  // console.log(props.dataForChart, props.el);
+
+  if (leftside !== undefined) {
+    // console.log(leftside);
+
+    leftside.map((items: any) => items.values.map((s: any) => console.log(s)));
+  }
 
   useEffect(() => {
     console.log(dataSelected);
