@@ -184,6 +184,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         values: bb,
       } as categoricalInput;
     });
+    // console.log(something);
     setArrayData(something);
   }, [ArrayDragged]);
 
@@ -194,10 +195,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     }
     return <ModalComponent id="global-modal" modalProps={modalProps} />;
   };
-
-  // here I use the function to put take the URL and assign the JSON file
-
-  // this is the first one
 
   async function SaveAudineceURL() {
     try {
@@ -314,14 +311,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       return [...filt, aInfo];
     });
   }, [audience]);
-
-  // useEffect(() => {
-  //   console.log(inputarr);
-  // }, [inputarr]);
-
-  // useEffect(() => {
-  //   console.log(arrayData);
-  // }, [arrayData]);
 
   const handleChange = async (audienceName: string) => {
     const data: any = await SaveAudineceURL();

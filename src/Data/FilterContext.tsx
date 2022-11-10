@@ -60,6 +60,17 @@ const FilterContext = createContext({
   setArrayLeft: (params: any) => {},
   setArrayRight: (params: any) => {},
   leftside: [] as any,
+  object: [] as any,
+  setObject: (params: any) => {},
+  updateCharts: () => {},
+  selectedItems: [] as any,
+  setselectedItems: (params: any) => {},
+  isLoading: false,
+  setIsLoading: (params: any) => {},
+  Chart: [] as any,
+  setChart: (params: any) => {},
+  chartUpdate: false,
+  setChartUpdate: (params: any) => {},
 });
 
 type FilterContextProviderProps = {
@@ -95,6 +106,10 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [ArrayDragged, setArrayDragged] = useState([] as GeneralSelector[]);
   const [isPlusButtonOpen, setIsPlusButtonOpen] = useState(true);
   const [audienceId, setAudienceId] = useState() as any;
+  const [selectedItems, setselectedItems] = useState() as any;
+  const [isLoading, setIsLoading] = useState(false);
+  const [Chart, setChart] = useState();
+  const [chartUpdate, setChartUpdate] = useState(false);
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
@@ -301,6 +316,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
   const [ArrrayLeft, setArrayLeft] = useState([]) as any;
   const [ArrrayRight, setArrayRight] = useState([]) as any;
+  const [object, setObject] = useState([]) as any;
   // setArrayLeft (...hasSelectedValues, )
 
   // useEffect(() => {
@@ -363,6 +379,13 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     }
   }
 
+  function updateCharts() {
+    console.log(data);
+    console.log(object);
+    console.log(Chart);
+    // ChartFetch(Chart, chart1)
+  }
+
   // useEffect(() => {
   //   console.log(audienceId);
   // }, [audienceId]);
@@ -396,6 +419,17 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         setArrayLeft,
         setArrayRight,
         leftside,
+        object,
+        setObject,
+        updateCharts,
+        selectedItems,
+        setselectedItems,
+        isLoading,
+        setIsLoading,
+        Chart,
+        setChart,
+        setChartUpdate,
+        chartUpdate,
       }}
     >
       {props.children}

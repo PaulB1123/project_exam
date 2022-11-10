@@ -34,17 +34,15 @@ export default function Charts(props: PropsChart, slectedChart: any) {
     loading,
     setLoading,
     ChartNumber,
-    arrayData,
   } = useGlobalModalContext();
-
-  // SelectionArray
 
   const {
     isPlusButtonOpen,
     ArrayDragged,
     selectedModelId,
     categorical,
-    leftside,
+    isLoading,
+    setIsLoading,
   } = useContext(FilterContext);
 
   const [title, setTitle] = useState("this is the title");
@@ -65,12 +63,6 @@ export default function Charts(props: PropsChart, slectedChart: any) {
   // }, [props.chart]);
 
   // console.log(props.dataForChart, props.el);
-
-  if (leftside !== undefined) {
-    // console.log(leftside);
-
-    leftside.map((items: any) => items.values.map((s: any) => console.log(s)));
-  }
 
   useEffect(() => {
     console.log(dataSelected);
@@ -260,6 +252,8 @@ export default function Charts(props: PropsChart, slectedChart: any) {
     console.log(alin);
   });
 
+  console.log(isLoading);
+
   return (
     <div className="Chart">
       {props.dataForChart !== undefined ? (
@@ -275,7 +269,7 @@ export default function Charts(props: PropsChart, slectedChart: any) {
             </div>
 
             <div className="container_for_chart">
-              {loading ? (
+              {isLoading === true ? (
                 <div className="wrapper_loader">
                   <GridLoader
                     color={"#104666"}
@@ -311,26 +305,8 @@ export default function Charts(props: PropsChart, slectedChart: any) {
           </div>
         </div>
       ) : (
-        <>
-          <h3>This is again the chart holder with the charts</h3>
-          {/* <TemplateChartDashboard
-            el={props.el}
-            ArrayCharts={[]}
-            setArrayCharts={(e: any) => props.setArrayCharts(e)}
-          /> */}
-        </>
+        <></>
       )}
     </div>
   );
 }
-
-//    ? dataForChart.map((item: any) => {
-//               return (
-//                 <div className="Chartcontianer">
-//                   <ul>
-//                     <li> {item.value}</li>
-//                     <li>{item.count}</li>
-//                   </ul>
-//                 </div>
-//               );
-//             })

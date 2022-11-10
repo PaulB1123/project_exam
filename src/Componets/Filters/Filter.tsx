@@ -62,7 +62,7 @@ export default function FilterComponent() {
               <button
                 className="button_report"
                 onClick={() => {
-                  // ChartFetch();
+               
                   deleteModal();
                   // createModalReport();
                 }}
@@ -123,7 +123,7 @@ export default function FilterComponent() {
 //       <button
 //         className="button_report"
 //         onClick={() => {
-//           // ChartFetch();
+//
 //           deleteModal();
 //           // createModalReport();
 //         }}

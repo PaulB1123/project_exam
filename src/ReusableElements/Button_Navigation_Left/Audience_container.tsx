@@ -24,8 +24,18 @@ const AudienceContainer = (props: Props) => {
   const [isActiveDropDown, setIsActiveDropDown] = useState(false);
   const [ele, setEle] = useState(true) as any;
   const [listFilter, setListFilter] = useState(props.item);
-  const { updateSelectorSelectedValue, data, categorical } =
-    useContext(FilterContext);
+  const {
+    updateSelectorSelectedValue,
+    data,
+    categorical,
+    object,
+    setObject,
+    updateCharts,
+    selectedItems,
+    setselectedItems,
+    leftside,
+    setChartUpdate,
+  } = useContext(FilterContext);
   const { loading, setLoading, deleteItemAudience } = useGlobalModalContext();
   const [clickUpdate, setClickupdate] = useState();
   const [selectedAudienceOptions, setSelectedAudienceOptions] = useState([]);
@@ -51,12 +61,26 @@ const AudienceContainer = (props: Props) => {
     setIsActiveDropDown((current) => !current);
   }
 
-  function updateCharts() {
-    console.log(data);
-  }
-
   console.log(data[0].items[0].values);
   console.log(categorical);
+
+  useEffect(() => {
+    setselectedItems(
+      leftside.map((items: any) =>
+        items.values
+          .filter((x: any) => x.isSelected === true)
+          .map((x: any) => parseInt(x.value))
+      )
+    );
+    console.log(selectedItems);
+    if (selectedItems !== undefined) {
+      setObject({ id: "family", values: selectedItems[0] });
+    } else {
+      setObject([]);
+    }
+  }, [leftside]);
+
+  console.log(object);
 
   return (
     <>
@@ -194,7 +218,7 @@ const AudienceContainer = (props: Props) => {
               <div className="Delete_button" id="update_button">
                 <button
                   onClick={() => {
-                    updateCharts();
+                    setChartUpdate(true);
                   }}
                 >
                   Update Charts

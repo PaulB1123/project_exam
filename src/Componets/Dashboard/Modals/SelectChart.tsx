@@ -22,7 +22,6 @@ export const DeleteModal = (props: Props) => {
     hideModal,
     selectedAudition,
     setSelectedAudition,
-    // ChartFetch,
     chart1,
     chart2,
     chart3,
@@ -30,7 +29,7 @@ export const DeleteModal = (props: Props) => {
     setSelectedChart,
     setChartNumber,
     ChartNumber,
-    SelectionArray,
+
     setSelectionArray,
   } = useGlobalModalContext();
   const { data, categorical, selectedModelId, ArrayDragged } =

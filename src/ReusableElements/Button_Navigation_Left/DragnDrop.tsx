@@ -31,7 +31,7 @@ export interface IGroup {
 export const DragnDrop = (name: Props, id: Props) => {
   const { data, setData, setArrayLeft, setArrayRight } =
     useContext(FilterContext);
-  const { arrayData, audience, deleteItemAudience } = useGlobalModalContext();
+  const { audience, deleteItemAudience } = useGlobalModalContext();
 
   const [isOpen, setOpen] = React.useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -64,14 +64,6 @@ export const DragnDrop = (name: Props, id: Props) => {
     setOpen(!isOpen);
     setIsActive((current) => !current);
   };
-
-  // console.log(arrayData);
-
-  if (arrayData.length > 0) {
-    data[0].items = arrayData;
-  }
-
-  // console.log(data);
 
   const handleDrop = () => {
     setDrop(drop + 1);

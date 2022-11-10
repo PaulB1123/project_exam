@@ -27,6 +27,16 @@ export interface Props {
 export default function TemplateChart(props: Props) {
   const { showModal } = useGlobalModalContext();
   const {
+    leftside,
+    object,
+    setObject,
+    updateCharts,
+    setIsLoading,
+    Chart,
+    setChart,
+    chartUpdate,
+  } = useContext(FilterContext);
+  const {
     setChartNumber,
     ChartNumber,
     selectedAudition,
@@ -35,7 +45,6 @@ export default function TemplateChart(props: Props) {
     dataSelected,
     arrayData,
     SelectionArray,
-    setSelectionArray,
   } = useGlobalModalContext();
   const [chart, setchart] = useState([]) as any;
   const [dataForChart, setDataForChart] = useState() as any;
@@ -54,22 +63,21 @@ export default function TemplateChart(props: Props) {
     ]);
   }
 
+  // setChartID(props.ArrayCharts.filter((item: number) => item === props.el));
   const ChartID = props.ArrayCharts.filter((item: number) => item === props.el);
+
+  useEffect(() => {
+    setChart(ChartID);
+  }, []);
 
   console.log(ChartID);
 
   const { ArrayDragged, selectedModelId } = useContext(FilterContext);
   const [chartTitle, setChartTitle] = useState<any>();
+  const [selectedItems, setselectedItems] = useState() as any;
+  const [audtitionName, setAuditionName] = useState();
 
   console.log(SelectionArray);
-
-  // useEffect(() => {
-  //   SelectionArray.forEach((item: any) =>
-  //     item.ChartNumber === ChartNumber
-  //       ? setSelectedArrayToFetchData(item)
-  //       : console.log("")
-  //   );
-  // }, [SelectionArray]);
 
   // if (selectedArrayToFetchData !== undefined) {
   //   console.log(selectedArrayToFetchData.selectedAudition);
@@ -78,16 +86,34 @@ export default function TemplateChart(props: Props) {
   useEffect(() => {
     SelectionArray.forEach((element: any) => {
       if (element.chartNumber === ChartID[0]) {
-        ChartFetch(element.selectedAudition, element.selectedChart);
+        setAuditionName(element.selectedAudition);
+        ChartFetch(element.selectedAuditiont, element.chart);
         setChartTitle(element.selectedAudition);
       }
     });
   }, [SelectionArray]);
 
+  // console.log(leftside);
+
+  if (leftside !== undefined) {
+    // console.log(leftside);
+  }
+
+  // useEffect(() => {
+  //   if (chartUpdate === true) {
+  //     ChartFetch(audtitionName, "");
+  //   }
+  // }, [chartUpdate]);
+
   async function ChartFetch(audition: any, chart: any) {
-    console.log(SelectionArray);
+    // console.log(SelectionArray);
+    console.log(audition);
+
+    // console.log(arrayData);
+    setIsLoading(true);
 
     try {
+      console.log(audition);
       const response = (await API.graphql({
         query: getChartData,
         variables: {
@@ -96,7 +122,13 @@ export default function TemplateChart(props: Props) {
             numerical_variable: null,
             categorical_variable: audition,
             filters: {
-              categorical: arrayData,
+              categorical: object,
+              // categorical: [
+              //   {
+              //     id: "family",
+              //     values: [],
+              //   },
+              // ],
               numerical: [],
             },
           } as getChartDataAudience,
@@ -110,7 +142,7 @@ export default function TemplateChart(props: Props) {
       console.log(actual_list);
       if (StatusCode === 200) {
         console.log(data);
-
+        setIsLoading(false);
         if (data) {
           if (data.length > 0) {
             setDataForChart(data);
@@ -120,6 +152,7 @@ export default function TemplateChart(props: Props) {
         }
       } else console.log(error);
     } catch (err) {
+      setIsLoading(false);
       console.log({ err });
     }
   }
@@ -145,11 +178,6 @@ export default function TemplateChart(props: Props) {
                 <img src={XIcon} alt="" />
               </button>
               <div className="templateChart_header">
-                {/* {selectedArrayToFetchData.selectedAudition === undefined ? (
-                  <h1>This is your chart</h1>
-                ) : (
-                  <h1>{selectedArrayToFetchData.selectedAudition}</h1>
-                )} */}
                 <h1>This is your chart</h1>
                 <p>
                   <div className="templateChart_container_paragraph">
