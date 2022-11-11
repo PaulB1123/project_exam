@@ -109,11 +109,20 @@ export default function ChartsButton() {
 export function ReportsButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
+  const { ReportsList } = useContext(FilterContext);
 
   const handleClickReports = () => {
     setOpenReports(!isOpenReports);
     setIsActiveReports((current) => !current);
   };
+
+  // useEffect(() => {
+  //   console.log(ReportsList.map((id: any) => id.Report_id));
+  // }, [ReportsList]);
+
+  function deleteReport(id: string) {
+    console.log(id);
+  }
 
   return (
     <>
@@ -147,23 +156,36 @@ export function ReportsButton() {
             <img src={ArrrowdownIcon} alt=""></img>
           )}
         </div>
-        {isOpenReports && (
-          <div className="Dropdown_Reports">
-            <div className="Dropdown_box">
-              <div className="Dropdown_container">
-                <li>PDF</li>
-              </div>
-              <div className="Dropdown_container">
-                <li>CSV</li>
-              </div>
-              <div className="button_with_all_graphs_container">
-                <button className="button_with_all_graphs">
-                  See All Reports
+        <div className="Dropdown_Reports">
+          <div>
+            {ReportsList.map((id: any) => (
+              <li>
+                {id.Report_name}{" "}
+                <button onClick={() => deleteReport(id.Report_id)}>
+                  Delete
                 </button>
-              </div>
-            </div>
+              </li>
+            ))}
           </div>
-        )}
+
+          <div className="button_container"></div>
+        </div>
+        {/* {isOpenReports && (
+          <div className="Dropdown_Reports">
+            <div>
+              {ReportsList.map((id: any) => (
+                <li>
+                  {id.Report_name}{" "}
+                  <button onClick={() => deleteReport(id.Report_id)}>
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </div>
+
+            <div className="button_container"></div>
+          </div>
+        )} */}
       </button>
     </>
   );

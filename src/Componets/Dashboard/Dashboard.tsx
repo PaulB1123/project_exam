@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import "../Styles/global.css";
 import "./Dashboard.css";
 import HeroDashboardImage from "./icons/Hero_Image.svg";
@@ -13,12 +13,33 @@ import PlusSign from "./icons/Plus_sign.svg";
 import KPI from "../Charts/KPIs";
 import SVG from "../KPI_Audience_Coverage";
 import SVG2 from "../GroupComponent";
+import { useGlobalModalContext } from "./Modals/GlobalModal";
+import { API } from "aws-amplify";
+import { saveReport } from "../../graphql/mutations";
+import {
+  GetReportsQuery,
+  GetReportsQueryVariables,
+  getReportsResponse,
+  saveReportAudienceInput,
+  SaveReportMutation,
+  SaveReportMutationVariables,
+} from "../../API";
+import { getReports } from "../../graphql/queries";
 
 export default function Dashboard() {
   const [ReportStatus, setReportStatus] = useState(false);
   const [ArrayCharts, setArrayCharts] = useState([0]);
-  const { isPlusButtonOpen } = useContext(FilterContext);
+  const {
+    isPlusButtonOpen,
+    setSelectedModelId,
+    selectedModelId,
+    setReportsList,
+    ReportsList,
+  } = useContext(FilterContext);
   const { user } = useContext(UserContext);
+  const { SelectionArray } = useGlobalModalContext();
+  const [title, setTitle] = useState("Add your dashboard title");
+  const [changetitle, setChangetitle] = useState(false);
 
   function AddChart() {
     return (
@@ -41,20 +62,96 @@ export default function Dashboard() {
     setArrayCharts((prevState) => [...prevState, test]);
   }
 
-  // console.log(ArrayCharts);
+  // let h1holder = document.querySelector("h1").innerText ;
+
+  function saveDashboard() {
+    console.log(SelectionArray);
+    console.log(selectedModelId);
+    console.log(title);
+    SaveReport();
+
+    async function SaveReport() {
+      try {
+        const response = (await API.graphql({
+          query: saveReport,
+          variables: {
+            Model_id: selectedModelId,
+            Report_name: title,
+            Audiences: SelectionArray,
+          } as SaveReportMutationVariables,
+        })) as { data: SaveReportMutation };
+        console.log("it went here");
+        console.log(response);
+        LoadDashboard();
+      } catch (err) {}
+    }
+  }
+
+  async function LoadDashboard() {
+    try {
+      const response = (await API.graphql({
+        query: getReports,
+        variables: {
+          Model_id: selectedModelId,
+        } as GetReportsQueryVariables,
+      })) as { data: GetReportsQuery };
+      console.log(response);
+
+      const { data: response_data } = response;
+      const { getReports: actual_list } = response_data;
+      const { data, error, StatusCode }: getReportsResponse = actual_list;
+
+      if (StatusCode === 200) {
+        if (data) {
+          console.log(data);
+          setReportsList(data);
+          // setAudience(data.Audience);
+          return data;
+        } else {
+          console.log(error);
+        }
+      } else console.log(error);
+
+      if (response != null) {
+      }
+    } catch (err) {}
+  }
+
+  function modifyTitle() {
+    setChangetitle(true);
+  }
+
+  function saveTitle() {
+    setChangetitle(false);
+  }
 
   return (
     <>
       <div className="Dashboard">
         <div className="KPI_with_Dashboard">
           <div className="KPI_contianer">
-            {/* <SVG /> */}
             <SVG2 />
           </div>
           <div className="header_container_group">
             <div className="header_container">
-              <h1>Demographic Dashboard</h1>
-
+              {changetitle === false ? (
+                <h1
+                  onClick={() => {
+                    modifyTitle();
+                  }}
+                >
+                  {title}
+                </h1>
+              ) : (
+                <h1>
+                  <input
+                    type="text"
+                    onChange={(event) => setTitle(event.target.value)}
+                    placeholder={title}
+                  ></input>
+                  <button onClick={() => saveTitle()}>Save title</button>
+                </h1>
+              )}
               {user ? (
                 <div className="profile_container">
                   <img src={ProfilePicture} alt=""></img>
@@ -69,9 +166,14 @@ export default function Dashboard() {
               )}
             </div>
 
-            <div className="h2">Welcome to your dashboard, {user?.name}</div>
+            <div className="h2">
+              Describe what is in your dashbaord {user?.name}
+            </div>
             <div className="button_Dashboard">
-              <button className="Save_Dashboard">
+              <button
+                className="Save_Dashboard"
+                onClick={() => saveDashboard()}
+              >
                 <span>Save Dashboard</span>
                 <img src={SaveButton} alt=""></img>
               </button>

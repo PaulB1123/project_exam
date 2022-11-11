@@ -16,7 +16,7 @@ import FilterContext from "../../../Data/FilterContext";
 import { deleteAudience, saveAudience } from "../../../graphql/mutations";
 import { getChartData, loadAudience } from "../../../graphql/queries";
 import { CreateModal } from "./CreateModal";
-import { DeleteModal } from "./SelectChart";
+import { SelectChart } from "./SelectChart";
 import { UpdateModal } from "./UpdateModal";
 
 export const MODAL_TYPES = {
@@ -27,7 +27,7 @@ export const MODAL_TYPES = {
 
 const MODAL_COMPONENTS: any = {
   [MODAL_TYPES.CREATE_MODAL]: CreateModal,
-  [MODAL_TYPES.DELETE_MODAL]: DeleteModal,
+  [MODAL_TYPES.DELETE_MODAL]: SelectChart,
   [MODAL_TYPES.UPDATE_MODAL]: UpdateModal,
 };
 

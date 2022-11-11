@@ -71,6 +71,8 @@ const FilterContext = createContext({
   setChart: (params: any) => {},
   chartUpdate: false,
   setChartUpdate: (params: any) => {},
+  ReportsList: [] as any,
+  setReportsList: (params: any) => [],
 });
 
 type FilterContextProviderProps = {
@@ -110,6 +112,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [Chart, setChart] = useState();
   const [chartUpdate, setChartUpdate] = useState(false);
+  const [ReportsList, setReportsList] = useState() as any;
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
@@ -430,6 +433,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         setChart,
         setChartUpdate,
         chartUpdate,
+        ReportsList,
+        setReportsList,
       }}
     >
       {props.children}

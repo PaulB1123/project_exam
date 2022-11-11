@@ -17,7 +17,7 @@ export interface Props {
   modalProps: any;
 }
 
-export const DeleteModal = (props: Props) => {
+export const SelectChart = (props: Props) => {
   const {
     hideModal,
     selectedAudition,
@@ -40,6 +40,7 @@ export const DeleteModal = (props: Props) => {
   // const chart2 = "chart2";
   const [audtion, setAudition] = useState<any>();
   const [chart, setchart] = useState<any>();
+  const [selector, setSelector] = useState<any>();
 
   const handleModalToggle = () => {
     hideModal();
@@ -72,28 +73,45 @@ export const DeleteModal = (props: Props) => {
   // } else {
   //   console.log("this is null", btn);
   // }
+  const [saveDashboard, setSaveDashboard] = useState();
 
   console.log(selectedModelId);
 
   function CloseAndFetchData() {
     handleModalToggle();
 
+    // const placeholderNumber = props.modalProps[0];
+    // setSelectionArray((preState: any) => [
+    //   ...preState,
+    //   {
+    //     chartNumber: placeholderNumber,
+    //     selectedAudition: audtion,
+    //     slectedChart: chart,
+    //   },
+    // ]);
+
     const placeholderNumber = props.modalProps[0];
     setSelectionArray((preState: any) => [
       ...preState,
       {
-        chartNumber: placeholderNumber,
-        selectedAudition: audtion,
-        slectedChart: chart,
+        position: placeholderNumber,
+        variable_type: "categorical",
+        selector: selector,
+        id: audtion,
+        chart_type: chart,
       },
     ]);
   }
+
+  // console.log(SelectionArray);
 
   // function DeleteChart() {
   //   props.setArrayCharts((preState: any) => [
   //     ...preState.filter((item: number) => item !== props.el),
   //   ]);
   // }
+
+  console.log(audtion);
 
   return (
     <div className="">
@@ -114,7 +132,14 @@ export const DeleteModal = (props: Props) => {
 
           <select
             value={audtion}
-            onChange={(event) => setAudition(event.target.value)}
+            onChange={(event) => {
+              setAudition(event.target.value);
+              setSelector(
+                event.target.options[event.target.selectedIndex].text
+              );
+
+              // setSelector(event.target.id);
+            }}
           >
             {categorical.map((item: any, index: any) => (
               <option key={index} value={item.id}>

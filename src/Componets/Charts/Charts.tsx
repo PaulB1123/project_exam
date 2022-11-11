@@ -269,7 +269,7 @@ export default function Charts(props: PropsChart, slectedChart: any) {
             </div>
 
             <div className="container_for_chart">
-              {isLoading === true ? (
+              {loading === true ? (
                 <div className="wrapper_loader">
                   <GridLoader
                     color={"#104666"}

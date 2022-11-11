@@ -6,7 +6,7 @@ import {
 import "./TempleteChart.css";
 import ChartIMG from "./Chart.svg";
 import Charts from "../Charts/Charts";
-import { DeleteModal } from "../Dashboard/Modals/SelectChart";
+import { SelectChart } from "../Dashboard/Modals/SelectChart";
 import { API } from "aws-amplify";
 import XIcon from "../Filters/icons/X.svg";
 import { getChartData } from "../../graphql/queries";
@@ -77,18 +77,18 @@ export default function TemplateChart(props: Props) {
   const [selectedItems, setselectedItems] = useState() as any;
   const [audtitionName, setAuditionName] = useState();
 
-  console.log(SelectionArray);
-
   // if (selectedArrayToFetchData !== undefined) {
   //   console.log(selectedArrayToFetchData.selectedAudition);
   // }
 
   useEffect(() => {
+    console.log(SelectionArray);
+
     SelectionArray.forEach((element: any) => {
-      if (element.chartNumber === ChartID[0]) {
-        setAuditionName(element.selectedAudition);
-        ChartFetch(element.selectedAuditiont, element.chart);
-        setChartTitle(element.selectedAudition);
+      if (element.position === ChartID[0]) {
+        setAuditionName(element.id);
+        ChartFetch(element.id, element.chart);
+        setChartTitle(element.id);
       }
     });
   }, [SelectionArray]);
@@ -99,21 +99,15 @@ export default function TemplateChart(props: Props) {
     // console.log(leftside);
   }
 
-  // useEffect(() => {
-  //   if (chartUpdate === true) {
-  //     ChartFetch(audtitionName, "");
-  //   }
-  // }, [chartUpdate]);
+  useEffect(() => {
+    if (chartUpdate === true) {
+      ChartFetch(audtitionName, "");
+    }
+  }, [chartUpdate]);
 
   async function ChartFetch(audition: any, chart: any) {
-    // console.log(SelectionArray);
     console.log(audition);
-
-    // console.log(arrayData);
-    setIsLoading(true);
-
     try {
-      console.log(audition);
       const response = (await API.graphql({
         query: getChartData,
         variables: {
@@ -134,22 +128,23 @@ export default function TemplateChart(props: Props) {
           } as getChartDataAudience,
         },
       })) as { data: GetChartDataQuery };
-
       const { data: response_data } = response;
       const { getChartData: actual_list } = response_data;
       const { data, error, StatusCode }: getChartDataResponse = actual_list;
 
       console.log(actual_list);
       if (StatusCode === 200) {
-        console.log(data);
-        setIsLoading(false);
-        if (data) {
-          if (data.length > 0) {
-            setDataForChart(data);
-          } else {
-            setDataForChart([]);
+        setLoading(true);
+        setTimeout(() => {
+          if (data) {
+            if (data.length > 0) {
+              setDataForChart(data);
+            } else {
+              setDataForChart([]);
+            }
           }
-        }
+          setLoading(false);
+        }, 10000);
       } else console.log(error);
     } catch (err) {
       setIsLoading(false);
