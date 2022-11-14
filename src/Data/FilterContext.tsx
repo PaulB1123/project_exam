@@ -73,6 +73,8 @@ const FilterContext = createContext({
   setChartUpdate: (params: any) => {},
   ReportsList: [] as any,
   setReportsList: (params: any) => [],
+  itemDeleteReport: "",
+  setitemDelteReport: (params: string) => {},
 });
 
 type FilterContextProviderProps = {
@@ -113,6 +115,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [Chart, setChart] = useState();
   const [chartUpdate, setChartUpdate] = useState(false);
   const [ReportsList, setReportsList] = useState() as any;
+  const [itemDeleteReport, setitemDelteReport] = useState("");
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
@@ -435,6 +438,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         chartUpdate,
         ReportsList,
         setReportsList,
+        itemDeleteReport,
+        setitemDelteReport,
       }}
     >
       {props.children}

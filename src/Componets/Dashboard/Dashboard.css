@@ -220,3 +220,39 @@
   margin-left: 2rem;
   margin-top: 1.5rem;
 }
+
+h1 {
+  display: flex;
+}
+
+h1 input {
+  border: 1px solid #d0cccc;
+  border-radius: 9px;
+  background-color: #f7f7f7;
+  font-family: "SF_Pro_Display_Bold";
+  font-size: 32px;
+}
+
+::placeholder {
+  color: black;
+}
+
+.container_for_button {
+  display: flex;
+}
+
+h1 div button {
+  width: 7rem;
+  height: 70%;
+  align-items: flex-end;
+  justify-content: end;
+  background-color: #929292;
+  font-family: "SF_Pro_Display_Medium";
+  font-size: 15px;
+  margin-left: 0.5rem;
+  margin-top: 0.8rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 5px;
+  color: white;
+}

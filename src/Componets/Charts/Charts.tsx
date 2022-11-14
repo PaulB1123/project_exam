@@ -45,7 +45,7 @@ export default function Charts(props: PropsChart, slectedChart: any) {
     setIsLoading,
   } = useContext(FilterContext);
 
-  const [title, setTitle] = useState("this is the title");
+  // const [title, setTitle] = useState("this is the title");
 
   const [chartChange, setChargeChange] = useState();
   const [selectedArray, setSelectedArray] = useState([]);
@@ -66,28 +66,31 @@ export default function Charts(props: PropsChart, slectedChart: any) {
 
   useEffect(() => {
     console.log(dataSelected);
-    if (dataSelected !== undefined) {
-      setTitle(dataSelected.selector);
+    console.log(props.dataForChart);
 
-      if (props.dataForChart !== undefined) {
-        console.log("it went here", props.dataForChart);
+    // if (dataSelected !== undefined) {
+    //   setTitle(dataSelected.selector);
+    // }
 
-        setitem(
-          props.dataForChart.map((item: any) => ({
-            name: item.value,
-            data: [item.count],
-          }))
-        );
-      }
+    if (props.dataForChart !== undefined) {
+      console.log("data for chart has not been updated", props.dataForChart);
 
-      if (items !== null) {
-        console.log(items);
-      }
+      setitem(
+        props.dataForChart.map((item: any) => ({
+          name: item.value,
+          data: [item.count],
+        }))
+      );
     }
-  }, [dataSelected, props.dataForChart]);
+
+    if (items !== null) {
+      console.log(items);
+    }
+  }, [props.dataForChart]);
+
+  console.log(items);
 
   function hide() {
-    console.log("it is here");
     const Exist = document.querySelector(".Chart") as any;
     Exist.classList.add("hide");
   }
@@ -251,8 +254,6 @@ export default function Charts(props: PropsChart, slectedChart: any) {
 
     console.log(alin);
   });
-
-  console.log(isLoading);
 
   return (
     <div className="Chart">

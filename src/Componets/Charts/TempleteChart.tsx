@@ -50,11 +50,14 @@ export default function TemplateChart(props: Props) {
   const [dataForChart, setDataForChart] = useState() as any;
   const [selectedArrayToFetchData, setSelectedArrayToFetchData] =
     useState() as any;
+  const { ArrayDragged, selectedModelId } = useContext(FilterContext);
+  const [chartTitle, setChartTitle] = useState<any>();
+  const [selectedItems, setselectedItems] = useState() as any;
+  const [audtitionName, setAuditionName] = useState();
 
   const bigFunction = (chartID: any) => {
     setChartNumber(chartID);
     showModal(MODAL_TYPES.DELETE_MODAL, chartID);
-    // DeleteModal(e);
   };
 
   function DeleteChart() {
@@ -63,7 +66,6 @@ export default function TemplateChart(props: Props) {
     ]);
   }
 
-  // setChartID(props.ArrayCharts.filter((item: number) => item === props.el));
   const ChartID = props.ArrayCharts.filter((item: number) => item === props.el);
 
   useEffect(() => {
@@ -72,32 +74,18 @@ export default function TemplateChart(props: Props) {
 
   console.log(ChartID);
 
-  const { ArrayDragged, selectedModelId } = useContext(FilterContext);
-  const [chartTitle, setChartTitle] = useState<any>();
-  const [selectedItems, setselectedItems] = useState() as any;
-  const [audtitionName, setAuditionName] = useState();
-
-  // if (selectedArrayToFetchData !== undefined) {
-  //   console.log(selectedArrayToFetchData.selectedAudition);
-  // }
-
   useEffect(() => {
-    console.log(SelectionArray);
+    SelectionArray.forEach((element: any, chart: any) => {
+      // if the position of the chart is the same as the position in the array
 
-    SelectionArray.forEach((element: any) => {
       if (element.position === ChartID[0]) {
         setAuditionName(element.id);
-        ChartFetch(element.id, element.chart);
-        setChartTitle(element.id);
+        ChartFetch(element.id, element.chart_type);
+        setChartTitle(element.selector);
+        console.log(element, element.chart_type);
       }
     });
   }, [SelectionArray]);
-
-  // console.log(leftside);
-
-  if (leftside !== undefined) {
-    // console.log(leftside);
-  }
 
   useEffect(() => {
     if (chartUpdate === true) {
@@ -117,12 +105,6 @@ export default function TemplateChart(props: Props) {
             categorical_variable: audition,
             filters: {
               categorical: object,
-              // categorical: [
-              //   {
-              //     id: "family",
-              //     values: [],
-              //   },
-              // ],
               numerical: [],
             },
           } as getChartDataAudience,
@@ -134,17 +116,13 @@ export default function TemplateChart(props: Props) {
 
       console.log(actual_list);
       if (StatusCode === 200) {
-        setLoading(true);
-        setTimeout(() => {
-          if (data) {
-            if (data.length > 0) {
-              setDataForChart(data);
-            } else {
-              setDataForChart([]);
-            }
+        if (data) {
+          if (data.length > 0) {
+            setDataForChart(data);
+          } else {
+            setDataForChart([]);
           }
-          setLoading(false);
-        }, 10000);
+        }
       } else console.log(error);
     } catch (err) {
       setIsLoading(false);

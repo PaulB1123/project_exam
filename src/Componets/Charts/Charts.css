@@ -96,7 +96,7 @@
 }
 
 .Exist {
-  width: 92% !important;
+  width: 22% !important;
   display: flex !important;
   justify-content: flex-end;
   align-items: flex-end;
@@ -107,6 +107,7 @@
 }
 
 .continer_with_title_and_exist {
+  width: 75%;
   display: flex;
   flex-direction: row;
 }

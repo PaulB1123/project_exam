@@ -15,8 +15,10 @@ import SVG from "../KPI_Audience_Coverage";
 import SVG2 from "../GroupComponent";
 import { useGlobalModalContext } from "./Modals/GlobalModal";
 import { API } from "aws-amplify";
-import { saveReport } from "../../graphql/mutations";
+import { deleteReport, saveReport } from "../../graphql/mutations";
 import {
+  DeleteReportMutation,
+  DeleteReportMutationVariables,
   GetReportsQuery,
   GetReportsQueryVariables,
   getReportsResponse,
@@ -35,34 +37,40 @@ export default function Dashboard() {
     selectedModelId,
     setReportsList,
     ReportsList,
+    itemDeleteReport,
+    setitemDelteReport,
   } = useContext(FilterContext);
   const { user } = useContext(UserContext);
   const { SelectionArray } = useGlobalModalContext();
   const [title, setTitle] = useState("Add your dashboard title");
   const [changetitle, setChangetitle] = useState(false);
 
-  function AddChart() {
-    return (
-      <button
-        className="Plus_Icon"
-        id="PluswithChart"
-        onClick={() => MakeAnotherTemplate()}
-      >
-        <img src={PlusSign} alt="" />
-        <div> Add Chart</div>
-      </button>
-    );
-  }
+  // function AddChart() {
+  //   return (
+  //     <button
+  //       className="Plus_Icon"
+  //       id="PluswithChart"
+  //       onClick={() => MakeAnotherTemplate()}
+  //     >
+  //       <img src={PlusSign} alt="" />
+  //       <div> Add Chart</div>
+  //     </button>
+  //   );
+  // }
 
-  function MakeAnotherTemplate() {
+  // function MakeAnotherTemplate() {
+  //   setReportStatus(true);
+  //   let valueOfLast = ArrayCharts.at(-1) as number;
+  //   const test = valueOfLast + 1;
+
+  //   setArrayCharts((prevState) => [...prevState, test]);
+  // }
+
+  useEffect(() => {
     setReportStatus(true);
-    let valueOfLast = ArrayCharts.at(-1) as number;
-    const test = valueOfLast + 1;
-
-    setArrayCharts((prevState) => [...prevState, test]);
-  }
-
-  // let h1holder = document.querySelector("h1").innerText ;
+    setArrayCharts([0, 1, 2, 3, 4, 5, 6, 7]);
+    console.log(ArrayCharts);
+  }, []);
 
   function saveDashboard() {
     console.log(SelectionArray);
@@ -86,6 +94,10 @@ export default function Dashboard() {
       } catch (err) {}
     }
   }
+
+  useEffect(() => {
+    LoadDashboard();
+  }, []);
 
   async function LoadDashboard() {
     try {
@@ -115,6 +127,28 @@ export default function Dashboard() {
       if (response != null) {
       }
     } catch (err) {}
+  }
+
+  if (itemDeleteReport !== "") {
+    deleteItemDashboard();
+  } else {
+    console.log("not yet");
+  }
+
+  async function deleteItemDashboard() {
+    console.log(itemDeleteReport);
+    try {
+      const response = (await API.graphql({
+        query: deleteReport,
+        variables: {
+          Report_id: itemDeleteReport,
+        } as DeleteReportMutationVariables,
+      })) as { data: DeleteReportMutation };
+      console.log("it went here");
+      console.log(response);
+    } catch (err) {}
+    setitemDelteReport("");
+    LoadDashboard();
   }
 
   function modifyTitle() {
@@ -149,7 +183,9 @@ export default function Dashboard() {
                     onChange={(event) => setTitle(event.target.value)}
                     placeholder={title}
                   ></input>
-                  <button onClick={() => saveTitle()}>Save title</button>
+                  <div className="container_for_button">
+                    <button onClick={() => saveTitle()}>Save title</button>
+                  </div>
                 </h1>
               )}
               {user ? (
@@ -185,9 +221,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="container_button">
-          <AddChart />
-        </div>
+        <div className="container_button">{/* <AddChart /> */}</div>
         <div className="template">
           <div className="MainDashbaord">
             {ReportStatus === false ? (

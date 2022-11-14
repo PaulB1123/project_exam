@@ -249,3 +249,11 @@ button:focus {
   display: flex;
   justify-content: space-between;
 }
+
+.main_container .dropDown_button {
+  margin-bottom: 0.5rem;
+}
+
+#dashboard_button {
+  background-color: white !important;
+}
