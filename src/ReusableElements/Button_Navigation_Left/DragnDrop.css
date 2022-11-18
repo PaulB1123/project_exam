@@ -122,3 +122,7 @@
   font-size: 13px;
   font-family: "SF_Pro_Display_Medium";
 }
+
+.Save_Dashboard {
+  cursor: pointer;
+}

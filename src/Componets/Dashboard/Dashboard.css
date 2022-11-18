@@ -39,6 +39,7 @@
   border: 1px solid #e2e2e2;
   border-radius: var(--card_border_radius);
   padding: 1rem;
+  padding-top: 4rem;
   background-color: white;
   /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
   /* height: 200px; */
@@ -216,10 +217,46 @@
   /* margin-left: 0.5rem; */
 }
 
-.KPI_contianer {
+.KPI_holder {
+  display: flex;
   margin-left: 2rem;
   margin-top: 1.5rem;
 }
+
+.KPI_contianer {
+  padding-right: 1rem;
+}
+
+.KPI_block {
+  background-color: white;
+  height: 219px;
+  width: 300px;
+  border-radius: 7px;
+  border: 1px solid #e2e2e2;
+  font-family: "SF_Pro_Display_Medium";
+  position: relative;
+}
+
+.KIP_title {
+  padding: 1rem;
+  padding-top: 0.5rem;
+  font-size: 18px;
+}
+
+.KIP_chart_holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  /* padding-left: 1rem;
+  padding-right: 1rem; */
+  height: 160px;
+}
+
+/* .KIP_chart {
+  width: 100px;
+} */
 
 h1 {
   display: flex;
@@ -255,4 +292,10 @@ h1 div button {
   padding-right: 0.5rem;
   border-radius: 5px;
   color: white;
+}
+.KPI_label {
+  position: absolute;
+  top: 5%;
+  left: 73%;
+  z-index: 4;
 }

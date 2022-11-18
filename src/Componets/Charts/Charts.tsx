@@ -20,42 +20,22 @@ export interface PropsChart {
   chart: number;
   ArrayCharts: Array<number>;
   setArrayCharts(e: any): any;
-  // setDataForChart(e: any): any;
   dataForChart: any;
   chartTitle: any;
+  loading: boolean;
+  setloading: any;
 }
 
 export default function Charts(props: PropsChart, slectedChart: any) {
-  const {
-    dataSelected,
-    chart1,
-    chart2,
-    chart3,
-    loading,
-    setLoading,
-    ChartNumber,
-  } = useGlobalModalContext();
-
-  const {
-    isPlusButtonOpen,
-    ArrayDragged,
-    selectedModelId,
-    categorical,
-    isLoading,
-    setIsLoading,
-  } = useContext(FilterContext);
-
-  // const [title, setTitle] = useState("this is the title");
-
+  const { dataSelected, chart1, chart2, chart3, ChartNumber } =
+    useGlobalModalContext();
   const [chartChange, setChargeChange] = useState();
-  const [selectedArray, setSelectedArray] = useState([]);
 
   useEffect(() => {
     setChargeChange(slectedChart);
   }, [chartChange, slectedChart]);
 
   const [items, setitem] = useState([]) as any;
-  const [newItem, setNewItem] = useState([]) as any;
 
   // useEffect(() => {
   //   console.log(props.chart);
@@ -63,6 +43,7 @@ export default function Charts(props: PropsChart, slectedChart: any) {
   // }, [props.chart]);
 
   // console.log(props.dataForChart, props.el);
+  console.log(props.loading);
 
   useEffect(() => {
     console.log(dataSelected);
@@ -73,6 +54,7 @@ export default function Charts(props: PropsChart, slectedChart: any) {
     // }
 
     if (props.dataForChart !== undefined) {
+      // props.setloading(true);
       console.log("data for chart has not been updated", props.dataForChart);
 
       setitem(
@@ -255,14 +237,23 @@ export default function Charts(props: PropsChart, slectedChart: any) {
     console.log(alin);
   });
 
+  useEffect(() => {
+    props.setloading(true);
+    setTimeout(() => {
+      props.setloading(false);
+    }, 3000);
+  }, [items]);
+
+  // props.setloading(false);
+
   return (
     <div className="Chart">
       {props.dataForChart !== undefined ? (
         <div className="Chart_with_buttons">
           <div className="containerChart">
-            <button className="Exist" onClick={hide}>
+            {/* <button className="Exist" onClick={hide}>
               <img src={XIcon} alt="" />
-            </button>
+            </button> */}
             <div className="continer_with_title_and_exist">
               <div className="title_chart">
                 <div> {props.chartTitle}</div>
@@ -270,11 +261,11 @@ export default function Charts(props: PropsChart, slectedChart: any) {
             </div>
 
             <div className="container_for_chart">
-              {loading === true ? (
+              {props.loading ? (
                 <div className="wrapper_loader">
                   <GridLoader
                     color={"#104666"}
-                    loading={loading}
+                    // loading={loading}
                     size={15}
                     aria-label="Loading Spinner"
                     data-testid="loader"
@@ -289,7 +280,7 @@ export default function Charts(props: PropsChart, slectedChart: any) {
               )}
             </div>
 
-            {props.dataForChart.map((item: any) => {})}
+            {/* {props.dataForChart.map((item: any) => {})} */}
 
             {/* <div className="Button_adds">
               <div className="Button_settings">

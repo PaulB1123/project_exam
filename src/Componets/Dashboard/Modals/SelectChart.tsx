@@ -32,12 +32,7 @@ export const SelectChart = (props: Props) => {
 
     setSelectionArray,
   } = useGlobalModalContext();
-  const { data, categorical, selectedModelId, ArrayDragged } =
-    useContext(FilterContext);
-  // const [selectedAudition, setSelectedAudition] = useState("");
-  // const [slectedChart, setSelectedChart] = useState("");
-  // const chart1 = "chart1";
-  // const chart2 = "chart2";
+  const { categorical } = useContext(FilterContext);
   const [audtion, setAudition] = useState<any>();
   const [chart, setchart] = useState<any>();
   const [selector, setSelector] = useState<any>();
@@ -58,37 +53,8 @@ export const SelectChart = (props: Props) => {
     setSelectedChart(key);
   }
 
-  const btn = document.querySelector(".Contiune") as HTMLButtonElement;
-
-  // if (slectedChart.length > 0) {
-  //   // console.log("this is not null", slectedChart);
-  //   // btn.disabled = true;
-  //   btn.disabled = false;
-  // } else if (btn != null) {
-  //   console.log("this is not null", slectedChart);
-
-  //   btn.disabled = true;
-
-  //   // btn.disabled = false;
-  // } else {
-  //   console.log("this is null", btn);
-  // }
-  const [saveDashboard, setSaveDashboard] = useState();
-
-  console.log(selectedModelId);
-
   function CloseAndFetchData() {
     handleModalToggle();
-
-    // const placeholderNumber = props.modalProps[0];
-    // setSelectionArray((preState: any) => [
-    //   ...preState,
-    //   {
-    //     chartNumber: placeholderNumber,
-    //     selectedAudition: audtion,
-    //     slectedChart: chart,
-    //   },
-    // ]);
 
     const placeholderNumber = props.modalProps[0];
     setSelectionArray((preState: any) => [
@@ -103,15 +69,7 @@ export const SelectChart = (props: Props) => {
     ]);
   }
 
-  // console.log(SelectionArray);
-
-  // function DeleteChart() {
-  //   props.setArrayCharts((preState: any) => [
-  //     ...preState.filter((item: number) => item !== props.el),
-  //   ]);
-  // }
-
-  console.log(audtion);
+  const btn = document.querySelector(".Contiune") as HTMLButtonElement;
 
   return (
     <div className="">
@@ -128,7 +86,6 @@ export const SelectChart = (props: Props) => {
 
         <div className="Header_Modal" id="Header_Modal_GenerateReport">
           <h3>Choose the chart variable </h3>
-          {/* <Button onClick={triggerFunction}>This is button</Button> */}
 
           <select
             value={audtion}
@@ -156,7 +113,7 @@ export const SelectChart = (props: Props) => {
               id="1"
               value={chart1}
               onClick={() => {
-                setchart(chart1);
+                selectChart(chart1);
               }}
               className={slectedChart === chart1 ? "borderactive" : ""}
             >
@@ -173,7 +130,7 @@ export const SelectChart = (props: Props) => {
               id="2"
               value="Chart2"
               onClick={() => {
-                setchart(chart2);
+                selectChart(chart2);
               }}
               className={slectedChart === chart2 ? "borderactive" : ""}
             >
@@ -224,3 +181,37 @@ export const SelectChart = (props: Props) => {
     </div>
   );
 };
+
+// <Button
+// id="1"
+// value={chart1}
+// onClick={() => {
+//   setchart(chart1);
+// }}
+// className={slectedChart === chart1 ? "borderactive" : ""}
+// >
+// <div className="image_chart">
+//   <img
+//     src={slectedChart === chart1 ? Chart1Color : Chart1}
+//     alt=""
+//   />
+// </div>
+// <p className="thisp">This is {chart1}</p>
+// </Button>
+
+// <Button
+// id="2"
+// value="Chart2"
+// onClick={() => {
+//   setchart(chart2);
+// }}
+// className={slectedChart === chart2 ? "borderactive" : ""}
+// >
+// <div className="image_chart">
+//   <img
+//     src={slectedChart === chart2 ? Chart2Color : Chart2}
+//     alt=""
+//   />
+// </div>
+// <p>This is a {chart2}</p>
+// </Button>

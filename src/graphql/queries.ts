@@ -35,16 +35,10 @@ export const getDatabaseByName = /* GraphQL */ `
   }
 `;
 export const getModel = /* GraphQL */ `
-  query GetModel(
-    $Status: Status
-    $Database_id: ID
-    $Model_id: ID
-    $Model_name: String
-  ) {
+  query GetModel($Status: Status, $Database_id: ID!, $Model_name: String!) {
     getModel(
       Status: $Status
       Database_id: $Database_id
-      Model_id: $Model_id
       Model_name: $Model_name
     ) {
       Model_id
@@ -244,5 +238,49 @@ export const isAuthorized = /* GraphQL */ `
       }
       StatusCode
     }
+  }
+`;
+export const adminGetAccessGroup = /* GraphQL */ `
+  query AdminGetAccessGroup($Client: adminClientInput) {
+    adminGetAccessGroup(Client: $Client) {
+      data {
+        Group
+        Client_code
+        Client_country
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
+  }
+`;
+export const adminGetUsers = /* GraphQL */ `
+  query AdminGetUsers(
+    $Client_code: String!
+    $Client_country: String!
+    $Username: String
+  ) {
+    adminGetUsers(
+      Client_code: $Client_code
+      Client_country: $Client_country
+      Username: $Username
+    ) {
+      data {
+        Group
+        Username
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
+  }
+`;
+export const getGroupNames = /* GraphQL */ `
+  query GetGroupNames {
+    getGroupNames
   }
 `;

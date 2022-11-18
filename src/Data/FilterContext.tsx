@@ -119,7 +119,6 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
-
   useEffect(() => {
     async function Mihai() {
       try {
@@ -131,10 +130,9 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         const { getClients: actual_list } = response_data;
         const { data, error, StatusCode }: getClientsResponse = actual_list;
 
-        // console.log(actual_list);
+        console.log(actual_list);
         if (StatusCode === 200) {
           if (data) {
-            // console.log(data);
             setClientNewData(data);
 
             if (data.length > 0) {
@@ -174,6 +172,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
         const { data, error, StatusCode }: getModelsForClientResponse =
           actual_list;
+
+        console.log(actual_list);
 
         if (StatusCode === 200) {
           if (data) {
@@ -216,21 +216,23 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     console.log(selectedModelId);
 
     try {
+      console.log("also is going there");
       const response = (await API.graphql({
         query: getSelectorsForModel,
         variables: { Model_id: selectedModelId },
       })) as {
         data: { getSelectorsForModel: getSelectorsForModelResponse };
       };
+      console.log("also is going there");
       //  now I have fecthed the data with the selectedModelId so I received the filter array
-      // console.log("this is all of my data", response);
+      console.log("this is all of my data", response);
       const { data: response_data } = response;
       const { getSelectorsForModel: actual_list } = response_data;
 
       const { data, error, StatusCode }: getSelectorsForModelResponse =
         actual_list;
 
-      // console.log(actual_list);
+      console.log(actual_list);
       if (StatusCode === 200) {
         console.log(data);
         if (data) {
@@ -283,6 +285,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
   useEffect(() => {
     if (selectedModelId) {
+      console.log("is going there ");
+
       DatabaseFetc();
     }
   }, [DatabaseFetc, selectedModelId]);

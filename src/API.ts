@@ -172,6 +172,66 @@ export type updateReportResponse = {
   StatusCode: number,
 };
 
+export type adminAddClientToGroupResponse = {
+  __typename: "adminAddClientToGroupResponse",
+  data?:  Array<adminAddClientToGroupData | null > | null,
+  error?: ErrorType | null,
+  StatusCode?: number | null,
+};
+
+export type adminAddClientToGroupData = {
+  __typename: "adminAddClientToGroupData",
+  Message: string,
+  StatementId?: string | null,
+  StatusCode?: number | null,
+};
+
+export enum CRM_GROUP {
+  ADMIN = "ADMIN",
+  RDS_ADMIN = "RDS_ADMIN",
+  FULL = "FULL",
+  ANALYST = "ANALYST",
+  READ = "READ",
+}
+
+
+export type adminClientInput = {
+  Client_code: string,
+  Client_country: string,
+};
+
+export type adminPaddingtonResponse = {
+  __typename: "adminPaddingtonResponse",
+  data?:  Array<adminGrantData | null > | null,
+  error?:  Array<AdminPaddingtonErrorResponse | null > | null,
+  StatusCode: number,
+};
+
+export type adminGrantData = {
+  __typename: "adminGrantData",
+  Resource?: string | null,
+  Action?: string | null,
+  Message?: string | null,
+  StatementId?: string | null,
+  StatusCode?: number | null,
+};
+
+export type AdminPaddingtonErrorResponse = {
+  __typename: "AdminPaddingtonErrorResponse",
+  Resource?: string | null,
+  Action?: string | null,
+  type?: string | null,
+  message?: string | null,
+  StatusCode?: number | null,
+};
+
+export enum StatementType {
+  Paddington = "Paddington",
+  Access = "Access",
+  Admin = "Admin",
+}
+
+
 export enum Status {
   Active = "Active",
   Deleted = "Deleted",
@@ -378,6 +438,33 @@ export type isAuthorizedResponse = {
 export type UserIsAuthorized = {
   __typename: "UserIsAuthorized",
   UserIsAuthorized: boolean,
+};
+
+export type adminGetAccessGroupResponse = {
+  __typename: "adminGetAccessGroupResponse",
+  data?:  Array<adminGetAccessGroupData | null > | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type adminGetAccessGroupData = {
+  __typename: "adminGetAccessGroupData",
+  Group?: string | null,
+  Client_code: string,
+  Client_country: string,
+};
+
+export type adminGetUsersResponse = {
+  __typename: "adminGetUsersResponse",
+  data?:  Array<adminGetUsersData | null > | null,
+  error?: ErrorType | null,
+  StatusCode: number,
+};
+
+export type adminGetUsersData = {
+  __typename: "adminGetUsersData",
+  Group: string,
+  Username: string,
 };
 
 export type SaveDatabaseMutationVariables = {
@@ -656,7 +743,140 @@ export type AddClientToGroupMutationVariables = {
 };
 
 export type AddClientToGroupMutation = {
-  addClientToGroup?: string | null,
+  addClientToGroup:  {
+    __typename: "adminAddClientToGroupResponse",
+    data?:  Array< {
+      __typename: "adminAddClientToGroupData",
+      Message: string,
+      StatementId?: string | null,
+      StatusCode?: number | null,
+    } | null > | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode?: number | null,
+  },
+};
+
+export type AdminGrantAccessMutationVariables = {
+  Group: CRM_GROUP,
+  Client: adminClientInput,
+  Username: string,
+};
+
+export type AdminGrantAccessMutation = {
+  adminGrantAccess:  {
+    __typename: "adminPaddingtonResponse",
+    data?:  Array< {
+      __typename: "adminGrantData",
+      Resource?: string | null,
+      Action?: string | null,
+      Message?: string | null,
+      StatementId?: string | null,
+      StatusCode?: number | null,
+    } | null > | null,
+    error?:  Array< {
+      __typename: "AdminPaddingtonErrorResponse",
+      Resource?: string | null,
+      Action?: string | null,
+      type?: string | null,
+      message?: string | null,
+      StatusCode?: number | null,
+    } | null > | null,
+    StatusCode: number,
+  },
+};
+
+export type AdminRemoveAccessMutationVariables = {
+  StatementType?: StatementType | null,
+  Client_code: string,
+  Client_country: string,
+  Username: string,
+};
+
+export type AdminRemoveAccessMutation = {
+  adminRemoveAccess:  {
+    __typename: "adminPaddingtonResponse",
+    data?:  Array< {
+      __typename: "adminGrantData",
+      Resource?: string | null,
+      Action?: string | null,
+      Message?: string | null,
+      StatementId?: string | null,
+      StatusCode?: number | null,
+    } | null > | null,
+    error?:  Array< {
+      __typename: "AdminPaddingtonErrorResponse",
+      Resource?: string | null,
+      Action?: string | null,
+      type?: string | null,
+      message?: string | null,
+      StatusCode?: number | null,
+    } | null > | null,
+    StatusCode: number,
+  },
+};
+
+export type AdminCreateInternalUserMutationVariables = {
+  Email: string,
+  Group: CRM_GROUP,
+  Client: adminClientInput,
+};
+
+export type AdminCreateInternalUserMutation = {
+  adminCreateInternalUser:  {
+    __typename: "adminPaddingtonResponse",
+    data?:  Array< {
+      __typename: "adminGrantData",
+      Resource?: string | null,
+      Action?: string | null,
+      Message?: string | null,
+      StatementId?: string | null,
+      StatusCode?: number | null,
+    } | null > | null,
+    error?:  Array< {
+      __typename: "AdminPaddingtonErrorResponse",
+      Resource?: string | null,
+      Action?: string | null,
+      type?: string | null,
+      message?: string | null,
+      StatusCode?: number | null,
+    } | null > | null,
+    StatusCode: number,
+  },
+};
+
+export type AdminCreateExternalUserMutationVariables = {
+  Email: string,
+  FamilyName: string,
+  Name: string,
+  Group: CRM_GROUP,
+  Client: adminClientInput,
+};
+
+export type AdminCreateExternalUserMutation = {
+  adminCreateExternalUser:  {
+    __typename: "adminPaddingtonResponse",
+    data?:  Array< {
+      __typename: "adminGrantData",
+      Resource?: string | null,
+      Action?: string | null,
+      Message?: string | null,
+      StatementId?: string | null,
+      StatusCode?: number | null,
+    } | null > | null,
+    error?:  Array< {
+      __typename: "AdminPaddingtonErrorResponse",
+      Resource?: string | null,
+      Action?: string | null,
+      type?: string | null,
+      message?: string | null,
+      StatusCode?: number | null,
+    } | null > | null,
+    StatusCode: number,
+  },
 };
 
 export type GetDatabaseByIdQueryVariables = {
@@ -702,9 +922,8 @@ export type GetDatabaseByNameQuery = {
 
 export type GetModelQueryVariables = {
   Status?: Status | null,
-  Database_id?: string | null,
-  Model_id?: string | null,
-  Model_name?: string | null,
+  Database_id: string,
+  Model_name: string,
 };
 
 export type GetModelQuery = {
@@ -956,4 +1175,53 @@ export type IsAuthorizedQuery = {
     } | null,
     StatusCode: number,
   },
+};
+
+export type AdminGetAccessGroupQueryVariables = {
+  Client?: adminClientInput | null,
+};
+
+export type AdminGetAccessGroupQuery = {
+  adminGetAccessGroup:  {
+    __typename: "adminGetAccessGroupResponse",
+    data?:  Array< {
+      __typename: "adminGetAccessGroupData",
+      Group?: string | null,
+      Client_code: string,
+      Client_country: string,
+    } | null > | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
+};
+
+export type AdminGetUsersQueryVariables = {
+  Client_code: string,
+  Client_country: string,
+  Username?: string | null,
+};
+
+export type AdminGetUsersQuery = {
+  adminGetUsers:  {
+    __typename: "adminGetUsersResponse",
+    data?:  Array< {
+      __typename: "adminGetUsersData",
+      Group: string,
+      Username: string,
+    } | null > | null,
+    error?:  {
+      __typename: "ErrorType",
+      type: string,
+      message: string,
+    } | null,
+    StatusCode: number,
+  },
+};
+
+export type GetGroupNamesQuery = {
+  getGroupNames?: Array< string | null > | null,
 };

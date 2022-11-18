@@ -224,6 +224,134 @@ export const deleteReport = /* GraphQL */ `
 `;
 export const addClientToGroup = /* GraphQL */ `
   mutation AddClientToGroup($Client_code: String!, $Client_country: String!) {
-    addClientToGroup(Client_code: $Client_code, Client_country: $Client_country)
+    addClientToGroup(
+      Client_code: $Client_code
+      Client_country: $Client_country
+    ) {
+      data {
+        Message
+        StatementId
+        StatusCode
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
+  }
+`;
+export const adminGrantAccess = /* GraphQL */ `
+  mutation AdminGrantAccess(
+    $Group: CRM_GROUP!
+    $Client: adminClientInput!
+    $Username: String!
+  ) {
+    adminGrantAccess(Group: $Group, Client: $Client, Username: $Username) {
+      data {
+        Resource
+        Action
+        Message
+        StatementId
+        StatusCode
+      }
+      error {
+        Resource
+        Action
+        type
+        message
+        StatusCode
+      }
+      StatusCode
+    }
+  }
+`;
+export const adminRemoveAccess = /* GraphQL */ `
+  mutation AdminRemoveAccess(
+    $StatementType: StatementType
+    $Client_code: String!
+    $Client_country: String!
+    $Username: String!
+  ) {
+    adminRemoveAccess(
+      StatementType: $StatementType
+      Client_code: $Client_code
+      Client_country: $Client_country
+      Username: $Username
+    ) {
+      data {
+        Resource
+        Action
+        Message
+        StatementId
+        StatusCode
+      }
+      error {
+        Resource
+        Action
+        type
+        message
+        StatusCode
+      }
+      StatusCode
+    }
+  }
+`;
+export const adminCreateInternalUser = /* GraphQL */ `
+  mutation AdminCreateInternalUser(
+    $Email: AWSEmail!
+    $Group: CRM_GROUP!
+    $Client: adminClientInput!
+  ) {
+    adminCreateInternalUser(Email: $Email, Group: $Group, Client: $Client) {
+      data {
+        Resource
+        Action
+        Message
+        StatementId
+        StatusCode
+      }
+      error {
+        Resource
+        Action
+        type
+        message
+        StatusCode
+      }
+      StatusCode
+    }
+  }
+`;
+export const adminCreateExternalUser = /* GraphQL */ `
+  mutation AdminCreateExternalUser(
+    $Email: AWSEmail!
+    $FamilyName: String!
+    $Name: String!
+    $Group: CRM_GROUP!
+    $Client: adminClientInput!
+  ) {
+    adminCreateExternalUser(
+      Email: $Email
+      FamilyName: $FamilyName
+      Name: $Name
+      Group: $Group
+      Client: $Client
+    ) {
+      data {
+        Resource
+        Action
+        Message
+        StatementId
+        StatusCode
+      }
+      error {
+        Resource
+        Action
+        type
+        message
+        StatusCode
+      }
+      StatusCode
+    }
   }
 `;

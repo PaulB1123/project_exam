@@ -6,7 +6,6 @@ import {
 import "./TempleteChart.css";
 import ChartIMG from "./Chart.svg";
 import Charts from "../Charts/Charts";
-import { SelectChart } from "../Dashboard/Modals/SelectChart";
 import { API } from "aws-amplify";
 import XIcon from "../Filters/icons/X.svg";
 import { getChartData } from "../../graphql/queries";
@@ -16,7 +15,6 @@ import {
   getChartDataResponse,
 } from "../../API";
 import FilterContext from "../../Data/FilterContext";
-// import Modal from "./Modal";
 
 export interface Props {
   el: number;
@@ -26,34 +24,16 @@ export interface Props {
 
 export default function TemplateChart(props: Props) {
   const { showModal } = useGlobalModalContext();
-  const {
-    leftside,
-    object,
-    setObject,
-    updateCharts,
-    setIsLoading,
-    Chart,
-    setChart,
-    chartUpdate,
-  } = useContext(FilterContext);
-  const {
-    setChartNumber,
-    ChartNumber,
-    selectedAudition,
-    slectedChart,
-    setLoading,
-    dataSelected,
-    arrayData,
-    SelectionArray,
-  } = useGlobalModalContext();
+  const { object, setIsLoading, setChart, chartUpdate } =
+    useContext(FilterContext);
+  const { setChartNumber, SelectionArray, slectedChart } =
+    useGlobalModalContext();
   const [chart, setchart] = useState([]) as any;
   const [dataForChart, setDataForChart] = useState() as any;
-  const [selectedArrayToFetchData, setSelectedArrayToFetchData] =
-    useState() as any;
   const { ArrayDragged, selectedModelId } = useContext(FilterContext);
   const [chartTitle, setChartTitle] = useState<any>();
-  const [selectedItems, setselectedItems] = useState() as any;
   const [audtitionName, setAuditionName] = useState();
+  const [loading, setloading] = useState(false);
 
   const bigFunction = (chartID: any) => {
     setChartNumber(chartID);
@@ -119,6 +99,7 @@ export default function TemplateChart(props: Props) {
         if (data) {
           if (data.length > 0) {
             setDataForChart(data);
+            console.log(loading);
           } else {
             setDataForChart([]);
           }
@@ -141,15 +122,17 @@ export default function TemplateChart(props: Props) {
             setArrayCharts={(e: any) => props.setArrayCharts(e)}
             dataForChart={dataForChart}
             chartTitle={chartTitle}
+            loading={loading}
+            setloading={setloading}
           />
         </div>
       ) : (
         <>
           <div className="this_is_container_main_chart card_small">
             <div className="templateChart_container">
-              <button className="Exist" onClick={() => DeleteChart()}>
+              {/* <button className="Exist" onClick={() => DeleteChart()}>
                 <img src={XIcon} alt="" />
-              </button>
+              </button> */}
               <div className="templateChart_header">
                 <h1>This is your chart</h1>
                 <p>
