@@ -92,22 +92,22 @@ export const getSelectorsForModel = /* GraphQL */ `
     getSelectorsForModel(Client_code: $Client_code, Model_id: $Model_id) {
       data {
         ... on SelectorFactor {
-          variable_type
-          id
-          selector
-          category
-          values {
-            id
-            value
+          Variable_type
+          Variable
+          Title
+          Category
+          Values {
+            Id
+            Value
           }
         }
         ... on SelectorNumeric {
-          variable_type
-          id
-          selector
-          category
-          max
-          min
+          Variable_type
+          Variable
+          Title
+          Category
+          Max
+          Min
         }
       }
       error {
@@ -124,10 +124,10 @@ export const getAudiences = /* GraphQL */ `
       data {
         Audience_id
         Audience_name
-        createdAt
-        createdBy
-        editedBy
-        editedAt
+        Created_at
+        Created_by
+        Edited_by
+        Edited_at
       }
       error {
         type
@@ -168,12 +168,13 @@ export const getChartData = /* GraphQL */ `
     ) {
       data {
         ... on ChartItem {
-          value
-          count
+          Value
+          Count
+          Avg_value
         }
         ... on ChartItemSingle {
-          avg_value
-          count_value
+          Avg_value
+          Count_value
         }
       }
       error {
@@ -184,21 +185,23 @@ export const getChartData = /* GraphQL */ `
     }
   }
 `;
-export const getReports = /* GraphQL */ `
-  query GetReports($Client_code: String, $Model_id: ID!, $all: Boolean) {
-    getReports(Client_code: $Client_code, Model_id: $Model_id, all: $all) {
+export const getDashboards = /* GraphQL */ `
+  query GetDashboards($Client_code: String, $Model_id: ID!, $all: Boolean) {
+    getDashboards(Client_code: $Client_code, Model_id: $Model_id, all: $all) {
       data {
-        Report_id
-        Report_name
+        Dashboard_id
+        Dashboard_name
+        Is_default
         meta_table
-        createdBy
-        createdAt
-        Audiences {
-          chart_type
-          variable_type
-          selector
-          id
-          position
+        Created_by
+        Created_at
+        Charts {
+          Chart_type
+          Variable_type
+          Title
+          Variable
+          Chart_size
+          Position
         }
       }
       error {

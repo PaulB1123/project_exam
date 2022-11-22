@@ -16,7 +16,7 @@ import FilterContext from "../../Data/FilterContext";
 import DragnDrop from "./DragnDrop";
 import Modal from "../../Componets/Filters/Modal";
 
-export function ReportsButton() {
+export function DashboardsButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
   const { ReportsList, setitemDelteReport } = useContext(FilterContext);
@@ -38,14 +38,26 @@ export function ReportsButton() {
     setSelectionArray(Audiences);
   }
 
+  const [DafaultDasboard, setDafaultDasboard] = useState();
+
   useEffect(() => {
     console.log(ReportsList);
     if (ReportsList !== undefined) {
       setCheckReportsList(true);
+      ReportsList.map((id: any) => {
+        if (id.Is_default === true) {
+          setDafaultDasboard(id.Charts);
+        }
+      });
     } else {
       setCheckReportsList(false);
     }
   }, [ReportsList]);
+
+  if (DafaultDasboard !== undefined) {
+    console.log(DafaultDasboard);
+    selectReportCharts(DafaultDasboard);
+  }
 
   return (
     <>
@@ -89,13 +101,13 @@ export function ReportsButton() {
                   <li className="audiences_saved">
                     <span
                       className="element_dashboard"
-                      onClick={() => selectReportCharts(id.Audiences)}
+                      onClick={() => selectReportCharts(id.Charts)}
                     >
-                      {id.Report_name}
+                      {id.Dashboard_name}
                     </span>
                     <div
                       className="PlusIcon_container"
-                      onClick={() => deleteReport(id.Report_id)}
+                      onClick={() => deleteReport(id.Dashboard_id)}
                     >
                       <div className="DeleteButton"></div>
                     </div>
@@ -150,6 +162,10 @@ export function AudiencesButton() {
   const showDragAndDrop = () => {
     setShowDraggableList(!showDraggableList);
   };
+
+  useEffect(() => {
+    console.log(audienceId);
+  }, [audienceId]);
 
   return (
     <>

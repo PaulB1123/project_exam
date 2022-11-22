@@ -59,8 +59,8 @@ export default function Charts(props: PropsChart, slectedChart: any) {
 
       setitem(
         props.dataForChart.map((item: any) => ({
-          name: item.value,
-          data: [item.count],
+          name: item.Value,
+          data: [item.Count],
         }))
       );
     }

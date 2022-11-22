@@ -60,14 +60,19 @@ export const SelectChart = (props: Props) => {
     setSelectionArray((preState: any) => [
       ...preState,
       {
-        position: placeholderNumber,
-        variable_type: "categorical",
-        selector: selector,
-        id: audtion,
-        chart_type: chart,
+        Position: placeholderNumber,
+        Variable_type: "categorical",
+        Title: selector,
+        Variable: audtion,
+        Chart_type: "Chart 1",
+        // Chart_size
       },
     ]);
+    // console.log(selectionArray);
   }
+
+  console.log(categorical);
+  console.log(audtion);
 
   const btn = document.querySelector(".Contiune") as HTMLButtonElement;
 
@@ -99,8 +104,9 @@ export const SelectChart = (props: Props) => {
             }}
           >
             {categorical.map((item: any, index: any) => (
-              <option key={index} value={item.id}>
-                {item.selector}
+              // console.log(item)
+              <option key={index} value={item.Variable}>
+                {item.Title}
               </option>
             ))}
           </select>

@@ -359,7 +359,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "getReports",
+          "name" : "getDashboards",
           "description" : null,
           "args" : [ {
             "name" : "Client_code",
@@ -398,7 +398,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "OBJECT",
-              "name" : "getReportsResponse",
+              "name" : "getDashboardsResponse",
               "ofType" : null
             }
           },
@@ -1237,7 +1237,7 @@
         "name" : "SelectorFactor",
         "description" : null,
         "fields" : [ {
-          "name" : "variable_type",
+          "name" : "Variable_type",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1252,7 +1252,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "id",
+          "name" : "Variable",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1267,7 +1267,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "selector",
+          "name" : "Title",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1282,7 +1282,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "category",
+          "name" : "Category",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1293,7 +1293,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "values",
+          "name" : "Values",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1321,7 +1321,7 @@
         "name" : "selectorValue",
         "description" : null,
         "fields" : [ {
-          "name" : "id",
+          "name" : "Id",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1336,7 +1336,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "value",
+          "name" : "Value",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1360,7 +1360,7 @@
         "name" : "SelectorNumeric",
         "description" : " selector",
         "fields" : [ {
-          "name" : "variable_type",
+          "name" : "Variable_type",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1375,7 +1375,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "id",
+          "name" : "Variable",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1390,7 +1390,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "selector",
+          "name" : "Title",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1405,7 +1405,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "category",
+          "name" : "Category",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1416,7 +1416,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "max",
+          "name" : "Max",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1427,7 +1427,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "min",
+          "name" : "Min",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1536,7 +1536,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "createdAt",
+          "name" : "Created_at",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1547,7 +1547,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "createdBy",
+          "name" : "Created_by",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1558,7 +1558,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "editedBy",
+          "name" : "Edited_by",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1569,7 +1569,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "editedAt",
+          "name" : "Edited_at",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1789,7 +1789,7 @@
         "name" : "ChartItem",
         "description" : null,
         "fields" : [ {
-          "name" : "value",
+          "name" : "Value",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1804,12 +1804,23 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "count",
+          "name" : "Count",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
             "name" : "Int",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Avg_value",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Float",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -1824,7 +1835,7 @@
         "name" : "ChartItemSingle",
         "description" : null,
         "fields" : [ {
-          "name" : "avg_value",
+          "name" : "Avg_value",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1835,7 +1846,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "count_value",
+          "name" : "Count_value",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -1856,7 +1867,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "numerical_variable",
+          "name" : "Numerical_variable",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -1865,7 +1876,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "categorical_variable",
+          "name" : "Categorical_variable",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -1874,7 +1885,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "filters",
+          "name" : "Filters",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -1896,7 +1907,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "categorical",
+          "name" : "Categorical",
           "description" : null,
           "type" : {
             "kind" : "LIST",
@@ -1913,7 +1924,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "numerical",
+          "name" : "Numerical",
           "description" : null,
           "type" : {
             "kind" : "LIST",
@@ -1939,7 +1950,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "id",
+          "name" : "Variable",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -1952,7 +1963,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "values",
+          "name" : "Values",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -1982,7 +1993,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "id",
+          "name" : "Variable",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -1995,7 +2006,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "min",
+          "name" : "Min",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -2008,7 +2019,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "max",
+          "name" : "Max",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -2026,7 +2037,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "getReportsResponse",
+        "name" : "getDashboardsResponse",
         "description" : null,
         "fields" : [ {
           "name" : "data",
@@ -2040,7 +2051,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "OBJECT",
-                "name" : "ReportItem",
+                "name" : "DashboardItem",
                 "ofType" : null
               }
             }
@@ -2080,10 +2091,10 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "ReportItem",
+        "name" : "DashboardItem",
         "description" : null,
         "fields" : [ {
-          "name" : "Report_id",
+          "name" : "Dashboard_id",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -2094,12 +2105,23 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "Report_name",
+          "name" : "Dashboard_name",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
             "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Is_default",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "Boolean",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -2116,7 +2138,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "createdBy",
+          "name" : "Created_by",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -2127,7 +2149,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "createdAt",
+          "name" : "Created_at",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -2138,7 +2160,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "Audiences",
+          "name" : "Charts",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -2146,7 +2168,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "OBJECT",
-              "name" : "ReportAudienceItem",
+              "name" : "DashboardAudienceItem",
               "ofType" : null
             }
           },
@@ -2159,10 +2181,10 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "ReportAudienceItem",
+        "name" : "DashboardAudienceItem",
         "description" : null,
         "fields" : [ {
-          "name" : "chart_type",
+          "name" : "Chart_type",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -2173,7 +2195,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "variable_type",
+          "name" : "Variable_type",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -2184,7 +2206,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "selector",
+          "name" : "Title",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -2195,7 +2217,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "id",
+          "name" : "Variable",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -2206,7 +2228,18 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "position",
+          "name" : "Chart_size",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "ChartSize",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Position",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -2220,6 +2253,30 @@
         "inputFields" : null,
         "interfaces" : [ ],
         "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "ENUM",
+        "name" : "ChartSize",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : [ {
+          "name" : "small",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "medium",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "large",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
@@ -2969,7 +3026,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "saveReport",
+          "name" : "saveDashboard",
           "description" : null,
           "args" : [ {
             "name" : "Client_code",
@@ -2994,7 +3051,7 @@
             },
             "defaultValue" : null
           }, {
-            "name" : "Report_name",
+            "name" : "Dashboard_name",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -3007,7 +3064,7 @@
             },
             "defaultValue" : null
           }, {
-            "name" : "Audiences",
+            "name" : "Charts",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -3020,7 +3077,7 @@
                   "name" : null,
                   "ofType" : {
                     "kind" : "INPUT_OBJECT",
-                    "name" : "saveReportAudienceInput",
+                    "name" : "saveDashboardChartInput",
                     "ofType" : null
                   }
                 }
@@ -3033,14 +3090,14 @@
             "name" : null,
             "ofType" : {
               "kind" : "OBJECT",
-              "name" : "saveReportResponse",
+              "name" : "saveDashboardResponse",
               "ofType" : null
             }
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "updateReport",
+          "name" : "updateDashboard",
           "description" : null,
           "args" : [ {
             "name" : "Client_code",
@@ -3052,7 +3109,7 @@
             },
             "defaultValue" : null
           }, {
-            "name" : "Report_id",
+            "name" : "Dashboard_id",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -3065,14 +3122,14 @@
             },
             "defaultValue" : null
           }, {
-            "name" : "Report",
+            "name" : "Dashboard",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
-                "name" : "updateReportInput",
+                "name" : "updateDashboardInput",
                 "ofType" : null
               }
             },
@@ -3083,14 +3140,42 @@
             "name" : null,
             "ofType" : {
               "kind" : "OBJECT",
-              "name" : "updateReportResponse",
+              "name" : "updateDashboardResponse",
               "ofType" : null
             }
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "deleteReport",
+          "name" : "addDefaultDashboard",
+          "description" : null,
+          "args" : [ {
+            "name" : "Dashboard_id",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "ID",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          } ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "OBJECT",
+              "name" : "addDefaultDashboardResponse",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "deleteDashboard",
           "description" : null,
           "args" : [ {
             "name" : "Client_code",
@@ -3102,7 +3187,7 @@
             },
             "defaultValue" : null
           }, {
-            "name" : "Report_id",
+            "name" : "Dashboard_id",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -4176,7 +4261,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "saveReportResponse",
+        "name" : "saveDashboardResponse",
         "description" : null,
         "fields" : [ {
           "name" : "data",
@@ -4184,7 +4269,7 @@
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "ReportItem",
+            "name" : "DashboardItem",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -4222,11 +4307,11 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "saveReportAudienceInput",
+        "name" : "saveDashboardChartInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "chart_type",
+          "name" : "Chart_type",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -4239,7 +4324,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "variable_type",
+          "name" : "Variable_type",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -4252,7 +4337,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "selector",
+          "name" : "Title",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -4261,7 +4346,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "id",
+          "name" : "Variable",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -4274,7 +4359,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "position",
+          "name" : "Position",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -4284,6 +4369,15 @@
               "name" : "Int",
               "ofType" : null
             }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "Chart_size",
+          "description" : null,
+          "type" : {
+            "kind" : "ENUM",
+            "name" : "ChartSize",
+            "ofType" : null
           },
           "defaultValue" : null
         } ],
@@ -4292,7 +4386,7 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "updateReportResponse",
+        "name" : "updateDashboardResponse",
         "description" : null,
         "fields" : [ {
           "name" : "data",
@@ -4300,7 +4394,7 @@
           "args" : [ ],
           "type" : {
             "kind" : "OBJECT",
-            "name" : "ReportItem",
+            "name" : "DashboardItem",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -4338,11 +4432,11 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "updateReportInput",
+        "name" : "updateDashboardInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "Report_name",
+          "name" : "Dashboard_name",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -4351,7 +4445,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "Audiences",
+          "name" : "Charts",
           "description" : null,
           "type" : {
             "kind" : "LIST",
@@ -4361,7 +4455,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "INPUT_OBJECT",
-                "name" : "saveReportAudienceInput",
+                "name" : "saveDashboardChartInput",
                 "ofType" : null
               }
             }
@@ -4369,6 +4463,83 @@
           "defaultValue" : null
         } ],
         "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "addDefaultDashboardResponse",
+        "description" : null,
+        "fields" : [ {
+          "name" : "data",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "DefaultDashboardItem",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "error",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "OBJECT",
+            "name" : "ErrorType",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "StatusCode",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "Int",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "DefaultDashboardItem",
+        "description" : null,
+        "fields" : [ {
+          "name" : "PK",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Dashboard_id",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
         "enumValues" : null,
         "possibleTypes" : null
       }, {
@@ -4713,61 +4884,19 @@
         "enumValues" : null,
         "possibleTypes" : null
       }, {
-        "kind" : "OBJECT",
-        "name" : "AttributeData",
-        "description" : null,
-        "fields" : [ {
-          "name" : "FamilyName",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "Name",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "email",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        } ],
-        "inputFields" : null,
-        "interfaces" : [ ],
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
         "kind" : "ENUM",
-        "name" : "Environment",
-        "description" : " #########################################################################################################\n# Enum\n#########################################################################################################",
+        "name" : "Action",
+        "description" : null,
         "fields" : null,
         "inputFields" : null,
         "interfaces" : null,
         "enumValues" : [ {
-          "name" : "STAGING",
+          "name" : "READ",
           "description" : null,
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "DEMO",
+          "name" : "FULL",
           "description" : null,
           "isDeprecated" : false,
           "deprecationReason" : null
@@ -4775,27 +4904,39 @@
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
-        "name" : "ClusterItemResponse",
+        "name" : "adminGetAccessGroupGetStatementsResources",
         "description" : null,
         "fields" : [ {
-          "name" : "PK",
+          "name" : "Actions",
           "description" : null,
           "args" : [ ],
           "type" : {
-            "kind" : "SCALAR",
-            "name" : "ID",
-            "ofType" : null
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "String",
+                "ofType" : null
+              }
+            }
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "Cluster_name",
+          "name" : "Resource",
           "description" : null,
           "args" : [ ],
           "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
           },
           "isDeprecated" : false,
           "deprecationReason" : null
@@ -4919,59 +5060,39 @@
         "enumValues" : null,
         "possibleTypes" : null
       }, {
-        "kind" : "ENUM",
-        "name" : "Action",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : null,
-        "interfaces" : null,
-        "enumValues" : [ {
-          "name" : "READ",
-          "description" : null,
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "FULL",
-          "description" : null,
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        } ],
-        "possibleTypes" : null
-      }, {
         "kind" : "OBJECT",
-        "name" : "adminGetAccessGroupGetStatementsResources",
+        "name" : "AttributeData",
         "description" : null,
         "fields" : [ {
-          "name" : "Actions",
+          "name" : "FamilyName",
           "description" : null,
           "args" : [ ],
           "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "SCALAR",
-                "name" : "String",
-                "ofType" : null
-              }
-            }
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "Resource",
+          "name" : "Name",
           "description" : null,
           "args" : [ ],
           "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "email",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
@@ -4979,6 +5100,56 @@
         "inputFields" : null,
         "interfaces" : [ ],
         "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "OBJECT",
+        "name" : "ClusterItemResponse",
+        "description" : null,
+        "fields" : [ {
+          "name" : "PK",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "Cluster_name",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
+        "inputFields" : null,
+        "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "ENUM",
+        "name" : "Environment",
+        "description" : " #########################################################################################################\n# Enum\n#########################################################################################################",
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : [ {
+          "name" : "STAGING",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "DEMO",
+          "description" : null,
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        } ],
         "possibleTypes" : null
       }, {
         "kind" : "OBJECT",
@@ -5822,6 +5993,23 @@
         "onFragment" : false,
         "onField" : false
       }, {
+        "name" : "deprecated",
+        "description" : null,
+        "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
+        "args" : [ {
+          "name" : "reason",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : "\"No longer supported\""
+        } ],
+        "onOperation" : false,
+        "onFragment" : false,
+        "onField" : false
+      }, {
         "name" : "aws_publish",
         "description" : "Tells the service which subscriptions will be published to when this mutation is called. This directive is deprecated use @aws_susbscribe directive instead.",
         "locations" : [ "FIELD_DEFINITION" ],
@@ -5838,23 +6026,6 @@
             }
           },
           "defaultValue" : null
-        } ],
-        "onOperation" : false,
-        "onFragment" : false,
-        "onField" : false
-      }, {
-        "name" : "deprecated",
-        "description" : null,
-        "locations" : [ "FIELD_DEFINITION", "ENUM_VALUE" ],
-        "args" : [ {
-          "name" : "reason",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : "\"No longer supported\""
         } ],
         "onOperation" : false,
         "onFragment" : false,

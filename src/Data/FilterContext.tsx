@@ -86,11 +86,11 @@ type SelectorValueWithStatus = selectorValue & {
 };
 
 export type GeneralSelector = {
-  variable_type: String;
-  id: string;
-  selector: String;
-  category: String;
-  values: SelectorValueWithStatus[];
+  Variable_type: String;
+  Variable: string;
+  Title: String;
+  Category: String;
+  Values: SelectorValueWithStatus[];
 };
 
 export const FilterContextProvider = (props: FilterContextProviderProps) => {
@@ -119,6 +119,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
+  // "https://vp63hlcievdqpjbqj6vrfallvy.appsync-api.eu-west-1.amazonaws.com/graphql";
+
   useEffect(() => {
     async function Mihai() {
       try {
@@ -216,14 +218,12 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     console.log(selectedModelId);
 
     try {
-      console.log("also is going there");
       const response = (await API.graphql({
         query: getSelectorsForModel,
         variables: { Model_id: selectedModelId },
       })) as {
         data: { getSelectorsForModel: getSelectorsForModelResponse };
       };
-      console.log("also is going there");
       //  now I have fecthed the data with the selectedModelId so I received the filter array
       console.log("this is all of my data", response);
       const { data: response_data } = response;
@@ -240,29 +240,29 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
           // console.log("this should work", data);
           if (data.length > 0) {
             const filteredList = data.filter(
-              (i) => i.variable_type === "categorical"
+              (i) => i.Variable_type === "categorical"
             ) as SelectorFactor[];
             // console.log("this should work", filteredList);
             if (filteredList.length > 0) {
               const a = filteredList.map((i: SelectorFactor) => {
                 const {
-                  values: filteredValues,
-                  variable_type,
-                  id,
-                  selector,
-                  category,
+                  Values: filteredValues,
+                  Variable_type,
+                  Variable,
+                  Title,
+                  Category,
                 } = i;
-                if (variable_type && id && selector && category) {
+                if (Variable_type && Variable && Title && Category) {
                   const valuesWithFalse = filteredValues?.map((v) => {
                     return { ...v, isSelected: false };
                   });
 
                   return {
-                    variable_type: variable_type,
-                    id: id,
-                    selector: selector,
-                    category: category,
-                    values: valuesWithFalse,
+                    Variable_type: Variable_type,
+                    Variable: Variable,
+                    Title: Title,
+                    Category: Category,
+                    Values: valuesWithFalse,
                   } as GeneralSelector;
                 }
               });
@@ -357,7 +357,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   }, [categorical]);
 
   async function getAudienceData(modelId: string) {
-    // console.log(modelId);
+    console.log(modelId);
+    console.log("it went here again ");
 
     try {
       const response = (await API.graphql({
@@ -372,12 +373,16 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       const { getAudiences: actual_list } = response_data;
       const { data, error, StatusCode }: getAudiencesResponse = actual_list;
 
-      // console.log(data);
+      console.log(data);
 
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
+            console.log(data);
+
             setAudienceId(data);
+            console.log(audienceId);
+
             // getAudienceURL();
           } else {
             setAudienceId([]);
@@ -459,8 +464,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
 
 export default FilterContext;
 function HasSelector(c: GeneralSelector) {
-  const { values } = c;
-  const hasSelector = values.some((v) => v.isSelected);
+  const { Values } = c;
+  const hasSelector = Values.some((v) => v.isSelected);
   // console.log(hasSelector);
   // console.log(hasSelector);
 

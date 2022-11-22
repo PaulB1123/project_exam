@@ -3,7 +3,7 @@ import "./Navigation.css";
 import Annalect from "./icons/Annalect.png";
 import LogoutIcon from "./icons/Log_Out.svg";
 import {
-  ReportsButton,
+  DashboardsButton,
   AudiencesButton,
 } from "../../ReusableElements/Button_Navigation_Left/Button";
 import { useContext } from "react";
@@ -45,7 +45,7 @@ export default function Navigation() {
         <div className="header_main_menu_container">
           <li className="header_main_menu">WORK FLOW</li>
           <ul>
-            <ReportsButton />
+            <DashboardsButton />
           </ul>
         </div>
 

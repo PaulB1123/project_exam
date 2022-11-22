@@ -61,26 +61,49 @@ const AudienceContainer = (props: Props) => {
     setIsActiveDropDown((current) => !current);
   }
 
-  console.log(data[0].items[0].values);
+  console.log(data[0].items[0].Values);
   console.log(categorical);
 
   useEffect(() => {
+    // setselectedItems(
+    //   leftside.map((items: any) =>
+    //     items.values
+    //       .filter((x: any) => x.isSelected === true)
+    //       .map((x: any) => parseInt(x.value))
+    //   )
+    // );
+
+    console.log(leftside);
+
+    let newObject;
     setselectedItems(
-      leftside.map((items: any) =>
-        items.values
-          .filter((x: any) => x.isSelected === true)
-          .map((x: any) => parseInt(x.value))
+      leftside.map(
+        (items: any) =>
+          (newObject = {
+            id: items.id,
+            values: items.values
+              .filter((x: any) => x.isSelected === true)
+              .map((x: any) => parseInt(x.value)),
+          })
       )
     );
-    console.log(selectedItems);
+
+    // if (selectedItems !== undefined) {
+    //   setObject({ id: "family", values: selectedItems[0] });
+    // } else {
+    //   setObject([]);
+    // }
+
     if (selectedItems !== undefined) {
-      setObject({ id: "family", values: selectedItems[0] });
+      setObject(selectedItems);
     } else {
       setObject([]);
     }
   }, [leftside]);
 
-  console.log(object);
+  console.log(selectedItems);
+
+  console.log(props.item);
 
   return (
     <>
@@ -149,8 +172,8 @@ const AudienceContainer = (props: Props) => {
         </div>
         <div className={isActiveDropDown ? "hidden" : "Underline"}>
           <span className="underline_li">
-            {props.item.values.map((item: any, key: any) => (
-              <span>{item.value} </span>
+            {props.item.Values.map((item: any, key: any) => (
+              <span>{item.Value} </span>
             ))}
           </span>
         </div>

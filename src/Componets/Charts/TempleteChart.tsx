@@ -52,17 +52,25 @@ export default function TemplateChart(props: Props) {
     setChart(ChartID);
   }, []);
 
-  console.log(ChartID);
+  // console.log(ChartID);
 
   useEffect(() => {
     SelectionArray.forEach((element: any, chart: any) => {
       // if the position of the chart is the same as the position in the array
 
-      if (element.position === ChartID[0]) {
-        setAuditionName(element.id);
-        ChartFetch(element.id, element.chart_type);
-        setChartTitle(element.selector);
-        console.log(element, element.chart_type);
+      // if (element.position === ChartID[0]) {
+      //   setAuditionName(element.id);
+      //   ChartFetch(element.id, element.chart_type);
+      //   setChartTitle(element.selector);
+      //   console.log(element, element.chart_type);
+      // }
+      console.log("comparing data", ChartID[0], element);
+
+      if (element.Position === ChartID[0]) {
+        setAuditionName(element.Variable);
+        ChartFetch(element.Variable, element.Chart_type);
+        setChartTitle(element.Title);
+        console.log(element, element.Chart_type);
       }
     });
   }, [SelectionArray]);
@@ -74,18 +82,18 @@ export default function TemplateChart(props: Props) {
   }, [chartUpdate]);
 
   async function ChartFetch(audition: any, chart: any) {
-    console.log(audition);
+    console.log(audition, "fetching chart data ");
     try {
       const response = (await API.graphql({
         query: getChartData,
         variables: {
           Model_id: selectedModelId,
           Audience: {
-            numerical_variable: null,
-            categorical_variable: audition,
-            filters: {
-              categorical: object,
-              numerical: [],
+            Numerical_variable: null,
+            Categorical_variable: audition,
+            Filters: {
+              Categorical: object,
+              Numerical: [],
             },
           } as getChartDataAudience,
         },
@@ -98,6 +106,8 @@ export default function TemplateChart(props: Props) {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
+            console.log(data);
+
             setDataForChart(data);
             console.log(loading);
           } else {

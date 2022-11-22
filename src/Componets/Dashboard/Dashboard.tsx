@@ -13,23 +13,30 @@ import PlusSign from "./icons/Plus_sign.svg";
 import KPI from "../Charts/KPIs";
 import SVG from "../KPI_Audience_Coverage";
 import SVG2 from "../GroupComponent";
-import { useGlobalModalContext } from "./Modals/GlobalModal";
+import { MODAL_TYPES, useGlobalModalContext } from "./Modals/GlobalModal";
 import { API } from "aws-amplify";
-import { deleteReport, saveReport } from "../../graphql/mutations";
+import { deleteDashboard, saveDashboard } from "../../graphql/mutations";
 import {
-  DeleteReportMutation,
-  DeleteReportMutationVariables,
-  GetReportsQuery,
-  GetReportsQueryVariables,
-  getReportsResponse,
-  saveReportAudienceInput,
-  SaveReportMutation,
-  SaveReportMutationVariables,
+  DeleteDashboardMutation,
+  DeleteDashboardMutationVariables,
+  getChartDataAudience,
+  GetChartDataQuery,
+  getChartDataResponse,
+  GetDashboardsQuery,
+  GetDashboardsQueryVariables,
+  getDashboardsResponse,
+  // saveDashboardAudienceInput,
+  SaveDashboardMutation,
+  SaveDashboardMutationVariables,
+  saveDashboardResponse,
 } from "../../API";
-import { getReports } from "../../graphql/queries";
+import { getChartData, getDashboards } from "../../graphql/queries";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
 export default function Dashboard() {
   const [ReportStatus, setReportStatus] = useState(false);
+  const { showModal } = useGlobalModalContext();
   const [ArrayCharts, setArrayCharts] = useState([0]);
   const {
     isPlusButtonOpen,
@@ -39,11 +46,22 @@ export default function Dashboard() {
     ReportsList,
     itemDeleteReport,
     setitemDelteReport,
+    object,
+    setIsLoading,
   } = useContext(FilterContext);
+
   const { user } = useContext(UserContext);
   const { SelectionArray } = useGlobalModalContext();
   const [title, setTitle] = useState("Add your dashboard title");
   const [changetitle, setChangetitle] = useState(false);
+  const [audienceCoverageInitial, setAudienceCoverageInitial] =
+    useState() as any;
+  const [audienceCoverageUpdtaed, setAudienceCoverageUpdated] =
+    useState() as any;
+  const [initialAudienceCoverage, setInitialAudienceCoverage] =
+    useState() as any;
+  const [updatedAudienceCoverage, setUpdatedAudienceCoverage] =
+    useState() as any;
 
   // function AddChart() {
   //   return (
@@ -72,25 +90,44 @@ export default function Dashboard() {
     console.log(ArrayCharts);
   }, []);
 
-  function saveDashboard() {
+  function saveDashboardFunction() {
     console.log(SelectionArray);
     console.log(selectedModelId);
     console.log(title);
-    SaveReport();
+    SaveDashboard(title as string);
 
-    async function SaveReport() {
+    async function SaveDashboard(title: string) {
       try {
         const response = (await API.graphql({
-          query: saveReport,
+          query: saveDashboard,
           variables: {
             Model_id: selectedModelId,
-            Report_name: title,
-            Audiences: SelectionArray,
-          } as SaveReportMutationVariables,
-        })) as { data: SaveReportMutation };
+            Dashboard_name: title,
+            Charts: SelectionArray,
+          } as SaveDashboardMutationVariables,
+        })) as { data: SaveDashboardMutation };
         console.log("it went here");
         console.log(response);
-        LoadDashboard();
+
+        const { data: response_data } = response;
+        const { saveDashboard: actual_list } = response_data;
+        const { data, error, StatusCode }: saveDashboardResponse = actual_list;
+
+        console.log(data);
+
+        if (StatusCode === 200) {
+          if (data) {
+            console.log(data);
+            MakeDashboardDefault(data.Dashboard_id as string, title as string);
+            LoadDashboard();
+            return data;
+          } else {
+            console.log(error);
+          }
+        } else console.log(error);
+
+        if (response != null) {
+        }
       } catch (err) {}
     }
   }
@@ -99,19 +136,24 @@ export default function Dashboard() {
     LoadDashboard();
   }, []);
 
+  function MakeDashboardDefault(DashboardId: string, title: string) {
+    console.log("make dashboard", DashboardId, title);
+    showModal(MODAL_TYPES.MAKE_DEFAULT_DASHBOARD_MODAL, { title, DashboardId });
+  }
+
   async function LoadDashboard() {
     try {
       const response = (await API.graphql({
-        query: getReports,
+        query: getDashboards,
         variables: {
           Model_id: selectedModelId,
-        } as GetReportsQueryVariables,
-      })) as { data: GetReportsQuery };
+        } as GetDashboardsQueryVariables,
+      })) as { data: GetDashboardsQuery };
       console.log(response);
 
       const { data: response_data } = response;
-      const { getReports: actual_list } = response_data;
-      const { data, error, StatusCode }: getReportsResponse = actual_list;
+      const { getDashboards: actual_list } = response_data;
+      const { data, error, StatusCode }: getDashboardsResponse = actual_list;
 
       if (StatusCode === 200) {
         if (data) {
@@ -139,11 +181,11 @@ export default function Dashboard() {
     console.log(itemDeleteReport);
     try {
       const response = (await API.graphql({
-        query: deleteReport,
+        query: deleteDashboard,
         variables: {
-          Report_id: itemDeleteReport,
-        } as DeleteReportMutationVariables,
-      })) as { data: DeleteReportMutation };
+          Dashboard_id: itemDeleteReport,
+        } as DeleteDashboardMutationVariables,
+      })) as { data: DeleteDashboardMutation };
       console.log("it went here");
       console.log(response);
     } catch (err) {}
@@ -159,13 +201,225 @@ export default function Dashboard() {
     setChangetitle(false);
   }
 
+  useEffect(() => {
+    ChartFetchInitialAudienceCoverage();
+    ChartFetchUpdatedAudienceCoverage();
+  }, [object]);
+
+  async function ChartFetchInitialAudienceCoverage() {
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: null,
+            Categorical_variable: null,
+            Filters: {
+              Categorical: [],
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            console.log(data);
+            setAudienceCoverageInitial(data);
+          } else {
+          }
+        }
+      } else console.log(error);
+    } catch (err) {
+      setIsLoading(false);
+      console.log({ err });
+    }
+  }
+
+  async function ChartFetchUpdatedAudienceCoverage() {
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: null,
+            Categorical_variable: null,
+            Filters: {
+              Categorical: object,
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            // console.log(data);
+            setAudienceCoverageUpdated(data);
+          } else {
+          }
+        }
+      } else console.log(error);
+    } catch (err) {
+      setIsLoading(false);
+      console.log({ err });
+    }
+  }
+
+  useEffect(() => {
+    let Count_value_initial = -1;
+    let Count_value_updated = -1;
+    if (audienceCoverageInitial !== undefined) {
+      console.log(audienceCoverageInitial);
+
+      if (audienceCoverageInitial[0].Count_value) {
+        Count_value_initial = audienceCoverageInitial[0].Count_value;
+        setInitialAudienceCoverage(Count_value_initial);
+      }
+    }
+
+    if (audienceCoverageUpdtaed !== undefined) {
+      if (audienceCoverageUpdtaed[0].Count_value) {
+        Count_value_updated = audienceCoverageUpdtaed[0].Count_value;
+        setUpdatedAudienceCoverage(Count_value_updated);
+      }
+    }
+    if (Count_value_initial >= 0 && Count_value_updated >= 0) {
+      console.log(Count_value_initial);
+      console.log(Count_value_updated);
+
+      if (Count_value_updated === Count_value_initial) {
+        console.log(
+          "the two numbers are equal",
+          Count_value_initial,
+          Count_value_updated
+        );
+        setUpdatedAudienceCoverage(0);
+      } else {
+        const a = Count_value_initial - Count_value_updated;
+        console.log("the two number are not equal", a);
+        setInitialAudienceCoverage(a);
+      }
+    }
+  }, [audienceCoverageInitial, audienceCoverageUpdtaed]);
+
+  const charts = {
+    chart: {
+      plotShadow: false,
+      type: "pie",
+
+      plotAreaWidth: 185,
+      plotAreaHeight: 290,
+      height: 185,
+      width: 290,
+    },
+    title: {
+      text: "",
+    },
+    tooltip: {
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+    accessibility: {
+      point: {
+        valueSuffix: "%",
+      },
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: "pointer",
+        dataLabels: {
+          enabled: false,
+        },
+      },
+    },
+
+    credits: {
+      enabled: false,
+    },
+    series: [
+      {
+        colorByPoint: true,
+        data: [
+          {
+            name: "Intial",
+            y: initialAudienceCoverage,
+            sliced: true,
+            selected: true,
+            color: "#B8C8D2",
+          },
+          {
+            name: "Second",
+            y: updatedAudienceCoverage,
+            sliced: true,
+            selected: true,
+            color: "#194E6D",
+          },
+        ],
+      },
+    ],
+  };
+
+  console.log(initialAudienceCoverage);
+
   return (
     <>
       <div className="Dashboard">
         <div className="KPI_with_Dashboard">
-          <div className="KPI_contianer">
-            <SVG2 />
+          <div className="KPI_holder">
+            <div className="KPI_contianer">
+              {initialAudienceCoverage !== undefined ? (
+                <div className="KPI_block">
+                  <div className="KIP_title"> Audience Coverage </div>
+                  <div className="KIP_chart_holder">
+                    {/* {initialpreditionScore} */}
+                    <div className="KPI_label">
+                      <div>
+                        <span className="initialpreditionScore_label"></span>
+                        <span>{initialAudienceCoverage}</span>
+                      </div>
+                      <div>
+                        <span className="initialpreditionScore_label_second"></span>
+                        <span>{updatedAudienceCoverage}</span>
+                      </div>
+                    </div>
+                    <HighchartsReact
+                      className="containerChart"
+                      highcharts={Highcharts}
+                      options={charts}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
+            <div className="KPI_contianer">
+              {initialAudienceCoverage !== undefined ? (
+                <div className="KPI_block">
+                  <div className="KIP_title">Prediction Score </div>
+                  <div className="KIP_chart_holder">
+                    <div className="KIP_chart"> </div>
+                  </div>
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
           </div>
+
           <div className="header_container_group">
             <div className="header_container">
               {changetitle === false ? (
@@ -208,7 +462,7 @@ export default function Dashboard() {
             <div className="button_Dashboard">
               <button
                 className="Save_Dashboard"
-                onClick={() => saveDashboard()}
+                onClick={() => saveDashboardFunction()}
               >
                 <span>Save Dashboard</span>
                 <img src={SaveButton} alt=""></img>

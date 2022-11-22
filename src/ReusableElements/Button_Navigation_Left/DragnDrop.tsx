@@ -200,7 +200,7 @@ export const DragnDrop = (name: Props, id: Props) => {
                                   ? getStyles({ grpI, itemI })
                                   : "dnd-item"
                               }
-                              key={item.id}
+                              key={item.Variable}
                               id="Dropdown_container"
                             >
                               <div className="Dropdown_filter_container">
@@ -211,7 +211,7 @@ export const DragnDrop = (name: Props, id: Props) => {
                                     alt="Dropdown_plus_sign"
                                   ></img>
                                 </div>
-                                <li>{item.selector}</li>
+                                <li>{item.Title}</li>
                                 <div className="Dropdown_plus_sign_container">
                                   <button>
                                     <img
@@ -264,7 +264,7 @@ export const DragnDrop = (name: Props, id: Props) => {
                               getStyles={(params: any) => getStyles(params)}
                               // isActiveDropDown={isActiveDropDown}
                               item={item}
-                              key={item.id}
+                              key={item.Variable}
                               listAudience={listAudience}
                               setListAudience={(item: any) =>
                                 setListAudience(item)
@@ -306,7 +306,7 @@ export const DragnDrop = (name: Props, id: Props) => {
                               getStyles={(params: any) => getStyles(params)}
                               // isActiveDropDown={isActiveDropDown}
                               item={item}
-                              key={item.id}
+                              key={item.Variable}
                               listAudience={listAudience}
                               setListAudience={(item: any) =>
                                 setListAudience(item)

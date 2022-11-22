@@ -142,31 +142,33 @@ export const deleteAudience = /* GraphQL */ `
     }
   }
 `;
-export const saveReport = /* GraphQL */ `
-  mutation SaveReport(
+export const saveDashboard = /* GraphQL */ `
+  mutation SaveDashboard(
     $Client_code: String
     $Model_id: ID!
-    $Report_name: String!
-    $Audiences: [saveReportAudienceInput!]!
+    $Dashboard_name: String!
+    $Charts: [saveDashboardChartInput!]!
   ) {
-    saveReport(
+    saveDashboard(
       Client_code: $Client_code
       Model_id: $Model_id
-      Report_name: $Report_name
-      Audiences: $Audiences
+      Dashboard_name: $Dashboard_name
+      Charts: $Charts
     ) {
       data {
-        Report_id
-        Report_name
+        Dashboard_id
+        Dashboard_name
+        Is_default
         meta_table
-        createdBy
-        createdAt
-        Audiences {
-          chart_type
-          variable_type
-          selector
-          id
-          position
+        Created_by
+        Created_at
+        Charts {
+          Chart_type
+          Variable_type
+          Title
+          Variable
+          Chart_size
+          Position
         }
       }
       error {
@@ -177,29 +179,31 @@ export const saveReport = /* GraphQL */ `
     }
   }
 `;
-export const updateReport = /* GraphQL */ `
-  mutation UpdateReport(
+export const updateDashboard = /* GraphQL */ `
+  mutation UpdateDashboard(
     $Client_code: String
-    $Report_id: ID!
-    $Report: updateReportInput!
+    $Dashboard_id: ID!
+    $Dashboard: updateDashboardInput!
   ) {
-    updateReport(
+    updateDashboard(
       Client_code: $Client_code
-      Report_id: $Report_id
-      Report: $Report
+      Dashboard_id: $Dashboard_id
+      Dashboard: $Dashboard
     ) {
       data {
-        Report_id
-        Report_name
+        Dashboard_id
+        Dashboard_name
+        Is_default
         meta_table
-        createdBy
-        createdAt
-        Audiences {
-          chart_type
-          variable_type
-          selector
-          id
-          position
+        Created_by
+        Created_at
+        Charts {
+          Chart_type
+          Variable_type
+          Title
+          Variable
+          Chart_size
+          Position
         }
       }
       error {
@@ -210,9 +214,24 @@ export const updateReport = /* GraphQL */ `
     }
   }
 `;
-export const deleteReport = /* GraphQL */ `
-  mutation DeleteReport($Client_code: String, $Report_id: ID!) {
-    deleteReport(Client_code: $Client_code, Report_id: $Report_id) {
+export const addDefaultDashboard = /* GraphQL */ `
+  mutation AddDefaultDashboard($Dashboard_id: ID!) {
+    addDefaultDashboard(Dashboard_id: $Dashboard_id) {
+      data {
+        PK
+        Dashboard_id
+      }
+      error {
+        type
+        message
+      }
+      StatusCode
+    }
+  }
+`;
+export const deleteDashboard = /* GraphQL */ `
+  mutation DeleteDashboard($Client_code: String, $Dashboard_id: ID!) {
+    deleteDashboard(Client_code: $Client_code, Dashboard_id: $Dashboard_id) {
       data
       error {
         type

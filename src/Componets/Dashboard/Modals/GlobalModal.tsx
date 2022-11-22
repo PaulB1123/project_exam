@@ -18,17 +18,20 @@ import { getChartData, loadAudience } from "../../../graphql/queries";
 import { CreateModal } from "./CreateModal";
 import { SelectChart } from "./SelectChart";
 import { UpdateModal } from "./UpdateModal";
+import { MakeDefaultDashbaordModal } from "./MakeDefaultDashbaordModal";
 
 export const MODAL_TYPES = {
   CREATE_MODAL: "CREATE_MODAL",
   DELETE_MODAL: "DELETE_MODAL",
   UPDATE_MODAL: "UPDATE_MODAL",
+  MAKE_DEFAULT_DASHBOARD_MODAL: "MAKE_DEFAULT_DASHBOARD_MODAL",
 };
 
 const MODAL_COMPONENTS: any = {
   [MODAL_TYPES.CREATE_MODAL]: CreateModal,
   [MODAL_TYPES.DELETE_MODAL]: SelectChart,
   [MODAL_TYPES.UPDATE_MODAL]: UpdateModal,
+  [MODAL_TYPES.MAKE_DEFAULT_DASHBOARD_MODAL]: MakeDefaultDashbaordModal,
 };
 
 type GlobalModalContext = {
@@ -112,8 +115,14 @@ export const useGlobalModalContext = () => useContext(GlobalModalContext);
 
 export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [store, setStore] = useState();
-  const { data, categorical, selectedModelId, ArrayDragged } =
-    useContext(FilterContext);
+  const {
+    data,
+    categorical,
+    selectedModelId,
+    ArrayDragged,
+    getAudienceData,
+    modelId,
+  } = useContext(FilterContext);
   const { modalType, modalProps }: any = store || {};
   const [selectedAudition, setSelectedAudition] = useState("");
   const [slectedChart, setSelectedChart] = useState("");
@@ -156,6 +165,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       modalType,
       modalProps,
     });
+    console.log(modalProps);
   };
 
   const hideModal = () => {
@@ -175,17 +185,27 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   useEffect(() => {
     let id;
 
-    const something = ArrayDragged.map((e) => {
-      id = e.id;
-      const aa = e.values.filter((v) => v.isSelected);
-      const bb = aa.map((a) => a.id);
-      return {
-        id: e.id,
-        values: bb,
-      } as categoricalInput;
-    });
+    // const something = ArrayDragged.map((e) => {
+    //   id = e.Variable;
+    //   const aa = e.Values.filter((v) => v.isSelected);
+    //   const bb = aa.map((a) => a.id);
+    //   return {
+    //     id: e.id,
+    //     values: bb,
+    //   } as categoricalInput;
+    // });
+
+    // const something = ArrayDragged.map((e) => {
+    //   id = e.Variable;
+    //   const aa = e.Values.filter((v) => v.isSelected);
+    //   const bb = aa.map((a) => a);
+    //   return {
+    //     Variable: e.Values,
+    //     Values: bb,
+    //   } as categoricalInput;
+    // });
     // console.log(something);
-    setArrayData(something);
+    // setArrayData(something);
   }, [ArrayDragged]);
 
   const renderComponent = () => {
@@ -213,6 +233,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
 
       if (StatusCode === 200) {
         if (data) {
+          console.log(data);
+
           setAudience(data.Audience);
           return data;
         } else {
@@ -225,11 +247,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     } catch (err) {}
   }
 
-  // this is the second one
-
   async function PostResponse(e: string, data: AudienceDataItem) {
-    console.log("it went here");
-
     try {
       const response = await fetch(e, {
         method: "PUT",
@@ -237,22 +255,16 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         body: JSON.stringify(ArrayDragged),
       });
       console.log(response);
-      let audience = data.Audience.Audience_id as string;
+      console.log(audience);
+
+      // let audience = data.Audience.Audience_id as string;
     } catch (err) {
       console.log({ err });
     }
   }
 
-  // useEffect(() => {
-  //   console.log(audienceReceivedId);
-  // }, [audienceReceivedId]);
-
-  // this is the third one
-
   async function loadAudienceUrl(audience: string) {
     console.log("this is coming from the second fetch");
-
-    // console.log(audience);
 
     setAudienceIdReloaded(audience);
     try {
@@ -293,6 +305,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         .then((data) => {
           console.log(data);
           setArrayData(data);
+          console.log("this is be after the deleted is clicked ", data);
         });
     } catch (err) {
       console.log({ err });
@@ -300,7 +313,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   }
 
   useEffect(() => {
-    // console.log(audience);
     const aInfo = {
       AudienceId: audience.Audience_id,
       AudienceName: audience.Audience_name,
@@ -328,13 +340,14 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         } as DeleteAudienceMutationVariables,
       });
       console.log(response2);
+      getAudienceData(modelId);
       loadAudienceUrl(reponse);
     } catch (err) {
       console.log({ err });
     }
   }
 
-  // console.log(audience);
+  console.log(audience);
 
   return (
     <GlobalModalContext.Provider

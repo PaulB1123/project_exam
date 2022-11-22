@@ -299,3 +299,25 @@ h1 div button {
   left: 73%;
   z-index: 4;
 }
+
+.initialpreditionScore_label {
+  width: 13px;
+  height: 13px;
+  border-radius: 70%;
+  position: absolute;
+  top: 10%;
+  left: -35%;
+  z-index: 4;
+  background-color: #b8c8d2;
+}
+
+.initialpreditionScore_label_second {
+  width: 13px;
+  height: 13px;
+  border-radius: 70%;
+  position: absolute;
+  top: 57%;
+  left: -35%;
+  z-index: 4;
+  background-color: #194e6d;
+}
