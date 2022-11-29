@@ -114,13 +114,19 @@
 }
 
 .dropDown_button span {
-  display: flex;
-  align-items: center;
+  /* display: flex; */
+  /* align-items: center; */
+  margin-top: auto;
+  margin-bottom: auto;
   padding-left: 0.6rem;
-  width: 88%;
+  width: 68%;
   cursor: pointer;
   font-size: 13px;
   font-family: "SF_Pro_Display_Medium";
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .Save_Dashboard {

@@ -67,6 +67,10 @@
   mask: url(../Navigation/icons/Trash.svg) no-repeat center;
 }
 
+.DeleteButton:hover {
+  background-color: white;
+}
+
 .SldiericonRight {
   width: 20px;
   height: 20px;
@@ -153,17 +157,17 @@
 } */
 
 .dropDown_row_bar {
-  width: 97%;
+  /* width: 97%; */
   height: 100%;
   overflow: hidden;
 }
 
 .Dropdown_is_open {
-  /* width: 69% !important; */
+  width: 93% !important;
   margin-top: 0.5rem;
   width: auto;
   height: auto;
-  height: 23rem;
+  height: 19rem;
   /* display: flex; */
   align-items: center;
   justify-content: center;
@@ -177,16 +181,13 @@
 }
 
 .Dropdown_is_not_open {
+  /* width: 100% !important; */
   margin-top: 0.5rem;
   width: auto;
   height: auto;
-
-  /* max-height: 40rem; */
-
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* border: 0.5px solid #8e8d91; */
   border-radius: 7px;
   overflow-y: auto;
   padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
@@ -195,6 +196,7 @@
 }
 
 .filter_droppable_container {
+  /* width: 100% !important; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -227,4 +229,8 @@
   color: #8e8d91;
   font-family: "SF_Pro_Display_Bold";
   margin-bottom: 2rem;
+}
+
+#DeleteButton_container:hover {
+  background-color: #f24646 !important;
 }

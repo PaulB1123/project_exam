@@ -5,6 +5,9 @@ import {
   AudienceItem,
   categoricalInput,
   DeleteAudienceMutationVariables,
+  GetAudiencesQuery,
+  GetAudiencesQueryVariables,
+  getAudiencesResponse,
   LoadAudienceQuery,
   LoadAudienceQueryVariables,
   loadAudienceResponse,
@@ -14,7 +17,11 @@ import {
 } from "../../../API";
 import FilterContext from "../../../Data/FilterContext";
 import { deleteAudience, saveAudience } from "../../../graphql/mutations";
-import { getChartData, loadAudience } from "../../../graphql/queries";
+import {
+  getAudiences,
+  getChartData,
+  loadAudience,
+} from "../../../graphql/queries";
 import { CreateModal } from "./CreateModal";
 import { SelectChart } from "./SelectChart";
 import { UpdateModal } from "./UpdateModal";
@@ -64,7 +71,26 @@ type GlobalModalContext = {
   setChartNumber: (event: any) => any;
   SelectionArray: any;
   setSelectionArray: (event: any) => any;
+  VariableType: string;
+  setVariableType: (event: string) => {};
   audience: any;
+  DashboardSelectedName: string | undefined;
+  setDashboardSelectedName: (event: string) => any;
+  makeDashboardDefault: boolean | undefined;
+  setMakeDashboardDefault: (e: any) => any;
+  DashboardDefault: string;
+  setDasdboardDefault: (e: string) => any;
+  DashboardTitle: any;
+  setDashboardTitle: (e: string) => any;
+  DashboardID: any;
+  setDashboardID: (e: string) => any;
+  activateDashboardFunction: any;
+  setActivateDashbaordFunction: (e: any) => any;
+  audienceList: any;
+  setAudienceList: (params: any) => any;
+  getAudienceData: (event: any) => any;
+  chartSize: any;
+  setChartSizes: (params: any) => any;
 };
 
 const initalState: GlobalModalContext = {
@@ -97,7 +123,26 @@ const initalState: GlobalModalContext = {
   setChartNumber: (e: any) => [],
   SelectionArray: [],
   setSelectionArray: (e: any) => [],
+  VariableType: "",
+  setVariableType: (event: string) => "",
   audience: "",
+  DashboardSelectedName: "",
+  setDashboardSelectedName: (e: string) => "",
+  makeDashboardDefault: false,
+  setMakeDashboardDefault: (e: any) => false,
+  DashboardDefault: "",
+  setDasdboardDefault: (e: string) => "",
+  DashboardTitle: "",
+  setDashboardTitle: (e: string) => "",
+  DashboardID: "",
+  setDashboardID: (e: string) => "",
+  activateDashboardFunction: false,
+  setActivateDashbaordFunction: (e: any) => false,
+  audienceList: "",
+  setAudienceList: (params: any) => {},
+  getAudienceData: (event: any) => {},
+  chartSize: "",
+  setChartSizes: (params: any) => {},
 };
 
 type Context = {
@@ -115,14 +160,8 @@ export const useGlobalModalContext = () => useContext(GlobalModalContext);
 
 export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [store, setStore] = useState();
-  const {
-    data,
-    categorical,
-    selectedModelId,
-    ArrayDragged,
-    getAudienceData,
-    modelId,
-  } = useContext(FilterContext);
+  const { data, categorical, selectedModelId, ArrayDragged, modelId } =
+    useContext(FilterContext);
   const { modalType, modalProps }: any = store || {};
   const [selectedAudition, setSelectedAudition] = useState("");
   const [slectedChart, setSelectedChart] = useState("");
@@ -134,6 +173,11 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [audienceIdReloded, setAudienceIdReloaded] = useState("");
   const [audience, setAudience] = useState({} as AudienceItem);
   const [ChartNumber, setChartNumber] = useState([]);
+  const [DashboardSelectedName, setDashboardSelectedName] = useState<string>();
+  const [makeDashboardDefault, setMakeDashboardDefault] =
+    useState<boolean>(false);
+  const [DashboardDefault, setDasdboardDefault] = useState("");
+  const [activateDashboardFunction, setActivateDashbaordFunction] = useState();
 
   const [savedAudience, setSavedAudience] = useState([
     {
@@ -150,6 +194,11 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [message, setMessage] = useState({ name: "" });
   const [name, setName] = useState("") as any;
   const [SelectionArray, setSelectionArray] = useState([]) as any;
+  const [VariableType, setVariableType] = useState("") as any;
+  const [DashboardTitle, setDashboardTitle] = useState() as any;
+  const [DashboardID, setDashboardID] = useState() as any;
+  const [audienceList, setAudienceList] = useState() as any;
+  const [chartSize, setChartSizes] = useState("small") as any;
 
   const useInputValue = (initialValue: any) => {
     const [value, setValue] = useState(initialValue);
@@ -158,7 +207,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       onChange: (e: any) => setValue(e.target.value),
     };
   };
-
   const showModal = (modalType: string, modalProps: any = {}) => {
     setStore({
       ...(store as any),
@@ -167,7 +215,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     });
     console.log(modalProps);
   };
-
   const hideModal = () => {
     setStore({
       ...(store as any),
@@ -247,7 +294,32 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     } catch (err) {}
   }
 
+  console.log(audience);
+
+  useEffect(() => {
+    const aInfo = {
+      AudienceId: audience.Audience_id,
+      AudienceName: audience.Audience_name,
+    } as AudienceInfo;
+
+    setInputArr((p) => {
+      const filt = p.filter((a) => a.AudienceId !== undefined);
+      return [...filt, aInfo];
+    });
+  }, [audience]);
+
+  // here it starts the functions for the audiences
+
+  const saveAudienceURLtrigger = async (audienceName: string) => {
+    const data: any = await SaveAudineceURL();
+    console.log(data);
+
+    await PostResponse(data.Url, data);
+  };
+
   async function PostResponse(e: string, data: AudienceDataItem) {
+    console.log(data);
+
     try {
       const response = await fetch(e, {
         method: "PUT",
@@ -255,23 +327,79 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         body: JSON.stringify(ArrayDragged),
       });
       console.log(response);
-      console.log(audience);
+      console.log(selectedModelId);
+      // loadAudienceUrl(selectedModelId);
 
-      // let audience = data.Audience.Audience_id as string;
+      getAudienceData(selectedModelId);
     } catch (err) {
       console.log({ err });
     }
   }
 
-  async function loadAudienceUrl(audience: string) {
-    console.log("this is coming from the second fetch");
+  async function getAudienceData(modelId: string) {
+    console.log(selectedModelId);
+    console.log("it went here again ", selectedModelId);
 
-    setAudienceIdReloaded(audience);
+    try {
+      const response = (await API.graphql({
+        query: getAudiences,
+        variables: {
+          Model_id: selectedModelId,
+          all: true,
+        } as GetAudiencesQueryVariables,
+      })) as { data: GetAudiencesQuery };
+
+      const { data: response_data } = response;
+      const { getAudiences: actual_list } = response_data;
+      const { data, error, StatusCode }: getAudiencesResponse = actual_list;
+
+      console.log(data);
+
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            console.log(data);
+
+            setAudienceList(data);
+
+            // getAudienceURL();
+          } else {
+            setAudienceList([]);
+          }
+        }
+      } else console.log(error);
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  async function deleteItemAudience(reponse: string) {
+    try {
+      const response2 = await API.graphql({
+        query: deleteAudience,
+        variables: {
+          Audience_id: reponse,
+        } as DeleteAudienceMutationVariables,
+      });
+      console.log(response2);
+      console.log(modelId);
+
+      getAudienceData(selectedModelId);
+      // loadAudienceUrl(reponse);
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  async function loadAudienceUrl(audienceID: string) {
+    console.log("this is coming from the second fetch", audienceID);
+
+    setAudienceIdReloaded(audienceID);
     try {
       const response = (await API.graphql({
         query: loadAudience,
         variables: {
-          Audience_id: audience,
+          Audience_id: audienceID,
         } as LoadAudienceQueryVariables,
       })) as { data: LoadAudienceQuery };
 
@@ -280,8 +408,11 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       const { loadAudience: actual_list } = response_data;
       const { data, error, StatusCode }: loadAudienceResponse = actual_list;
 
+      // getAudienceData(selectedModelId);
+
       if (StatusCode === 200) {
         if (data) {
+          console.log(data);
           LoadAudience(data.Url);
           return data.Url as string;
         } else {
@@ -293,8 +424,6 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       console.log({ err });
     }
   }
-
-  // this is the forth one
 
   async function LoadAudience(reponse: string) {
     try {
@@ -312,42 +441,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    const aInfo = {
-      AudienceId: audience.Audience_id,
-      AudienceName: audience.Audience_name,
-    } as AudienceInfo;
-
-    setInputArr((p) => {
-      const filt = p.filter((a) => a.AudienceId !== undefined);
-      return [...filt, aInfo];
-    });
-  }, [audience]);
-
-  const handleChange = async (audienceName: string) => {
-    const data: any = await SaveAudineceURL();
-    console.log(data);
-
-    await PostResponse(data.Url, data);
-  };
-
-  async function deleteItemAudience(reponse: string) {
-    try {
-      const response2 = await API.graphql({
-        query: deleteAudience,
-        variables: {
-          Audience_id: reponse,
-        } as DeleteAudienceMutationVariables,
-      });
-      console.log(response2);
-      getAudienceData(modelId);
-      loadAudienceUrl(reponse);
-    } catch (err) {
-      console.log({ err });
-    }
-  }
-
-  console.log(audience);
+  // here it ends the functions for the audiences
 
   return (
     <GlobalModalContext.Provider
@@ -355,7 +449,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         store,
         message,
         setSavedAudience,
-        handleChange,
+        handleChange: saveAudienceURLtrigger,
         showModal,
         hideModal,
         selectedAudition,
@@ -381,7 +475,26 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         setChartNumber,
         SelectionArray,
         setSelectionArray,
+        VariableType,
+        setVariableType,
         audience,
+        DashboardSelectedName,
+        setDashboardSelectedName,
+        makeDashboardDefault,
+        setMakeDashboardDefault,
+        DashboardDefault,
+        setDasdboardDefault,
+        DashboardTitle,
+        setDashboardTitle,
+        DashboardID,
+        setDashboardID,
+        activateDashboardFunction,
+        setActivateDashbaordFunction,
+        audienceList,
+        setAudienceList,
+        getAudienceData,
+        setChartSizes,
+        chartSize,
       }}
     >
       {renderComponent()}

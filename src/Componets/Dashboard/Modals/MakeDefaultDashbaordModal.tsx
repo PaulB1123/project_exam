@@ -2,46 +2,40 @@ import { Modal, ModalVariant, Button } from "@patternfly/react-core";
 import { useGlobalModalContext } from "./GlobalModal";
 import XIcon from "../../Filters/icons/X.svg";
 import "../../Filters/Modal.css";
-import { useContext } from "react";
+import "../../Filters/MakeDefaultDashbaordModal.css";
+import { useContext, useEffect } from "react";
 import FilterContext from "../../../Data/FilterContext";
 import { API } from "aws-amplify";
 import { addDefaultDashboard } from "../../../graphql/mutations";
 import { AddDefaultDashboardMutationVariables } from "../../../API";
 
 export const MakeDefaultDashbaordModal = (modalProps: any) => {
-  const { hideModal, handleChange, name, setName } = useGlobalModalContext();
+  const {
+    hideModal,
+    handleChange,
+    name,
+    setName,
+    makeDashboardDefault,
+    setMakeDashboardDefault,
+    DashboardDefault,
+    DashboardTitle,
+    setDashboardID,
+    DashboardID,
+    setDashboardTitle,
+  } = useGlobalModalContext();
   const { selectedModelId, ArrayDragged } = useContext(FilterContext);
 
   const handleModalToggle = () => {
     hideModal();
   };
 
-  let DashboardTitle;
-  let DashboardID: string;
-
   if (modalProps !== undefined) {
-    DashboardTitle = modalProps.modalProps.title;
-    DashboardID = modalProps.modalProps.DashboardId;
+    setDashboardTitle(modalProps.modalProps.title);
+    setDashboardID(modalProps.modalProps.DashboardId);
   }
 
   function UntityFunction(DashboardID: string) {
-    // handleChange(name as string);
-    // console.log(DashboardID);
-    makeDashboardDefault(DashboardID);
-
-    async function makeDashboardDefault(DashboardID: string) {
-      try {
-        const response = await API.graphql({
-          query: addDefaultDashboard,
-          variables: {
-            Dashboard_id: DashboardID,
-          } as AddDefaultDashboardMutationVariables,
-        });
-        console.log(response);
-      } catch (err) {
-        console.log({ err });
-      }
-    }
+    setMakeDashboardDefault(true);
 
     handleModalToggle();
   }
@@ -65,7 +59,7 @@ export const MakeDefaultDashbaordModal = (modalProps: any) => {
 
         <div className="Header_Modal">
           <h3>
-            Whould you like to make {DashboardTitle}, your default Dashboard ?
+            Make <b>{DashboardTitle}</b> your default Dashboard ?
           </h3>
         </div>
 

@@ -1,5 +1,6 @@
 import "../Styles/global.css";
 import "./Navigation.css";
+import "../Dashboard/Dashboard.css";
 import Annalect from "./icons/Annalect.png";
 import LogoutIcon from "./icons/Log_Out.svg";
 import {
@@ -8,9 +9,17 @@ import {
 } from "../../ReusableElements/Button_Navigation_Left/Button";
 import { useContext } from "react";
 import UserContext from "../../Data/UserContext";
+import { useGlobalModalContext } from "../Dashboard/Modals/GlobalModal";
 
 export default function Navigation() {
   const { logout } = useContext(UserContext);
+  const { activateDashboardFunction, setActivateDashbaordFunction } =
+    useGlobalModalContext();
+
+  function saveDashboardFunction() {
+    console.log("this is okay");
+    setActivateDashbaordFunction(true);
+  }
 
   return (
     <>
@@ -50,6 +59,19 @@ export default function Navigation() {
         </div>
 
         <div className="logout">
+          <div className="button_Dashboard">
+            <button
+              className="Save_Dashboard"
+              onClick={() => saveDashboardFunction()}
+            >
+              <span>Save Dashboard</span>
+              {/* <img src={SaveButton} alt=""></img> */}
+            </button>
+            <button className="Download_Dashboard">
+              <span>Download Dashboard</span>
+              {/* <img src={SaveButton} alt=""></img> */}
+            </button>
+          </div>
           <div className="logout_button_container">
             <div className="logout_button" onClick={logout}>
               <img src={LogoutIcon} alt="Logo_Charts "></img>

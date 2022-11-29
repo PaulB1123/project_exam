@@ -168,6 +168,7 @@ export const DragnDrop = (name: Props, id: Props) => {
                     </div>
                     <div
                       className="PlusIcon_container"
+                      id="DeleteButton_container"
                       onClick={() => {
                         deleteItemAudience(name.id);
                       }}

@@ -15,8 +15,14 @@ import SVG from "../KPI_Audience_Coverage";
 import SVG2 from "../GroupComponent";
 import { MODAL_TYPES, useGlobalModalContext } from "./Modals/GlobalModal";
 import { API } from "aws-amplify";
-import { deleteDashboard, saveDashboard } from "../../graphql/mutations";
 import {
+  addDefaultDashboard,
+  deleteDashboard,
+  saveDashboard,
+} from "../../graphql/mutations";
+import {
+  AddDefaultDashboardMutationVariables,
+  ClientItem,
   DeleteDashboardMutation,
   DeleteDashboardMutationVariables,
   getChartDataAudience,
@@ -33,25 +39,46 @@ import {
 import { getChartData, getDashboards } from "../../graphql/queries";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import highchartsMore from "highcharts/highcharts-more";
 
 export default function Dashboard() {
   const [ReportStatus, setReportStatus] = useState(false);
-  const { showModal } = useGlobalModalContext();
+  const {
+    showModal,
+    DashboardDefault,
+    activateDashboardFunction,
+    setActivateDashbaordFunction,
+  } = useGlobalModalContext();
   const [ArrayCharts, setArrayCharts] = useState([0]);
   const {
     isPlusButtonOpen,
-    setSelectedModelId,
-    selectedModelId,
+
     setReportsList,
     ReportsList,
     itemDeleteReport,
     setitemDelteReport,
     object,
     setIsLoading,
+    allAudience,
+    clientNewData,
+    availableModels,
+    selectedModelId,
+    setSelectedModelId,
+    selectedClient,
+    setSelectedClient,
   } = useContext(FilterContext);
 
   const { user } = useContext(UserContext);
-  const { SelectionArray } = useGlobalModalContext();
+  const {
+    SelectionArray,
+    DashboardSelectedName,
+    setMakeDashboardDefault,
+    makeDashboardDefault,
+    DashboardTitle,
+    setDashboardID,
+    DashboardID,
+    setDashboardTitle,
+  } = useGlobalModalContext();
   const [title, setTitle] = useState("Add your dashboard title");
   const [changetitle, setChangetitle] = useState(false);
   const [audienceCoverageInitial, setAudienceCoverageInitial] =
@@ -62,6 +89,8 @@ export default function Dashboard() {
     useState() as any;
   const [updatedAudienceCoverage, setUpdatedAudienceCoverage] =
     useState() as any;
+  const [initalCore, setInitalCore] = useState() as any;
+  const [updatedCore, setUpdatedCore] = useState() as any;
 
   // function AddChart() {
   //   return (
@@ -86,9 +115,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     setReportStatus(true);
-    setArrayCharts([0, 1, 2, 3, 4, 5, 6, 7]);
+    setArrayCharts([0, 1, 2, 3, 4, 5, 6, 7, 8]);
     console.log(ArrayCharts);
   }, []);
+
+  if (activateDashboardFunction === true) {
+    saveDashboardFunction();
+  }
 
   function saveDashboardFunction() {
     console.log(SelectionArray);
@@ -119,7 +152,8 @@ export default function Dashboard() {
           if (data) {
             console.log(data);
             MakeDashboardDefault(data.Dashboard_id as string, title as string);
-            LoadDashboard();
+            setActivateDashbaordFunction(false);
+            // LoadDashboard();
             return data;
           } else {
             console.log(error);
@@ -133,12 +167,54 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
+    console.log(DashboardDefault);
+    updateDashboardDefault();
+    async function updateDashboardDefault() {
+      try {
+        const response = await API.graphql({
+          query: addDefaultDashboard,
+          variables: {
+            Dashboard_id: DashboardDefault,
+          } as AddDefaultDashboardMutationVariables,
+        });
+        console.log(response);
+        LoadDashboard();
+      } catch (err) {
+        console.log({ err });
+      }
+    }
+  }, [DashboardDefault]);
+
+  useEffect(() => {
     LoadDashboard();
   }, []);
 
   function MakeDashboardDefault(DashboardId: string, title: string) {
     console.log("make dashboard", DashboardId, title);
     showModal(MODAL_TYPES.MAKE_DEFAULT_DASHBOARD_MODAL, { title, DashboardId });
+    LoadDashboard();
+  }
+
+  if (makeDashboardDefault === true) {
+    console.log(makeDashboardDefault);
+    makeDashboardDefaultFunction(DashboardID);
+    // console.log(DashboardID);
+    setMakeDashboardDefault(false);
+  }
+
+  async function makeDashboardDefaultFunction(DashboardID: string) {
+    try {
+      const response = await API.graphql({
+        query: addDefaultDashboard,
+        variables: {
+          Dashboard_id: DashboardID,
+        } as AddDefaultDashboardMutationVariables,
+      });
+      console.log(response);
+      LoadDashboard();
+    } catch (err) {
+      console.log({ err });
+    }
   }
 
   async function LoadDashboard() {
@@ -149,7 +225,7 @@ export default function Dashboard() {
           Model_id: selectedModelId,
         } as GetDashboardsQueryVariables,
       })) as { data: GetDashboardsQuery };
-      console.log(response);
+      // console.log(response);
 
       const { data: response_data } = response;
       const { getDashboards: actual_list } = response_data;
@@ -174,7 +250,7 @@ export default function Dashboard() {
   if (itemDeleteReport !== "") {
     deleteItemDashboard();
   } else {
-    console.log("not yet");
+    // console.log("not yet");
   }
 
   async function deleteItemDashboard() {
@@ -204,6 +280,8 @@ export default function Dashboard() {
   useEffect(() => {
     ChartFetchInitialAudienceCoverage();
     ChartFetchUpdatedAudienceCoverage();
+    ChartFetchCore();
+    ChartUpdatedFetchCore();
   }, [object]);
 
   async function ChartFetchInitialAudienceCoverage() {
@@ -226,11 +304,11 @@ export default function Dashboard() {
       const { getChartData: actual_list } = response_data;
       const { data, error, StatusCode }: getChartDataResponse = actual_list;
 
-      console.log(actual_list);
+      // console.log(actual_list);
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data);
+            // console.log(data);
             setAudienceCoverageInitial(data);
           } else {
           }
@@ -262,7 +340,7 @@ export default function Dashboard() {
       const { getChartData: actual_list } = response_data;
       const { data, error, StatusCode }: getChartDataResponse = actual_list;
 
-      console.log(actual_list);
+      // console.log(actual_list);
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
@@ -282,7 +360,7 @@ export default function Dashboard() {
     let Count_value_initial = -1;
     let Count_value_updated = -1;
     if (audienceCoverageInitial !== undefined) {
-      console.log(audienceCoverageInitial);
+      // console.log(audienceCoverageInitial);
 
       if (audienceCoverageInitial[0].Count_value) {
         Count_value_initial = audienceCoverageInitial[0].Count_value;
@@ -297,15 +375,15 @@ export default function Dashboard() {
       }
     }
     if (Count_value_initial >= 0 && Count_value_updated >= 0) {
-      console.log(Count_value_initial);
-      console.log(Count_value_updated);
+      // console.log(Count_value_initial);
+      // console.log(Count_value_updated);
 
       if (Count_value_updated === Count_value_initial) {
-        console.log(
-          "the two numbers are equal",
-          Count_value_initial,
-          Count_value_updated
-        );
+        // console.log(
+        //   "the two numbers are equal",
+        //   Count_value_initial,
+        //   Count_value_updated
+        // );
         setUpdatedAudienceCoverage(0);
       } else {
         const a = Count_value_initial - Count_value_updated;
@@ -315,15 +393,15 @@ export default function Dashboard() {
     }
   }, [audienceCoverageInitial, audienceCoverageUpdtaed]);
 
-  const charts = {
+  const AudienceCoverage = {
     chart: {
-      plotShadow: false,
+      // plotShadow: true,
       type: "pie",
 
       plotAreaWidth: 185,
       plotAreaHeight: 290,
-      height: 185,
-      width: 290,
+      height: 203,
+      width: 320,
     },
     title: {
       text: "",
@@ -372,11 +450,266 @@ export default function Dashboard() {
     ],
   };
 
-  console.log(initialAudienceCoverage);
+  highchartsMore(Highcharts);
+
+  const [KIPMaxValue, setKPIMaxValue] = useState();
+  const [MaxValue, setMaxValue] = useState(0);
+
+  async function ChartFetchCore() {
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: "core",
+            Categorical_variable: null,
+            Filters: {
+              Categorical: [],
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      // console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            console.log(data);
+            let rounded = data[0].Avg_value;
+            // let rounded = data[0].Avg_value?.toFixed(7);
+            setInitalCore(rounded);
+            // setAudienceCoverageUpdated(data);
+          } else {
+          }
+        }
+      } else console.log(error);
+    } catch (err) {
+      setIsLoading(false);
+      console.log({ err });
+    }
+  }
+
+  async function ChartUpdatedFetchCore() {
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: "core",
+            Categorical_variable: null,
+            Filters: {
+              Categorical: object,
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      // console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            console.log(data);
+            let rounded = data[0].Avg_value;
+            // let rounded = data[0].Avg_value?.toFixed(3);
+            setUpdatedCore(rounded);
+            // setAudienceCoverageUpdated(data);
+          } else {
+          }
+        }
+      } else console.log(error);
+    } catch (err) {
+      setIsLoading(false);
+      console.log({ err });
+    }
+  }
+
+  useEffect(() => {
+    console.log(allAudience);
+    setKPIMaxValue(
+      allAudience.find((element: any) => element.Variable === "core")
+    );
+  }, [allAudience]);
+
+  useEffect(() => {
+    console.log("this is going here");
+
+    if (KIPMaxValue !== undefined) {
+      console.log(KIPMaxValue["Max"]);
+      setMaxValue(KIPMaxValue["Max"]);
+      console.log(initalCore);
+
+      console.log(updatedCore);
+    }
+
+    // setMaxValue(KIPMaxValue["Max"]);
+  }, [KIPMaxValue, updatedCore]);
+
+  const Core = {
+    colors: ["#B8C8D2", "#194E6D"],
+    chart: {
+      type: "column",
+      inverted: true,
+      polar: true,
+      // plotAreaWidth: 165,
+      // plotAreaHeight: 290,
+      // height: 170,
+      // width: 260,
+      height: 206,
+      width: 290,
+    },
+    title: {
+      text: "",
+    },
+    tooltip: {
+      outside: true,
+    },
+    pane: {
+      size: "100%",
+      innerSize: "55%",
+      endAngle: 360,
+    },
+    xAxis: {},
+    yAxis: {
+      // min: 0,
+      max: MaxValue,
+      crosshair: {
+        enabled: true,
+        color: "#333",
+      },
+      lineWidth: 2,
+      reversedStacks: false,
+      endOnTick: false,
+      showLastLabel: false,
+    },
+    plotOptions: {
+      column: {
+        stacking: "normal",
+        borderWidth: 0,
+        pointPadding: 0,
+        groupPadding: 0.25,
+      },
+    },
+    credits: {
+      enabled: false,
+    },
+    legend: { enabled: false },
+    series: [
+      {
+        name: "Avg.Core",
+        data: [initalCore, 0],
+      },
+      {
+        name: "Audience Modification",
+        data: [0, updatedCore],
+      },
+    ],
+  };
+
+  useEffect(() => {
+    if (DashboardSelectedName !== undefined) {
+      setTitle(DashboardSelectedName);
+    }
+  }, [DashboardSelectedName]);
+
+  // console.log(initialAudienceCoverage);
 
   return (
     <>
       <div className="Dashboard">
+        <div className="header_container_group">
+          <div className="header_container">
+            <div>
+              {changetitle === false ? (
+                <h1
+                  onClick={() => {
+                    modifyTitle();
+                  }}
+                >
+                  {title}
+                </h1>
+              ) : (
+                <h1>
+                  <input
+                    type="text"
+                    onChange={(event) => setTitle(event.target.value)}
+                    placeholder={title}
+                  ></input>
+                  <div className="container_for_button">
+                    <button onClick={() => saveTitle()}>Save title</button>
+                  </div>
+                </h1>
+              )}
+              <div className="h2">
+                Describe what is in your dashbaord {user?.name}
+              </div>
+            </div>
+
+            <div className="Name_and_DatabaseSelector_Container">
+              {user ? (
+                <div className="profile_container">
+                  <img src={ProfilePicture} alt=""></img>
+                  <div className="profile_name">
+                    {user?.name} {user?.family_name}
+                  </div>
+                </div>
+              ) : (
+                <div className="profile_container">
+                  <div className="profile_name">User is not logged in</div>
+                </div>
+              )}
+              <div className="DatabaseSelector">
+                <select
+                  value={selectedClient}
+                  onChange={(event) => setSelectedClient(event.target.value)}
+                >
+                  {clientNewData.map((item: ClientItem, index: any) => (
+                    <option key={index} value={`${item.Client_code}`}>
+                      {item.Client_name}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  value={selectedModelId}
+                  onChange={(event) => {
+                    setSelectedModelId(event.target.value);
+                  }}
+                >
+                  {availableModels.map((key: any) => (
+                    <option key={key.Model_id} value={key.Model_id}>
+                      {key.Model_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="button_Dashboard">
+            <button
+              className="Save_Dashboard"
+              onClick={() => saveDashboardFunction()}
+            >
+              <span>Save Dashboard</span>
+              <img src={SaveButton} alt=""></img>
+            </button>
+            <button className="Download_Dashboard">
+              <span>Download Dashboard</span>
+              <img src={SaveButton} alt=""></img>
+            </button>
+          </div> */}
+        </div>
+
         <div className="KPI_with_Dashboard">
           <div className="KPI_holder">
             <div className="KPI_contianer">
@@ -398,7 +731,7 @@ export default function Dashboard() {
                     <HighchartsReact
                       className="containerChart"
                       highcharts={Highcharts}
-                      options={charts}
+                      options={AudienceCoverage}
                     />
                   </div>
                 </div>
@@ -407,70 +740,106 @@ export default function Dashboard() {
               )}
             </div>
             <div className="KPI_contianer">
-              {initialAudienceCoverage !== undefined ? (
+              {initalCore !== undefined ? (
                 <div className="KPI_block">
-                  <div className="KIP_title">Prediction Score </div>
-                  <div className="KIP_chart_holder">
-                    <div className="KIP_chart"> </div>
+                  <div className="KIP_title"> Core </div>
+                  <div className="KIP_chart_holder_core">
+                    <div className="KIP_chart">
+                      <div className="KPI_label_second">
+                        <div className="Core_span">
+                          <span
+                            className="initialpreditionScore_label"
+                            id="coreInitalLabel"
+                          ></span>
+                          <span id="coreintial">{initalCore}</span>
+                        </div>
+                        <div>
+                          <span
+                            className="initialpreditionScore_label_second"
+                            id="coreUpdateLabel"
+                          ></span>
+                          <span>{updatedCore}</span>
+                        </div>
+                      </div>
+                      <HighchartsReact
+                        className="containerChart"
+                        highcharts={Highcharts}
+                        options={Core}
+                      />
+                    </div>
                   </div>
                 </div>
               ) : (
                 <div></div>
               )}
             </div>
-          </div>
-
-          <div className="header_container_group">
-            <div className="header_container">
-              {changetitle === false ? (
-                <h1
-                  onClick={() => {
-                    modifyTitle();
-                  }}
-                >
-                  {title}
-                </h1>
-              ) : (
-                <h1>
-                  <input
-                    type="text"
-                    onChange={(event) => setTitle(event.target.value)}
-                    placeholder={title}
-                  ></input>
-                  <div className="container_for_button">
-                    <button onClick={() => saveTitle()}>Save title</button>
-                  </div>
-                </h1>
-              )}
-              {user ? (
-                <div className="profile_container">
-                  <img src={ProfilePicture} alt=""></img>
-                  <div className="profile_name">
-                    {user?.name} {user?.family_name}
+            <div className="KPI_contianer">
+              {initalCore !== undefined ? (
+                <div className="KPI_block">
+                  <div className="KIP_title"> Core </div>
+                  <div className="KIP_chart_holder_core">
+                    <div className="KIP_chart">
+                      <div className="KPI_label_second">
+                        <div className="Core_span">
+                          <span
+                            className="initialpreditionScore_label"
+                            id="coreInitalLabel"
+                          ></span>
+                          <span id="coreintial">{initalCore}</span>
+                        </div>
+                        <div>
+                          <span
+                            className="initialpreditionScore_label_second"
+                            id="coreUpdateLabel"
+                          ></span>
+                          <span>{updatedCore}</span>
+                        </div>
+                      </div>
+                      <HighchartsReact
+                        className="containerChart"
+                        highcharts={Highcharts}
+                        options={Core}
+                      />
+                    </div>
                   </div>
                 </div>
               ) : (
-                <div className="profile_container">
-                  <div className="profile_name">User is not logged in</div>
-                </div>
+                <div></div>
               )}
             </div>
-
-            <div className="h2">
-              Describe what is in your dashbaord {user?.name}
-            </div>
-            <div className="button_Dashboard">
-              <button
-                className="Save_Dashboard"
-                onClick={() => saveDashboardFunction()}
-              >
-                <span>Save Dashboard</span>
-                <img src={SaveButton} alt=""></img>
-              </button>
-              <button className="Download_Dashboard">
-                <span>Download Dashboard</span>
-                <img src={SaveButton} alt=""></img>
-              </button>
+            <div className="KPI_contianer">
+              {initalCore !== undefined ? (
+                <div className="KPI_block">
+                  <div className="KIP_title"> Core </div>
+                  <div className="KIP_chart_holder_core">
+                    <div className="KIP_chart">
+                      <div className="KPI_label_second">
+                        <div className="Core_span">
+                          <span
+                            className="initialpreditionScore_label"
+                            id="coreInitalLabel"
+                          ></span>
+                          <span id="coreintial">{initalCore}</span>
+                        </div>
+                        <div>
+                          <span
+                            className="initialpreditionScore_label_second"
+                            id="coreUpdateLabel"
+                          ></span>
+                          <span>{updatedCore}</span>
+                        </div>
+                      </div>
+                      <HighchartsReact
+                        className="containerChart"
+                        highcharts={Highcharts}
+                        options={Core}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
           </div>
         </div>

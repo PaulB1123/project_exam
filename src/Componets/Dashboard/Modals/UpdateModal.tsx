@@ -16,10 +16,6 @@ export const UpdateModal = () => {
   function UntityFunction(e: any) {
     handleChange(name as string);
     handleModalToggle();
-
-    // console.log(selectedModelId);
-    // console.log("this has been clicked ");
-    // console.log(ArrayDragged);
   }
 
   function updateName(val: any) {

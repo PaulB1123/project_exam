@@ -324,7 +324,7 @@ input[type="range"]::-moz-range-thumb {
 #Dropdown_container {
   display: flex;
   flex-direction: column !important;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
 }
 
 .Underline {
@@ -340,11 +340,18 @@ input[type="range"]::-moz-range-thumb {
 .underline_li {
   margin: 0rem;
   padding: 0rem;
+  width: 10%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .underline_li span {
   font-size: 12px;
-  margin-right: 0.25rem;
+  /* margin-right: 0.25rem; */
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
 }
 
 /* .Underline:hover {

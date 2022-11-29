@@ -53,7 +53,8 @@
 } */
 
 .this_is_container_main_chart {
-  width: 384px;
+  /* width: 384px; */
+  width: 500px;
   margin-right: 0.8rem;
   margin-bottom: 0.9rem;
 }

@@ -23,7 +23,7 @@ export interface Props {
 }
 
 export default function TemplateChart(props: Props) {
-  const { showModal } = useGlobalModalContext();
+  const { showModal, chartSize } = useGlobalModalContext();
   const { object, setIsLoading, setChart, chartUpdate } =
     useContext(FilterContext);
   const { setChartNumber, SelectionArray, slectedChart } =
@@ -32,10 +32,12 @@ export default function TemplateChart(props: Props) {
   const [dataForChart, setDataForChart] = useState() as any;
   const { ArrayDragged, selectedModelId } = useContext(FilterContext);
   const [chartTitle, setChartTitle] = useState<any>();
-  const [audtitionName, setAuditionName] = useState();
+  const [audtitionName, setAuditionName] = useState<any>();
   const [loading, setloading] = useState(false);
 
   const bigFunction = (chartID: any) => {
+    console.log(chartID);
+
     setChartNumber(chartID);
     showModal(MODAL_TYPES.DELETE_MODAL, chartID);
   };
@@ -56,21 +58,13 @@ export default function TemplateChart(props: Props) {
 
   useEffect(() => {
     SelectionArray.forEach((element: any, chart: any) => {
-      // if the position of the chart is the same as the position in the array
-
-      // if (element.position === ChartID[0]) {
-      //   setAuditionName(element.id);
-      //   ChartFetch(element.id, element.chart_type);
-      //   setChartTitle(element.selector);
-      //   console.log(element, element.chart_type);
-      // }
-      console.log("comparing data", ChartID[0], element);
+      // console.log("comparing data", ChartID[0], element);
 
       if (element.Position === ChartID[0]) {
         setAuditionName(element.Variable);
         ChartFetch(element.Variable, element.Chart_type);
         setChartTitle(element.Title);
-        console.log(element, element.Chart_type);
+        // console.log(element, element.Chart_type);
       }
     });
   }, [SelectionArray]);
@@ -82,7 +76,7 @@ export default function TemplateChart(props: Props) {
   }, [chartUpdate]);
 
   async function ChartFetch(audition: any, chart: any) {
-    console.log(audition, "fetching chart data ");
+    console.log(audition, "fetching chart data ", object);
     try {
       const response = (await API.graphql({
         query: getChartData,
@@ -102,14 +96,14 @@ export default function TemplateChart(props: Props) {
       const { getChartData: actual_list } = response_data;
       const { data, error, StatusCode }: getChartDataResponse = actual_list;
 
-      console.log(actual_list);
+      // console.log(actual_list);
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data);
+            // console.log(data);
 
             setDataForChart(data);
-            console.log(loading);
+            // console.log(loading);
           } else {
             setDataForChart([]);
           }
@@ -121,10 +115,14 @@ export default function TemplateChart(props: Props) {
     }
   }
 
+  const [tryoutChartSize, setTryoutChartSize] = useState<any>("small");
+
   return (
     <>
       {dataForChart !== undefined ? (
-        <div className="this_is_container_visiable_chart card_large">
+        <div
+          className={`this_is_container_visiable_chart card_large ${tryoutChartSize}`}
+        >
           <Charts
             el={props.el}
             chart={chart}
@@ -134,6 +132,9 @@ export default function TemplateChart(props: Props) {
             chartTitle={chartTitle}
             loading={loading}
             setloading={setloading}
+            ChartID={ChartID}
+            tryoutChartSize={tryoutChartSize}
+            setTryoutChartSize={setTryoutChartSize}
           />
         </div>
       ) : (

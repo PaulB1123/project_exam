@@ -99,7 +99,7 @@ button:focus {
   color: var(--navigation-text);
   position: absolute;
   margin-top: 2.5rem;
-  margin-left: 0.4rem;
+  margin-left: 1.4rem;
   border-radius: 7px;
   z-index: 2;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -230,7 +230,7 @@ button:focus {
 }
 
 .button_container {
-  padding-right: 0.5rem;
+  /* padding-right: 0.5rem; */
   padding-top: 0.7rem;
   /* margin: 0.15rem; */
   /* padding-left: 1rem; */
@@ -241,7 +241,10 @@ button:focus {
 }
 
 .Dropdown_container_drag_and_drop {
-  /* margin-top: 5rem; */
+  margin-top: 1rem;
+  max-height: 24rem;
+  max-width: 20rem;
+  overflow-y: scroll;
 }
 
 .audiences_saved {
@@ -256,4 +259,37 @@ button:focus {
 
 #dashboard_button {
   background-color: white !important;
+}
+
+#dashboard_selected {
+  border: 1px solid black;
+}
+
+#dashboard_selected span {
+  font-family: "SF_Pro_Display_Bold";
+  color: black;
+}
+
+#default_icon_default {
+  background-color: #20c933;
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  border-radius: 14px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#default_icon_normal {
+  /* background-color: #b7b5b5; */
+  width: 10px;
+  height: 10px;
+  border: 0px;
+  border-radius: 14px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#default_icon_normal:hover {
+  background-color: #b7b5b5;
 }

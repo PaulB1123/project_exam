@@ -29,13 +29,17 @@ export const SelectChart = (props: Props) => {
     setSelectedChart,
     setChartNumber,
     ChartNumber,
-
+    VariableType,
+    setVariableType,
+    SelectionArray,
     setSelectionArray,
+    chartSize,
   } = useGlobalModalContext();
-  const { categorical } = useContext(FilterContext);
-  const [audtion, setAudition] = useState<any>();
+  const { categorical, allAudience } = useContext(FilterContext);
+  const [audition, setAudition] = useState<any>();
   const [chart, setchart] = useState<any>();
   const [selector, setSelector] = useState<any>();
+  const [chartSelected, setChartSelected] = useState<any>("");
 
   const handleModalToggle = () => {
     hideModal();
@@ -51,30 +55,48 @@ export const SelectChart = (props: Props) => {
 
   function selectChart(key: string) {
     setSelectedChart(key);
+
+    console.log(key);
   }
 
   function CloseAndFetchData() {
     handleModalToggle();
+    console.log(props.modalProps[0]);
+    console.log(chartSize);
 
     const placeholderNumber = props.modalProps[0];
     setSelectionArray((preState: any) => [
       ...preState,
       {
         Position: placeholderNumber,
-        Variable_type: "categorical",
+        Variable_type: VariableType,
         Title: selector,
-        Variable: audtion,
-        Chart_type: "Chart 1",
-        // Chart_size
+        Variable: audition,
+        Chart_type: slectedChart,
+        Chart_size: chartSize,
       },
     ]);
     // console.log(selectionArray);
   }
-
+  console.log(SelectionArray);
   console.log(categorical);
-  console.log(audtion);
+  console.log(audition);
+  console.log(VariableType);
 
   const btn = document.querySelector(".Contiune") as HTMLButtonElement;
+
+  console.log(allAudience);
+  console.log(selector);
+
+  // here it might crash because I am looking for Variable_type but variable type is found only after I select the chartSelected, this is why I placed it in a useEffect
+
+  useEffect(() => {
+    if (chartSelected.Variable_type !== "categorical") {
+      console.log(chartSelected);
+    }
+
+    setVariableType(chartSelected.Variable_type);
+  }, [chartSelected]);
 
   return (
     <div className="">
@@ -93,17 +115,23 @@ export const SelectChart = (props: Props) => {
           <h3>Choose the chart variable </h3>
 
           <select
-            value={audtion}
+            value={audition}
             onChange={(event) => {
               setAudition(event.target.value);
               setSelector(
                 event.target.options[event.target.selectedIndex].text
               );
+              // setVariableType(event.target.getAttribute("Variable_type"));
+              setChartSelected(
+                allAudience.find(
+                  (element: any) => element.Variable === event.target.value
+                )
+              );
 
               // setSelector(event.target.id);
             }}
           >
-            {categorical.map((item: any, index: any) => (
+            {allAudience.map((item: any, index: any) => (
               // console.log(item)
               <option key={index} value={item.Variable}>
                 {item.Title}
@@ -148,23 +176,6 @@ export const SelectChart = (props: Props) => {
               </div>
               <p>This is a {chart2}</p>
             </Button>
-
-            {/* <Button
-              id="2"
-              value="Chart2"
-              onClick={() => {
-                selectChart(chart3);
-              }}
-              className={slectedChart === chart3 ? "borderactive" : ""}
-            >
-              <div className="image_chart">
-                <img
-                  src={slectedChart === chart3 ? Chart2Color : Chart2}
-                  alt=""
-                />
-              </div>
-              <p>This is a {chart3}</p>
-            </Button> */}
           </div>
         </div>
 

@@ -11,8 +11,8 @@
 
 .containerChart {
   background-color: white;
-  width: 381px;
-  /* height: 500px; */
+  /* width: 381px; */
+  height: 480px;
   border: 1px solid #e2e2e2;
   border-radius: 9px;
   /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
@@ -85,14 +85,22 @@
 }
 
 .title_chart {
+  width: 100%;
   display: flex;
-  flex-direction: row !important;
+  /* flex-direction: row !important;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between; */
+  justify-content: flex-start;
   font-size: 22px;
-  font-family: "SF_Pro_Display_Medium";
-  margin: 1rem;
-  margin-bottom: 1rem;
+  font-family: "SF_Pro_Display_Bold";
+  /* margin: 1rem;
+  margin-bottom: 1rem; */
+  margin-top: 0.5rem;
+}
+
+.title {
+  /* margin-left: auto;
+  margin-right: auto; */
 }
 
 .Exist {
@@ -107,7 +115,7 @@
 }
 
 .continer_with_title_and_exist {
-  width: 75%;
+  width: 100%;
   display: flex;
   flex-direction: row;
 }
@@ -142,4 +150,81 @@
 .Chart {
   width: 100%;
   /* overflow: */
+}
+
+.EditIcon_container {
+  width: 23px;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #8e8d91; */
+  border-radius: 5px;
+  border: 1px solid #8e8d91;
+  cursor: pointer;
+}
+/* .icon {
+  width: 100%;
+  height: 100%;
+} */
+
+/* .Edit_svg {
+  width: 23px;
+  height: 23px;
+} */
+
+.EditIcon {
+  width: 26px;
+  height: 26px;
+  background-color: var(--audience-border-plus);
+  /* -webkit-mask: url(./icons/Slider_Right.svg) no-repeat center; */
+  mask: url(../Dashboard/icons/EditSign.svg) no-repeat center;
+}
+
+.EditIcon_container:hover {
+  width: 23px;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2392d4;
+  border-radius: 5px;
+  border: 1px solid #2392d4;
+  cursor: pointer;
+}
+
+.EditIcon:hover {
+  background-color: white;
+}
+
+.SelectorSizeChart {
+  padding: 0rem;
+  margin: 0rem;
+  /* padding-bottom: 0.25rem; */
+  padding: 0.2rem;
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
+
+.SelectorSizeChart_Container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.7rem;
+}
+
+.container_Chart_Options {
+  /* padding-top: 1rem; */
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.Main_contianer {
+  display: flex;
+  margin: 1rem;
+  margin-right: 0rem;
+  margin-bottom: 0rem;
 }

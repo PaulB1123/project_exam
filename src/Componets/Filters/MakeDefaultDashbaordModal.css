@@ -1,0 +1,13 @@
+h3 {
+  width: 60%;
+}
+
+.Buttons_Modal_Saving {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pf-c-modal-box.pf-m-md {
+  width: 400px;
+}

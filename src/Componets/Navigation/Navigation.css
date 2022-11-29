@@ -144,10 +144,12 @@ ul {
 .naviagtion_container_group {
   display: flex;
   flex-direction: column;
+  position: fixed;
   width: 220px;
   height: 100vh;
   margin-left: 1.5rem;
   background-color: var(--background);
+  z-index: 100;
 }
 
 /* Download button */
@@ -235,11 +237,13 @@ ul {
   flex-direction: row;
   align-items: center;
   padding-left: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  /* 
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border: 1px solid #e2e2e2;
+  border-radius: 7px; /* 
   border-bottom: 0.5px solid var(--audience-border-color); */
   background-color: var(--background);
+  background-color: white;
   cursor: pointer;
 }
 

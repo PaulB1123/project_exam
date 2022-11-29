@@ -47,6 +47,8 @@ const AudienceContainer = (props: Props) => {
   };
 
   useEffect(() => {
+    console.log(listFilter);
+
     if (listFilter.variable_type === "categorical") {
       const found = listFilter.values.some(
         (element: any) => element.isSelected === false
@@ -80,10 +82,10 @@ const AudienceContainer = (props: Props) => {
       leftside.map(
         (items: any) =>
           (newObject = {
-            id: items.id,
-            values: items.values
-              .filter((x: any) => x.isSelected === true)
-              .map((x: any) => parseInt(x.value)),
+            Variable: items.Variable,
+            Values: items.Values.filter((x: any) => x.isSelected === true).map(
+              (x: any) => parseInt(x.Id)
+            ),
           })
       )
     );
@@ -94,8 +96,11 @@ const AudienceContainer = (props: Props) => {
     //   setObject([]);
     // }
 
+    console.log(selectedItems);
+
     if (selectedItems !== undefined) {
       setObject(selectedItems);
+      console.log(object);
     } else {
       setObject([]);
     }
@@ -143,7 +148,7 @@ const AudienceContainer = (props: Props) => {
 
               <div className="Dropdown_filter_container">
                 <li className="Dropdown_filter_container_li">
-                  {props.item.selector}
+                  {props.item.Title}
                 </li>
               </div>
             </div>
@@ -207,25 +212,34 @@ const AudienceContainer = (props: Props) => {
               </button>
             </div>
             <div className="items_list">
-              {listFilter.values.map((item: any, key: any) => (
+              {console.log(listFilter, props.item.Variable)}
+              {listFilter.Values.map((item: any, key: any) => (
                 <li
-                  key={item.id}
-                  value={item.id}
+                  key={item.Id}
+                  value={item.Id}
                   onClick={() => {
                     // console.log(props.item.id);
-                    // console.log(item.id);
+
+                    // updateSelectorSelectedValue(
+                    //   props.item.id,
+                    //   item.Dd,
+                    //   props.item
+                    // );
+
                     updateSelectorSelectedValue(
-                      props.item.id,
-                      item.id,
+                      props.item.Variable,
+                      item.Id,
                       props.item
                     );
+
                     // handleClickDropDownSign(item.id);
                     // item.isSelected === true
                     //   ? handleClickDropDownSign(item.id)
                     //   : handelClickDropDownSignDelete(item.id);
                   }}
                 >
-                  <span>{item.value}</span>
+                  <span>{item.Value}</span>
+
                   <button type="button">
                     <img
                       src={OkayIcon}

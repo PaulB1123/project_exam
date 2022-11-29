@@ -55,8 +55,7 @@ const FilterContext = createContext({
   setArrayDragged: (param: GeneralSelector[]) => {},
   isPlusButtonOpen: "" as any,
   setIsPlusButtonOpen: (params: any) => {},
-  audienceId: [] as any,
-  getAudienceData: (event: string) => {},
+  // getAudienceData: (event: string) => {},
   setArrayLeft: (params: any) => {},
   setArrayRight: (params: any) => {},
   leftside: [] as any,
@@ -75,6 +74,10 @@ const FilterContext = createContext({
   setReportsList: (params: any) => [],
   itemDeleteReport: "",
   setitemDelteReport: (params: string) => {},
+  allAudience: [] as any,
+  setAllAudience: (params: any) => {},
+  // audienceList: [] as any,
+  // setAudienceList: (params: any) => {},
 });
 
 type FilterContextProviderProps = {
@@ -106,15 +109,16 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [country, setCountry] = useState("");
   const [modelId, setModelId] = useState("" as any);
   const [categorical, setCategorical] = useState([] as GeneralSelector[]);
+  const [allAudience, setAllAudience] = useState([] as any[]);
   const [newArray, setNewArray] = useState([] as any);
   const [ArrayDragged, setArrayDragged] = useState([] as GeneralSelector[]);
   const [isPlusButtonOpen, setIsPlusButtonOpen] = useState(true);
-  const [audienceId, setAudienceId] = useState() as any;
+  // const [audienceList, setAudienceList] = useState() as any;
   const [selectedItems, setselectedItems] = useState() as any;
   const [isLoading, setIsLoading] = useState(false);
   const [Chart, setChart] = useState();
   const [chartUpdate, setChartUpdate] = useState(false);
-  const [ReportsList, setReportsList] = useState() as any;
+  const [DashboardsList, setDashboardsList] = useState() as any;
   const [itemDeleteReport, setitemDelteReport] = useState("");
 
   const url =
@@ -132,7 +136,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         const { getClients: actual_list } = response_data;
         const { data, error, StatusCode }: getClientsResponse = actual_list;
 
-        console.log(actual_list);
+        // console.log(actual_list);
         if (StatusCode === 200) {
           if (data) {
             setClientNewData(data);
@@ -175,11 +179,11 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         const { data, error, StatusCode }: getModelsForClientResponse =
           actual_list;
 
-        console.log(actual_list);
+        // console.log(actual_list);
 
         if (StatusCode === 200) {
           if (data) {
-            console.log(data);
+            // console.log(data);
             if (data.length > 0) {
               setAvailableModels(data);
               setSelectedModelId(data[0].Model_id);
@@ -224,25 +228,26 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       })) as {
         data: { getSelectorsForModel: getSelectorsForModelResponse };
       };
-      //  now I have fecthed the data with the selectedModelId so I received the filter array
-      console.log("this is all of my data", response);
       const { data: response_data } = response;
       const { getSelectorsForModel: actual_list } = response_data;
 
       const { data, error, StatusCode }: getSelectorsForModelResponse =
         actual_list;
 
-      console.log(actual_list);
+      // console.log(actual_list);
       if (StatusCode === 200) {
-        console.log(data);
+        // console.log(data);
         if (data) {
-          // console.log(data);
+          console.log(data);
           // console.log("this should work", data);
           if (data.length > 0) {
+            // console.log(data);
+            setAllAudience(data);
+
             const filteredList = data.filter(
               (i) => i.Variable_type === "categorical"
             ) as SelectorFactor[];
-            // console.log("this should work", filteredList);
+            console.log("this is categorical data", filteredList);
             if (filteredList.length > 0) {
               const a = filteredList.map((i: SelectorFactor) => {
                 const {
@@ -280,42 +285,51 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       } else console.log(error);
     } catch (err) {
       console.log({ err });
+      DatabaseFetc();
     }
   }, [selectedModelId]);
 
   useEffect(() => {
     if (selectedModelId) {
-      console.log("is going there ");
+      // console.log("is going there ");
 
       DatabaseFetc();
     }
   }, [DatabaseFetc, selectedModelId]);
 
   const updateSelectorSelectedValue = (
-    selector_id: string,
+    selector_Variable: string,
     valueId: number,
     item: any
   ) => {
-    // console.log(categorical);
+    console.log(selector_Variable, valueId, item);
+    console.log(categorical);
 
     const updated_selectors = categorical.map((s: any) => {
       // first check if selector is updated otherwise just return the selector
-      if (s.id === selector_id) {
-        const { values } = s;
-        const new_val = values.map((vm: any) => {
-          if (vm.id === valueId) {
-            // console.log(vm.id);
+      console.log(s.Variable);
+      console.log(selector_Variable);
+
+      if (s.Variable === selector_Variable) {
+        console.log("this is true", s);
+        // const { values } = s.Values;
+        let Values = s.Values;
+        // console.log(Values, s.Values);
+        const new_val = Values.map((vm: any) => {
+          console.log(vm);
+
+          if (vm.Id === valueId) {
+            console.log(vm.Id);
             return { ...vm, isSelected: !vm.isSelected };
           }
           return vm;
         });
-        return { ...s, values: new_val };
+        return { ...s, Values: new_val };
       }
       return s;
     });
-    // console.log(updated_selectors);
+    console.log(updated_selectors);
     // console.log(item);
-
     setCategorical(updated_selectors);
   };
 
@@ -356,54 +370,52 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     ]);
   }, [categorical]);
 
-  async function getAudienceData(modelId: string) {
-    console.log(modelId);
-    console.log("it went here again ");
+  // async function getAudienceData(modelId: string) {
+  //   console.log(selectedModelId);
+  //   console.log("it went here again ", selectedModelId);
 
-    try {
-      const response = (await API.graphql({
-        query: getAudiences,
-        variables: {
-          Model_id: modelId,
-          all: true,
-        } as GetAudiencesQueryVariables,
-      })) as { data: GetAudiencesQuery };
+  //   try {
+  //     const response = (await API.graphql({
+  //       query: getAudiences,
+  //       variables: {
+  //         Model_id: selectedModelId,
+  //         all: true,
+  //       } as GetAudiencesQueryVariables,
+  //     })) as { data: GetAudiencesQuery };
 
-      const { data: response_data } = response;
-      const { getAudiences: actual_list } = response_data;
-      const { data, error, StatusCode }: getAudiencesResponse = actual_list;
+  //     const { data: response_data } = response;
+  //     const { getAudiences: actual_list } = response_data;
+  //     const { data, error, StatusCode }: getAudiencesResponse = actual_list;
 
-      console.log(data);
+  //     console.log(data);
 
-      if (StatusCode === 200) {
-        if (data) {
-          if (data.length > 0) {
-            console.log(data);
+  //     if (StatusCode === 200) {
+  //       if (data) {
+  //         if (data.length > 0) {
+  //           console.log(data);
 
-            setAudienceId(data);
-            console.log(audienceId);
+  //           setAudienceList(data);
 
-            // getAudienceURL();
-          } else {
-            setAudienceId([]);
-          }
-        }
-      } else console.log(error);
-    } catch (err) {
-      console.log({ err });
-    }
-  }
+  //           // getAudienceURL();
+  //         } else {
+  //           setAudienceList([]);
+  //         }
+  //       }
+  //     } else console.log(error);
+  //   } catch (err) {
+  //     console.log({ err });
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   console.log(audienceList);
+  // }, [audienceList]);
 
   function updateCharts() {
     console.log(data);
     console.log(object);
     console.log(Chart);
-    // ChartFetch(Chart, chart1)
   }
-
-  // useEffect(() => {
-  //   console.log(audienceId);
-  // }, [audienceId]);
 
   return (
     <FilterContext.Provider
@@ -429,8 +441,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         isPlusButtonOpen,
         setIsPlusButtonOpen,
         setArrayDragged,
-        audienceId,
-        getAudienceData,
+        // getAudienceData,
         setArrayLeft,
         setArrayRight,
         leftside,
@@ -445,10 +456,14 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         setChart,
         setChartUpdate,
         chartUpdate,
-        ReportsList,
-        setReportsList,
+        ReportsList: DashboardsList,
+        setReportsList: setDashboardsList,
         itemDeleteReport,
         setitemDelteReport,
+        allAudience,
+        setAllAudience,
+        // audienceList,
+        // setAudienceList,
       }}
     >
       {props.children}

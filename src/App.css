@@ -1,9 +1,14 @@
 .Right_Side_Dashboard {
   width: 100%;
   margin-right: 3rem;
+  margin-left: 16rem;
 }
 
 .Main_App {
   display: flex;
   flex-direction: row;
+}
+
+body {
+  background-color: #f7f7f7;
 }

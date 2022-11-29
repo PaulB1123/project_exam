@@ -16,9 +16,9 @@ export function Report() {
     defaultDark ? "dark" : "light"
   );
   const { modelId } = useParams();
-  const { loadAudienceUrl } = useGlobalModalContext();
+  const { loadAudienceUrl, getAudienceData } = useGlobalModalContext();
 
-  const { setSelectedModelId, getAudienceData } = useContext(FilterContext);
+  const { setSelectedModelId } = useContext(FilterContext);
 
   useEffect(() => {
     console.log("report  set modelId", modelId);
@@ -34,7 +34,7 @@ export function Report() {
   useEffect(() => {
     console.log(modelId);
     getAudienceData(modelId as string);
-    // loadAudienceUrl(key);
+    loadAudienceUrl(modelId as string);
   }, [modelId]);
 
   return (

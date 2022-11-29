@@ -1,9 +1,18 @@
 :root {
-  --card_width: 390px;
+  /* --card_width: 390px;
+  --card_border_radius: 7px;
+  --row_increment: 10px; */
+  /* --card_small: 25;
+  --card_large: 37; */
+
+  --card_width: 500px;
   --card_border_radius: 7px;
   --row_increment: 10px;
   --card_small: 25;
-  --card_large: 37;
+  --card_large: 50;
+  --small: 1;
+  --medium: 2;
+  --large: 3;
 }
 
 .Dashboard {
@@ -18,7 +27,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, var(--card_width));
 
-  column-gap: 6px;
+  column-gap: 15px;
   grid-auto-rows: var(--row_increment);
 }
 
@@ -28,6 +37,22 @@
 
 .card_large {
   grid-row-end: span var(--card_large);
+  /* width: 1015px; */
+}
+
+.small {
+  /* width: 500px; */
+  grid-column-end: span var(--small);
+}
+
+.medium {
+  /* width: 1000px; */
+  grid-column-end: span var(--medium);
+}
+
+.large {
+  /* width: 1530px; */
+  grid-column-end: span var(--large);
 }
 
 .templateChart_container {
@@ -39,7 +64,7 @@
   border: 1px solid #e2e2e2;
   border-radius: var(--card_border_radius);
   padding: 1rem;
-  padding-top: 4rem;
+  padding-top: 3.5rem;
   background-color: white;
   /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
   /* height: 200px; */
@@ -198,7 +223,7 @@
 }
 
 .Download_Dashboard {
-  margin-left: 1.25rem;
+  /* margin-left: 1.25rem; */
   border-radius: 5px;
   background-color: #e7e7ef;
   display: flex;
@@ -206,10 +231,11 @@
   justify-content: center;
   font-family: "SF_Pro_Display_Medium";
   font-size: 15px;
-  padding: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  /* padding: 1.5rem; */
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   color: #929292;
+  margin-bottom: 1rem;
 }
 
 .Download_Dashboard span {
@@ -220,7 +246,7 @@
 .KPI_holder {
   display: flex;
   margin-left: 2rem;
-  margin-top: 1.5rem;
+  /* margin-top: 1.5rem; */
 }
 
 .KPI_contianer {
@@ -229,8 +255,8 @@
 
 .KPI_block {
   background-color: white;
-  height: 219px;
-  width: 300px;
+  height: 252px;
+  width: 368.5px;
   border-radius: 7px;
   border: 1px solid #e2e2e2;
   font-family: "SF_Pro_Display_Medium";
@@ -247,16 +273,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   width: 100%;
-  /* padding-left: 1rem;
-  padding-right: 1rem; */
-  height: 160px;
+
+  /* height: 160px; */
 }
 
-/* .KIP_chart {
-  width: 100px;
-} */
+.KIP_chart_holder_core {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* height: 180px; */
+}
 
 h1 {
   display: flex;
@@ -300,6 +328,13 @@ h1 div button {
   z-index: 4;
 }
 
+.KPI_label_second {
+  position: absolute;
+  top: 5%;
+  left: 62.5%;
+  z-index: 4;
+}
+
 .initialpreditionScore_label {
   width: 13px;
   height: 13px;
@@ -311,6 +346,16 @@ h1 div button {
   background-color: #b8c8d2;
 }
 
+#coreInitalLabel {
+  top: 5%;
+  left: -20%;
+}
+
+#coreUpdateLabel {
+  top: 55%;
+  left: -20%;
+}
+
 .initialpreditionScore_label_second {
   width: 13px;
   height: 13px;
@@ -320,4 +365,24 @@ h1 div button {
   left: -35%;
   z-index: 4;
   background-color: #194e6d;
+}
+
+/* .KIP_chart_holder {
+  padding-bottom: 1rem;
+} */
+
+.Name_and_DatabaseSelector_Container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 1rem;
+  margin-right: 5.5rem;
+}
+.DatabaseSelector {
+  margin-top: 1rem;
+}
+
+.DatabaseSelector select {
+  margin-bottom: 0rem;
+  margin-left: 0.5rem;
 }

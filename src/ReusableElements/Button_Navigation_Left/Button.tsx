@@ -15,13 +15,23 @@ import {
 import FilterContext from "../../Data/FilterContext";
 import DragnDrop from "./DragnDrop";
 import Modal from "../../Componets/Filters/Modal";
+import { Id } from "react-beautiful-dnd";
 
 export function DashboardsButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
   const { ReportsList, setitemDelteReport } = useContext(FilterContext);
-  const { setSelectionArray } = useGlobalModalContext();
+  const {
+    setSelectionArray,
+    DashboardSelectedName,
+    setDashboardSelectedName,
+    setDasdboardDefault,
+  } = useGlobalModalContext();
   const [checkReportsList, setCheckReportsList] = useState(false);
+
+  const [DefaultDasboard, setDefaultDasboard] = useState();
+  const [DefaultDasboardID, setDefaultDasboardID] = useState("");
+  const [DashboardSelectedID, setDashboardSelectedID] = useState<string>();
 
   const handleClickReports = () => {
     setOpenReports(!isOpenReports);
@@ -33,12 +43,23 @@ export function DashboardsButton() {
     setitemDelteReport(id);
   }
 
-  function selectReportCharts(Audiences: Array<any>) {
-    console.log(Audiences);
+  function selectReportCharts(
+    Audiences: Array<any>,
+    DashbaordID: string,
+    Dashboard_name: string
+  ) {
+    console.log(
+      "This is chartlist:",
+      Audiences,
+      "This is id:",
+      DashbaordID,
+      "This is name:",
+      Dashboard_name
+    );
+    setDashboardSelectedID(DashbaordID);
     setSelectionArray(Audiences);
+    setDashboardSelectedName(Dashboard_name);
   }
-
-  const [DafaultDasboard, setDafaultDasboard] = useState();
 
   useEffect(() => {
     console.log(ReportsList);
@@ -46,7 +67,10 @@ export function DashboardsButton() {
       setCheckReportsList(true);
       ReportsList.map((id: any) => {
         if (id.Is_default === true) {
-          setDafaultDasboard(id.Charts);
+          setDefaultDasboard(id.Charts);
+          setDefaultDasboardID(id.Dashboard_id);
+          setDashboardSelectedID(id.Dashboard_id);
+          setDashboardSelectedName(id.Dashboard_name);
         }
       });
     } else {
@@ -54,9 +78,29 @@ export function DashboardsButton() {
     }
   }, [ReportsList]);
 
-  if (DafaultDasboard !== undefined) {
-    console.log(DafaultDasboard);
-    selectReportCharts(DafaultDasboard);
+  useEffect(() => {
+    console.log(DashboardSelectedName);
+
+    if (
+      DefaultDasboard !== undefined &&
+      DefaultDasboardID !== undefined &&
+      DashboardSelectedName !== undefined
+    ) {
+      if (DefaultDasboardID === DashboardSelectedID) {
+        selectReportCharts(
+          DefaultDasboard,
+          DefaultDasboardID,
+          DashboardSelectedName
+        );
+      }
+    }
+  }, [DefaultDasboard]);
+
+  function setDashboardDefault(DashbaordDefaultID: any) {
+    console.log(DashbaordDefaultID);
+    setDasdboardDefault(DashbaordDefaultID);
+    // console.log(DashboardDefault,
+    //   setDasdboardDefault);
   }
 
   return (
@@ -93,29 +137,70 @@ export function DashboardsButton() {
 
         <div></div>
       </button>
-      {isActiveReports &&
-        (checkReportsList === true
-          ? ReportsList.map((id: any) => (
-              <div className={isActiveReports ? "main_container" : "hidden"}>
-                <div className="dropDown_button">
-                  <li className="audiences_saved">
-                    <span
-                      className="element_dashboard"
-                      onClick={() => selectReportCharts(id.Charts)}
-                    >
-                      {id.Dashboard_name}
-                    </span>
-                    <div
-                      className="PlusIcon_container"
-                      onClick={() => deleteReport(id.Dashboard_id)}
-                    >
-                      <div className="DeleteButton"></div>
-                    </div>
-                  </li>
+      {isActiveReports && (
+        <div>
+          {checkReportsList === true
+            ? ReportsList.map((id: any) => (
+                <div
+                  className={isActiveReports ? "main_container" : "hidden"}
+                  key={id.Dashboard_id}
+                >
+                  <div
+                    className="dropDown_button"
+                    id={
+                      DashboardSelectedID === id.Dashboard_id
+                        ? "dashboard_selected"
+                        : "dahsboard_notSelected"
+                    }
+                  >
+                    <li className="audiences_saved">
+                      <span
+                        className="element_dashboard"
+                        onClick={() =>
+                          selectReportCharts(
+                            id.Charts,
+                            id.Dashboard_id,
+                            id.Dashboard_name
+                          )
+                        }
+                      >
+                        {id.Dashboard_name}
+                      </span>
+                      <div
+                        className="PlusIcon_container"
+                        id={
+                          DefaultDasboardID === id.Dashboard_id
+                            ? "default_icon_default"
+                            : "default_icon_normal"
+                        }
+                        onClick={() => setDashboardDefault(id.Dashboard_id)}
+                      ></div>
+                      <div
+                        className="PlusIcon_container"
+                        id="DeleteButton_container"
+                        onClick={() => deleteReport(id.Dashboard_id)}
+                      >
+                        <div className="DeleteButton"></div>
+                      </div>
+                    </li>
+                  </div>
                 </div>
-              </div>
-            ))
-          : console.log("checkReport is false"))}
+              ))
+            : console.log("checkReport is false")}
+
+          {/* <div className="button_container">
+            <button
+              className="button_filter"
+              id="openModalBtn"
+              onClick={() => {
+                // createModal();
+              }}
+            >
+              <div>Add Blank Dashboard</div>
+            </button>
+          </div> */}
+        </div>
+      )}
     </>
   );
 }
@@ -125,11 +210,9 @@ export function AudiencesButton() {
   const [isActiveReports, setIsActiveReports] = useState(false);
   const [arrayWithAudiences, setArrayWithAudiences] = useState([]) as any;
   const [checkLi, setCheckLi] = useState("");
-  const { message, inputarr, loadAudienceUrl, deleteItemAudience } =
-    useGlobalModalContext();
-  const { audienceId } = useContext(FilterContext);
-  const [openModal, setOpenModal] = React.useState(false);
-  const { showModal } = useGlobalModalContext();
+  const { message, inputarr, loadAudienceUrl } = useGlobalModalContext();
+  // const { audienceList } = useContext(FilterContext);
+  const { showModal, audienceList } = useGlobalModalContext();
   const [showDraggableList, setShowDraggableList] = useState(false);
 
   useEffect(() => {
@@ -146,26 +229,19 @@ export function AudiencesButton() {
   const handelclickAudience = (key: string) => {
     setCheckLi(key);
     loadAudienceUrl(key);
+    console.log(key);
   };
 
   const createModal = () => {
-    showModal(MODAL_TYPES.CREATE_MODAL, {
+    showModal(MODAL_TYPES.UPDATE_MODAL, {
       title: "Create instance form",
       confirmBtn: "Save",
     });
   };
 
-  const deleteModal = () => {
-    showModal(MODAL_TYPES.DELETE_MODAL);
-  };
-
-  const showDragAndDrop = () => {
-    setShowDraggableList(!showDraggableList);
-  };
-
   useEffect(() => {
-    console.log(audienceId);
-  }, [audienceId]);
+    console.log(audienceList);
+  }, [audienceList]);
 
   return (
     <>
@@ -205,7 +281,7 @@ export function AudiencesButton() {
       {isOpenReports && (
         <div className="Opened_Audience_button">
           <div className="Dropdown_container_drag_and_drop">
-            {audienceId.map((i: any) => {
+            {audienceList.map((i: any) => {
               return (
                 <li
                   key={i.Audience_id}
@@ -231,14 +307,6 @@ export function AudiencesButton() {
                 <div>Add Audience</div>
               </button>
             </div>
-
-            {openModal && (
-              <Modal
-                setOpenModal={(openModal: boolean) => {
-                  setOpenModal(openModal);
-                }}
-              ></Modal>
-            )}
           </div>
         </div>
       )}
