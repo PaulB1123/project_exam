@@ -936,7 +936,7 @@ export default function Dashboard() {
                 </h1>
               )}
               <div className="h2">
-                Describe what is in your dashbaord {user?.name}
+                Describe what is in your dashboard {user?.name}
               </div>
             </div>
 

@@ -193,7 +193,7 @@ export default function TemplateChart(props: Props) {
     );
     setChartType(ChartDetails.Chart_type);
     // console.log(ChartDetails);
-    // console.log(SelectionArray);
+    console.log(SelectionArray);
     // setChartType(slectedChart);
     // console.log(ChartDetails.Chart_type);
   }, [ChartID]);

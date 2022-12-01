@@ -55,6 +55,8 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   const [itemsName, setitemName] = useState([]) as any;
   const [audienceValues, setAudiencesValues] = useState([]) as any;
   const [nameUnitsChartSet, setnameUnitChartSet] = useState([]) as any;
+  const [title, setTitle] = useState("Add your chart title");
+  const [changetitle, setChangetitle] = useState(false);
 
   useEffect(() => {
     if (props.dataForChartBase !== undefined) {
@@ -121,7 +123,8 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     },
     yAxis: {
       title: {
-        text: props.chartTitle,
+        // text: props.chartTitle,
+        text: "Client",
       },
       gridLineColor: "#ffffff",
       gridLineWidth: 0,
@@ -141,10 +144,10 @@ export default function Charts(props: PropsChart, selectedChart: any) {
       // crosshair: true,
     },
 
-    colors: ["#11496A", "#B8C8D2"],
+    colors: ["#B8C8D2", "#11496A"],
     // colors: ["#11496A"],
     title: {
-      text: "",
+      text: props.chartTitle,
     },
     credits: {
       enabled: false,
@@ -282,6 +285,14 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     console.log(props.chartType);
   }, [props.chartType]);
 
+  function modifyTitle() {
+    setChangetitle(true);
+  }
+
+  function saveTitle() {
+    setChangetitle(false);
+  }
+
   return (
     <div className="Chart">
       {props.dataForChartBase !== undefined ? (
@@ -294,8 +305,34 @@ export default function Charts(props: PropsChart, selectedChart: any) {
             <div className="Main_contianer">
               <div className="continer_with_title_and_exist">
                 <div className="title_chart">
-                  <div className="title"> {props.chartTitle}</div>
-                  {/* <div className="title"> This is a subtitle</div> */}
+                  {/* <div className="title"> This title can change</div> */}
+                  <div>
+                    {changetitle === false ? (
+                      <h1
+                        className="title"
+                        onClick={() => {
+                          modifyTitle();
+                        }}
+                      >
+                        {title}
+                      </h1>
+                    ) : (
+                      <h1 className="h1_title_chart_container">
+                        <input
+                          className="title"
+                          type="text"
+                          onChange={(event) => setTitle(event.target.value)}
+                          placeholder={title}
+                        ></input>
+                        <div className="container_for_button">
+                          <button onClick={() => saveTitle()}>
+                            Save title
+                          </button>
+                        </div>
+                      </h1>
+                    )}
+                  </div>
+                  {/* <div className="subtitle"> {props.chartTitle}</div> */}
                 </div>
               </div>
 

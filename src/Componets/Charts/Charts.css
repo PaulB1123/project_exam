@@ -87,21 +87,25 @@
 .title_chart {
   width: 100%;
   display: flex;
-  /* flex-direction: row !important;
-  align-items: center;
-  justify-content: space-between; */
+  flex-direction: column;
   justify-content: flex-start;
   font-size: 22px;
-  font-family: "SF_Pro_Display_Bold";
+  /* font-family: "SF_Pro_Display_Bold"; */
   /* margin: 1rem;
   margin-bottom: 1rem; */
-  margin-top: 0.5rem;
+  /* margin-top: 0.5rem; */
 }
 
 .title {
-  /* margin-left: auto;
-  margin-right: auto; */
+  width: 96%;
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
 }
+
+/* .subtitle {
+  font-size: 1.1rem;
+  font-family: "SF_Pro_Display_Medium";
+} */
 
 .Exist {
   width: 22% !important;
@@ -227,4 +231,10 @@
   margin: 1rem;
   margin-right: 0rem;
   margin-bottom: 0rem;
+}
+
+.h1_title_chart_container {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
 }
