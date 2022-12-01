@@ -39,6 +39,8 @@ export const SelectChart = (props: Props) => {
     SelectionArray,
     setSelectionArray,
     chartSize,
+    chartTitle,
+    setChartTitle,
   } = useGlobalModalContext();
   const { categorical, allAudience } = useContext(FilterContext);
   const [audition, setAudition] = useState<any>();
@@ -103,10 +105,18 @@ export const SelectChart = (props: Props) => {
           Chart_type: slectedChart,
           Chart_size: chartSize,
         },
+        // {
+        //   Position: placeholderNumber,
+        //   Variable_type: VariableType,
+        //   Title: selector,
+        //   Variable: audition,
+        //   Chart_type: slectedChart,
+        //   Chart_size: chartSize,
+        // },
       ]);
     }
   }
-  // console.log(SelectionArray);
+  console.log(SelectionArray);
   // console.log(categorical);
   // console.log(audition);
   // console.log(VariableType);

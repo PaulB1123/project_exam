@@ -28,6 +28,8 @@ export interface PropsChart {
   chartChange: any;
   setChargeChange(e: any): any;
   chartType: any;
+  chartIndividualTitle: any;
+  chartSizeBackend: any;
 }
 
 export default function Charts(props: PropsChart, selectedChart: any) {
@@ -41,6 +43,10 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     // chartSize,
     setChartSizes,
     SelectionArray,
+    chartTitle,
+    setChartTitle,
+    chartID,
+    setchartID,
   } = useGlobalModalContext();
   const { showModal } = useGlobalModalContext();
 
@@ -55,7 +61,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   const [itemsName, setitemName] = useState([]) as any;
   const [audienceValues, setAudiencesValues] = useState([]) as any;
   const [nameUnitsChartSet, setnameUnitChartSet] = useState([]) as any;
-  const [title, setTitle] = useState("Add your chart title");
+  const [title, setTitle] = useState(props.chartIndividualTitle);
   const [changetitle, setChangetitle] = useState(false);
 
   useEffect(() => {
@@ -87,9 +93,11 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     Exist.classList.add("hide");
   }
 
-  console.log(nameUnitsChartSet);
-  console.log(itemsName);
-  console.log(audienceValues);
+  console.log(props.chartIndividualTitle);
+
+  // console.log(nameUnitsChartSet);
+  // console.log(itemsName);
+  // console.log(audienceValues);
 
   useEffect(() => {
     if (props.tryoutChartSize === "small") {
@@ -279,6 +287,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     // setChartSizes(value);
     props.setTryoutChartSize(value);
     setChartSizes(value);
+    setchartID(props.ChartID[0]);
   }
 
   useEffect(() => {
@@ -290,7 +299,11 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   }
 
   function saveTitle() {
+    setChartTitle(title);
+    setchartID(props.ChartID[0]);
     setChangetitle(false);
+    console.log("it passed here ");
+    console.log(props.ChartID[0]);
   }
 
   return (
@@ -343,6 +356,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                     onChange={(event: any) =>
                       ChangeSizeChart(event.target.value)
                     }
+                    value={props.tryoutChartSize}
                   >
                     <option value="small">Small</option>
                     <option value="medium">Medium</option>

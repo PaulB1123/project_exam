@@ -35,6 +35,7 @@ export default function TemplateChart(props: Props) {
   const [chartTitle, setChartTitle] = useState<any>();
   const [audtitionName, setAuditionName] = useState<any>();
   const [loading, setloading] = useState(false);
+  const [chartSizeBackend, setChartSizeBackend] = useState<any>();
 
   const bigFunction = (chartID: any) => {
     console.log(chartID);
@@ -81,13 +82,19 @@ export default function TemplateChart(props: Props) {
         console.log("comparing data", element, ChartID[0], element.Variable);
         setAuditionName(element.Variable);
         ChartFetchBase(element.Variable, element.Chart_type);
-        setChartTitle(element.Title);
+        setChartTitle(element.Variable);
+        setChartIndividualTitle(element.Title);
+        setTryoutChartSize(element.Chart_size);
+        console.log(element);
       }
       if (element.Position === ChartID[0] && !dataForChartAudience) {
         console.log("comparing data", element, ChartID[0], element.Variable);
         setAuditionName(element.Variable);
         ChartFetchAudience(element.Variable, element.Chart_type);
-        // setChartTitle(element.Title);
+        setChartTitle(element.Variable);
+        setChartIndividualTitle(element.Title);
+        setTryoutChartSize(element.Chart_size);
+        console.log(element);
       }
     });
   }, [SelectionArray]);
@@ -137,6 +144,7 @@ export default function TemplateChart(props: Props) {
         }
       } else console.log(error);
     } catch (err) {
+      ChartFetchBase(audition, chart);
       setIsLoading(false);
       console.log({ err });
     }
@@ -177,6 +185,7 @@ export default function TemplateChart(props: Props) {
         }
       } else console.log(error);
     } catch (err) {
+      ChartFetchAudience(audition, chart);
       setIsLoading(false);
       console.log({ err });
     }
@@ -186,14 +195,16 @@ export default function TemplateChart(props: Props) {
   const [chartChange, setChargeChange] = useState<any>();
 
   const [chartType, setChartType] = useState<any>();
+  const [chartIndividualTitle, setChartIndividualTitle] = useState<any>();
 
   useEffect(() => {
     const ChartDetails = SelectionArray.filter(
       (el: any) => el.Position === ChartID[0]
     );
     setChartType(ChartDetails.Chart_type);
+    // setChartIndividualTitle(ChartDetails.Title);
     // console.log(ChartDetails);
-    console.log(SelectionArray);
+    // console.log(SelectionArray);
     // setChartType(slectedChart);
     // console.log(ChartDetails.Chart_type);
   }, [ChartID]);
@@ -220,6 +231,8 @@ export default function TemplateChart(props: Props) {
             chartChange={chartChange}
             setChargeChange={setChargeChange}
             chartType={chartType}
+            chartIndividualTitle={chartIndividualTitle}
+            chartSizeBackend={chartSizeBackend}
           />
         </div>
       ) : (

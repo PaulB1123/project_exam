@@ -121,6 +121,7 @@ export default function Dashboard() {
 
   if (activateDashboardFunction === true) {
     saveDashboardFunction();
+    console.log(SelectionArray);
   }
 
   function saveDashboardFunction() {

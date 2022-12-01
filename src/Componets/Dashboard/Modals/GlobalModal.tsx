@@ -92,6 +92,10 @@ type GlobalModalContext = {
   getAudienceData: (event: any) => any;
   chartSize: any;
   setChartSizes: (params: any) => any;
+  chartTitle: any;
+  setChartTitle: (params: any) => any;
+  chartID: any;
+  setchartID: (params: any) => any;
 };
 
 const initalState: GlobalModalContext = {
@@ -145,6 +149,10 @@ const initalState: GlobalModalContext = {
   getAudienceData: (event: any) => {},
   chartSize: "",
   setChartSizes: (params: any) => {},
+  chartTitle: "",
+  setChartTitle: (params: any) => {},
+  chartID: "",
+  setchartID: (params: any) => {},
 };
 
 type Context = {
@@ -202,6 +210,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [DashboardID, setDashboardID] = useState() as any;
   const [audienceList, setAudienceList] = useState() as any;
   const [chartSize, setChartSizes] = useState("small") as any;
+  const [chartTitle, setChartTitle] = useState("") as any;
+  const [chartID, setchartID] = useState() as any;
 
   const useInputValue = (initialValue: any) => {
     const [value, setValue] = useState(initialValue);
@@ -444,6 +454,33 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     }
   }
 
+  useEffect(() => {
+    console.log(chartTitle, chartID);
+    console.log(SelectionArray);
+    console.log(chartSize);
+    console.log("has been here");
+
+    if (SelectionArray.some((el: any) => el.Position === chartID)) {
+      console.log(SelectionArray);
+
+      const ChartFound = SelectionArray.find(
+        (elem: any) => elem.Position === chartID
+      );
+      if (chartTitle !== "") {
+        ChartFound["Title"] = chartTitle;
+      }
+      ChartFound["Chart_size"] = chartSize;
+      setSelectionArray((ps: any) =>
+        ps.filter((el: any) => el.Position !== chartID)
+      );
+
+      setSelectionArray((ps: any) => [...ps, ChartFound]);
+      console.log(ChartFound);
+    }
+  }, [chartTitle, chartSize]);
+
+  console.log(SelectionArray);
+
   // here it ends the functions for the audiences
 
   return (
@@ -499,6 +536,10 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         getAudienceData,
         setChartSizes,
         chartSize,
+        chartTitle,
+        setChartTitle,
+        chartID,
+        setchartID,
       }}
     >
       {renderComponent()}
