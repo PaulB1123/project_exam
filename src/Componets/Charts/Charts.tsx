@@ -87,6 +87,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
 
   console.log(nameUnitsChartSet);
   console.log(itemsName);
+  console.log(audienceValues);
 
   useEffect(() => {
     if (props.tryoutChartSize === "small") {

@@ -24,7 +24,7 @@ export interface Props {
 
 export default function TemplateChart(props: Props) {
   const { showModal, chartSize } = useGlobalModalContext();
-  const { object, setIsLoading, setChart, chartUpdate } =
+  const { object, setIsLoading, setChart, chartUpdate, setChartUpdate } =
     useContext(FilterContext);
   const { setChartNumber, SelectionArray, slectedChart } =
     useGlobalModalContext();
@@ -97,7 +97,8 @@ export default function TemplateChart(props: Props) {
     if (chartUpdate === true) {
       console.log("chart update");
       ChartFetchAudience(audtitionName, "");
-      ChartFetchBase(audtitionName, "");
+      // ChartFetchBase(audtitionName, "");
+      setChartUpdate(false);
     }
   }, [chartUpdate]);
 
