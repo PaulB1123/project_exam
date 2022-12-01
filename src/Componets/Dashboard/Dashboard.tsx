@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, Suspense } from "react";
 import "../Styles/global.css";
 import "./Dashboard.css";
 import HeroDashboardImage from "./icons/Hero_Image.svg";
@@ -124,9 +124,9 @@ export default function Dashboard() {
   }
 
   function saveDashboardFunction() {
-    console.log(SelectionArray);
-    console.log(selectedModelId);
-    console.log(title);
+    // console.log(SelectionArray);
+    // console.log(selectedModelId);
+    // console.log(title);
     SaveDashboard(title as string);
 
     async function SaveDashboard(title: string) {
@@ -282,6 +282,8 @@ export default function Dashboard() {
     ChartFetchUpdatedAudienceCoverage();
     ChartFetchCore();
     ChartUpdatedFetchCore();
+    ChartFetchPreditionScore();
+    ChartFetchUpdatedPreditionScore();
   }, [object]);
 
   async function ChartFetchInitialAudienceCoverage() {
@@ -344,7 +346,7 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            // console.log(data);
+            console.log(data.toLocaleString());
             setAudienceCoverageUpdated(data);
           } else {
           }
@@ -427,6 +429,11 @@ export default function Dashboard() {
     credits: {
       enabled: false,
     },
+    navigation: {
+      buttonOptions: {
+        enabled: false,
+      },
+    },
     series: [
       {
         colorByPoint: true,
@@ -480,9 +487,13 @@ export default function Dashboard() {
         if (data) {
           if (data.length > 0) {
             console.log(data);
+            // let rounded;
             let rounded = data[0].Avg_value;
-            // let rounded = data[0].Avg_value?.toFixed(7);
+            // if (data[0].Avg_value) {
+            //   rounded = data[0].Avg_value?.toFixed(3);
+            // }
             setInitalCore(rounded);
+
             // setAudienceCoverageUpdated(data);
           } else {
           }
@@ -520,8 +531,100 @@ export default function Dashboard() {
           if (data.length > 0) {
             console.log(data);
             let rounded = data[0].Avg_value;
-            // let rounded = data[0].Avg_value?.toFixed(3);
+            // if (data[0].Avg_value) {
+            //   rounded = data[0].Avg_value?.toFixed(3);
+            // }
+
             setUpdatedCore(rounded);
+            // setAudienceCoverageUpdated(data);
+          } else {
+          }
+        }
+      } else console.log(error);
+    } catch (err) {
+      setIsLoading(false);
+      console.log({ err });
+    }
+  }
+
+  const [initalPreditionScore, setInitalPreditionScore] = useState() as any;
+  const [updatedPreditionScore, setUpdatedPreditionScore] = useState() as any;
+
+  async function ChartFetchPreditionScore() {
+    console.log("PReditionScore");
+
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: "prediction_score",
+            Categorical_variable: null,
+            Filters: {
+              Categorical: [],
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      // console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            console.log(data);
+            let rounded = data[0].Avg_value;
+            // if (data[0].Avg_value) {
+            //   rounded = data[0].Avg_value?.toFixed(3);
+            // }
+            setInitalPreditionScore(rounded);
+            // setAudienceCoverageUpdated(data);
+          } else {
+          }
+        }
+      } else console.log(error);
+    } catch (err) {
+      setIsLoading(false);
+      console.log({ err });
+    }
+  }
+
+  async function ChartFetchUpdatedPreditionScore() {
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: "prediction_score",
+            Categorical_variable: null,
+            Filters: {
+              Categorical: object,
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      // console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            console.log(data);
+            // let rounded = data[0].Avg_value;
+            let rounded = data[0].Avg_value;
+            // if (data[0].Avg_value) {
+            //   rounded = data[0].Avg_value?.toFixed(3);
+            // }
+
+            setUpdatedPreditionScore(rounded);
             // setAudienceCoverageUpdated(data);
           } else {
           }
@@ -602,6 +705,11 @@ export default function Dashboard() {
     credits: {
       enabled: false,
     },
+    navigation: {
+      buttonOptions: {
+        enabled: false,
+      },
+    },
     legend: { enabled: false },
     series: [
       {
@@ -615,6 +723,72 @@ export default function Dashboard() {
     ],
   };
 
+  const PreditionScore = {
+    colors: ["#B8C8D2", "#194E6D"],
+    chart: {
+      type: "column",
+      inverted: true,
+      polar: true,
+      // plotAreaWidth: 165,
+      // plotAreaHeight: 290,
+      // height: 170,
+      // width: 260,
+      height: 206,
+      width: 290,
+    },
+    title: {
+      text: "",
+    },
+    tooltip: {
+      outside: true,
+    },
+    pane: {
+      size: "100%",
+      innerSize: "55%",
+      endAngle: 360,
+    },
+    xAxis: {},
+    yAxis: {
+      // min: 0,
+      max: MaxValue,
+      crosshair: {
+        enabled: true,
+        color: "#333",
+      },
+      lineWidth: 2,
+      reversedStacks: false,
+      endOnTick: false,
+      showLastLabel: false,
+    },
+    plotOptions: {
+      column: {
+        stacking: "normal",
+        borderWidth: 0,
+        pointPadding: 0,
+        groupPadding: 0.25,
+      },
+    },
+    credits: {
+      enabled: false,
+    },
+    navigation: {
+      buttonOptions: {
+        enabled: false,
+      },
+    },
+    legend: { enabled: false },
+    series: [
+      {
+        name: "Avg.Core",
+        data: [initalPreditionScore, 0],
+      },
+      {
+        name: "Audience Modification",
+        data: [0, updatedPreditionScore],
+      },
+    ],
+  };
+
   useEffect(() => {
     if (DashboardSelectedName !== undefined) {
       setTitle(DashboardSelectedName);
@@ -622,6 +796,118 @@ export default function Dashboard() {
   }, [DashboardSelectedName]);
 
   // console.log(initialAudienceCoverage);
+
+  let female = 1051877;
+  let male = 896465;
+  let unknown = 286;
+
+  const options1 = {
+    chart: {
+      type: "column",
+      height: 205,
+      width: 350,
+      backgroundColor: "#FFFFFF",
+    },
+    exporting: {
+      enabled: true,
+    },
+    yAxis: {
+      gridLineColor: "#ffffff",
+      gridLineWidth: 0,
+      title: {
+        text: "Gender",
+      },
+    },
+    // legend: {
+    //   symbolRadius: 0,
+    // },
+    legend: {
+      // maxHeight: 100,
+      width: 300,
+      itemWidth: 100,
+      margin: 0,
+      align: "left",
+      verticalAlign: "bottom",
+    },
+    labels: {
+      format: "{value}",
+    },
+    xAxis: {
+      categories: ["Female", "Male", "Unknown"],
+
+      // categories: ["Jan", "Feb", "Mar"],
+      crosshair: true,
+    },
+    // xAxis: [
+    //   {
+    //     minPadding: 0,
+    //     maxPadding: 0,
+    //     gridLineWidth: 1,
+    //   },
+    //   {
+    //     visible: false,
+    //     linkedTo: 0,
+    //     gridLineWidth: 1,
+    //   },
+    // ],
+    colors: ["#11496A", "#B8C8D2"],
+    title: {
+      text: "",
+    },
+    credits: {
+      enabled: false,
+    },
+    plotOptions: {
+      series: {
+        maxPointWidth: 25,
+        dataLabels: {
+          enabled: true,
+        },
+      },
+    },
+    series: [
+      { name: "Base", data: [1051877, 1290000, 23354] },
+      { name: "Audience", data: [1251877, 1090000, 63354] },
+      // { name: "male", data: [896465, 1245434] },
+      // { name: "unknown", data: [286, 456] },
+    ],
+
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500,
+          },
+        },
+      ],
+    },
+    navigation: {
+      buttonOptions: {
+        enabled: false,
+      },
+    },
+
+    // navigation: {
+    //   buttonOptions: {
+    //     width: 24,
+    //     height: 24,
+    //     theme: {
+    //       "stroke-width": 1,
+    //       stroke: "#B4B2B2",
+    //       r: 5,
+    //       states: {
+    //         hover: {
+    //           fill: "#104666",
+    //         },
+    //         select: {
+    //           stroke: "#039",
+    //           fill: "#bbadab",
+    //         },
+    //       },
+    //     },
+    //   },
+    // },
+  };
 
   return (
     <>
@@ -721,7 +1007,12 @@ export default function Dashboard() {
                     <div className="KPI_label">
                       <div>
                         <span className="initialpreditionScore_label"></span>
-                        <span>{initialAudienceCoverage}</span>
+                        <span>
+                          {initialAudienceCoverage !== undefined
+                            ? initialAudienceCoverage.toLocaleString()
+                            : initialAudienceCoverage}
+                          {/* {initialAudienceCoverage} */}
+                        </span>
                       </div>
                       <div>
                         <span className="initialpreditionScore_label_second"></span>
@@ -740,9 +1031,9 @@ export default function Dashboard() {
               )}
             </div>
             <div className="KPI_contianer">
-              {initalCore !== undefined ? (
+              {initalPreditionScore !== undefined ? (
                 <div className="KPI_block">
-                  <div className="KIP_title"> Core </div>
+                  <div className="KIP_title"> Prediction Score </div>
                   <div className="KIP_chart_holder_core">
                     <div className="KIP_chart">
                       <div className="KPI_label_second">
@@ -751,20 +1042,26 @@ export default function Dashboard() {
                             className="initialpreditionScore_label"
                             id="coreInitalLabel"
                           ></span>
-                          <span id="coreintial">{initalCore}</span>
+                          <span id="coreintial">
+                            {initalPreditionScore !== undefined
+                              ? initalPreditionScore.toFixed(3)
+                              : initalPreditionScore}
+                          </span>
                         </div>
                         <div>
                           <span
                             className="initialpreditionScore_label_second"
                             id="coreUpdateLabel"
                           ></span>
-                          <span>{updatedCore}</span>
+                          {initalPreditionScore !== undefined
+                            ? initalPreditionScore.toFixed(3)
+                            : initalPreditionScore}
                         </div>
                       </div>
                       <HighchartsReact
                         className="containerChart"
                         highcharts={Highcharts}
-                        options={Core}
+                        options={PreditionScore}
                       />
                     </div>
                   </div>
@@ -785,14 +1082,22 @@ export default function Dashboard() {
                             className="initialpreditionScore_label"
                             id="coreInitalLabel"
                           ></span>
-                          <span id="coreintial">{initalCore}</span>
+                          <span id="coreintial">
+                            {initalCore !== undefined
+                              ? initalCore.toFixed(3)
+                              : initalCore}
+                          </span>
                         </div>
                         <div>
                           <span
                             className="initialpreditionScore_label_second"
                             id="coreUpdateLabel"
                           ></span>
-                          <span>{updatedCore}</span>
+                          <span>
+                            {updatedCore !== undefined
+                              ? updatedCore.toFixed(3)
+                              : updatedCore}
+                          </span>
                         </div>
                       </div>
                       <HighchartsReact
@@ -810,29 +1115,27 @@ export default function Dashboard() {
             <div className="KPI_contianer">
               {initalCore !== undefined ? (
                 <div className="KPI_block">
-                  <div className="KIP_title"> Core </div>
+                  <div className="KIP_title"> Gender </div>
                   <div className="KIP_chart_holder_core">
                     <div className="KIP_chart">
-                      <div className="KPI_label_second">
+                      {/* <div className="KPI_label_Gender">
                         <div className="Core_span">
-                          <span
-                            className="initialpreditionScore_label"
-                            id="coreInitalLabel"
-                          ></span>
-                          <span id="coreintial">{initalCore}</span>
+                          <span className="Female" id="genderFemale"></span>
+                          <span id="coreintial">{female.toLocaleString()}</span>
                         </div>
                         <div>
-                          <span
-                            className="initialpreditionScore_label_second"
-                            id="coreUpdateLabel"
-                          ></span>
-                          <span>{updatedCore}</span>
+                          <span className="Male" id="genderMale"></span>
+                          <span>{male.toLocaleString()}</span>
                         </div>
-                      </div>
+                        <div>
+                          <span className="Unknown" id="genderUnknown"></span>
+                          <span>{unknown.toLocaleString()}</span>
+                        </div>
+                      </div> */}
                       <HighchartsReact
                         className="containerChart"
                         highcharts={Highcharts}
-                        options={Core}
+                        options={options1}
                       />
                     </div>
                   </div>

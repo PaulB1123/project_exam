@@ -55,6 +55,7 @@ type GlobalModalContext = {
   chart1: any;
   chart2: any;
   chart3: any;
+  chart4: any;
   slectedChart: any;
   inputarr: AudienceInfo[];
   name: any;
@@ -107,6 +108,7 @@ const initalState: GlobalModalContext = {
   chart1: "",
   chart2: "",
   chart3: "",
+  chart4: "",
   slectedChart: "",
   inputarr: [],
   name: "",
@@ -168,6 +170,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const chart1 = "chart1";
   const chart2 = "chart2";
   const chart3 = "chart3";
+  const chart4 = "chart4";
   const [loading, setLoading] = useState(false);
   const [audienceReceivedId, setAudienceReceviedId] = useState("");
   const [audienceIdReloded, setAudienceIdReloaded] = useState("");
@@ -213,7 +216,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       modalType,
       modalProps,
     });
-    console.log(modalProps);
+    // console.log(modalProps);
   };
   const hideModal = () => {
     setStore({
@@ -294,7 +297,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     } catch (err) {}
   }
 
-  console.log(audience);
+  // console.log(audience);
 
   useEffect(() => {
     const aInfo = {
@@ -461,6 +464,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         chart2,
         chart1,
         chart3,
+        chart4,
         inputarr,
         name,
         setName,

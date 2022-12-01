@@ -15,7 +15,8 @@ export interface PropsChart {
   chart: number;
   ArrayCharts: Array<number>;
   setArrayCharts(e: any): any;
-  dataForChart: any;
+  dataForChartBase: any;
+  dataForChartAudience: any;
   chartTitle: any;
   loading: boolean;
   setloading: any;
@@ -24,6 +25,9 @@ export interface PropsChart {
   // chartSize: any;
   tryoutChartSize: any;
   setTryoutChartSize(e: any): any;
+  chartChange: any;
+  setChargeChange(e: any): any;
+  chartType: any;
 }
 
 export default function Charts(props: PropsChart, selectedChart: any) {
@@ -36,36 +40,53 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     slectedChart,
     // chartSize,
     setChartSizes,
+    SelectionArray,
   } = useGlobalModalContext();
   const { showModal } = useGlobalModalContext();
-  const [chartChange, setChargeChange] = useState();
+
   const [ChartSize, setChartSize] = useState<any>();
   const [LegendChartSize, setLegendcChartSize] = useState<any>();
 
   useEffect(() => {
-    setChargeChange(slectedChart);
+    props.setChargeChange(slectedChart);
     console.log(slectedChart);
   }, [slectedChart]);
 
-  // console.log(chartChange);
-
-  const [items, setitem] = useState([]) as any;
+  const [itemsName, setitemName] = useState([]) as any;
+  const [audienceValues, setAudiencesValues] = useState([]) as any;
+  const [nameUnitsChartSet, setnameUnitChartSet] = useState([]) as any;
 
   useEffect(() => {
-    if (props.dataForChart !== undefined) {
-      setitem(
-        props.dataForChart.map((item: any) => ({
-          name: item.Value,
-          data: [item.Count],
-        }))
+    if (props.dataForChartBase !== undefined) {
+      // setitem(
+      //   props.dataForChart.map((item: any) => ({
+      //     name: item.Value,
+      //     data: [item.Count],
+      //   }))
+      // );
+
+      setitemName([props.dataForChartBase.map((item: any) => item.Count)]);
+
+      props.dataForChartBase.map((item: any) => console.log(item));
+      setnameUnitChartSet(
+        props.dataForChartBase.map((item: any) => item.Value)
       );
     }
-  }, [props.dataForChart]);
+
+    if (props.dataForChartAudience !== undefined) {
+      setAudiencesValues([
+        props.dataForChartAudience.map((item: any) => item.Count),
+      ]);
+    }
+  }, [props.dataForChartAudience, props.dataForChartBase]);
 
   function hide() {
     const Exist = document.querySelector(".Chart") as any;
     Exist.classList.add("hide");
   }
+
+  console.log(nameUnitsChartSet);
+  console.log(itemsName);
 
   useEffect(() => {
     if (props.tryoutChartSize === "small") {
@@ -85,6 +106,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   }, [props.tryoutChartSize]);
 
   exporting(Highcharts);
+  // console.log(itemsName);
 
   const options1 = {
     chart: {
@@ -97,34 +119,29 @@ export default function Charts(props: PropsChart, selectedChart: any) {
       enabled: true,
     },
     yAxis: {
-      title: "",
+      title: {
+        text: props.chartTitle,
+      },
       gridLineColor: "#ffffff",
       gridLineWidth: 0,
     },
-    // legend: {
-    //   symbolRadius: 0,
-    // },
     legend: {
-      // maxHeight: 100,
       width: LegendChartSize,
-      itemWidth: 165,
+      itemWidth: 105,
       margin: 0,
       align: "left",
       verticalAlign: "bottom",
     },
-    // xAxis: [
-    //   {
-    //     minPadding: 0,
-    //     maxPadding: 0,
-    //     gridLineWidth: 1,
-    //   },
-    //   {
-    //     visible: false,
-    //     linkedTo: 0,
-    //     gridLineWidth: 1,
-    //   },
-    // ],
-    colors: ["#11496A", "#496D84", "#7E98A5", "#B8C8D2", "#6A7B8C", "#85919E"],
+    labels: {
+      format: "{value}",
+    },
+    xAxis: {
+      categories: nameUnitsChartSet,
+      // crosshair: true,
+    },
+
+    colors: ["#11496A", "#B8C8D2"],
+    // colors: ["#11496A"],
     title: {
       text: "",
     },
@@ -133,10 +150,18 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     },
     plotOptions: {
       series: {
-        maxPointWidth: 25,
+        maxPointWidth: 65,
+        dataLabels: {
+          enabled: true,
+        },
       },
     },
-    series: items,
+    // series: itemsName,
+    series: [
+      { name: "Base", data: itemsName[0] },
+      { name: "Audience", data: audienceValues[0] },
+      // { name: "Base", data: [896465, 1245434] },
+    ],
     responsive: {
       rules: [
         {
@@ -146,7 +171,6 @@ export default function Charts(props: PropsChart, selectedChart: any) {
         },
       ],
     },
-
     navigation: {
       buttonOptions: {
         width: 24,
@@ -215,7 +239,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     credits: {
       enabled: false,
     },
-    series: items,
+    series: itemsName,
   };
 
   // console.log(dataForChart);
@@ -237,7 +261,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     setTimeout(() => {
       props.setloading(false);
     }, 3000);
-  }, [items]);
+  }, [itemsName]);
 
   function changeChart(ChartID: any) {
     console.log(ChartID);
@@ -253,9 +277,13 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     setChartSizes(value);
   }
 
+  useEffect(() => {
+    console.log(props.chartType);
+  }, [props.chartType]);
+
   return (
     <div className="Chart">
-      {props.dataForChart !== undefined ? (
+      {props.dataForChartBase !== undefined ? (
         <div className="Chart_with_buttons">
           <div className="containerChart">
             {/* <button className="Exist" onClick={hide}>
@@ -266,6 +294,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
               <div className="continer_with_title_and_exist">
                 <div className="title_chart">
                   <div className="title"> {props.chartTitle}</div>
+                  {/* <div className="title"> This is a subtitle</div> */}
                 </div>
               </div>
 
@@ -311,7 +340,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                 <HighchartsReact
                   className="containerChart"
                   highcharts={Highcharts}
-                  options={chartChange === chart1 ? options2 : options1}
+                  options={props.chartType === "chart1" ? options2 : options1}
                 />
               )}
             </div>
