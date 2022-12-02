@@ -64,6 +64,8 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   const [title, setTitle] = useState(props.chartIndividualTitle);
   const [changetitle, setChangetitle] = useState(false);
 
+  console.log(props.chartIndividualTitle);
+
   useEffect(() => {
     if (props.dataForChartBase !== undefined) {
       // setitem(
@@ -92,8 +94,6 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     const Exist = document.querySelector(".Chart") as any;
     Exist.classList.add("hide");
   }
-
-  console.log(props.chartIndividualTitle);
 
   // console.log(nameUnitsChartSet);
   // console.log(itemsName);
@@ -305,6 +305,10 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     console.log("it passed here ");
     console.log(props.ChartID[0]);
   }
+
+  useEffect(() => {
+    setTitle(props.chartIndividualTitle);
+  }, [props.chartIndividualTitle]);
 
   return (
     <div className="Chart">

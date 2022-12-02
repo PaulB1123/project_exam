@@ -78,15 +78,26 @@ export default function TemplateChart(props: Props) {
     }
 
     SelectionArray.forEach((element: any, chart: any) => {
-      if (element.Position === ChartID[0] && !dataForChartBase) {
+      if (element.Position === ChartID[0]) {
         console.log("comparing data", element, ChartID[0], element.Variable);
         setAuditionName(element.Variable);
         ChartFetchBase(element.Variable, element.Chart_type);
         setChartTitle(element.Variable);
         setChartIndividualTitle(element.Title);
         setTryoutChartSize(element.Chart_size);
-        console.log(element);
+        console.log(element.Title);
       }
+
+      // if (element.Position === ChartID[0] && !dataForChartBase) {
+      //   console.log("comparing data", element, ChartID[0], element.Variable);
+      //   setAuditionName(element.Variable);
+      //   ChartFetchBase(element.Variable, element.Chart_type);
+      //   setChartTitle(element.Variable);
+      //   setChartIndividualTitle(element.Title);
+      //   setTryoutChartSize(element.Chart_size);
+      //   console.log(element);
+      // }
+
       if (element.Position === ChartID[0] && !dataForChartAudience) {
         console.log("comparing data", element, ChartID[0], element.Variable);
         setAuditionName(element.Variable);
