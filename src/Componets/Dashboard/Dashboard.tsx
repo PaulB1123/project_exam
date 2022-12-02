@@ -458,6 +458,8 @@ export default function Dashboard() {
     ],
   };
 
+  console.log(initialAudienceCoverage);
+
   highchartsMore(Highcharts);
 
   const [KIPMaxValue, setKPIMaxValue] = useState();

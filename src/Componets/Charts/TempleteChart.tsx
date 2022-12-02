@@ -36,6 +36,7 @@ export default function TemplateChart(props: Props) {
   const [audtitionName, setAuditionName] = useState<any>();
   const [loading, setloading] = useState(false);
   const [chartSizeBackend, setChartSizeBackend] = useState<any>();
+  const [chartTypeBackend, setChartTypeBackend] = useState();
 
   const bigFunction = (chartID: any) => {
     console.log(chartID);
@@ -56,7 +57,7 @@ export default function TemplateChart(props: Props) {
     setChart(ChartID);
   }, []);
 
-  // console.log(ChartID);
+  // console.log(slectedChart);
 
   useEffect(() => {
     // console.log(SelectionArray);
@@ -85,6 +86,7 @@ export default function TemplateChart(props: Props) {
         setChartTitle(element.Variable);
         setChartIndividualTitle(element.Title);
         setTryoutChartSize(element.Chart_size);
+
         console.log(element.Title);
       }
 
@@ -148,6 +150,8 @@ export default function TemplateChart(props: Props) {
             // console.log(data);
 
             setDataForChartBase(data);
+            setChartTypeBackend(chart);
+
             // console.log(loading);
           } else {
             setDataForChartBase([]);
@@ -220,6 +224,8 @@ export default function TemplateChart(props: Props) {
     // console.log(ChartDetails.Chart_type);
   }, [ChartID]);
 
+  console.log(chartTypeBackend);
+
   return (
     <>
       {dataForChartBase !== undefined || dataForChartAudience !== undefined ? (
@@ -241,9 +247,10 @@ export default function TemplateChart(props: Props) {
             setTryoutChartSize={setTryoutChartSize}
             chartChange={chartChange}
             setChargeChange={setChargeChange}
-            chartType={chartType}
+            // chartType={chartType}
             chartIndividualTitle={chartIndividualTitle}
             chartSizeBackend={chartSizeBackend}
+            chartTypeBackend={chartTypeBackend}
           />
         </div>
       ) : (

@@ -124,7 +124,7 @@ export const SelectChart = (props: Props) => {
   const btn = document.querySelector(".Contiune") as HTMLButtonElement;
 
   // console.log(allAudience);
-  // console.log(selector);
+  // console.log(slectedChart);
 
   // here it might crash because I am looking for Variable_type but variable type is found only after I select the chartSelected, this is why I placed it in a useEffect
 

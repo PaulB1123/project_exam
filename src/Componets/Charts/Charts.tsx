@@ -27,9 +27,10 @@ export interface PropsChart {
   setTryoutChartSize(e: any): any;
   chartChange: any;
   setChargeChange(e: any): any;
-  chartType: any;
+  // chartType: any;
   chartIndividualTitle: any;
   chartSizeBackend: any;
+  chartTypeBackend: any;
 }
 
 export default function Charts(props: PropsChart, selectedChart: any) {
@@ -49,20 +50,19 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     setchartID,
   } = useGlobalModalContext();
   const { showModal } = useGlobalModalContext();
-
   const [ChartSize, setChartSize] = useState<any>();
   const [LegendChartSize, setLegendcChartSize] = useState<any>();
-
-  useEffect(() => {
-    props.setChargeChange(slectedChart);
-    console.log(slectedChart);
-  }, [slectedChart]);
-
   const [itemsName, setitemName] = useState([]) as any;
   const [audienceValues, setAudiencesValues] = useState([]) as any;
   const [nameUnitsChartSet, setnameUnitChartSet] = useState([]) as any;
   const [title, setTitle] = useState(props.chartIndividualTitle);
   const [changetitle, setChangetitle] = useState(false);
+  const [optionsCharts, setOptionsCharts] = useState();
+
+  useEffect(() => {
+    props.setChargeChange(slectedChart);
+    // setOptionsCharts(slectedChart);
+  }, [slectedChart]);
 
   console.log(props.chartIndividualTitle);
 
@@ -211,12 +211,13 @@ export default function Charts(props: PropsChart, selectedChart: any) {
       height: 395,
       width: ChartSize,
     },
-    colors: ["#11496A", "#496D84", "#7E98A5", "#B8C8D2", "#6A7B8C", "#85919E"],
+    colors: ["#B8C8D2", "#11496A"],
     xAxis: {
-      accessibility: {},
+      categories: nameUnitsChartSet,
+      // crosshair: true,
     },
     title: {
-      text: "",
+      text: props.chartTitle,
     },
     yAxis: {
       min: 0,
@@ -251,10 +252,81 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     credits: {
       enabled: false,
     },
-    series: itemsName,
+    series: [
+      { name: "Base", data: itemsName[0] },
+      { name: "Audience", data: audienceValues[0] },
+      // { name: "Base", data: [896465, 1245434] },
+    ],
   };
 
-  // console.log(dataForChart);
+  const options3 = {
+    chart: {
+      // plotShadow: true,
+      type: "pie",
+
+      height: 395,
+      width: ChartSize,
+    },
+    xAxis: {
+      categories: nameUnitsChartSet,
+      // crosshair: true,
+    },
+    title: {
+      text: props.chartTitle,
+    },
+    tooltip: {
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+    accessibility: {
+      point: {
+        valueSuffix: "%",
+      },
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: "pointer",
+        dataLabels: {
+          enabled: false,
+        },
+      },
+    },
+
+    credits: {
+      enabled: false,
+    },
+    navigation: {
+      buttonOptions: {
+        enabled: false,
+      },
+    },
+    legend: {
+      maxHeight: 100,
+    },
+
+    series: [
+      {
+        colorByPoint: true,
+        data: [
+          {
+            name: "Base",
+            y: itemsName[0],
+            sliced: true,
+            selected: true,
+            color: "#B8C8D2",
+          },
+          {
+            name: "Audience",
+            y: audienceValues[0],
+            sliced: true,
+            selected: true,
+            color: "#194E6D",
+          },
+        ],
+      },
+    ],
+  };
+
   // console.log(props.ArrayCharts);
   // console.log(ChartNumber);
 
@@ -291,8 +363,8 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   }
 
   useEffect(() => {
-    console.log(props.chartType);
-  }, [props.chartType]);
+    console.log(props.chartTypeBackend);
+  }, [props.chartTypeBackend]);
 
   function modifyTitle() {
     setChangetitle(true);
@@ -396,7 +468,17 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                 <HighchartsReact
                   className="containerChart"
                   highcharts={Highcharts}
-                  options={props.chartType === "chart1" ? options2 : options1}
+                  options={
+                    props.chartTypeBackend === "chart1"
+                      ? options1
+                      : props.chartTypeBackend === "chart2"
+                      ? options2
+                      : console.log("blabla")
+                    // : props.chartTypeBackend === "chart3"
+                    // ? options3
+                    // : console.log("blabla")
+                  }
+                  // options={optionsCharts}
                 />
               )}
             </div>
