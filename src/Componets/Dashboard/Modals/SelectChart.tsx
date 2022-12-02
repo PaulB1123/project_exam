@@ -192,15 +192,15 @@ export const SelectChart = (props: Props) => {
               >
                 <div className="image_chart">
                   <img
-                    src={slectedChart === chart1 ? Chart1Color : Chart1}
+                    src={slectedChart === chart1 ? Chart2Color : Chart2}
                     alt=""
                   />
                 </div>
-                <p className="thisp">This is {chart1}</p>
+                <p>This is a {chart1}</p>
               </Button>
               <Button
                 id="2"
-                value="Chart2"
+                value={chart2}
                 onClick={() => {
                   selectChart(chart2);
                 }}
@@ -208,11 +208,11 @@ export const SelectChart = (props: Props) => {
               >
                 <div className="image_chart">
                   <img
-                    src={slectedChart === chart2 ? Chart2Color : Chart2}
+                    src={slectedChart === chart2 ? Chart1Color : Chart1}
                     alt=""
                   />
                 </div>
-                <p>This is a {chart2}</p>
+                <p className="thisp">This is {chart2}</p>
               </Button>
             </div>
 

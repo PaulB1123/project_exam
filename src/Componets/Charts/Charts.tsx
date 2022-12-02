@@ -229,6 +229,12 @@ export default function Charts(props: PropsChart, selectedChart: any) {
           textOutline: "none",
         },
       },
+      title: {
+        // text: props.chartTitle,
+        text: "Client",
+      },
+      gridLineColor: "#ffffff",
+      gridLineWidth: 0,
     },
     legend: {
       maxHeight: 100,
@@ -327,6 +333,75 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     ],
   };
 
+  const options4 = {
+    chart: {
+      // plotShadow: true,
+      type: "line",
+
+      height: 395,
+      width: ChartSize,
+    },
+    title: {
+      text: props.chartTitle,
+    },
+    yAxis: {
+      min: 0,
+
+      stackLabels: {
+        enabled: true,
+        style: {
+          fontWeight: "normal",
+          textOutline: "none",
+        },
+      },
+      title: {
+        // text: props.chartTitle,
+        text: "Client",
+      },
+      gridLineColor: "#ffffff",
+      gridLineWidth: 0,
+    },
+    credits: {
+      enabled: false,
+    },
+    xAxis: {
+      categories: nameUnitsChartSet,
+      // crosshair: true,
+    },
+    legend: {
+      maxHeight: 100,
+    },
+    plotOptions: {
+      // series: {
+      //   label: {
+      //     connectorAllowed: false,
+      //   },
+      // },
+      dataLabels: {
+        enabled: true,
+      },
+    },
+    series: [
+      { name: "Base", data: itemsName[0] },
+      { name: "Audience", data: audienceValues[0] },
+      // { name: "Base", data: [896465, 1245434] },
+    ],
+
+    // responsive: {
+    //     rules: [{
+    //         condition: {
+    //             maxWidth: 500
+    //         },
+    //         chartOptions: {
+    //             legend: {
+    //                 layout: 'horizontal',
+    //                 align: 'center',
+    //                 verticalAlign: 'bottom'
+    //             }
+    //         }
+    //     }]
+    // }
+  };
   // console.log(props.ArrayCharts);
   // console.log(ChartNumber);
 
@@ -473,10 +548,9 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                       ? options1
                       : props.chartTypeBackend === "chart2"
                       ? options2
+                      : props.chartTypeBackend === "chart3"
+                      ? options4
                       : console.log("blabla")
-                    // : props.chartTypeBackend === "chart3"
-                    // ? options3
-                    // : console.log("blabla")
                   }
                   // options={optionsCharts}
                 />
