@@ -15,6 +15,7 @@ import {
   getChartDataResponse,
 } from "../../API";
 import FilterContext from "../../Data/FilterContext";
+import UserContext from "../../Data/UserContext";
 
 export interface Props {
   el: number;
@@ -215,6 +216,7 @@ export default function TemplateChart(props: Props) {
 
   const [chartType, setChartType] = useState<any>();
   const [chartIndividualTitle, setChartIndividualTitle] = useState<any>();
+  const { admin, accessData } = useContext(UserContext);
 
   useEffect(() => {
     const ChartDetails = SelectionArray.filter(
@@ -259,38 +261,42 @@ export default function TemplateChart(props: Props) {
         </div>
       ) : (
         <>
-          <div className="this_is_container_main_chart card_small">
-            <div className="templateChart_container">
-              {/* <button className="Exist" onClick={() => DeleteChart()}>
+          {accessData.Report === true ? (
+            <div className="this_is_container_main_chart card_small">
+              <div className="templateChart_container">
+                {/* <button className="Exist" onClick={() => DeleteChart()}>
                 <img src={XIcon} alt="" />
               </button> */}
-              <div className="templateChart_header">
-                <h1>This is your chart</h1>
-                <p>
-                  <div className="templateChart_container_paragraph">
-                    You can select your chart that will be displayed by clicking
-                    on add chart button
-                  </div>
-                </p>
-              </div>
+                <div className="templateChart_header">
+                  <h1>This is your chart</h1>
+                  <p>
+                    <div className="templateChart_container_paragraph">
+                      You can select your chart that will be displayed by
+                      clicking on add chart button
+                    </div>
+                  </p>
+                </div>
 
-              <div className="tempalteChart_button">
-                <button>
-                  <div>
-                    <img src={ChartIMG} alt="Chart logo" />
-                  </div>
-                  <div
-                    className="Chart_description"
-                    onClick={(e: any) => {
-                      bigFunction(ChartID);
-                    }}
-                  >
-                    Select Chart
-                  </div>
-                </button>
+                <div className="tempalteChart_button">
+                  <button>
+                    <div>
+                      <img src={ChartIMG} alt="Chart logo" />
+                    </div>
+                    <div
+                      className="Chart_description"
+                      onClick={(e: any) => {
+                        bigFunction(ChartID);
+                      }}
+                    >
+                      Select Chart
+                    </div>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <></>
+          )}
         </>
       )}
     </>

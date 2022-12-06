@@ -68,7 +68,7 @@ export default function Dashboard() {
     setSelectedClient,
   } = useContext(FilterContext);
 
-  const { user, admin, setAdmin } = useContext(UserContext);
+  const { user, admin, setAdmin, accessData } = useContext(UserContext);
   const {
     SelectionArray,
     DashboardSelectedName,
@@ -982,16 +982,16 @@ export default function Dashboard() {
     },
   };
 
-  function MakeAdmin() {
-    setAdmin(!admin);
-  }
+  // function MakeAdmin() {
+  //   setAdmin(!admin);
+  // }
 
   return (
     <>
       <div className="Dashboard">
         <div className="header_container_group">
           <div className="header_container">
-            {admin === true ? (
+            {accessData.Report === true ? (
               <div>
                 {changetitle === false ? (
                   <h1
@@ -1031,8 +1031,6 @@ export default function Dashboard() {
             <div className="Name_and_DatabaseSelector_Container">
               {user ? (
                 <div className="profile_container">
-                  {/* <img src={ProfilePicture} alt=""></img> */}
-
                   <div className="avatar">
                     {user?.name.charAt(0)} {user?.family_name.charAt(0)}{" "}
                   </div>
@@ -1047,9 +1045,9 @@ export default function Dashboard() {
                 </div>
               )}
               <div className="DatabaseSelector">
-                <div onClick={() => MakeAdmin()}>
+                {/* <div onClick={() => MakeAdmin()}>
                   {admin ? "Make ReadOnly" : "Make Admin"}
-                </div>
+                </div> */}
                 <select
                   value={selectedClient}
                   onChange={(event) => setSelectedClient(event.target.value)}
@@ -1076,20 +1074,6 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-
-          {/* <div className="button_Dashboard">
-            <button
-              className="Save_Dashboard"
-              onClick={() => saveDashboardFunction()}
-            >
-              <span>Save Dashboard</span>
-              <img src={SaveButton} alt=""></img>
-            </button>
-            <button className="Download_Dashboard">
-              <span>Download Dashboard</span>
-              <img src={SaveButton} alt=""></img>
-            </button>
-          </div> */}
         </div>
 
         <div className="KPI_with_Dashboard">
@@ -1214,20 +1198,6 @@ export default function Dashboard() {
                   <div className="KIP_title"> Gender </div>
                   <div className="KIP_chart_holder_core">
                     <div className="KIP_chart">
-                      {/* <div className="KPI_label_Gender">
-                        <div className="Core_span">
-                          <span className="Female" id="genderFemale"></span>
-                          <span id="coreintial">{female.toLocaleString()}</span>
-                        </div>
-                        <div>
-                          <span className="Male" id="genderMale"></span>
-                          <span>{male.toLocaleString()}</span>
-                        </div>
-                        <div>
-                          <span className="Unknown" id="genderUnknown"></span>
-                          <span>{unknown.toLocaleString()}</span>
-                        </div>
-                      </div> */}
                       <HighchartsReact
                         className="containerChart"
                         highcharts={Highcharts}

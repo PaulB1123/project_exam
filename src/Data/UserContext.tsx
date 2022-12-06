@@ -1,6 +1,7 @@
 import { Auth } from "aws-amplify";
 import { useState, createContext, useEffect } from "react";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types";
+import { adminGetAccessGroupResourceType } from "../API";
 
 const UserContext = createContext({
   allUserData: "" as string,
@@ -11,6 +12,8 @@ const UserContext = createContext({
   payloadData: undefined as any,
   admin: false,
   setAdmin: (e: boolean) => {},
+  accessData: {} as adminGetAccessGroupResourceType,
+  setAccessData: (e: any) => {},
 });
 
 export type AuthUser = {
@@ -31,6 +34,7 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
   const [allUserData, setAllUserData] = useState<string>("");
   const [payloadData, setPayloadData] = useState();
   const [admin, setAdmin] = useState(false);
+  const [accessData, setAccessData] = useState<any>("");
 
   const login = (e: any) => {
     e.preventDefault();
@@ -74,6 +78,8 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
         payloadData,
         admin,
         setAdmin,
+        accessData,
+        setAccessData,
       }}
     >
       {props.children}

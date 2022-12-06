@@ -251,7 +251,7 @@ export const SelectChart = (props: Props) => {
                 <p>This is a {chart4}</p>
               </Button>
             </div>
-            <div>
+            {/* <div>
               <Button
                 id="4"
                 value="Chart4"
@@ -268,7 +268,7 @@ export const SelectChart = (props: Props) => {
                 </div>
                 <p>This is a {chart5}</p>
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
 

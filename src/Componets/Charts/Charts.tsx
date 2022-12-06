@@ -41,6 +41,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     chart1,
     chart2,
     chart3,
+    chart4,
     ChartNumber,
     slectedChart,
     // chartSize,
@@ -52,7 +53,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     setchartID,
   } = useGlobalModalContext();
 
-  const { admin } = useContext(UserContext);
+  const { admin, accessData } = useContext(UserContext);
   const { showModal } = useGlobalModalContext();
   const [ChartSize, setChartSize] = useState<any>();
   const [LegendChartSize, setLegendcChartSize] = useState<any>();
@@ -407,7 +408,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
 
   const options5 = {
     chart: {
-      type: "column",
+      type: "bar",
       height: 395,
       width: ChartSize,
       backgroundColor: "#FFFFFF",
@@ -560,7 +561,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                 <div className="title_chart">
                   {/* <div className="title"> This title can change</div> */}
 
-                  {admin === true ? (
+                  {accessData.Report === true ? (
                     <div>
                       {changetitle === false ? (
                         <h1
@@ -600,7 +601,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
               </div>
 
               <div className="container_Chart_Options">
-                {admin === true ? (
+                {accessData.Report === true ? (
                   <>
                     <div className="SelectorSizeChart_Container">
                       <select
@@ -620,7 +621,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                   <></>
                 )}
 
-                {admin === true ? (
+                {accessData.Report === true ? (
                   <>
                     <div
                       onClick={() => {
@@ -662,6 +663,8 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                       ? options2
                       : props.chartTypeBackend === "chart3"
                       ? options4
+                      : props.chartTypeBackend === "chart4"
+                      ? options5
                       : console.log("blabla")
                   }
                   // options={optionsCharts}

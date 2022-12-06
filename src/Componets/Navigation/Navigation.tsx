@@ -13,7 +13,7 @@ import { useGlobalModalContext } from "../Dashboard/Modals/GlobalModal";
 
 export default function Navigation() {
   const { logout } = useContext(UserContext);
-  const { user, admin, setAdmin } = useContext(UserContext);
+  const { user, admin, setAdmin, accessData } = useContext(UserContext);
   const { activateDashboardFunction, setActivateDashbaordFunction } =
     useGlobalModalContext();
 
@@ -52,16 +52,16 @@ export default function Navigation() {
           </ul>
         </div>
 
-        <div className="header_main_menu_container">
-          <li className="header_main_menu">WORK FLOW</li>
-          <ul>
-            <DashboardsButton />
-          </ul>
-        </div>
-
         <div className="logout">
+          <div className="header_main_menu_container">
+            <li className="header_main_menu">WORK FLOW</li>
+            <ul>
+              <DashboardsButton />
+            </ul>
+          </div>
+
           <div className="button_Dashboard">
-            {admin === true ? (
+            {accessData.Report === true ? (
               <button
                 className="Save_Dashboard"
                 onClick={() => saveDashboardFunction()}

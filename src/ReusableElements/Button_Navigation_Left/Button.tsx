@@ -21,7 +21,7 @@ import UserContext from "../../Data/UserContext";
 export function DashboardsButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
-  const { user, admin, setAdmin } = useContext(UserContext);
+  const { user, admin, setAdmin, accessData } = useContext(UserContext);
   const { ReportsList, setitemDelteReport } = useContext(FilterContext);
   const {
     setSelectionArray,
@@ -168,7 +168,7 @@ export function DashboardsButton() {
                       >
                         {id.Dashboard_name}
                       </span>
-                      {admin === true ? (
+                      {accessData.Report === true ? (
                         <div
                           className="PlusIcon_container"
                           id={
@@ -182,7 +182,7 @@ export function DashboardsButton() {
                         <></>
                       )}
 
-                      {admin === true ? (
+                      {accessData.Report === true ? (
                         <div
                           className="PlusIcon_container"
                           id="DeleteButton_container"
@@ -228,7 +228,7 @@ export function AudiencesButton() {
   // const { audienceList } = useContext(FilterContext);
   const { showModal, audienceList } = useGlobalModalContext();
   const [showDraggableList, setShowDraggableList] = useState(false);
-  const { user, admin, setAdmin } = useContext(UserContext);
+  const { user, admin, setAdmin, accessData } = useContext(UserContext);
 
   useEffect(() => {
     if (message !== undefined) {
@@ -311,7 +311,7 @@ export function AudiencesButton() {
               );
             })}
 
-            {admin === true ? (
+            {accessData.Audience === true ? (
               <div className="button_container">
                 <button
                   className="button_filter"

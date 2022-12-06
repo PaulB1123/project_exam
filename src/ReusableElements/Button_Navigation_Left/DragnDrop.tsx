@@ -43,7 +43,7 @@ export const DragnDrop = (name: Props, id: Props) => {
 
   const [openModal, setOpenModal] = React.useState(false);
   const { showModal } = useGlobalModalContext();
-  const { user, admin, setAdmin } = useContext(UserContext);
+  const { user, admin, setAdmin, accessData } = useContext(UserContext);
 
   // useEffect(() => {
   //   console.log(id);
@@ -156,7 +156,7 @@ export const DragnDrop = (name: Props, id: Props) => {
                       backgroundColor: isActive ? "white" : "white",
                     }}
                   >
-                    {admin === true ? (
+                    {accessData.Audience === true ? (
                       <div
                         className={
                           isActive
@@ -173,7 +173,7 @@ export const DragnDrop = (name: Props, id: Props) => {
                       <></>
                     )}
 
-                    {admin === true ? (
+                    {accessData.Audience === true ? (
                       <div
                         className="PlusIcon_container"
                         id="DeleteButton_container"

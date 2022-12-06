@@ -250,6 +250,12 @@ export const adminGetAccessGroup = /* GraphQL */ `
         Group
         Client_code
         Client_country
+        Resources {
+          Report
+          Audience
+          Activation
+          Admin
+        }
       }
       error {
         type
