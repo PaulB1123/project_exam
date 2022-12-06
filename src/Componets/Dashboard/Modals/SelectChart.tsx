@@ -6,8 +6,8 @@ import Chart1 from "../../IntroPage/img/Chart1.png";
 import Chart2 from "../../IntroPage/img/Chart2.png";
 import Chart1Color from "../../IntroPage/img/Chart1_color (2).png";
 import Chart2Color from "../../IntroPage/img/Chart2_color.png";
-import Chart3 from "../../IntroPage/img/Chart3.png";
-import Chart3Color from "../../IntroPage/img/Chart3_color.png";
+import Chart3 from "../../IntroPage/img/Chart5.png";
+import Chart3Color from "../../IntroPage/img/Chart5_color.png";
 import Chart4 from "../../IntroPage/img/Chart4.png";
 import Chart4Color from "../../IntroPage/img/Chart4_color.png";
 import "../../Filters/Modal.css";
@@ -30,6 +30,7 @@ export const SelectChart = (props: Props) => {
     chart2,
     chart3,
     chart4,
+    chart5,
     slectedChart,
     setSelectedChart,
     setChartNumber,
@@ -248,6 +249,24 @@ export const SelectChart = (props: Props) => {
                   />
                 </div>
                 <p>This is a {chart4}</p>
+              </Button>
+            </div>
+            <div>
+              <Button
+                id="4"
+                value="Chart4"
+                onClick={() => {
+                  selectChart(chart5);
+                }}
+                className={slectedChart === chart5 ? "borderactive" : ""}
+              >
+                <div className="image_chart">
+                  <img
+                    src={slectedChart === chart5 ? Chart4Color : Chart4}
+                    alt=""
+                  />
+                </div>
+                <p>This is a {chart5}</p>
               </Button>
             </div>
           </div>

@@ -68,7 +68,7 @@ export default function Dashboard() {
     setSelectedClient,
   } = useContext(FilterContext);
 
-  const { user } = useContext(UserContext);
+  const { user, admin, setAdmin } = useContext(UserContext);
   const {
     SelectionArray,
     DashboardSelectedName,
@@ -91,6 +91,8 @@ export default function Dashboard() {
     useState() as any;
   const [initalCore, setInitalCore] = useState() as any;
   const [updatedCore, setUpdatedCore] = useState() as any;
+  const [initalGender, setInitialGender] = useState() as any;
+  const [updatedGender, setUpdatedGender] = useState() as any;
 
   // function AddChart() {
   //   return (
@@ -285,6 +287,8 @@ export default function Dashboard() {
     ChartUpdatedFetchCore();
     ChartFetchPreditionScore();
     ChartFetchUpdatedPreditionScore();
+    ChartGenderInital();
+    ChartGenderUpdated();
   }, [object]);
 
   async function ChartFetchInitialAudienceCoverage() {
@@ -311,14 +315,17 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            // console.log(data);
+            console.log(data);
             setAudienceCoverageInitial(data);
           } else {
           }
         }
-      } else console.log(error);
+      } else {
+        setIsLoading(false);
+        ChartFetchInitialAudienceCoverage();
+        console.log(error);
+      }
     } catch (err) {
-      setIsLoading(false);
       console.log({ err });
     }
   }
@@ -352,9 +359,14 @@ export default function Dashboard() {
           } else {
           }
         }
-      } else console.log(error);
+      } else {
+        setIsLoading(false);
+        ChartFetchUpdatedAudienceCoverage();
+        console.log(error);
+      }
     } catch (err) {
       setIsLoading(false);
+      ChartFetchUpdatedAudienceCoverage();
       console.log({ err });
     }
   }
@@ -458,7 +470,93 @@ export default function Dashboard() {
     ],
   };
 
-  console.log(initialAudienceCoverage);
+  // if (allAudience !== undefined) {
+  //   console.log(allAudience);
+  //   allAudience.map((item: any) =>
+  //     item.Variable === "Gender"
+  //       ? (ChartGenderInital(), ChartGenderUpdated())
+  //       : console.log("this is not the element ")
+  //   );
+  // }
+
+  async function ChartGenderInital() {
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: null,
+            Categorical_variable: "Gender",
+            Filters: {
+              Categorical: [],
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      // console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            console.log(data);
+            setInitialGender(data.map((item: any) => item.Count));
+            // setInitialGender({name:"Base", data:})
+          } else {
+          }
+        }
+      } else {
+        setIsLoading(false);
+        console.log(error);
+        ChartGenderInital();
+      }
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  async function ChartGenderUpdated() {
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: null,
+            Categorical_variable: "Gender",
+            Filters: {
+              Categorical: object,
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      // console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            setUpdatedGender(data.map((item: any) => item.Count));
+            console.log(data);
+          } else {
+          }
+        }
+      } else {
+        setIsLoading(false);
+        console.log(error);
+        ChartGenderUpdated();
+      }
+    } catch (err) {
+      console.log({ err });
+    }
+  }
 
   highchartsMore(Highcharts);
 
@@ -501,9 +599,12 @@ export default function Dashboard() {
           } else {
           }
         }
-      } else console.log(error);
+      } else {
+        setIsLoading(false);
+        console.log(error);
+        ChartFetchCore();
+      }
     } catch (err) {
-      setIsLoading(false);
       console.log({ err });
     }
   }
@@ -543,9 +644,12 @@ export default function Dashboard() {
           } else {
           }
         }
-      } else console.log(error);
+      } else {
+        ChartUpdatedFetchCore();
+        console.log(error);
+        setIsLoading(false);
+      }
     } catch (err) {
-      setIsLoading(false);
       console.log({ err });
     }
   }
@@ -589,9 +693,12 @@ export default function Dashboard() {
           } else {
           }
         }
-      } else console.log(error);
+      } else {
+        ChartFetchPreditionScore();
+        console.log(error);
+        setIsLoading(false);
+      }
     } catch (err) {
-      setIsLoading(false);
       console.log({ err });
     }
   }
@@ -632,9 +739,12 @@ export default function Dashboard() {
           } else {
           }
         }
-      } else console.log(error);
+      } else {
+        ChartFetchUpdatedPreditionScore();
+        console.log(error);
+        setIsLoading(false);
+      }
     } catch (err) {
-      setIsLoading(false);
       console.log({ err });
     }
   }
@@ -726,6 +836,8 @@ export default function Dashboard() {
     ],
   };
 
+  // console.log(itemsName);
+
   const PreditionScore = {
     colors: ["#B8C8D2", "#194E6D"],
     chart: {
@@ -798,11 +910,7 @@ export default function Dashboard() {
     }
   }, [DashboardSelectedName]);
 
-  // console.log(initialAudienceCoverage);
-
-  let female = 1051877;
-  let male = 896465;
-  let unknown = 286;
+  console.log(initalGender);
 
   const options1 = {
     chart: {
@@ -817,15 +925,14 @@ export default function Dashboard() {
     yAxis: {
       gridLineColor: "#ffffff",
       gridLineWidth: 0,
+      // title: {
+      //   text: "Gender",
+      // },
       title: {
-        text: "Gender",
+        text: "",
       },
     },
-    // legend: {
-    //   symbolRadius: 0,
-    // },
     legend: {
-      // maxHeight: 100,
       width: 300,
       itemWidth: 100,
       margin: 0,
@@ -837,22 +944,8 @@ export default function Dashboard() {
     },
     xAxis: {
       categories: ["Female", "Male", "Unknown"],
-
-      // categories: ["Jan", "Feb", "Mar"],
       crosshair: true,
     },
-    // xAxis: [
-    //   {
-    //     minPadding: 0,
-    //     maxPadding: 0,
-    //     gridLineWidth: 1,
-    //   },
-    //   {
-    //     visible: false,
-    //     linkedTo: 0,
-    //     gridLineWidth: 1,
-    //   },
-    // ],
     colors: ["#11496A", "#B8C8D2"],
     title: {
       text: "",
@@ -869,10 +962,8 @@ export default function Dashboard() {
       },
     },
     series: [
-      { name: "Base", data: [1051877, 1290000, 23354] },
-      { name: "Audience", data: [1251877, 1090000, 63354] },
-      // { name: "male", data: [896465, 1245434] },
-      // { name: "unknown", data: [286, 456] },
+      { name: "Base", data: initalGender },
+      { name: "Audience", data: updatedGender },
     ],
 
     responsive: {
@@ -889,64 +980,63 @@ export default function Dashboard() {
         enabled: false,
       },
     },
-
-    // navigation: {
-    //   buttonOptions: {
-    //     width: 24,
-    //     height: 24,
-    //     theme: {
-    //       "stroke-width": 1,
-    //       stroke: "#B4B2B2",
-    //       r: 5,
-    //       states: {
-    //         hover: {
-    //           fill: "#104666",
-    //         },
-    //         select: {
-    //           stroke: "#039",
-    //           fill: "#bbadab",
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
   };
+
+  function MakeAdmin() {
+    setAdmin(!admin);
+  }
 
   return (
     <>
       <div className="Dashboard">
         <div className="header_container_group">
           <div className="header_container">
-            <div>
-              {changetitle === false ? (
-                <h1
-                  onClick={() => {
-                    modifyTitle();
-                  }}
-                >
-                  {title}
-                </h1>
-              ) : (
-                <h1>
-                  <input
-                    type="text"
-                    onChange={(event) => setTitle(event.target.value)}
-                    placeholder={title}
-                  ></input>
-                  <div className="container_for_button">
-                    <button onClick={() => saveTitle()}>Save title</button>
-                  </div>
-                </h1>
-              )}
-              <div className="h2">
-                Describe what is in your dashboard {user?.name}
+            {admin === true ? (
+              <div>
+                {changetitle === false ? (
+                  <h1
+                    onClick={() => {
+                      modifyTitle();
+                    }}
+                  >
+                    {title}
+                  </h1>
+                ) : (
+                  <h1>
+                    <input
+                      type="text"
+                      onChange={(event) => setTitle(event.target.value)}
+                      placeholder={title}
+                    ></input>
+                    <div className="container_for_button">
+                      <button onClick={() => saveTitle()}>Save title</button>
+                    </div>
+                  </h1>
+                )}
+                <div className="h2">
+                  Describe what is in your dashboard {user?.name}
+                </div>
               </div>
-            </div>
+            ) : (
+              <>
+                <div>
+                  <h1> {title}</h1>
+                  <div className="h2">
+                    Describe what is in your dashboard {user?.name}
+                  </div>
+                </div>
+              </>
+            )}
 
             <div className="Name_and_DatabaseSelector_Container">
               {user ? (
                 <div className="profile_container">
-                  <img src={ProfilePicture} alt=""></img>
+                  {/* <img src={ProfilePicture} alt=""></img> */}
+
+                  <div className="avatar">
+                    {user?.name.charAt(0)} {user?.family_name.charAt(0)}{" "}
+                  </div>
+
                   <div className="profile_name">
                     {user?.name} {user?.family_name}
                   </div>
@@ -957,6 +1047,9 @@ export default function Dashboard() {
                 </div>
               )}
               <div className="DatabaseSelector">
+                <div onClick={() => MakeAdmin()}>
+                  {admin ? "Make ReadOnly" : "Make Admin"}
+                </div>
                 <select
                   value={selectedClient}
                   onChange={(event) => setSelectedClient(event.target.value)}
@@ -1116,7 +1209,7 @@ export default function Dashboard() {
               )}
             </div>
             <div className="KPI_contianer">
-              {initalCore !== undefined ? (
+              {initalGender && updatedGender !== undefined ? (
                 <div className="KPI_block">
                   <div className="KIP_title"> Gender </div>
                   <div className="KIP_chart_holder_core">

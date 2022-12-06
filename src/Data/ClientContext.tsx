@@ -11,6 +11,7 @@ export const ClientContextProvider = (props: any) => {
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
   const [clientData, setClientData] = useState([] as any[]);
+
   const { allUserData } = useContext(UserContext);
   const dataSentBack = {
     method: "POST",

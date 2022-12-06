@@ -157,10 +157,12 @@ export default function TemplateChart(props: Props) {
             setDataForChartBase([]);
           }
         }
-      } else console.log(error);
+      } else {
+        ChartFetchBase(audition, chart);
+        // setIsLoading(false);
+        console.log(error);
+      }
     } catch (err) {
-      ChartFetchBase(audition, chart);
-      setIsLoading(false);
       console.log({ err });
     }
   }
@@ -198,10 +200,12 @@ export default function TemplateChart(props: Props) {
             setDataForChartAudience([]);
           }
         }
-      } else console.log(error);
+      } else {
+        ChartFetchAudience(audition, chart);
+        // setIsLoading(false);
+        console.log(error);
+      }
     } catch (err) {
-      ChartFetchAudience(audition, chart);
-      setIsLoading(false);
       console.log({ err });
     }
   }

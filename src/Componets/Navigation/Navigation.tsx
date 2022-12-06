@@ -13,6 +13,7 @@ import { useGlobalModalContext } from "../Dashboard/Modals/GlobalModal";
 
 export default function Navigation() {
   const { logout } = useContext(UserContext);
+  const { user, admin, setAdmin } = useContext(UserContext);
   const { activateDashboardFunction, setActivateDashbaordFunction } =
     useGlobalModalContext();
 
@@ -60,13 +61,17 @@ export default function Navigation() {
 
         <div className="logout">
           <div className="button_Dashboard">
-            <button
-              className="Save_Dashboard"
-              onClick={() => saveDashboardFunction()}
-            >
-              <span>Save Dashboard</span>
-              {/* <img src={SaveButton} alt=""></img> */}
-            </button>
+            {admin === true ? (
+              <button
+                className="Save_Dashboard"
+                onClick={() => saveDashboardFunction()}
+              >
+                <span>Save Dashboard</span>
+                {/* <img src={SaveButton} alt=""></img> */}
+              </button>
+            ) : (
+              <></>
+            )}
             <button className="Download_Dashboard">
               <span>Download Dashboard</span>
               {/* <img src={SaveButton} alt=""></img> */}

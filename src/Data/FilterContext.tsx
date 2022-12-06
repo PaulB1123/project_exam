@@ -76,6 +76,7 @@ const FilterContext = createContext({
   setitemDelteReport: (params: string) => {},
   allAudience: [] as any,
   setAllAudience: (params: any) => {},
+
   // audienceList: [] as any,
   // setAudienceList: (params: any) => {},
 });
@@ -462,6 +463,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         setitemDelteReport,
         allAudience,
         setAllAudience,
+
         // audienceList,
         // setAudienceList,
       }}

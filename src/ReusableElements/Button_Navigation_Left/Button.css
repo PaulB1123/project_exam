@@ -293,3 +293,12 @@ button:focus {
 #default_icon_normal:hover {
   background-color: #b7b5b5;
 }
+
+#user_view {
+  border: 0px;
+}
+
+#user_view:hover {
+  background-color: white;
+  cursor: auto;
+}

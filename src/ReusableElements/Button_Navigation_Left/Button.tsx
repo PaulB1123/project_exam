@@ -16,10 +16,12 @@ import FilterContext from "../../Data/FilterContext";
 import DragnDrop from "./DragnDrop";
 import Modal from "../../Componets/Filters/Modal";
 import { Id } from "react-beautiful-dnd";
+import UserContext from "../../Data/UserContext";
 
 export function DashboardsButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
+  const { user, admin, setAdmin } = useContext(UserContext);
   const { ReportsList, setitemDelteReport } = useContext(FilterContext);
   const {
     setSelectionArray,
@@ -166,22 +168,34 @@ export function DashboardsButton() {
                       >
                         {id.Dashboard_name}
                       </span>
-                      <div
-                        className="PlusIcon_container"
-                        id={
-                          DefaultDasboardID === id.Dashboard_id
-                            ? "default_icon_default"
-                            : "default_icon_normal"
-                        }
-                        onClick={() => setDashboardDefault(id.Dashboard_id)}
-                      ></div>
-                      <div
-                        className="PlusIcon_container"
-                        id="DeleteButton_container"
-                        onClick={() => deleteReport(id.Dashboard_id)}
-                      >
-                        <div className="DeleteButton"></div>
-                      </div>
+                      {admin === true ? (
+                        <div
+                          className="PlusIcon_container"
+                          id={
+                            DefaultDasboardID === id.Dashboard_id
+                              ? "default_icon_default"
+                              : "default_icon_normal"
+                          }
+                          onClick={() => setDashboardDefault(id.Dashboard_id)}
+                        ></div>
+                      ) : (
+                        <></>
+                      )}
+
+                      {admin === true ? (
+                        <div
+                          className="PlusIcon_container"
+                          id="DeleteButton_container"
+                          onClick={() => deleteReport(id.Dashboard_id)}
+                        >
+                          <div className="DeleteButton"></div>
+                        </div>
+                      ) : (
+                        <div
+                          className="PlusIcon_container"
+                          id="user_view"
+                        ></div>
+                      )}
                     </li>
                   </div>
                 </div>
@@ -214,6 +228,7 @@ export function AudiencesButton() {
   // const { audienceList } = useContext(FilterContext);
   const { showModal, audienceList } = useGlobalModalContext();
   const [showDraggableList, setShowDraggableList] = useState(false);
+  const { user, admin, setAdmin } = useContext(UserContext);
 
   useEffect(() => {
     if (message !== undefined) {
@@ -296,17 +311,21 @@ export function AudiencesButton() {
               );
             })}
 
-            <div className="button_container">
-              <button
-                className="button_filter"
-                id="openModalBtn"
-                onClick={() => {
-                  createModal();
-                }}
-              >
-                <div>Add Audience</div>
-              </button>
-            </div>
+            {admin === true ? (
+              <div className="button_container">
+                <button
+                  className="button_filter"
+                  id="openModalBtn"
+                  onClick={() => {
+                    createModal();
+                  }}
+                >
+                  <div>Add Audience</div>
+                </button>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       )}

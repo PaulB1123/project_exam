@@ -9,6 +9,8 @@ import XIcon from "../Filters/icons/X.svg";
 import "./Charts.css";
 import { useContext, useEffect, useState } from "react";
 import GridLoader from "react-spinners/GridLoader";
+import FilterContext from "../../Data/FilterContext";
+import UserContext from "../../Data/UserContext";
 
 export interface PropsChart {
   el: number;
@@ -49,6 +51,8 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     chartID,
     setchartID,
   } = useGlobalModalContext();
+
+  const { admin } = useContext(UserContext);
   const { showModal } = useGlobalModalContext();
   const [ChartSize, setChartSize] = useState<any>();
   const [LegendChartSize, setLegendcChartSize] = useState<any>();
@@ -288,19 +292,18 @@ export default function Charts(props: PropsChart, selectedChart: any) {
         valueSuffix: "%",
       },
     },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: "pointer",
-        dataLabels: {
-          enabled: false,
-        },
-      },
-    },
+    // plotOptions: {
+    //   line: {
+    //     dataLabels: {
+    //       enabled: true,
+    //     },
+    //     enableMouseTracking: false,
+    //   },
+    // },
 
-    credits: {
-      enabled: false,
-    },
+    // credits: {
+    //   enabled: true,
+    // },
     navigation: {
       buttonOptions: {
         enabled: false,
@@ -344,6 +347,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     title: {
       text: props.chartTitle,
     },
+    colors: ["#B8C8D2", "#11496A"],
     yAxis: {
       min: 0,
 
@@ -372,13 +376,11 @@ export default function Charts(props: PropsChart, selectedChart: any) {
       maxHeight: 100,
     },
     plotOptions: {
-      // series: {
-      //   label: {
-      //     connectorAllowed: false,
-      //   },
-      // },
-      dataLabels: {
-        enabled: true,
+      line: {
+        dataLabels: {
+          enabled: true,
+        },
+        enableMouseTracking: false,
       },
     },
     series: [
@@ -402,6 +404,93 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     //     }]
     // }
   };
+
+  const options5 = {
+    chart: {
+      type: "column",
+      height: 395,
+      width: ChartSize,
+      backgroundColor: "#FFFFFF",
+    },
+    exporting: {
+      enabled: true,
+    },
+    yAxis: {
+      title: {
+        // text: props.chartTitle,
+        text: "Client",
+      },
+      gridLineColor: "#ffffff",
+      gridLineWidth: 0,
+    },
+    legend: {
+      width: LegendChartSize,
+      itemWidth: 105,
+      margin: 0,
+      align: "left",
+      verticalAlign: "bottom",
+    },
+    labels: {
+      format: "{value}",
+    },
+    xAxis: {
+      categories: nameUnitsChartSet,
+      // crosshair: true,
+    },
+
+    colors: ["#B8C8D2", "#11496A"],
+    // colors: ["#11496A"],
+    title: {
+      text: props.chartTitle,
+    },
+    credits: {
+      enabled: false,
+    },
+    plotOptions: {
+      series: {
+        maxPointWidth: 65,
+        dataLabels: {
+          enabled: true,
+        },
+      },
+    },
+    // series: itemsName,
+    series: [
+      { name: "Base", data: itemsName[0] },
+      { name: "Audience", data: audienceValues[0] },
+      // { name: "Base", data: [896465, 1245434] },
+    ],
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500,
+          },
+        },
+      ],
+    },
+    navigation: {
+      buttonOptions: {
+        width: 24,
+        height: 24,
+        theme: {
+          "stroke-width": 1,
+          stroke: "#B4B2B2",
+          r: 5,
+          states: {
+            hover: {
+              fill: "#104666",
+            },
+            select: {
+              stroke: "#039",
+              fill: "#bbadab",
+            },
+          },
+        },
+      },
+    },
+  };
+
   // console.log(props.ArrayCharts);
   // console.log(ChartNumber);
 
@@ -470,61 +559,84 @@ export default function Charts(props: PropsChart, selectedChart: any) {
               <div className="continer_with_title_and_exist">
                 <div className="title_chart">
                   {/* <div className="title"> This title can change</div> */}
-                  <div>
-                    {changetitle === false ? (
-                      <h1
-                        className="title"
-                        onClick={() => {
-                          modifyTitle();
-                        }}
-                      >
-                        {title}
-                      </h1>
-                    ) : (
-                      <h1 className="h1_title_chart_container">
-                        <input
+
+                  {admin === true ? (
+                    <div>
+                      {changetitle === false ? (
+                        <h1
                           className="title"
-                          type="text"
-                          onChange={(event) => setTitle(event.target.value)}
-                          placeholder={title}
-                        ></input>
-                        <div className="container_for_button">
-                          <button onClick={() => saveTitle()}>
-                            Save title
-                          </button>
-                        </div>
-                      </h1>
-                    )}
-                  </div>
+                          onClick={() => {
+                            modifyTitle();
+                          }}
+                        >
+                          {title}
+                        </h1>
+                      ) : (
+                        <h1 className="h1_title_chart_container">
+                          <input
+                            className="title"
+                            type="text"
+                            onChange={(event) => setTitle(event.target.value)}
+                            placeholder={title}
+                          ></input>
+                          <div className="container_for_button">
+                            <button onClick={() => saveTitle()}>
+                              Save title
+                            </button>
+                          </div>
+                        </h1>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <div>
+                        <h1 className="title"> {title}</h1>
+                      </div>
+                    </>
+                  )}
+
                   {/* <div className="subtitle"> {props.chartTitle}</div> */}
                 </div>
               </div>
 
               <div className="container_Chart_Options">
-                <div className="SelectorSizeChart_Container">
-                  <select
-                    className="SelectorSizeChart"
-                    onChange={(event: any) =>
-                      ChangeSizeChart(event.target.value)
-                    }
-                    value={props.tryoutChartSize}
-                  >
-                    <option value="small">Small</option>
-                    <option value="medium">Medium</option>
-                    <option value="large">Large</option>
-                  </select>
-                </div>
-                <div
-                  onClick={() => {
-                    changeChart(props.ChartID);
-                  }}
-                >
-                  <div className="EditIcon_container">
-                    <span className="EditIcon"></span>
-                  </div>
+                {admin === true ? (
+                  <>
+                    <div className="SelectorSizeChart_Container">
+                      <select
+                        className="SelectorSizeChart"
+                        onChange={(event: any) =>
+                          ChangeSizeChart(event.target.value)
+                        }
+                        value={props.tryoutChartSize}
+                      >
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                      </select>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
 
-                  {/* Change Chart */}
-                </div>
+                {admin === true ? (
+                  <>
+                    <div
+                      onClick={() => {
+                        changeChart(props.ChartID);
+                      }}
+                    >
+                      <div className="EditIcon_container">
+                        <span className="EditIcon"></span>
+                      </div>
+
+                      {/* Change Chart */}
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
 

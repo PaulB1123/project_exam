@@ -56,6 +56,7 @@ type GlobalModalContext = {
   chart2: any;
   chart3: any;
   chart4: any;
+  chart5: any;
   slectedChart: any;
   inputarr: AudienceInfo[];
   name: any;
@@ -113,6 +114,7 @@ const initalState: GlobalModalContext = {
   chart2: "",
   chart3: "",
   chart4: "",
+  chart5: "",
   slectedChart: "",
   inputarr: [],
   name: "",
@@ -179,6 +181,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const chart2 = "chart2";
   const chart3 = "chart3";
   const chart4 = "chart4";
+  const chart5 = "chart5";
   const [loading, setLoading] = useState(false);
   const [audienceReceivedId, setAudienceReceviedId] = useState("");
   const [audienceIdReloded, setAudienceIdReloaded] = useState("");
@@ -502,6 +505,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         chart1,
         chart3,
         chart4,
+        chart5,
         inputarr,
         name,
         setName,

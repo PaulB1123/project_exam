@@ -438,3 +438,15 @@ h1 div button {
   left: 76.5%;
   z-index: 4;
 }
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  background-color: #496d84;
+  color: white;
+  font-family: "SF_Pro_Display_Bold";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}

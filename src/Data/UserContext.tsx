@@ -9,6 +9,8 @@ const UserContext = createContext({
   login: (e: any) => {},
   logout: (e: any) => {},
   payloadData: undefined as any,
+  admin: false,
+  setAdmin: (e: boolean) => {},
 });
 
 export type AuthUser = {
@@ -28,6 +30,7 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [allUserData, setAllUserData] = useState<string>("");
   const [payloadData, setPayloadData] = useState();
+  const [admin, setAdmin] = useState(false);
 
   const login = (e: any) => {
     e.preventDefault();
@@ -45,9 +48,12 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
   useEffect(() => {
     Auth.currentAuthenticatedUser().then((user) => {
       setUser(user.attributes);
-      //   console.log(user.attributes);
+      // setAdmin((old) => !old);
+      console.log(user);
     });
   }, []);
+
+  console.log(admin);
 
   useEffect(() => {
     Auth.currentAuthenticatedUser().then((allUserData) => {
@@ -59,7 +65,16 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
 
   return (
     <UserContext.Provider
-      value={{ allUserData, user, setUser, login, logout, payloadData }}
+      value={{
+        allUserData,
+        user,
+        setUser,
+        login,
+        logout,
+        payloadData,
+        admin,
+        setAdmin,
+      }}
     >
       {props.children}
     </UserContext.Provider>

@@ -14,6 +14,7 @@ import {
   useGlobalModalContext,
 } from "../../Componets/Dashboard/Modals/GlobalModal";
 import AudienceDownAudience from "../../Componets/Navigation/icons/ArrowDownAudience.svg";
+import UserContext from "../../Data/UserContext";
 
 // interface DataProps {}
 
@@ -42,6 +43,7 @@ export const DragnDrop = (name: Props, id: Props) => {
 
   const [openModal, setOpenModal] = React.useState(false);
   const { showModal } = useGlobalModalContext();
+  const { user, admin, setAdmin } = useContext(UserContext);
 
   // useEffect(() => {
   //   console.log(id);
@@ -154,27 +156,36 @@ export const DragnDrop = (name: Props, id: Props) => {
                       backgroundColor: isActive ? "white" : "white",
                     }}
                   >
-                    <div
-                      className={
-                        isActive
-                          ? "PlusIcon_container_open"
-                          : "PlusIcon_container"
-                      }
-                      onClick={() => {
-                        handleClick();
-                      }}
-                    >
-                      <div className="PlusIcon"></div>
-                    </div>
-                    <div
-                      className="PlusIcon_container"
-                      id="DeleteButton_container"
-                      onClick={() => {
-                        deleteItemAudience(name.id);
-                      }}
-                    >
-                      <div className="DeleteButton"></div>
-                    </div>
+                    {admin === true ? (
+                      <div
+                        className={
+                          isActive
+                            ? "PlusIcon_container_open"
+                            : "PlusIcon_container"
+                        }
+                        onClick={() => {
+                          handleClick();
+                        }}
+                      >
+                        <div className="PlusIcon"></div>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+
+                    {admin === true ? (
+                      <div
+                        className="PlusIcon_container"
+                        id="DeleteButton_container"
+                        onClick={() => {
+                          deleteItemAudience(name.id);
+                        }}
+                      >
+                        <div className="DeleteButton"></div>
+                      </div>
+                    ) : (
+                      <div className="PlusIcon_container" id="user_view"></div>
+                    )}
                   </div>
                 </button>
 
