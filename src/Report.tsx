@@ -32,7 +32,7 @@ export function Report() {
   const { accessData, setAccessData } = useContext(UserContext);
 
   useEffect(() => {
-    console.log("report  set modelId", modelId);
+    // console.log("report  set modelId", modelId);
     setSelectedModelId(modelId);
   }, [modelId, setSelectedModelId]);
 
@@ -43,7 +43,7 @@ export function Report() {
 
   // console.log(modelId);
   useEffect(() => {
-    console.log(modelId);
+    // console.log(modelId);
     getAudienceData(modelId as string);
     loadAudienceUrl(modelId as string);
   }, [modelId]);
@@ -54,11 +54,11 @@ export function Report() {
 
   useEffect(() => {
     if (accessData !== undefined) {
-      console.log(
-        accessData.Report,
-        accessData.Audience,
-        accessData.Activation
-      );
+      // console.log(
+      //   accessData.Report,
+      //   accessData.Audience,
+      //   accessData.Activation
+      // );
     }
   }, [accessData]);
 
@@ -82,7 +82,7 @@ export function Report() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data[0]);
+            // console.log(data[0]);
             setAccessData(data[0]?.Resources);
           } else {
           }

@@ -58,7 +58,11 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   const [ChartSize, setChartSize] = useState<any>();
   const [LegendChartSize, setLegendcChartSize] = useState<any>();
   const [itemsName, setitemName] = useState([]) as any;
+  const [numericalValues, setNumericalValues] = useState([]) as any;
   const [audienceValues, setAudiencesValues] = useState([]) as any;
+  const [audienceNumericalValues, setAudienceNumericalValues] = useState(
+    []
+  ) as any;
   const [nameUnitsChartSet, setnameUnitChartSet] = useState([]) as any;
   const [title, setTitle] = useState(props.chartIndividualTitle);
   const [changetitle, setChangetitle] = useState(false);
@@ -69,7 +73,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     // setOptionsCharts(slectedChart);
   }, [slectedChart]);
 
-  console.log(props.chartIndividualTitle);
+  // console.log(props.chartIndividualTitle);
 
   useEffect(() => {
     if (props.dataForChartBase !== undefined) {
@@ -80,9 +84,10 @@ export default function Charts(props: PropsChart, selectedChart: any) {
       //   }))
       // );
 
+      setNumericalValues(props.dataForChartBase[0].Avg_value);
       setitemName([props.dataForChartBase.map((item: any) => item.Count)]);
 
-      props.dataForChartBase.map((item: any) => console.log(item));
+      // props.dataForChartBase.map((item: any) => console.log(item));
       setnameUnitChartSet(
         props.dataForChartBase.map((item: any) => item.Value)
       );
@@ -92,6 +97,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
       setAudiencesValues([
         props.dataForChartAudience.map((item: any) => item.Count),
       ]);
+      setAudienceNumericalValues(props.dataForChartAudience[0].Avg_value);
     }
   }, [props.dataForChartAudience, props.dataForChartBase]);
 
@@ -106,16 +112,16 @@ export default function Charts(props: PropsChart, selectedChart: any) {
 
   useEffect(() => {
     if (props.tryoutChartSize === "small") {
-      console.log("this is small");
+      // console.log("this is small");
       setChartSize(483);
       setLegendcChartSize(530);
     } else if (props.tryoutChartSize === "medium") {
-      console.log("this is medium");
+      // console.log("this is medium");
       setChartSize(998);
 
       setLegendcChartSize(930);
     } else if (props.tryoutChartSize === "large") {
-      console.log("this is large");
+      // console.log("this is large");
       setChartSize(1512);
       setLegendcChartSize(1530);
     }
@@ -492,6 +498,78 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     },
   };
 
+  const options6 = {
+    chart: {
+      // plotShadow: true,
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: "pie",
+
+      height: 395,
+      width: ChartSize,
+    },
+    title: {
+      text: props.chartTitle,
+    },
+    tooltip: {
+      pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+    },
+    accessibility: {
+      point: {
+        valueSuffix: "%",
+      },
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: "pointer",
+        colors: ["#B8C8D2", "#194E6D"],
+        dataLabels: {
+          enabled: true,
+          format: "<b>{point.name}</b><br>{point.percentage:.1f} %",
+          distance: -50,
+          filter: {
+            property: "percentage",
+            operator: ">",
+            value: 4,
+          },
+        },
+      },
+    },
+
+    credits: {
+      enabled: false,
+    },
+    navigation: {
+      buttonOptions: {
+        enabled: false,
+      },
+    },
+
+    series: [
+      {
+        colorByPoint: true,
+        data: [
+          {
+            name: "Base",
+            y: numericalValues,
+            // sliced: true,
+            // selected: true,
+            color: "#B8C8D2",
+          },
+          {
+            name: "Audience",
+            y: audienceNumericalValues,
+            sliced: true,
+            selected: true,
+            color: "#194E6D",
+          },
+        ],
+      },
+    ],
+  };
+
   // console.log(props.ArrayCharts);
   // console.log(ChartNumber);
 
@@ -506,6 +584,10 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   // });
 
   useEffect(() => {
+    // console.log(props.chartTypeBackend, SelectionArray);
+  }, [props.chartTypeBackend, SelectionArray]);
+
+  useEffect(() => {
     props.setloading(true);
     setTimeout(() => {
       props.setloading(false);
@@ -513,14 +595,14 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   }, [itemsName]);
 
   function changeChart(ChartID: any) {
-    console.log(ChartID);
+    // console.log(ChartID);
     showModal(MODAL_TYPES.DELETE_MODAL, ChartID);
   }
 
   // props.setloading(false);
 
   function ChangeSizeChart(value: any) {
-    console.log("this is working ", value);
+    // console.log("this is working ", value);
     // setChartSizes(value);
     props.setTryoutChartSize(value);
     setChartSizes(value);
@@ -528,7 +610,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
   }
 
   useEffect(() => {
-    console.log(props.chartTypeBackend);
+    // console.log(props.chartTypeBackend);
   }, [props.chartTypeBackend]);
 
   function modifyTitle() {
@@ -539,8 +621,8 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     setChartTitle(title);
     setchartID(props.ChartID[0]);
     setChangetitle(false);
-    console.log("it passed here ");
-    console.log(props.ChartID[0]);
+    // console.log("it passed here ");
+    // console.log(props.ChartID[0]);
   }
 
   useEffect(() => {
@@ -665,6 +747,8 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                       ? options4
                       : props.chartTypeBackend === "chart4"
                       ? options5
+                      : props.chartTypeBackend === "chart5"
+                      ? options6
                       : console.log("blabla")
                   }
                   // options={optionsCharts}

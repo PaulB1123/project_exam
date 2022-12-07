@@ -220,7 +220,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   }, [selectedModelId, availableModels]);
 
   const DatabaseFetc = useCallback(async () => {
-    console.log(selectedModelId);
+    // console.log(selectedModelId);
 
     try {
       const response = (await API.graphql({
@@ -239,7 +239,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       if (StatusCode === 200) {
         // console.log(data);
         if (data) {
-          console.log(data);
+          // console.log(data);
           // console.log("this should work", data);
           if (data.length > 0) {
             // console.log(data);
@@ -248,7 +248,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
             const filteredList = data.filter(
               (i) => i.Variable_type === "categorical"
             ) as SelectorFactor[];
-            console.log("this is categorical data", filteredList);
+            // console.log("this is categorical data", filteredList);
             if (filteredList.length > 0) {
               const a = filteredList.map((i: SelectorFactor) => {
                 const {
@@ -303,24 +303,24 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
     valueId: number,
     item: any
   ) => {
-    console.log(selector_Variable, valueId, item);
-    console.log(categorical);
+    // console.log(selector_Variable, valueId, item);
+    // console.log(categorical);
 
     const updated_selectors = categorical.map((s: any) => {
       // first check if selector is updated otherwise just return the selector
-      console.log(s.Variable);
-      console.log(selector_Variable);
+      // console.log(s.Variable);
+      // console.log(selector_Variable);
 
       if (s.Variable === selector_Variable) {
-        console.log("this is true", s);
+        // console.log("this is true", s);
         // const { values } = s.Values;
         let Values = s.Values;
         // console.log(Values, s.Values);
         const new_val = Values.map((vm: any) => {
-          console.log(vm);
+          // console.log(vm);
 
           if (vm.Id === valueId) {
-            console.log(vm.Id);
+            // console.log(vm.Id);
             return { ...vm, isSelected: !vm.isSelected };
           }
           return vm;
@@ -329,7 +329,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
       }
       return s;
     });
-    console.log(updated_selectors);
+    // console.log(updated_selectors);
     // console.log(item);
     setCategorical(updated_selectors);
   };
@@ -413,9 +413,9 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   // }, [audienceList]);
 
   function updateCharts() {
-    console.log(data);
-    console.log(object);
-    console.log(Chart);
+    // console.log(data);
+    // console.log(object);
+    // console.log(Chart);
   }
 
   return (

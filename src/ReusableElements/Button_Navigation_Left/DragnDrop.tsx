@@ -98,7 +98,7 @@ export const DragnDrop = (name: Props, id: Props) => {
         );
         dragItem.current = params;
         localStorage.setItem("List", JSON.stringify(newList));
-        console.log(newList);
+        // console.log(newList);
         return newList;
       });
     // console.log(data[0].items);

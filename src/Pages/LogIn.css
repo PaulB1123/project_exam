@@ -90,3 +90,7 @@ p {
   padding-right: 2.8rem;
   padding-left: 2.8rem;
 }
+
+.container_login {
+  display: flex;
+}

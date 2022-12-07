@@ -288,7 +288,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
           Audience_name: name,
         } as SaveAudienceMutationVariables,
       })) as { data: SaveAudienceMutation };
-      console.log(response);
+      // console.log(response);
 
       const { data: response_data } = response;
       const { saveAudience: actual_list } = response_data;
@@ -296,7 +296,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
 
       if (StatusCode === 200) {
         if (data) {
-          console.log(data);
+          // console.log(data);
 
           setAudience(data.Audience);
           return data;
@@ -328,13 +328,13 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
 
   const saveAudienceURLtrigger = async (audienceName: string) => {
     const data: any = await SaveAudineceURL();
-    console.log(data);
+    // console.log(data);
 
     await PostResponse(data.Url, data);
   };
 
   async function PostResponse(e: string, data: AudienceDataItem) {
-    console.log(data);
+    // console.log(data);
 
     try {
       const response = await fetch(e, {
@@ -342,8 +342,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(ArrayDragged),
       });
-      console.log(response);
-      console.log(selectedModelId);
+      // console.log(response);
+      // console.log(selectedModelId);
       // loadAudienceUrl(selectedModelId);
 
       getAudienceData(selectedModelId);
@@ -353,8 +353,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   }
 
   async function getAudienceData(modelId: string) {
-    console.log(selectedModelId);
-    console.log("it went here again ", selectedModelId);
+    // console.log(selectedModelId);
+    // console.log("it went here again ", selectedModelId);
 
     try {
       const response = (await API.graphql({
@@ -369,12 +369,12 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       const { getAudiences: actual_list } = response_data;
       const { data, error, StatusCode }: getAudiencesResponse = actual_list;
 
-      console.log(data);
+      // console.log(data);
 
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data);
+            // console.log(data);
 
             setAudienceList(data);
 
@@ -397,8 +397,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
           Audience_id: reponse,
         } as DeleteAudienceMutationVariables,
       });
-      console.log(response2);
-      console.log(modelId);
+      // console.log(response2);
+      // console.log(modelId);
 
       getAudienceData(selectedModelId);
       // loadAudienceUrl(reponse);
@@ -408,7 +408,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   }
 
   async function loadAudienceUrl(audienceID: string) {
-    console.log("this is coming from the second fetch", audienceID);
+    // console.log("this is coming from the second fetch", audienceID);
 
     setAudienceIdReloaded(audienceID);
     try {
@@ -419,7 +419,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         } as LoadAudienceQueryVariables,
       })) as { data: LoadAudienceQuery };
 
-      console.log(response);
+      // console.log(response);
       const { data: response_data } = response;
       const { loadAudience: actual_list } = response_data;
       const { data, error, StatusCode }: loadAudienceResponse = actual_list;
@@ -428,7 +428,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
 
       if (StatusCode === 200) {
         if (data) {
-          console.log(data);
+          // console.log(data);
           LoadAudience(data.Url);
           return data.Url as string;
         } else {
@@ -448,7 +448,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       })
         .then((r) => r.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setArrayData(data);
           console.log("this is be after the deleted is clicked ", data);
         });
@@ -458,13 +458,13 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   }
 
   useEffect(() => {
-    console.log(chartTitle, chartID);
-    console.log(SelectionArray);
-    console.log(chartSize);
-    console.log("has been here");
+    // console.log(chartTitle, chartID);
+    // console.log(SelectionArray);
+    // console.log(chartSize);
+    // console.log("has been here");
 
     if (SelectionArray.some((el: any) => el.Position === chartID)) {
-      console.log(SelectionArray);
+      // console.log(SelectionArray);
 
       const ChartFound = SelectionArray.find(
         (elem: any) => elem.Position === chartID
@@ -478,11 +478,11 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       );
 
       setSelectionArray((ps: any) => [...ps, ChartFound]);
-      console.log(ChartFound);
+      // console.log(ChartFound);
     }
   }, [chartTitle, chartSize]);
 
-  console.log(SelectionArray);
+  // console.log(SelectionArray);
 
   // here it ends the functions for the audiences
 

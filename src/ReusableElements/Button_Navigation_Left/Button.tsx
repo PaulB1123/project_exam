@@ -41,7 +41,7 @@ export function DashboardsButton() {
   };
 
   function deleteReport(id: string) {
-    console.log(id);
+    // console.log(id);
     setitemDelteReport(id);
   }
 
@@ -50,21 +50,21 @@ export function DashboardsButton() {
     DashbaordID: string,
     Dashboard_name: string
   ) {
-    console.log(
-      "This is chartlist:",
-      Audiences,
-      "This is id:",
-      DashbaordID,
-      "This is name:",
-      Dashboard_name
-    );
+    // console.log(
+    //   "This is chartlist:",
+    //   Audiences,
+    //   "This is id:",
+    //   DashbaordID,
+    //   "This is name:",
+    //   Dashboard_name
+    // );
     setDashboardSelectedID(DashbaordID);
     setSelectionArray(Audiences);
     setDashboardSelectedName(Dashboard_name);
   }
 
   useEffect(() => {
-    console.log(ReportsList);
+    // console.log(ReportsList);
     if (ReportsList !== undefined) {
       setCheckReportsList(true);
       ReportsList.map((id: any) => {
@@ -81,7 +81,7 @@ export function DashboardsButton() {
   }, [ReportsList]);
 
   useEffect(() => {
-    console.log(DashboardSelectedName);
+    // console.log(DashboardSelectedName);
 
     if (
       DefaultDasboard !== undefined &&
@@ -99,7 +99,7 @@ export function DashboardsButton() {
   }, [DefaultDasboard]);
 
   function setDashboardDefault(DashbaordDefaultID: any) {
-    console.log(DashbaordDefaultID);
+    // console.log(DashbaordDefaultID);
     setDasdboardDefault(DashbaordDefaultID);
     // console.log(DashboardDefault,
     //   setDasdboardDefault);
@@ -244,7 +244,7 @@ export function AudiencesButton() {
   const handelclickAudience = (key: string) => {
     setCheckLi(key);
     loadAudienceUrl(key);
-    console.log(key);
+    // console.log(key);
   };
 
   const createModal = () => {
@@ -255,7 +255,7 @@ export function AudiencesButton() {
   };
 
   useEffect(() => {
-    console.log(audienceList);
+    // console.log(audienceList);
   }, [audienceList]);
 
   return (

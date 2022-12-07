@@ -47,7 +47,7 @@ const AudienceContainer = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log(listFilter);
+    // console.log(listFilter);
 
     if (listFilter.variable_type === "categorical") {
       const found = listFilter.values.some(
@@ -63,8 +63,8 @@ const AudienceContainer = (props: Props) => {
     setIsActiveDropDown((current) => !current);
   }
 
-  console.log(data[0].items[0].Values);
-  console.log(categorical);
+  // console.log(data[0].items[0].Values);
+  // console.log(categorical);
 
   useEffect(() => {
     // setselectedItems(
@@ -75,7 +75,7 @@ const AudienceContainer = (props: Props) => {
     //   )
     // );
 
-    console.log(leftside);
+    // console.log(leftside);
 
     let newObject;
     setselectedItems(
@@ -96,19 +96,19 @@ const AudienceContainer = (props: Props) => {
     //   setObject([]);
     // }
 
-    console.log(selectedItems);
+    // console.log(selectedItems);
 
     if (selectedItems !== undefined) {
       setObject(selectedItems);
-      console.log(object);
+      // console.log(object);
     } else {
       setObject([]);
     }
   }, [leftside]);
 
-  console.log(selectedItems);
+  // console.log(selectedItems);
 
-  console.log(props.item);
+  // console.log(props.item);
 
   return (
     <>
@@ -203,7 +203,7 @@ const AudienceContainer = (props: Props) => {
                   id="isChecked"
                   onChange={() => {
                     setEle(!ele);
-                    console.log(ele);
+                    // console.log(ele);
                     // ele === false
                     //   ? handelClickDropDownAll()
                     //   : handelClickDropDownAllDelete();
@@ -212,7 +212,7 @@ const AudienceContainer = (props: Props) => {
               </button>
             </div>
             <div className="items_list">
-              {console.log(listFilter, props.item.Variable)}
+              {/* {console.log(listFilter, props.item.Variable)} */}
               {listFilter.Values.map((item: any, key: any) => (
                 <li
                   key={item.Id}

@@ -53,11 +53,11 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
     Auth.currentAuthenticatedUser().then((user) => {
       setUser(user.attributes);
       // setAdmin((old) => !old);
-      console.log(user);
+      // console.log(user);
     });
   }, []);
 
-  console.log(admin);
+  // console.log(admin);
 
   useEffect(() => {
     Auth.currentAuthenticatedUser().then((allUserData) => {

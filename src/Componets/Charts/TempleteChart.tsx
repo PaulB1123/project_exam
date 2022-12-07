@@ -34,13 +34,13 @@ export default function TemplateChart(props: Props) {
   const [dataForChartAudience, setDataForChartAudience] = useState() as any;
   const { ArrayDragged, selectedModelId } = useContext(FilterContext);
   const [chartTitle, setChartTitle] = useState<any>();
-  const [audtitionName, setAuditionName] = useState<any>();
+  const [audtitionName, setAuditionName] = useState<string>("");
   const [loading, setloading] = useState(false);
   const [chartSizeBackend, setChartSizeBackend] = useState<any>();
   const [chartTypeBackend, setChartTypeBackend] = useState();
 
   const bigFunction = (chartID: any) => {
-    console.log(chartID);
+    // console.log(chartID);
 
     setChartNumber(chartID);
     showModal(MODAL_TYPES.DELETE_MODAL, chartID);
@@ -67,7 +67,7 @@ export default function TemplateChart(props: Props) {
       dataForChartBase &&
       !SelectionArray.some((el: any) => el.Position === ChartID[0])
     ) {
-      console.log("test", dataForChartBase);
+      // console.log("test", dataForChartBase);
       setDataForChartBase();
     }
 
@@ -75,50 +75,53 @@ export default function TemplateChart(props: Props) {
       dataForChartAudience &&
       !SelectionArray.some((el: any) => el.Position === ChartID[0])
     ) {
-      console.log("test", dataForChartAudience);
+      // console.log("test", dataForChartAudience);
       setDataForChartAudience();
     }
 
     SelectionArray.forEach((element: any, chart: any) => {
       if (element.Position === ChartID[0]) {
-        console.log("comparing data", element, ChartID[0], element.Variable);
-        setAuditionName(element.Variable);
-        ChartFetchBase(element.Variable, element.Chart_type);
-        setChartTitle(element.Variable);
-        setChartIndividualTitle(element.Title);
-        setTryoutChartSize(element.Chart_size);
-
-        console.log(element.Title);
+        if (element.Variable_type === "categorical") {
+          setAuditionName(element.Variable);
+          ChartFetchBase(element.Variable, element.Chart_type);
+          ChartFetchAudience(audtitionName, element.Chart_type);
+          setChartTitle(element.Variable);
+          setChartIndividualTitle(element.Title);
+          setTryoutChartSize(element.Chart_size);
+        } else {
+          setAuditionName(element.Variable);
+          ChartNumericalFetchBase(element.Variable, element.Chart_type);
+          ChartNumericalFetchAudience(audtitionName, element.Chart_type);
+          setChartTitle(element.Variable);
+          setChartIndividualTitle(element.Title);
+          setTryoutChartSize(element.Chart_size);
+          console.log("this is numerical");
+        }
+        // console.log("comparing data", element, ChartID[0], element.Variable);
       }
 
-      // if (element.Position === ChartID[0] && !dataForChartBase) {
-      //   console.log("comparing data", element, ChartID[0], element.Variable);
-      //   setAuditionName(element.Variable);
-      //   ChartFetchBase(element.Variable, element.Chart_type);
-      //   setChartTitle(element.Variable);
-      //   setChartIndividualTitle(element.Title);
-      //   setTryoutChartSize(element.Chart_size);
-      //   console.log(element);
+      // if (element.Position === ChartID[0] && !dataForChartAudience) {
+      //   if (element.Variable_type === "categorical") {
+      //     setAuditionName(element.Variable);
+      //     ChartFetchBase(element.Variable, element.Chart_type);
+      //     ChartFetchAudience(audtitionName, element.Chart_type);
+      //     setChartTitle(element.Variable);
+      //     setChartIndividualTitle(element.Title);
+      //     setTryoutChartSize(element.Chart_size);
+      //   } else {
+      //     console.log("this is numerical");
+      //     setChartIndividualTitle(element.Title);
+      //   }
       // }
-
-      if (element.Position === ChartID[0] && !dataForChartAudience) {
-        console.log("comparing data", element, ChartID[0], element.Variable);
-        setAuditionName(element.Variable);
-        ChartFetchAudience(element.Variable, element.Chart_type);
-        setChartTitle(element.Variable);
-        setChartIndividualTitle(element.Title);
-        setTryoutChartSize(element.Chart_size);
-        console.log(element);
-      }
     });
   }, [SelectionArray]);
 
   // this is where the second update fetch is happening
   useEffect(() => {
     if (chartUpdate === true) {
-      console.log("chart update");
       ChartFetchAudience(audtitionName, "");
-      // ChartFetchBase(audtitionName, "");
+      ChartNumericalFetchAudience(audtitionName, "");
+      // ChartNumericalFetchAudience(audtitionName, "");
       setChartUpdate(false);
     }
   }, [chartUpdate]);
@@ -140,16 +143,16 @@ export default function TemplateChart(props: Props) {
           } as getChartDataAudience,
         },
       })) as { data: GetChartDataQuery };
+
       const { data: response_data } = response;
       const { getChartData: actual_list } = response_data;
       const { data, error, StatusCode }: getChartDataResponse = actual_list;
 
-      // console.log(actual_list);
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
             // console.log(data);
-
+            // console.log(data);
             setDataForChartBase(data);
             setChartTypeBackend(chart);
 
@@ -159,7 +162,7 @@ export default function TemplateChart(props: Props) {
           }
         }
       } else {
-        ChartFetchBase(audition, chart);
+        // ChartFetchBase(audition, chart);
         // setIsLoading(false);
         console.log(error);
       }
@@ -168,7 +171,7 @@ export default function TemplateChart(props: Props) {
     }
   }
 
-  async function ChartFetchAudience(audition: any, chart: any) {
+  async function ChartNumericalFetchBase(audition: any, chart: any) {
     // console.log(audition, "fetching chart data ", object);
     try {
       const response = (await API.graphql({
@@ -176,8 +179,52 @@ export default function TemplateChart(props: Props) {
         variables: {
           Model_id: selectedModelId,
           Audience: {
-            Numerical_variable: null,
-            Categorical_variable: audition,
+            Numerical_variable: audition,
+            Categorical_variable: null,
+            Filters: {
+              Categorical: [],
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      })) as { data: GetChartDataQuery };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            console.log(data);
+
+            setDataForChartBase(data);
+            setChartTypeBackend(chart);
+
+            // console.log(loading);
+          } else {
+            // setDataForChartBase([]);
+          }
+        }
+      } else {
+        // ChartFetchBase(audition, chart);
+        // setIsLoading(false);
+        console.log(error);
+      }
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  async function ChartNumericalFetchAudience(audition: any, chart: any) {
+    try {
+      const response = (await API.graphql({
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: audition,
+            Categorical_variable: null,
             Filters: {
               Categorical: object,
               Numerical: [],
@@ -188,12 +235,55 @@ export default function TemplateChart(props: Props) {
       const { data: response_data } = response;
       const { getChartData: actual_list } = response_data;
       const { data, error, StatusCode }: getChartDataResponse = actual_list;
-
-      // console.log(actual_list);
+      console.log(actual_list);
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
             console.log(data);
+            setDataForChartAudience(data);
+          } else {
+            setDataForChartBase([]);
+          }
+        }
+      } else {
+        console.log(error);
+      }
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  async function ChartFetchAudience(categoricalFactor: string, chart: any) {
+    console.log(categoricalFactor, "fetching chart data ", object);
+    try {
+      const query_input = {
+        query: getChartData,
+        variables: {
+          Model_id: selectedModelId,
+          Audience: {
+            Numerical_variable: null,
+            Categorical_variable: categoricalFactor,
+            Filters: {
+              Categorical: object,
+              Numerical: [],
+            },
+          } as getChartDataAudience,
+        },
+      };
+      // console.log(query_input);
+
+      const response = (await API.graphql(query_input)) as {
+        data: GetChartDataQuery;
+      };
+      const { data: response_data } = response;
+      const { getChartData: actual_list } = response_data;
+      const { data, error, StatusCode }: getChartDataResponse = actual_list;
+
+      console.log(actual_list);
+      if (StatusCode === 200) {
+        if (data) {
+          if (data.length > 0) {
+            // console.log(data);
 
             setDataForChartAudience(data);
             // console.log(loading);
@@ -202,7 +292,7 @@ export default function TemplateChart(props: Props) {
           }
         }
       } else {
-        ChartFetchAudience(audition, chart);
+        // ChartFetchAudience(audition, chart);
         // setIsLoading(false);
         console.log(error);
       }
@@ -223,14 +313,7 @@ export default function TemplateChart(props: Props) {
       (el: any) => el.Position === ChartID[0]
     );
     setChartType(ChartDetails.Chart_type);
-    // setChartIndividualTitle(ChartDetails.Title);
-    // console.log(ChartDetails);
-    // console.log(SelectionArray);
-    // setChartType(slectedChart);
-    // console.log(ChartDetails.Chart_type);
   }, [ChartID]);
-
-  console.log(chartTypeBackend);
 
   return (
     <>

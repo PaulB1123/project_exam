@@ -183,3 +183,10 @@ h3 {
   align-items: flex-end;
   justify-content: flex-end;
 } */
+
+.twoChart_collection {
+  display: flex;
+  flex-direction: column;
+  margin: 0rem;
+  padding: 0rem;
+}

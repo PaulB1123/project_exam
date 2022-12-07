@@ -18,7 +18,7 @@ export default function Navigation() {
     useGlobalModalContext();
 
   function saveDashboardFunction() {
-    console.log("this is okay");
+    // console.log("this is okay");
     setActivateDashbaordFunction(true);
   }
 

@@ -118,12 +118,14 @@ export default function Dashboard() {
   useEffect(() => {
     setReportStatus(true);
     setArrayCharts([0, 1, 2, 3, 4, 5, 6, 7, 8]);
-    console.log(ArrayCharts);
+    // console.log(ArrayCharts);
   }, []);
+
+  console.log(SelectionArray);
 
   if (activateDashboardFunction === true) {
     saveDashboardFunction();
-    console.log(SelectionArray);
+    // console.log(SelectionArray);
   }
 
   function saveDashboardFunction() {
@@ -142,18 +144,18 @@ export default function Dashboard() {
             Charts: SelectionArray,
           } as SaveDashboardMutationVariables,
         })) as { data: SaveDashboardMutation };
-        console.log("it went here");
-        console.log(response);
+        // console.log("it went here");
+        // console.log(response);
 
         const { data: response_data } = response;
         const { saveDashboard: actual_list } = response_data;
         const { data, error, StatusCode }: saveDashboardResponse = actual_list;
 
-        console.log(data);
+        // console.log(data);
 
         if (StatusCode === 200) {
           if (data) {
-            console.log(data);
+            // console.log(data);
             MakeDashboardDefault(data.Dashboard_id as string, title as string);
             setActivateDashbaordFunction(false);
             // LoadDashboard();
@@ -170,7 +172,7 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    console.log(DashboardDefault);
+    // console.log(DashboardDefault);
     updateDashboardDefault();
     async function updateDashboardDefault() {
       try {
@@ -180,7 +182,7 @@ export default function Dashboard() {
             Dashboard_id: DashboardDefault,
           } as AddDefaultDashboardMutationVariables,
         });
-        console.log(response);
+        // console.log(response);
         LoadDashboard();
       } catch (err) {
         console.log({ err });
@@ -199,7 +201,7 @@ export default function Dashboard() {
   }
 
   if (makeDashboardDefault === true) {
-    console.log(makeDashboardDefault);
+    // console.log(makeDashboardDefault);
     makeDashboardDefaultFunction(DashboardID);
     // console.log(DashboardID);
     setMakeDashboardDefault(false);
@@ -213,7 +215,7 @@ export default function Dashboard() {
           Dashboard_id: DashboardID,
         } as AddDefaultDashboardMutationVariables,
       });
-      console.log(response);
+      // console.log(response);
       LoadDashboard();
     } catch (err) {
       console.log({ err });
@@ -236,7 +238,7 @@ export default function Dashboard() {
 
       if (StatusCode === 200) {
         if (data) {
-          console.log(data);
+          // console.log(data);
           setReportsList(data);
           // setAudience(data.Audience);
           return data;
@@ -257,7 +259,7 @@ export default function Dashboard() {
   }
 
   async function deleteItemDashboard() {
-    console.log(itemDeleteReport);
+    // console.log(itemDeleteReport);
     try {
       const response = (await API.graphql({
         query: deleteDashboard,
@@ -265,8 +267,8 @@ export default function Dashboard() {
           Dashboard_id: itemDeleteReport,
         } as DeleteDashboardMutationVariables,
       })) as { data: DeleteDashboardMutation };
-      console.log("it went here");
-      console.log(response);
+      // console.log("it went here");
+      // console.log(response);
     } catch (err) {}
     setitemDelteReport("");
     LoadDashboard();
@@ -315,15 +317,15 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data);
+            // console.log(data);
             setAudienceCoverageInitial(data);
           } else {
           }
         }
       } else {
         setIsLoading(false);
-        ChartFetchInitialAudienceCoverage();
-        console.log(error);
+        // ChartFetchInitialAudienceCoverage();
+        // console.log(error);
       }
     } catch (err) {
       console.log({ err });
@@ -354,14 +356,14 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data.toLocaleString());
+            // console.log(data.toLocaleString());
             setAudienceCoverageUpdated(data);
           } else {
           }
         }
       } else {
-        setIsLoading(false);
-        ChartFetchUpdatedAudienceCoverage();
+        // setIsLoading(false);
+        // ChartFetchUpdatedAudienceCoverage();
         console.log(error);
       }
     } catch (err) {
@@ -402,7 +404,7 @@ export default function Dashboard() {
         setUpdatedAudienceCoverage(0);
       } else {
         const a = Count_value_initial - Count_value_updated;
-        console.log("the two number are not equal", a);
+        // console.log("the two number are not equal", a);
         setInitialAudienceCoverage(a);
       }
     }
@@ -503,7 +505,7 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data);
+            // console.log(data);
             setInitialGender(data.map((item: any) => item.Count));
             // setInitialGender({name:"Base", data:})
           } else {
@@ -512,7 +514,7 @@ export default function Dashboard() {
       } else {
         setIsLoading(false);
         console.log(error);
-        ChartGenderInital();
+        // ChartGenderInital();
       }
     } catch (err) {
       console.log({ err });
@@ -544,14 +546,14 @@ export default function Dashboard() {
         if (data) {
           if (data.length > 0) {
             setUpdatedGender(data.map((item: any) => item.Count));
-            console.log(data);
+            // console.log(data);
           } else {
           }
         }
       } else {
         setIsLoading(false);
         console.log(error);
-        ChartGenderUpdated();
+        // ChartGenderUpdated();
       }
     } catch (err) {
       console.log({ err });
@@ -587,12 +589,10 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data);
-            // let rounded;
+            // console.log(data);
+
             let rounded = data[0].Avg_value;
-            // if (data[0].Avg_value) {
-            //   rounded = data[0].Avg_value?.toFixed(3);
-            // }
+
             setInitalCore(rounded);
 
             // setAudienceCoverageUpdated(data);
@@ -602,7 +602,7 @@ export default function Dashboard() {
       } else {
         setIsLoading(false);
         console.log(error);
-        ChartFetchCore();
+        // ChartFetchCore();
       }
     } catch (err) {
       console.log({ err });
@@ -633,7 +633,7 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data);
+            // console.log(data);
             let rounded = data[0].Avg_value;
             // if (data[0].Avg_value) {
             //   rounded = data[0].Avg_value?.toFixed(3);
@@ -645,7 +645,7 @@ export default function Dashboard() {
           }
         }
       } else {
-        ChartUpdatedFetchCore();
+        // ChartUpdatedFetchCore();
         console.log(error);
         setIsLoading(false);
       }
@@ -658,7 +658,7 @@ export default function Dashboard() {
   const [updatedPreditionScore, setUpdatedPreditionScore] = useState() as any;
 
   async function ChartFetchPreditionScore() {
-    console.log("PReditionScore");
+    // console.log("PReditionScore");
 
     try {
       const response = (await API.graphql({
@@ -683,7 +683,7 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data);
+            // console.log(data);
             let rounded = data[0].Avg_value;
             // if (data[0].Avg_value) {
             //   rounded = data[0].Avg_value?.toFixed(3);
@@ -694,7 +694,7 @@ export default function Dashboard() {
           }
         }
       } else {
-        ChartFetchPreditionScore();
+        // ChartFetchPreditionScore();
         console.log(error);
         setIsLoading(false);
       }
@@ -727,7 +727,7 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
-            console.log(data);
+            // console.log(data);
             // let rounded = data[0].Avg_value;
             let rounded = data[0].Avg_value;
             // if (data[0].Avg_value) {
@@ -740,7 +740,7 @@ export default function Dashboard() {
           }
         }
       } else {
-        ChartFetchUpdatedPreditionScore();
+        // ChartFetchUpdatedPreditionScore();
         console.log(error);
         setIsLoading(false);
       }
@@ -750,21 +750,21 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    console.log(allAudience);
+    // console.log(allAudience);
     setKPIMaxValue(
       allAudience.find((element: any) => element.Variable === "core")
     );
   }, [allAudience]);
 
   useEffect(() => {
-    console.log("this is going here");
+    // console.log("this is going here");
 
     if (KIPMaxValue !== undefined) {
-      console.log(KIPMaxValue["Max"]);
+      // console.log(KIPMaxValue["Max"]);
       setMaxValue(KIPMaxValue["Max"]);
-      console.log(initalCore);
+      // console.log(initalCore);
 
-      console.log(updatedCore);
+      // console.log(updatedCore);
     }
 
     // setMaxValue(KIPMaxValue["Max"]);
@@ -910,7 +910,7 @@ export default function Dashboard() {
     }
   }, [DashboardSelectedName]);
 
-  console.log(initalGender);
+  // console.log(initalGender);
 
   const options1 = {
     chart: {
