@@ -42,6 +42,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     chart2,
     chart3,
     chart4,
+    chart7,
     ChartNumber,
     slectedChart,
     // chartSize,
@@ -520,13 +521,16 @@ export default function Charts(props: PropsChart, selectedChart: any) {
         valueSuffix: "%",
       },
     },
+
     plotOptions: {
       pie: {
         allowPointSelect: true,
+
+        showInLegend: true,
         cursor: "pointer",
         colors: ["#B8C8D2", "#194E6D"],
         dataLabels: {
-          enabled: true,
+          enabled: false,
           format: "<b>{point.name}</b><br>{point.percentage:.1f} %",
           distance: -50,
           filter: {
@@ -546,7 +550,16 @@ export default function Charts(props: PropsChart, selectedChart: any) {
         enabled: false,
       },
     },
-
+    legend: {
+      width: LegendChartSize,
+      itemWidth: 105,
+      margin: 0,
+      align: "left",
+      verticalAlign: "bottom",
+    },
+    labels: {
+      format: "{value}",
+    },
     series: [
       {
         colorByPoint: true,
@@ -566,6 +579,78 @@ export default function Charts(props: PropsChart, selectedChart: any) {
             color: "#194E6D",
           },
         ],
+      },
+    ],
+  };
+
+  const options7 = {
+    colors: ["#B8C8D2", "#194E6D"],
+    chart: {
+      type: "column",
+      inverted: true,
+      polar: true,
+
+      height: 395,
+    },
+    title: {
+      text: props.chartTitle,
+    },
+    tooltip: {
+      outside: true,
+    },
+    pane: {
+      size: "100%",
+      innerSize: "55%",
+      endAngle: 360,
+    },
+    legend: {
+      width: LegendChartSize,
+      itemWidth: 105,
+      margin: 0,
+      align: "left",
+      verticalAlign: "bottom",
+    },
+    labels: {
+      format: "{value}",
+    },
+    xAxis: {},
+    yAxis: {
+      // min: 0,
+      // max: MaxValue,
+      crosshair: {
+        enabled: true,
+        color: "#333",
+      },
+      lineWidth: 2,
+      reversedStacks: false,
+      endOnTick: false,
+      showLastLabel: false,
+    },
+    plotOptions: {
+      column: {
+        stacking: "normal",
+        borderWidth: 0,
+        pointPadding: 0,
+        groupPadding: 0.25,
+      },
+    },
+    credits: {
+      enabled: false,
+    },
+    navigation: {
+      buttonOptions: {
+        enabled: false,
+      },
+    },
+    // legend: { enabled: false },
+    series: [
+      {
+        name: "Avg.Core",
+        data: [numericalValues, 0],
+      },
+      {
+        name: "Audience Modification",
+        data: [0, audienceNumericalValues],
       },
     ],
   };
@@ -749,6 +834,8 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                       ? options5
                       : props.chartTypeBackend === "chart5"
                       ? options6
+                      : props.chartTypeBackend === "chart7"
+                      ? options7
                       : console.log("blabla")
                   }
                   // options={optionsCharts}

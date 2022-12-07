@@ -33,6 +33,7 @@ export const SelectChart = (props: Props) => {
     chart3,
     chart4,
     chart5,
+    chart7,
     slectedChart,
     setSelectedChart,
     setChartNumber,
@@ -286,6 +287,22 @@ export const SelectChart = (props: Props) => {
                     />
                   </div>
                   <p>This is a {chart5}</p>
+                </Button>
+                <Button
+                  id="7"
+                  value={chart7}
+                  onClick={() => {
+                    selectChart(chart7);
+                  }}
+                  className={slectedChart === chart7 ? "borderactive" : ""}
+                >
+                  <div className="image_chart">
+                    <img
+                      // src={slectedChart === chart7 ? Chart6Color : Chart6}
+                      alt=""
+                    />
+                  </div>
+                  <p>This is a {chart7}</p>
                 </Button>
               </div>
             </div>
