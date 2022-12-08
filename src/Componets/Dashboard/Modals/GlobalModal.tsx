@@ -92,8 +92,8 @@ type GlobalModalContext = {
   audienceList: any;
   setAudienceList: (params: any) => any;
   getAudienceData: (event: any) => any;
-  chartSize: any;
-  setChartSizes: (params: any) => any;
+  chartSize: string;
+  setChartSizes: (chartSize: string) => any;
   chartTitle: any;
   setChartTitle: (params: any) => any;
   chartID: any;
@@ -151,7 +151,7 @@ const initalState: GlobalModalContext = {
   audienceList: "",
   setAudienceList: (params: any) => {},
   getAudienceData: (event: any) => {},
-  chartSize: "",
+  chartSize: "small",
   setChartSizes: (params: any) => {},
   chartTitle: "",
   setChartTitle: (params: any) => {},

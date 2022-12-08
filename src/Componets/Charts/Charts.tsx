@@ -158,9 +158,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
 
   // props.setloading(false);
 
-  function ChangeSizeChart(value: any) {
-    // console.log("this is working ", value);
-    // setChartSizes(value);
+  function ChangeSizeChart(value: string) {
     props.setTryoutChartSize(value);
     setChartSizes(value);
     setchartID(props.ChartID[0]);
@@ -817,38 +815,26 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                 </div>
               ) : (
                 <>
-                  {props.dataForChartBase && props.dataForChartAudience ? (
-                    <HighchartsReact
-                      className="containerChart"
-                      highcharts={Highcharts}
-                      options={
-                        props.chartTypeBackend === "chart1"
-                          ? options1
-                          : props.chartTypeBackend === "chart2"
-                          ? options2
-                          : props.chartTypeBackend === "chart3"
-                          ? options4
-                          : props.chartTypeBackend === "chart4"
-                          ? options5
-                          : props.chartTypeBackend === "chart5"
-                          ? options6
-                          : props.chartTypeBackend === "chart7"
-                          ? options7
-                          : console.log("blabla")
-                      }
-                      // options={optionsCharts}
-                    />
-                  ) : (
-                    <div className="wrapper_loader">
-                      <GridLoader
-                        color={"#104666"}
-                        // loading={loading}
-                        size={15}
-                        aria-label="Loading Spinner"
-                        data-testid="loader"
-                      />
-                    </div>
-                  )}
+                  <HighchartsReact
+                    className="containerChart"
+                    highcharts={Highcharts}
+                    options={
+                      props.chartTypeBackend === "chart1"
+                        ? options1
+                        : props.chartTypeBackend === "chart2"
+                        ? options2
+                        : props.chartTypeBackend === "chart3"
+                        ? options4
+                        : props.chartTypeBackend === "chart4"
+                        ? options5
+                        : props.chartTypeBackend === "chart5"
+                        ? options6
+                        : props.chartTypeBackend === "chart7"
+                        ? options7
+                        : console.log("blabla")
+                    }
+                    // options={optionsCharts}
+                  />
                 </>
               )}
             </div>
