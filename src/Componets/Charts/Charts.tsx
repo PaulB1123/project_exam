@@ -713,15 +713,9 @@ export default function Charts(props: PropsChart, selectedChart: any) {
       {props.dataForChartBase !== undefined ? (
         <div className="Chart_with_buttons">
           <div className="containerChart">
-            {/* <button className="Exist" onClick={hide}>
-              <img src={XIcon} alt="" />
-            </button> */}
-
             <div className="Main_contianer">
               <div className="continer_with_title_and_exist">
                 <div className="title_chart">
-                  {/* <div className="title"> This title can change</div> */}
-
                   {accessData.Report === true ? (
                     <div>
                       {changetitle === false ? (
@@ -779,7 +773,15 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                     </div>
                   </>
                 ) : (
-                  <></>
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
                 )}
 
                 {accessData.Report === true ? (
@@ -797,13 +799,42 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                     </div>
                   </>
                 ) : (
-                  <></>
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
                 )}
               </div>
             </div>
 
             <div className="container_for_chart">
-              {props.loading ? (
+              {props.dataForChartBase && props.dataForChartAudience ? (
+                <HighchartsReact
+                  className="containerChart"
+                  highcharts={Highcharts}
+                  options={
+                    props.chartTypeBackend === "chart1"
+                      ? options1
+                      : props.chartTypeBackend === "chart2"
+                      ? options2
+                      : props.chartTypeBackend === "chart3"
+                      ? options4
+                      : props.chartTypeBackend === "chart4"
+                      ? options5
+                      : props.chartTypeBackend === "chart5"
+                      ? options6
+                      : props.chartTypeBackend === "chart7"
+                      ? options7
+                      : console.log("blabla")
+                  }
+                  // options={optionsCharts}
+                />
+              ) : (
                 <div className="wrapper_loader">
                   <GridLoader
                     color={"#104666"}
@@ -813,29 +844,6 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                     data-testid="loader"
                   />
                 </div>
-              ) : (
-                <>
-                  <HighchartsReact
-                    className="containerChart"
-                    highcharts={Highcharts}
-                    options={
-                      props.chartTypeBackend === "chart1"
-                        ? options1
-                        : props.chartTypeBackend === "chart2"
-                        ? options2
-                        : props.chartTypeBackend === "chart3"
-                        ? options4
-                        : props.chartTypeBackend === "chart4"
-                        ? options5
-                        : props.chartTypeBackend === "chart5"
-                        ? options6
-                        : props.chartTypeBackend === "chart7"
-                        ? options7
-                        : console.log("blabla")
-                    }
-                    // options={optionsCharts}
-                  />
-                </>
               )}
             </div>
 
@@ -856,7 +864,19 @@ export default function Charts(props: PropsChart, selectedChart: any) {
           </div>
         </div>
       ) : (
-        <></>
+        <div className="Chart_with_buttons">
+          <div className="containerChart">
+            <div className="wrapper_loader">
+              <GridLoader
+                color={"#104666"}
+                // loading={loading}
+                size={15}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -40,6 +40,7 @@ import { getChartData, getDashboards } from "../../graphql/queries";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import highchartsMore from "highcharts/highcharts-more";
+import GridLoader from "react-spinners/GridLoader";
 
 export default function Dashboard() {
   const [ReportStatus, setReportStatus] = useState(false);
@@ -1105,7 +1106,17 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div className="KPI_block">
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
               )}
             </div>
             <div className="KPI_contianer">
@@ -1145,7 +1156,17 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div className="KPI_block">
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
               )}
             </div>
             <div className="KPI_contianer">
@@ -1187,7 +1208,17 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div className="KPI_block">
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
               )}
             </div>
             <div className="KPI_contianer">
@@ -1205,7 +1236,17 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div className="KPI_block">
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
               )}
             </div>
           </div>
