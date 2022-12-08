@@ -55,14 +55,26 @@ export default function TemplateChart(props: Props) {
   const ChartID = props.ArrayCharts.filter((item: number) => item === props.el);
 
   useEffect(() => {
+    if (chartUpdate === true) {
+      console.log(audtitionName);
+
+      ChartFetchAudience(audtitionName, "");
+      ChartNumericalFetchAudience(audtitionName, "");
+      // ChartNumericalFetchAudience(audtitionName, "");
+      setChartUpdate(false);
+    }
+  }, [chartUpdate]);
+
+  useEffect(() => {
     setChart(ChartID);
   }, []);
 
-  // console.log(slectedChart);
-
   useEffect(() => {
-    // console.log(SelectionArray);
+    console.log(SelectionArray);
+    UpdateCharts();
+  }, [SelectionArray]);
 
+  function UpdateCharts() {
     if (
       dataForChartBase &&
       !SelectionArray.some((el: any) => el.Position === ChartID[0])
@@ -100,31 +112,26 @@ export default function TemplateChart(props: Props) {
         // console.log("comparing data", element, ChartID[0], element.Variable);
       }
 
-      // if (element.Position === ChartID[0] && !dataForChartAudience) {
-      //   if (element.Variable_type === "categorical") {
-      //     setAuditionName(element.Variable);
-      //     ChartFetchBase(element.Variable, element.Chart_type);
-      //     ChartFetchAudience(audtitionName, element.Chart_type);
-      //     setChartTitle(element.Variable);
-      //     setChartIndividualTitle(element.Title);
-      //     setTryoutChartSize(element.Chart_size);
-      //   } else {
-      //     console.log("this is numerical");
-      //     setChartIndividualTitle(element.Title);
-      //   }
-      // }
+      if (element.Position === ChartID[0] && !dataForChartAudience) {
+        if (element.Variable_type === "categorical") {
+          setAuditionName(element.Variable);
+          ChartFetchBase(element.Variable, element.Chart_type);
+          ChartFetchAudience(audtitionName, element.Chart_type);
+          setChartTitle(element.Variable);
+          setChartIndividualTitle(element.Title);
+          setTryoutChartSize(element.Chart_size);
+        } else {
+          setAuditionName(element.Variable);
+          ChartNumericalFetchBase(element.Variable, element.Chart_type);
+          ChartNumericalFetchAudience(audtitionName, element.Chart_type);
+          setChartTitle(element.Variable);
+          setChartIndividualTitle(element.Title);
+          setTryoutChartSize(element.Chart_size);
+          console.log("this is numerical");
+        }
+      }
     });
-  }, [SelectionArray]);
-
-  // this is where the second update fetch is happening
-  useEffect(() => {
-    if (chartUpdate === true) {
-      ChartFetchAudience(audtitionName, "");
-      ChartNumericalFetchAudience(audtitionName, "");
-      // ChartNumericalFetchAudience(audtitionName, "");
-      setChartUpdate(false);
-    }
-  }, [chartUpdate]);
+  }
 
   async function ChartFetchBase(audition: any, chart: any) {
     // console.log(audition, "fetching chart data ", object);

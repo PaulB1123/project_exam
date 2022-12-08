@@ -107,10 +107,6 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     Exist.classList.add("hide");
   }
 
-  // console.log(nameUnitsChartSet);
-  // console.log(itemsName);
-  // console.log(audienceValues);
-
   useEffect(() => {
     if (props.tryoutChartSize === "small") {
       // console.log("this is small");
@@ -130,6 +126,65 @@ export default function Charts(props: PropsChart, selectedChart: any) {
 
   exporting(Highcharts);
   // console.log(itemsName);
+
+  // console.log(props.ArrayCharts);
+  // console.log(ChartNumber);
+
+  // const [alin, setAlin] = useState();
+
+  // useEffect(() => {
+  //   props.ArrayCharts.forEach((item: any) =>
+  //     item === ChartNumber ? setAlin(item) : console.log("this is not okay")
+  //   );
+
+  //   // console.log(alin);
+  // });
+
+  useEffect(() => {
+    // console.log(props.chartTypeBackend, SelectionArray);
+  }, [props.chartTypeBackend, SelectionArray]);
+
+  useEffect(() => {
+    props.setloading(true);
+    setTimeout(() => {
+      props.setloading(false);
+    }, 3000);
+  }, [itemsName]);
+
+  function changeChart(ChartID: any) {
+    // console.log(ChartID);
+    showModal(MODAL_TYPES.DELETE_MODAL, ChartID);
+  }
+
+  // props.setloading(false);
+
+  function ChangeSizeChart(value: any) {
+    // console.log("this is working ", value);
+    // setChartSizes(value);
+    props.setTryoutChartSize(value);
+    setChartSizes(value);
+    setchartID(props.ChartID[0]);
+  }
+
+  useEffect(() => {
+    // console.log(props.chartTypeBackend);
+  }, [props.chartTypeBackend]);
+
+  function modifyTitle() {
+    setChangetitle(true);
+  }
+
+  function saveTitle() {
+    setChartTitle(title);
+    setchartID(props.ChartID[0]);
+    setChangetitle(false);
+    // console.log("it passed here ");
+    // console.log(props.ChartID[0]);
+  }
+
+  useEffect(() => {
+    setTitle(props.chartIndividualTitle);
+  }, [props.chartIndividualTitle]);
 
   const options1 = {
     chart: {
@@ -655,65 +710,6 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     ],
   };
 
-  // console.log(props.ArrayCharts);
-  // console.log(ChartNumber);
-
-  // const [alin, setAlin] = useState();
-
-  // useEffect(() => {
-  //   props.ArrayCharts.forEach((item: any) =>
-  //     item === ChartNumber ? setAlin(item) : console.log("this is not okay")
-  //   );
-
-  //   // console.log(alin);
-  // });
-
-  useEffect(() => {
-    // console.log(props.chartTypeBackend, SelectionArray);
-  }, [props.chartTypeBackend, SelectionArray]);
-
-  useEffect(() => {
-    props.setloading(true);
-    setTimeout(() => {
-      props.setloading(false);
-    }, 3000);
-  }, [itemsName]);
-
-  function changeChart(ChartID: any) {
-    // console.log(ChartID);
-    showModal(MODAL_TYPES.DELETE_MODAL, ChartID);
-  }
-
-  // props.setloading(false);
-
-  function ChangeSizeChart(value: any) {
-    // console.log("this is working ", value);
-    // setChartSizes(value);
-    props.setTryoutChartSize(value);
-    setChartSizes(value);
-    setchartID(props.ChartID[0]);
-  }
-
-  useEffect(() => {
-    // console.log(props.chartTypeBackend);
-  }, [props.chartTypeBackend]);
-
-  function modifyTitle() {
-    setChangetitle(true);
-  }
-
-  function saveTitle() {
-    setChartTitle(title);
-    setchartID(props.ChartID[0]);
-    setChangetitle(false);
-    // console.log("it passed here ");
-    // console.log(props.ChartID[0]);
-  }
-
-  useEffect(() => {
-    setTitle(props.chartIndividualTitle);
-  }, [props.chartIndividualTitle]);
-
   return (
     <div className="Chart">
       {props.dataForChartBase !== undefined ? (
@@ -820,26 +816,40 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                   />
                 </div>
               ) : (
-                <HighchartsReact
-                  className="containerChart"
-                  highcharts={Highcharts}
-                  options={
-                    props.chartTypeBackend === "chart1"
-                      ? options1
-                      : props.chartTypeBackend === "chart2"
-                      ? options2
-                      : props.chartTypeBackend === "chart3"
-                      ? options4
-                      : props.chartTypeBackend === "chart4"
-                      ? options5
-                      : props.chartTypeBackend === "chart5"
-                      ? options6
-                      : props.chartTypeBackend === "chart7"
-                      ? options7
-                      : console.log("blabla")
-                  }
-                  // options={optionsCharts}
-                />
+                <>
+                  {props.dataForChartBase && props.dataForChartAudience ? (
+                    <HighchartsReact
+                      className="containerChart"
+                      highcharts={Highcharts}
+                      options={
+                        props.chartTypeBackend === "chart1"
+                          ? options1
+                          : props.chartTypeBackend === "chart2"
+                          ? options2
+                          : props.chartTypeBackend === "chart3"
+                          ? options4
+                          : props.chartTypeBackend === "chart4"
+                          ? options5
+                          : props.chartTypeBackend === "chart5"
+                          ? options6
+                          : props.chartTypeBackend === "chart7"
+                          ? options7
+                          : console.log("blabla")
+                      }
+                      // options={optionsCharts}
+                    />
+                  ) : (
+                    <div className="wrapper_loader">
+                      <GridLoader
+                        color={"#104666"}
+                        // loading={loading}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
