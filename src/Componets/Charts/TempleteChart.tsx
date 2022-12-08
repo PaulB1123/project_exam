@@ -99,7 +99,7 @@ export default function TemplateChart(props: Props) {
         if (element.Variable_type === "categorical") {
           console.log("this is categorical");
           ChartFetchBase(element.Variable, element.Chart_type);
-          ChartFetchAudience(audtitionName, element.Chart_type);
+          ChartFetchAudience(element.Variable, element.Chart_type);
           setChartIndividualTitle(element.Title);
           setAuditionName(element.Variable);
           setTryoutChartSize(element.Chart_size);
@@ -107,7 +107,7 @@ export default function TemplateChart(props: Props) {
         } else {
           console.log("this is numerical");
           ChartNumericalFetchBase(element.Variable, element.Chart_type);
-          ChartNumericalFetchAudience(audtitionName, element.Chart_type);
+          ChartNumericalFetchAudience(element.Variable, element.Chart_type);
           setChartIndividualTitle(element.Title);
           setAuditionName(element.Variable);
           setTryoutChartSize(element.Chart_size);
@@ -124,43 +124,13 @@ export default function TemplateChart(props: Props) {
       ) {
         if (element.Variable_type === "categorical") {
           console.log("this is categorical");
-          ChartFetchAudience(audtitionName, element.Chart_type);
+          ChartFetchAudience(element.Variable, element.Chart_type);
         } else {
           console.log("this is numerical");
-          ChartNumericalFetchAudience(audtitionName, element.Chart_type);
+          ChartNumericalFetchAudience(element.Variable, element.Chart_type);
         }
       }
     });
-
-    // SelectionArray.forEach((element: any, chart: any) => {
-    //   if (element.Position === ChartID[0]) {
-    //     if (element.Chart_size === chartSize) {
-    //       if (element.Variable_type === "categorical") {
-    //         setAuditionName(element.Variable);
-    //         ChartFetchBase(element.Variable, element.Chart_type);
-    //         ChartFetchAudience(audtitionName, element.Chart_type);
-    //         setChartTitle(element.Variable);
-    //         setChartIndividualTitle(element.Title);
-    //         setTryoutChartSize(element.Chart_size);
-    //       } else {
-    //         setAuditionName(element.Variable);
-    //         ChartNumericalFetchBase(element.Variable, element.Chart_type);
-    //         ChartNumericalFetchAudience(audtitionName, element.Chart_type);
-    //         setChartTitle(element.Variable);
-    //         setChartIndividualTitle(element.Title);
-    //         setTryoutChartSize(element.Chart_size);
-    //         console.log("this is numerical");
-    //       }
-    //     } else {
-    //       if (element.Variable_type === "categorical") {
-    //         setTryoutChartSize(element.Chart_size);
-    //       } else {
-    //         setTryoutChartSize(element.Chart_size);
-    //       }
-    //     }
-
-    //   }
-    // });
   }
 
   async function ChartFetchBase(audition: any, chart: any) {
