@@ -98,6 +98,8 @@ type GlobalModalContext = {
   setChartTitle: (params: any) => any;
   chartID: any;
   setchartID: (params: any) => any;
+  selectedDashboard: boolean;
+  setSelectedDasboard: (params: any) => any;
 };
 
 const initalState: GlobalModalContext = {
@@ -157,6 +159,8 @@ const initalState: GlobalModalContext = {
   setChartTitle: (params: any) => {},
   chartID: "",
   setchartID: (params: any) => {},
+  selectedDashboard: false,
+  setSelectedDasboard: (params: any) => {},
 };
 
 type Context = {
@@ -218,6 +222,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [chartSize, setChartSizes] = useState("small") as any;
   const [chartTitle, setChartTitle] = useState("") as any;
   const [chartID, setchartID] = useState() as any;
+  const [selectedDashboard, setSelectedDasboard] = useState(false);
 
   const useInputValue = (initialValue: any) => {
     const [value, setValue] = useState(initialValue);
@@ -548,6 +553,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         setChartTitle,
         chartID,
         setchartID,
+        selectedDashboard,
+        setSelectedDasboard,
       }}
     >
       {renderComponent()}

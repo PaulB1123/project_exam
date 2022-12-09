@@ -773,15 +773,16 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                     </div>
                   </>
                 ) : (
-                  <div className="wrapper_loader">
-                    <GridLoader
-                      color={"#104666"}
-                      // loading={loading}
-                      size={15}
-                      aria-label="Loading Spinner"
-                      data-testid="loader"
-                    />
-                  </div>
+                  <></>
+                  // <div className="wrapper_loader">
+                  //   <GridLoader
+                  //     color={"#104666"}
+                  //     // loading={loading}
+                  //     size={15}
+                  //     aria-label="Loading Spinner"
+                  //     data-testid="loader"
+                  //   />
+                  // </div>
                 )}
 
                 {accessData.Report === true ? (
@@ -799,15 +800,17 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                     </div>
                   </>
                 ) : (
-                  <div className="wrapper_loader">
-                    <GridLoader
-                      color={"#104666"}
-                      // loading={loading}
-                      size={15}
-                      aria-label="Loading Spinner"
-                      data-testid="loader"
-                    />
-                  </div>
+                  <>
+                    <div className="wrapper_loader">
+                      <GridLoader
+                        color={"#104666"}
+                        // loading={loading}
+                        size={15}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    </div>
+                  </>
                 )}
               </div>
             </div>
@@ -864,19 +867,21 @@ export default function Charts(props: PropsChart, selectedChart: any) {
           </div>
         </div>
       ) : (
-        <div className="Chart_with_buttons">
-          <div className="containerChart">
-            <div className="wrapper_loader">
-              <GridLoader
-                color={"#104666"}
-                // loading={loading}
-                size={15}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-              />
+        <>
+          <div className="Chart_with_buttons">
+            <div className="containerChart">
+              <div className="wrapper_loader">
+                <GridLoader
+                  color={"#104666"}
+                  // loading={loading}
+                  size={15}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

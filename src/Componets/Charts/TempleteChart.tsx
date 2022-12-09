@@ -27,8 +27,13 @@ export default function TemplateChart(props: Props) {
   const { showModal, chartSize } = useGlobalModalContext();
   const { object, setIsLoading, setChart, chartUpdate, setChartUpdate } =
     useContext(FilterContext);
-  const { setChartNumber, SelectionArray, slectedChart } =
-    useGlobalModalContext();
+  const {
+    setChartNumber,
+    SelectionArray,
+    slectedChart,
+    selectedDashboard,
+    setSelectedDasboard,
+  } = useGlobalModalContext();
   const [chart, setchart] = useState([]) as any;
   const [dataForChartBase, setDataForChartBase] = useState() as any;
   const [dataForChartAudience, setDataForChartAudience] = useState() as any;
@@ -70,11 +75,27 @@ export default function TemplateChart(props: Props) {
   }, []);
 
   useEffect(() => {
-    console.log(SelectionArray);
-    UpdateCharts();
-  }, [SelectionArray, chartSize]);
+    // if (selectedDashboard === true) {
+    //   setDataForChartBase();
+    //   setDataForChartAudience();
+    //   setSelectedDasboard(false);
+    // }
+    // console.log(SelectionArray);
+    // UpdateCharts();
+  }, [SelectionArray]);
+
+  useEffect(() => {
+    if (SelectionArray.some((el: any) => el.Position === ChartID[0])) {
+      UpdateCharts();
+      console.log(SelectionArray);
+    }
+  }, [SelectionArray]);
 
   function UpdateCharts() {
+    // setTimeout(() => {
+    //   setSelectedDasboard(false);
+    // }, 100);
+
     if (
       dataForChartBase &&
       !SelectionArray.some((el: any) => el.Position === ChartID[0])
@@ -92,12 +113,20 @@ export default function TemplateChart(props: Props) {
       setDataForChartAudience();
     }
 
-    console.log();
+    if (selectedDashboard === true) {
+      setDataForChartBase();
+      // setDataForChartAudience();
+    }
 
     SelectionArray.forEach((element: any, chart: any) => {
-      if (element.Position === ChartID[0] && !dataForChartBase) {
+      if (
+        element.Position === ChartID[0] &&
+        !dataForChartBase &&
+        !dataForChartAudience
+      ) {
         if (element.Variable_type === "categorical") {
-          console.log("this is categorical");
+          setSelectedDasboard(false);
+          console.log("this is 1");
           ChartFetchBase(element.Variable, element.Chart_type);
           ChartFetchAudience(element.Variable, element.Chart_type);
           setChartIndividualTitle(element.Title);
@@ -105,7 +134,8 @@ export default function TemplateChart(props: Props) {
           setTryoutChartSize(element.Chart_size);
           setChartTitle(element.Variable);
         } else {
-          console.log("this is numerical");
+          setSelectedDasboard(false);
+          console.log("this is 2");
           ChartNumericalFetchBase(element.Variable, element.Chart_type);
           ChartNumericalFetchAudience(element.Variable, element.Chart_type);
           setChartIndividualTitle(element.Title);
@@ -123,18 +153,25 @@ export default function TemplateChart(props: Props) {
         !dataForChartAudience
       ) {
         if (element.Variable_type === "categorical") {
-          console.log("this is categorical");
+          setSelectedDasboard(false);
+          console.log("this is 3");
           ChartFetchAudience(element.Variable, element.Chart_type);
         } else {
-          console.log("this is numerical");
+          setSelectedDasboard(false);
+          console.log("this is 4");
           ChartNumericalFetchAudience(element.Variable, element.Chart_type);
         }
       }
     });
   }
 
+  useEffect(() => {
+    console.log(dataForChartBase);
+  }, [dataForChartBase]);
+
   async function ChartFetchBase(audition: any, chart: any) {
-    // console.log(audition, "fetching chart data ", object);
+    console.log(audition, "fetching chart data ", dataForChartBase);
+
     try {
       const response = (await API.graphql({
         query: getChartData,
@@ -159,7 +196,7 @@ export default function TemplateChart(props: Props) {
         if (data) {
           if (data.length > 0) {
             // console.log(data);
-            // console.log(data);
+
             setDataForChartBase(data);
             setChartTypeBackend(chart);
 

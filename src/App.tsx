@@ -10,7 +10,7 @@ import {
   Routes,
   useParams,
 } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const {
   REACT_APP_IDENTITY_POOL_ID,
