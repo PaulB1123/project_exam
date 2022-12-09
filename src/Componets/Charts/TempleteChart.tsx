@@ -43,6 +43,7 @@ export default function TemplateChart(props: Props) {
   const [loading, setloading] = useState(false);
   const [chartSizeBackend, setChartSizeBackend] = useState<any>();
   const [chartTypeBackend, setChartTypeBackend] = useState();
+  // const [checkError, setCheckError] = useState()
 
   const bigFunction = (chartID: any) => {
     // console.log(chartID);
@@ -193,24 +194,37 @@ export default function TemplateChart(props: Props) {
         if (data) {
           if (data.length > 0) {
             // console.log(data);
-
             setDataForChartBase(data);
             setChartTypeBackend(chart);
 
             // console.log(loading);
           } else {
-            setDataForChartBase([]);
+            setDataForChartBase(undefined);
           }
+        } else {
         }
       } else {
         // ChartFetchBase(audition, chart);
         // setIsLoading(false);
+        // if (dataForChartBase !== undefined) {
+        //   ChartFetchBase(audition, chart);
+        // }
         console.log(error);
       }
     } catch (err) {
       console.log({ err });
+
+      if (dataForChartBase === undefined) {
+        ChartFetchBase(audition, chart);
+      }
     }
   }
+
+  useEffect(() => {
+    if (dataForChartBase !== undefined) {
+      console.log("wow so it should work", dataForChartBase);
+    }
+  }, [dataForChartBase]);
 
   async function ChartNumericalFetchBase(audition: any, chart: any) {
     // console.log(audition, "fetching chart data ", object);
@@ -287,10 +301,10 @@ export default function TemplateChart(props: Props) {
           }
         }
       } else {
-        console.log(error);
+        console.log("this is on line 291", error);
       }
     } catch (err) {
-      console.log({ err });
+      console.log("this is on line 294", { err });
     }
   }
 
@@ -338,6 +352,9 @@ export default function TemplateChart(props: Props) {
         console.log(error);
       }
     } catch (err) {
+      if (dataForChartAudience === undefined) {
+        ChartFetchAudience(categoricalFactor, chart);
+      }
       console.log({ err });
     }
   }
