@@ -81,12 +81,6 @@ export default function TemplateChart(props: Props) {
     UpdateCharts();
   }, [SelectionArray]);
 
-  // useEffect(() => {
-  //   console.log(selectedDashboard);
-  //   UpdateCharts();
-  //   console.log(SelectionArray);
-  // }, [selectedDashboard]);
-
   function UpdateCharts() {
     // setTimeout(() => {
     //   setSelectedDasboard(false);
@@ -110,20 +104,41 @@ export default function TemplateChart(props: Props) {
     }
 
     if (selectedDashboard === true) {
-      setDataForChartBase();
-      // setDataForChartAudience();
+      SelectionArray.forEach((element: any, chart: any) => {
+        if (
+          element.Position === ChartID[0] &&
+          dataForChartBase &&
+          dataForChartAudience
+        ) {
+          console.log("it went there as an selected dashbaord");
+          if (element.Variable_type === "categorical") {
+            ChartFetchBase(element.Variable, element.Chart_type);
+            ChartFetchAudience(element.Variable, element.Chart_type);
+            setChartIndividualTitle(element.Title);
+            setAuditionName(element.Variable);
+            setTryoutChartSize(element.Chart_size);
+            setChartTitle(element.Variable);
+            setSelectedDasboard(false);
+          } else {
+            ChartNumericalFetchBase(element.Variable, element.Chart_type);
+            ChartNumericalFetchAudience(element.Variable, element.Chart_type);
+            setChartIndividualTitle(element.Title);
+            setAuditionName(element.Variable);
+            setTryoutChartSize(element.Chart_size);
+            setChartTitle(element.Variable);
+            setSelectedDasboard(false);
+          }
+        }
+      });
     }
 
     SelectionArray.forEach((element: any, chart: any) => {
-      console.log("it went there");
-
       if (
         element.Position === ChartID[0] &&
         !dataForChartBase &&
         !dataForChartAudience
       ) {
         if (element.Variable_type === "categorical") {
-          setSelectedDasboard(false);
           console.log("this is 1");
           ChartFetchBase(element.Variable, element.Chart_type);
           ChartFetchAudience(element.Variable, element.Chart_type);
@@ -131,8 +146,8 @@ export default function TemplateChart(props: Props) {
           setAuditionName(element.Variable);
           setTryoutChartSize(element.Chart_size);
           setChartTitle(element.Variable);
-        } else {
           setSelectedDasboard(false);
+        } else {
           console.log("this is 2");
           ChartNumericalFetchBase(element.Variable, element.Chart_type);
           ChartNumericalFetchAudience(element.Variable, element.Chart_type);
@@ -140,6 +155,7 @@ export default function TemplateChart(props: Props) {
           setAuditionName(element.Variable);
           setTryoutChartSize(element.Chart_size);
           setChartTitle(element.Variable);
+          setSelectedDasboard(false);
         }
       }
     });

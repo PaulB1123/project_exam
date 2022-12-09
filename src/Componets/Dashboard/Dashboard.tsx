@@ -1060,7 +1060,7 @@ export default function Dashboard() {
                 <div className="profile_container">
                   <div className="avatar">
                     <span>{user?.name.charAt(0)} </span>
-                    <span> {user?.family_name.charAt(0)}</span>
+                    <span>{user?.family_name.charAt(0)}</span>
                   </div>
 
                   <div className="profile_name">

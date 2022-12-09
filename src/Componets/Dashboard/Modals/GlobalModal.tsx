@@ -419,6 +419,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     // console.log("this is coming from the second fetch", audienceID);
 
     setAudienceIdReloaded(audienceID);
+    console.log(audienceID);
+
     try {
       const response = (await API.graphql({
         query: loadAudience,
@@ -436,7 +438,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
 
       if (StatusCode === 200) {
         if (data) {
-          // console.log(data);
+          console.log(data);
           LoadAudience(data.Url);
           return data.Url as string;
         } else {

@@ -43,7 +43,7 @@ export function Report() {
 
   // console.log(modelId);
   useEffect(() => {
-    // console.log(modelId);
+    console.log(modelId);
     getAudienceData(modelId as string);
     loadAudienceUrl(modelId as string);
   }, [modelId]);
