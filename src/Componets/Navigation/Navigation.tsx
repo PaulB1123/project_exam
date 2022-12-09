@@ -6,6 +6,7 @@ import LogoutIcon from "./icons/Log_Out.svg";
 import {
   DashboardsButton,
   AudiencesButton,
+  AudiencesButtonOriginal,
 } from "../../ReusableElements/Button_Navigation_Left/Button";
 import { useContext } from "react";
 import UserContext from "../../Data/UserContext";
@@ -56,6 +57,13 @@ export default function Navigation() {
           <li className="header_main_menu">FILTER</li>
           <ul>
             <AudiencesButton />
+          </ul>
+        </div>
+
+        <div className="main_menu_container">
+          <li className="header_main_menu"> FILTER </li>
+          <ul>
+            <AudiencesButtonOriginal />
           </ul>
         </div>
 

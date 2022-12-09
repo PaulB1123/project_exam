@@ -71,6 +71,17 @@
   background-color: white;
 }
 
+.BurgerManu {
+  width: 46px;
+  height: 46px;
+  background-color: var(--audience-border-plus);
+  mask: url(../Navigation/icons/BurgerMenu.svg) no-repeat center;
+}
+
+.BurgerManu:hover {
+  background-color: white;
+}
+
 .SldiericonRight {
   width: 20px;
   height: 20px;

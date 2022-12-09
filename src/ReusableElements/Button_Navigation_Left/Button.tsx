@@ -328,3 +328,116 @@ export function AudiencesButton() {
     </>
   );
 }
+
+export function AudiencesButtonOriginal() {
+  const [isOpenReports, setOpenReports] = React.useState(false);
+  const [isActiveReports, setIsActiveReports] = useState(false);
+  const [arrayWithAudiences, setArrayWithAudiences] = useState([]) as any;
+  const [checkLi, setCheckLi] = useState("");
+  const { message, inputarr, loadAudienceUrl } = useGlobalModalContext();
+  // const { audienceList } = useContext(FilterContext);
+  const { showModal, audienceList } = useGlobalModalContext();
+  const [showDraggableList, setShowDraggableList] = useState(false);
+  const { user, admin, setAdmin, accessData } = useContext(UserContext);
+
+  useEffect(() => {
+    if (message !== undefined) {
+      setArrayWithAudiences([message]);
+    }
+  }, [message]);
+
+  const handleClickAudienceContainer = () => {
+    setOpenReports(!isOpenReports);
+    setIsActiveReports((current) => !current);
+  };
+
+  const handelclickAudience = (key: string) => {
+    setCheckLi(key);
+    loadAudienceUrl(key);
+    // console.log(key);
+  };
+
+  const createModal = () => {
+    showModal(MODAL_TYPES.UPDATE_MODAL, {
+      title: "Create instance form",
+      confirmBtn: "Save",
+    });
+  };
+
+  // const createModalOriginal = () => {
+  //   showModal(MODAL_TYPES.UPDATE_MODAL, {
+  //     title: "Create instance form",
+  //     confirmBtn: "Save",
+  //   });
+  // };
+
+  useEffect(() => {
+    // console.log(audienceList);
+  }, [audienceList]);
+
+  return (
+    <>
+      <button
+        type="button"
+        className="Reports_button"
+        onClick={() => {
+          handleClickAudienceContainer();
+        }}
+      >
+        {isOpenReports ? (
+          <div className="filterbutton_Open">
+            <div className="filterbutton_container">
+              <img src={Filter} alt="this is filter"></img>
+              <li>Audiences</li>
+            </div>
+            {isActiveReports ? (
+              <img src={ArrrowupIcon} alt=""></img>
+            ) : (
+              <img src={ArrrowdownIcon} alt=""></img>
+            )}
+          </div>
+        ) : (
+          <div id="dashboard_button" className="filterbutton">
+            <div className="filterbutton_container">
+              <img src={Filter} alt="this is filter"></img>
+              <li className="audiences_saved">Audiences</li>
+            </div>
+            {isActiveReports ? (
+              <img src={ArrrowupIcon} alt=""></img>
+            ) : (
+              <img src={ArrrowdownIcon} alt=""></img>
+            )}
+          </div>
+        )}
+      </button>
+      {isOpenReports && (
+        <div className="Opened_Audience_button">
+          <div className="main_container">
+            <div className="dropDown_button" id="dashboard_selected">
+              <li className="audiences_saved">
+                <span className="element_dashboard">This is the audience</span>
+
+                <div className="PlusIcon_container" id="DeleteButton_container">
+                  {/* <div className="DeleteButton"></div> */}
+                  <div className="BurgerManu"></div>
+                </div>
+              </li>
+            </div>
+
+            <div className="button_container">
+              <button
+                className="button_filter"
+                id="openModalBtn"
+                // onClick={() => {
+                //   createModalOriginal();
+                // }}
+              >
+                <div>Add Audience</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

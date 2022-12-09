@@ -801,7 +801,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                   </>
                 ) : (
                   <>
-                    <div className="wrapper_loader">
+                    {/* <div className="wrapper_loader">
                       <GridLoader
                         color={"#104666"}
                         // loading={loading}
@@ -809,7 +809,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
                         aria-label="Loading Spinner"
                         data-testid="loader"
                       />
-                    </div>
+                    </div> */}
                   </>
                 )}
               </div>
