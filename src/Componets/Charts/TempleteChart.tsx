@@ -75,21 +75,16 @@ export default function TemplateChart(props: Props) {
   }, []);
 
   useEffect(() => {
-    // if (selectedDashboard === true) {
-    //   setDataForChartBase();
-    //   setDataForChartAudience();
-    //   setSelectedDasboard(false);
-    // }
-    // console.log(SelectionArray);
-    // UpdateCharts();
+    // console.log(ChartID[0]);
+
+    UpdateCharts();
   }, [SelectionArray]);
 
-  useEffect(() => {
-    if (SelectionArray.some((el: any) => el.Position === ChartID[0])) {
-      UpdateCharts();
-      console.log(SelectionArray);
-    }
-  }, [SelectionArray]);
+  // useEffect(() => {
+  //   console.log(selectedDashboard);
+  //   UpdateCharts();
+  //   console.log(SelectionArray);
+  // }, [selectedDashboard]);
 
   function UpdateCharts() {
     // setTimeout(() => {
@@ -119,6 +114,8 @@ export default function TemplateChart(props: Props) {
     }
 
     SelectionArray.forEach((element: any, chart: any) => {
+      console.log("it went there");
+
       if (
         element.Position === ChartID[0] &&
         !dataForChartBase &&
