@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import "./Database.css";
-import "./LogIn.css";
+import { ClientItem } from "../API";
 import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
-import UserContext from "../Data/UserContext";
+import AudienceContext from "../Data/AudienceContext";
 import FilterContext from "../Data/FilterContext";
-import { ClientItem } from "../API";
+import UserContext from "../Data/UserContext";
+import "./Database.css";
+import "./LogIn.css";
 
 function Database() {
   const { user } = useContext(UserContext);
@@ -15,12 +16,21 @@ function Database() {
     country,
     clientNewData,
     availableModels,
-    selectedModelId,
+    // selectedModelId,
     setSelectedModelId,
     selectedClient,
     setSelectedClient,
   } = useContext(FilterContext);
+  const {
+    selectedModelId,
+    retrieveSelector,
+    revertAudienceSelection,
+    showAudienceSelectors,
+    selectOrDeselectAll,
+  } = useContext(AudienceContext);
 
+  const selector = retrieveSelector("Gender");
+  const selector2 = retrieveSelector("main_region");
   return (
     <div className="database_container">
       <div className="login_left_contianer">
@@ -39,12 +49,12 @@ function Database() {
               <h1>
                 Welcome to your dashboard, {user?.name} {user?.family_name}
               </h1>
-              <p>Before everthing else, lets help you open your dashboards </p>
+              <p>Before everything else, lets help you open your dashboards </p>
             </div>
           ) : (
             <div className="text_container">
               <h1>Welcome to your dashboard</h1>
-              <p>Before everthing else, lets help you open your dashboards </p>
+              <p>Before everything else, lets help you open your dashboards </p>
             </div>
           )}
         </div>
@@ -89,6 +99,90 @@ function Database() {
               </Link>
             </div>
           </div>
+        </div>
+
+        <div>
+          <h1>Test</h1>
+          <p>{selectedModelId}</p>
+          <div>
+            {selector && (
+              <div>
+                <h2>You have chosen {selector.Title}</h2>
+                <button
+                  onClick={() => selectOrDeselectAll(selector.Variable, true)}
+                >
+                  SelectAll
+                </button>
+                <button
+                  onClick={() => selectOrDeselectAll(selector.Variable, false)}
+                >
+                  DeselectAll
+                </button>
+                <div className="temp">
+                  {selector.Values.map((v) => (
+                    <div key={v.Id} className="temp_child">
+                      <p>
+                        {v.Id} {v.Value}
+                      </p>
+                      <button
+                        onClick={() =>
+                          revertAudienceSelection(selector.Variable, v.Id)
+                        }
+                      >
+                        {v.isSelected ? "Selected" : "Not Selected"}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          <div>
+            {selector2 && (
+              <div>
+                <h2>You have chosen {selector2.Title}</h2>
+                <div className="temp">
+                  {selector2.Values.map((v) => (
+                    <div key={v.Id} className="temp_child">
+                      <p>
+                        {v.Id} {v.Value}
+                      </p>
+                      <button
+                        onClick={() =>
+                          revertAudienceSelection(selector2.Variable, v.Id)
+                        }
+                      >
+                        {v.isSelected ? "Selected" : "Not Selected"}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div>
+          {showAudienceSelectors().map((s) => (
+            <div key={s.Variable}>
+              <h3>{s.Title}</h3>
+              <div>
+                {s.Values.map(
+                  (v) =>
+                    v.isSelected && (
+                      <button
+                        key={v.Id}
+                        onClick={() =>
+                          revertAudienceSelection(s.Variable, v.Id)
+                        }
+                      >
+                        {v.Value}
+                      </button>
+                    )
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <IntroPage></IntroPage>

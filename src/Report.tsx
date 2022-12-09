@@ -1,15 +1,11 @@
 import "./App.css";
-import "./Componets/Styles/global.css";
 import Navigation from "./Componets/Navigation/Navigation";
+import "./Componets/Styles/global.css";
 
-import Dashboard from "./Componets/Dashboard/Dashboard";
-import useLocalStorage from "use-local-storage";
+import { API } from "aws-amplify";
 import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import FilterContext from "./Data/FilterContext";
-import { useGlobalModalContext } from "./Componets/Dashboard/Modals/GlobalModal";
-import { API } from "aws-amplify";
-import { adminGetAccessGroup } from "./graphql/queries";
+import useLocalStorage from "use-local-storage";
 import {
   adminClientInput,
   adminGetAccessGroupData,
@@ -17,7 +13,11 @@ import {
   adminGetAccessGroupResponse,
   getChartDataAudience,
 } from "./API";
+import Dashboard from "./Componets/Dashboard/Dashboard";
+import { useGlobalModalContext } from "./Componets/Dashboard/Modals/GlobalModal";
+import FilterContext from "./Data/FilterContext";
 import UserContext from "./Data/UserContext";
+import { adminGetAccessGroup } from "./graphql/queries";
 
 export function Report() {
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -33,7 +33,8 @@ export function Report() {
 
   useEffect(() => {
     // console.log("report  set modelId", modelId);
-    setSelectedModelId(modelId);
+    if (modelId) setSelectedModelId(modelId);
+    else console.error("modelId is undefined");
   }, [modelId, setSelectedModelId]);
 
   const switchTheme = () => {

@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { ClientContextProvider } from "./Data/ClientContext";
-import { UserContextProvider } from "./Data/UserContext";
-import { FilterContextProvider } from "./Data/FilterContext";
 import { GlobalModal } from "./Componets/Dashboard/Modals/GlobalModal";
+import { AudienceContextProvider } from "./Data/AudienceContext";
+import { ClientContextProvider } from "./Data/ClientContext";
+import { FilterContextProvider } from "./Data/FilterContext";
+import { UserContextProvider } from "./Data/UserContext";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -16,9 +17,11 @@ root.render(
   <UserContextProvider>
     <ClientContextProvider>
       <FilterContextProvider>
-        <GlobalModal>
-          <App />
-        </GlobalModal>
+        <AudienceContextProvider>
+          <GlobalModal>
+            <App />
+          </GlobalModal>
+        </AudienceContextProvider>
       </FilterContextProvider>
     </ClientContextProvider>
   </UserContextProvider>

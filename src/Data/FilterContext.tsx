@@ -1,20 +1,11 @@
-import {
-  useState,
-  useEffect,
-  createContext,
-  useContext,
-  useCallback,
-} from "react";
-import UserContext from "./UserContext";
-import { IGroup } from "../ReusableElements/Button_Navigation_Left/DragnDrop";
-import React from "react";
 import { API } from "aws-amplify";
-import {
-  getAudiences,
-  getClients,
-  getModelsForClient,
-  getSelectorsForModel,
-} from "../graphql/queries";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   ClientItem,
   GetAudiencesQuery,
@@ -28,6 +19,14 @@ import {
   selectorValue,
 } from "../API";
 import { useGlobalModalContext } from "../Componets/Dashboard/Modals/GlobalModal";
+import {
+  getAudiences,
+  getClients,
+  getModelsForClient,
+  getSelectorsForModel,
+} from "../graphql/queries";
+import { IGroup } from "../ReusableElements/Button_Navigation_Left/DragnDrop";
+import UserContext from "./UserContext";
 
 const FilterContext = createContext({
   data: [] as IGroup[],
@@ -39,8 +38,8 @@ const FilterContext = createContext({
   setClientNewData: (params: any) => {},
   availableModels: "" as any,
   setAvailableModels: (params: any) => {},
-  selectedModelId: "" as any,
-  setSelectedModelId: (params: any) => {},
+  selectedModelId: "" as string | undefined,
+  setSelectedModelId: (params: string) => {},
   selectedClient: "" as any,
   setSelectedClient: (params: any) => {},
   updateSelectorSelectedValue: (

@@ -106,3 +106,15 @@ label {
 .selectors_container {
   margin-top: 1rem;
 }
+
+.temp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.temp_child {
+  display: flex;
+  flex-direction: row;
+}

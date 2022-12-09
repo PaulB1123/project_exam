@@ -1,0 +1,541 @@
+{
+    "data": {
+        "getSelectorsForModel": {
+            "data": [
+                {
+                    "__typename": "SelectorFactor",
+                    "Variable_type": "categorical",
+                    "Variable": "family",
+                    "Title": "Family",
+                    "Category": "category_b",
+                    "Values": [
+                        {
+                            "__typename": "selectorValue",
+                            "Id": 1,
+                            "Value": "0"
+                        },
+                        {
+                            "__typename": "selectorValue",
+                            "Id": 2,
+                            "Value": "1"
+                        },
+                        {
+                            "__typename": "selectorValue",
+                            "Id": 3,
+                            "Value": "2"
+                        },
+                        {
+                            "__typename": "selectorValue",
+                            "Id": 4,
+                            "Value": "3"
+                        },
+                        {
+                            "__typename": "selectorValue",
+                            "Id": 5,
+                            "Value": "5"
+                        },
+                        {
+                            "__typename": "selectorValue",
+                            "Id": 6,
+                            "Value": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "no_tier",
+                    "Title": "No Tier",
+                    "Category": "category_b",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "0"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "1"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "2"
+                        },
+                        {
+                            "Id": 4,
+                            "Value": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "gratis",
+                    "Title": "Gratis",
+                    "Category": "category_b",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "0"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "1"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "2"
+                        },
+                        {
+                            "Id": 4,
+                            "Value": "3"
+                        },
+                        {
+                            "Id": 5,
+                            "Value": "4"
+                        },
+                        {
+                            "Id": 6,
+                            "Value": "5"
+                        },
+                        {
+                            "Id": 7,
+                            "Value": "6"
+                        },
+                        {
+                            "Id": 8,
+                            "Value": "7"
+                        },
+                        {
+                            "Id": 9,
+                            "Value": "8"
+                        },
+                        {
+                            "Id": 10,
+                            "Value": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "two_for_one",
+                    "Title": "Two For One",
+                    "Category": "category_b",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "0"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "1"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "2"
+                        },
+                        {
+                            "Id": 4,
+                            "Value": "3"
+                        },
+                        {
+                            "Id": 5,
+                            "Value": "4"
+                        },
+                        {
+                            "Id": 6,
+                            "Value": "5"
+                        },
+                        {
+                            "Id": 7,
+                            "Value": "6"
+                        },
+                        {
+                            "Id": 8,
+                            "Value": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "dependent_variable",
+                    "Title": "Dependent Variable",
+                    "Category": "other",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "0"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "1"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "Gender",
+                    "Title": "Gender",
+                    "Category": "other",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "female"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "male"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "age_groups",
+                    "Title": "Age Groups",
+                    "Category": "other",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "18--"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "18-30"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "31-40"
+                        },
+                        {
+                            "Id": 4,
+                            "Value": "41-50"
+                        },
+                        {
+                            "Id": 5,
+                            "Value": "51-60"
+                        },
+                        {
+                            "Id": 6,
+                            "Value": "61+"
+                        },
+                        {
+                            "Id": 7,
+                            "Value": "unknown"
+                        },
+                        {
+                            "Id": 8,
+                            "Value": "Unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "main_region",
+                    "Title": "Main Region",
+                    "Category": "other",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "no_main_region"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "region_hovedstaden"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "region_midtjylland"
+                        },
+                        {
+                            "Id": 4,
+                            "Value": "region_nordjylland"
+                        },
+                        {
+                            "Id": 5,
+                            "Value": "region_sjaelland"
+                        },
+                        {
+                            "Id": 6,
+                            "Value": "region_syddanmark"
+                        },
+                        {
+                            "Id": 7,
+                            "Value": "unknown"
+                        },
+                        {
+                            "Id": 8,
+                            "Value": "unknown_region"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "weekend",
+                    "Title": "Weekend",
+                    "Category": "other",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "0"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "1"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "new_years_day",
+                    "Title": "New Years Day",
+                    "Category": "other",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "0"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "1"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "holiday",
+                    "Title": "Holiday",
+                    "Category": "other",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "0"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "1"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "categorical",
+                    "Variable": "first_of_the_month",
+                    "Title": "First Of The Month",
+                    "Category": "other",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "0"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "1"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "unknown"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "cluster_id",
+                    "Variable": "cluster",
+                    "Title": "Cluster",
+                    "Category": "cluster",
+                    "Values": [
+                        {
+                            "Id": 1,
+                            "Value": "1"
+                        },
+                        {
+                            "Id": 2,
+                            "Value": "2"
+                        },
+                        {
+                            "Id": 3,
+                            "Value": "3"
+                        },
+                        {
+                            "Id": 4,
+                            "Value": "4"
+                        }
+                    ]
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "app_startup",
+                    "Title": "App Startup",
+                    "Category": "other",
+                    "Max": 106.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "loyalty_impression",
+                    "Title": "Loyalty Impression",
+                    "Category": "other",
+                    "Max": 549.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "voucher_impression",
+                    "Title": "Voucher Impression",
+                    "Category": "other",
+                    "Max": 675.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "offer_click",
+                    "Title": "Offer Click",
+                    "Category": "other",
+                    "Max": 62.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "core",
+                    "Title": "Core",
+                    "Category": "other",
+                    "Max": 9.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "edap",
+                    "Title": "Edap",
+                    "Category": "other",
+                    "Max": 11.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "indulgence",
+                    "Title": "Indulgence",
+                    "Category": "other",
+                    "Max": 22.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "no_info",
+                    "Title": "No Info",
+                    "Category": "other",
+                    "Max": 36.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "buy_one_get_one",
+                    "Title": "Buy One Get One",
+                    "Category": "other",
+                    "Max": 16.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "price_offer",
+                    "Title": "Price Offer",
+                    "Category": "other",
+                    "Max": 20.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "no_info_offer",
+                    "Title": "No Info Offer",
+                    "Category": "other",
+                    "Max": 36.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "push_message_clicked",
+                    "Title": "Push Message Clicked",
+                    "Category": "other",
+                    "Max": 121.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "distinct_message_id",
+                    "Title": "Distinct Message Id",
+                    "Category": "other",
+                    "Max": 12.0,
+                    "Min": 1.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "advertisement_impression",
+                    "Title": "Advertisement Impression",
+                    "Category": "other",
+                    "Max": 1360.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "advertisement_click",
+                    "Title": "Advertisement Click",
+                    "Category": "other",
+                    "Max": 144.0,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "average_temperature",
+                    "Title": "Average Temperature",
+                    "Category": "other",
+                    "Max": 23.19,
+                    "Min": 0.25
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "average_hours_of_sun",
+                    "Title": "Average Hours Of Sun",
+                    "Category": "other",
+                    "Max": 16.9,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "average_total_precipitation",
+                    "Title": "Average Total Precipitation",
+                    "Category": "other",
+                    "Max": 23.82,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "avg_check_add_on",
+                    "Title": "Avg Check Add On",
+                    "Category": "other",
+                    "Max": 544.82,
+                    "Min": 0.0
+                },
+                {
+                    "Variable_type": "numerical",
+                    "Variable": "prediction_score",
+                    "Title": "Prediction Score",
+                    "Category": "cluster",
+                    "Max": 0.61,
+                    "Min": 0.43
+                }
+            ],
+            "error": null,
+            "StatusCode": 200
+        }
+    }
+}

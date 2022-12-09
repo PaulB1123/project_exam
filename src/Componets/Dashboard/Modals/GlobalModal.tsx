@@ -1,5 +1,5 @@
 import { API } from "aws-amplify";
-import React, { useState, createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   AudienceDataItem,
   AudienceItem,
@@ -23,9 +23,9 @@ import {
   loadAudience,
 } from "../../../graphql/queries";
 import { CreateModal } from "./CreateModal";
+import { MakeDefaultDashbaordModal } from "./MakeDefaultDashbaordModal";
 import { SelectChart } from "./SelectChart";
 import { UpdateModal } from "./UpdateModal";
-import { MakeDefaultDashbaordModal } from "./MakeDefaultDashbaordModal";
 
 export const MODAL_TYPES = {
   CREATE_MODAL: "CREATE_MODAL",
@@ -348,8 +348,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       // console.log(response);
       // console.log(selectedModelId);
       // loadAudienceUrl(selectedModelId);
-
-      getAudienceData(selectedModelId);
+      if (selectedModelId) getAudienceData(selectedModelId);
     } catch (err) {
       console.log({ err });
     }
@@ -403,7 +402,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
       // console.log(response2);
       // console.log(modelId);
 
-      getAudienceData(selectedModelId);
+      if (selectedModelId) getAudienceData(selectedModelId);
       // loadAudienceUrl(reponse);
     } catch (err) {
       console.log({ err });
