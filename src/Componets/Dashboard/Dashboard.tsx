@@ -40,6 +40,7 @@ import { getChartData, getDashboards } from "../../graphql/queries";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import highchartsMore from "highcharts/highcharts-more";
+import GridLoader from "react-spinners/GridLoader";
 
 export default function Dashboard() {
   const [ReportStatus, setReportStatus] = useState(false);
@@ -83,7 +84,7 @@ export default function Dashboard() {
   const [changetitle, setChangetitle] = useState(false);
   const [audienceCoverageInitial, setAudienceCoverageInitial] =
     useState() as any;
-  const [audienceCoverageUpdtaed, setAudienceCoverageUpdated] =
+  const [audienceCoverageUpdated, setAudienceCoverageUpdated] =
     useState() as any;
   const [initialAudienceCoverage, setInitialAudienceCoverage] =
     useState() as any;
@@ -120,8 +121,6 @@ export default function Dashboard() {
     setArrayCharts([0, 1, 2, 3, 4, 5, 6, 7, 8]);
     // console.log(ArrayCharts);
   }, []);
-
-  console.log(SelectionArray);
 
   if (activateDashboardFunction === true) {
     saveDashboardFunction();
@@ -283,12 +282,16 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
+    // this is the fetch the first KPI Audience Coverage
     ChartFetchInitialAudienceCoverage();
     ChartFetchUpdatedAudienceCoverage();
+    // this is for the third KPI Core
     ChartFetchCore();
     ChartUpdatedFetchCore();
+    // this is for the second KIP Predition Score
     ChartFetchPreditionScore();
     ChartFetchUpdatedPreditionScore();
+    // this is for the forth KPI Gender
     ChartGenderInital();
     ChartGenderUpdated();
   }, [object]);
@@ -328,6 +331,9 @@ export default function Dashboard() {
         // console.log(error);
       }
     } catch (err) {
+      if (audienceCoverageInitial === undefined) {
+        ChartFetchInitialAudienceCoverage();
+      }
       console.log({ err });
     }
   }
@@ -368,7 +374,9 @@ export default function Dashboard() {
       }
     } catch (err) {
       setIsLoading(false);
-      ChartFetchUpdatedAudienceCoverage();
+      if (audienceCoverageUpdated === undefined) {
+        ChartFetchUpdatedAudienceCoverage();
+      }
       console.log({ err });
     }
   }
@@ -385,9 +393,9 @@ export default function Dashboard() {
       }
     }
 
-    if (audienceCoverageUpdtaed !== undefined) {
-      if (audienceCoverageUpdtaed[0].Count_value) {
-        Count_value_updated = audienceCoverageUpdtaed[0].Count_value;
+    if (audienceCoverageUpdated !== undefined) {
+      if (audienceCoverageUpdated[0].Count_value) {
+        Count_value_updated = audienceCoverageUpdated[0].Count_value;
         setUpdatedAudienceCoverage(Count_value_updated);
       }
     }
@@ -408,7 +416,7 @@ export default function Dashboard() {
         setInitialAudienceCoverage(a);
       }
     }
-  }, [audienceCoverageInitial, audienceCoverageUpdtaed]);
+  }, [audienceCoverageInitial, audienceCoverageUpdated]);
 
   const AudienceCoverage = {
     chart: {
@@ -518,6 +526,9 @@ export default function Dashboard() {
       }
     } catch (err) {
       console.log({ err });
+      if (initalGender === undefined) {
+        ChartGenderInital();
+      }
     }
   }
 
@@ -557,6 +568,9 @@ export default function Dashboard() {
       }
     } catch (err) {
       console.log({ err });
+      if (updatedGender === undefined) {
+        ChartGenderUpdated();
+      }
     }
   }
 
@@ -602,10 +616,14 @@ export default function Dashboard() {
       } else {
         setIsLoading(false);
         console.log(error);
+
         // ChartFetchCore();
       }
     } catch (err) {
       console.log({ err });
+      if (initalCore === undefined) {
+        ChartFetchCore();
+      }
     }
   }
 
@@ -651,6 +669,9 @@ export default function Dashboard() {
       }
     } catch (err) {
       console.log({ err });
+      if (updatedCore === undefined) {
+        ChartUpdatedFetchCore();
+      }
     }
   }
 
@@ -700,6 +721,9 @@ export default function Dashboard() {
       }
     } catch (err) {
       console.log({ err });
+      if (initalPreditionScore === undefined) {
+        ChartFetchPreditionScore();
+      }
     }
   }
 
@@ -746,6 +770,9 @@ export default function Dashboard() {
       }
     } catch (err) {
       console.log({ err });
+      if (updatedPreditionScore === undefined) {
+        ChartFetchUpdatedPreditionScore();
+      }
     }
   }
 
@@ -1032,7 +1059,8 @@ export default function Dashboard() {
               {user ? (
                 <div className="profile_container">
                   <div className="avatar">
-                    {user?.name.charAt(0)} {user?.family_name.charAt(0)}{" "}
+                    <span>{user?.name.charAt(0)} </span>
+                    <span>{user?.family_name.charAt(0)}</span>
                   </div>
 
                   <div className="profile_name">
@@ -1107,7 +1135,17 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div className="KPI_block">
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
               )}
             </div>
             <div className="KPI_contianer">
@@ -1147,7 +1185,17 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div className="KPI_block">
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
               )}
             </div>
             <div className="KPI_contianer">
@@ -1189,7 +1237,17 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div className="KPI_block">
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
               )}
             </div>
             <div className="KPI_contianer">
@@ -1207,7 +1265,17 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div className="KPI_block">
+                  <div className="wrapper_loader">
+                    <GridLoader
+                      color={"#104666"}
+                      // loading={loading}
+                      size={15}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                </div>
               )}
             </div>
           </div>

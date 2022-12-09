@@ -2,7 +2,7 @@ import "../../Componets/Styles/global.css";
 import "./Button.css";
 import "../../Componets/Filters/Filter.css";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import * as React from "react";
 import ReportIcon from "../../Componets/Navigation/icons/Reports.svg";
 import ArrrowdownIcon from "../../Componets/Navigation/icons/ArrowDown.svg";
@@ -28,6 +28,7 @@ export function DashboardsButton() {
     DashboardSelectedName,
     setDashboardSelectedName,
     setDasdboardDefault,
+    setSelectedDasboard,
   } = useGlobalModalContext();
   const [checkReportsList, setCheckReportsList] = useState(false);
 
@@ -46,20 +47,15 @@ export function DashboardsButton() {
   }
 
   function selectReportCharts(
-    Audiences: Array<any>,
+    Audiences: Array<object>,
     DashbaordID: string,
     Dashboard_name: string
   ) {
-    // console.log(
-    //   "This is chartlist:",
-    //   Audiences,
-    //   "This is id:",
-    //   DashbaordID,
-    //   "This is name:",
-    //   Dashboard_name
-    // );
+    console.log(Audiences);
+
     setDashboardSelectedID(DashbaordID);
     setSelectionArray(Audiences);
+    setSelectedDasboard(true);
     setDashboardSelectedName(Dashboard_name);
   }
 

@@ -27,8 +27,13 @@ export default function TemplateChart(props: Props) {
   const { showModal, chartSize } = useGlobalModalContext();
   const { object, setIsLoading, setChart, chartUpdate, setChartUpdate } =
     useContext(FilterContext);
-  const { setChartNumber, SelectionArray, slectedChart } =
-    useGlobalModalContext();
+  const {
+    setChartNumber,
+    SelectionArray,
+    slectedChart,
+    selectedDashboard,
+    setSelectedDasboard,
+  } = useGlobalModalContext();
   const [chart, setchart] = useState([]) as any;
   const [dataForChartBase, setDataForChartBase] = useState() as any;
   const [dataForChartAudience, setDataForChartAudience] = useState() as any;
@@ -38,6 +43,7 @@ export default function TemplateChart(props: Props) {
   const [loading, setloading] = useState(false);
   const [chartSizeBackend, setChartSizeBackend] = useState<any>();
   const [chartTypeBackend, setChartTypeBackend] = useState();
+  // const [checkError, setCheckError] = useState()
 
   const bigFunction = (chartID: any) => {
     // console.log(chartID);
@@ -70,17 +76,23 @@ export default function TemplateChart(props: Props) {
   }, []);
 
   useEffect(() => {
-    console.log(SelectionArray);
+    // console.log(ChartID[0]);
+
     UpdateCharts();
   }, [SelectionArray]);
 
   function UpdateCharts() {
+    // setTimeout(() => {
+    //   setSelectedDasboard(false);
+    // }, 100);
+
     if (
       dataForChartBase &&
       !SelectionArray.some((el: any) => el.Position === ChartID[0])
     ) {
       // console.log("test", dataForChartBase);
       setDataForChartBase();
+      // setDataForChartAudience();
     }
 
     if (
@@ -91,50 +103,89 @@ export default function TemplateChart(props: Props) {
       setDataForChartAudience();
     }
 
-    SelectionArray.forEach((element: any, chart: any) => {
-      if (element.Position === ChartID[0]) {
-        if (element.Variable_type === "categorical") {
-          setAuditionName(element.Variable);
-          ChartFetchBase(element.Variable, element.Chart_type);
-          ChartFetchAudience(audtitionName, element.Chart_type);
-          setChartTitle(element.Variable);
-          setChartIndividualTitle(element.Title);
-          setTryoutChartSize(element.Chart_size);
-        } else {
-          setAuditionName(element.Variable);
-          ChartNumericalFetchBase(element.Variable, element.Chart_type);
-          ChartNumericalFetchAudience(audtitionName, element.Chart_type);
-          setChartTitle(element.Variable);
-          setChartIndividualTitle(element.Title);
-          setTryoutChartSize(element.Chart_size);
-          console.log("this is numerical");
+    if (selectedDashboard === true) {
+      SelectionArray.forEach((element: any, chart: any) => {
+        if (
+          element.Position === ChartID[0] &&
+          dataForChartBase &&
+          dataForChartAudience
+        ) {
+          console.log("it went there as an selected dashbaord");
+          if (element.Variable_type === "categorical") {
+            ChartFetchBase(element.Variable, element.Chart_type);
+            ChartFetchAudience(element.Variable, element.Chart_type);
+            setChartIndividualTitle(element.Title);
+            setAuditionName(element.Variable);
+            setTryoutChartSize(element.Chart_size);
+            setChartTitle(element.Variable);
+            setSelectedDasboard(false);
+          } else {
+            ChartNumericalFetchBase(element.Variable, element.Chart_type);
+            ChartNumericalFetchAudience(element.Variable, element.Chart_type);
+            setChartIndividualTitle(element.Title);
+            setAuditionName(element.Variable);
+            setTryoutChartSize(element.Chart_size);
+            setChartTitle(element.Variable);
+            setSelectedDasboard(false);
+          }
         }
-        // console.log("comparing data", element, ChartID[0], element.Variable);
-      }
+      });
+    }
 
-      if (element.Position === ChartID[0] && !dataForChartAudience) {
+    SelectionArray.forEach((element: any, chart: any) => {
+      if (
+        element.Position === ChartID[0] &&
+        !dataForChartBase &&
+        !dataForChartAudience
+      ) {
         if (element.Variable_type === "categorical") {
-          setAuditionName(element.Variable);
+          console.log("this is 1");
           ChartFetchBase(element.Variable, element.Chart_type);
-          ChartFetchAudience(audtitionName, element.Chart_type);
-          setChartTitle(element.Variable);
+          ChartFetchAudience(element.Variable, element.Chart_type);
           setChartIndividualTitle(element.Title);
-          setTryoutChartSize(element.Chart_size);
-        } else {
           setAuditionName(element.Variable);
-          ChartNumericalFetchBase(element.Variable, element.Chart_type);
-          ChartNumericalFetchAudience(audtitionName, element.Chart_type);
-          setChartTitle(element.Variable);
-          setChartIndividualTitle(element.Title);
           setTryoutChartSize(element.Chart_size);
-          console.log("this is numerical");
+          setChartTitle(element.Variable);
+          setSelectedDasboard(false);
+        } else {
+          console.log("this is 2");
+          ChartNumericalFetchBase(element.Variable, element.Chart_type);
+          ChartNumericalFetchAudience(element.Variable, element.Chart_type);
+          setChartIndividualTitle(element.Title);
+          setAuditionName(element.Variable);
+          setTryoutChartSize(element.Chart_size);
+          setChartTitle(element.Variable);
+          setSelectedDasboard(false);
+        }
+      }
+    });
+
+    SelectionArray.forEach((element: any, chart: any) => {
+      if (
+        element.Position === ChartID[0] &&
+        dataForChartBase &&
+        !dataForChartAudience
+      ) {
+        if (element.Variable_type === "categorical") {
+          setSelectedDasboard(false);
+          console.log("this is 3");
+          ChartFetchAudience(element.Variable, element.Chart_type);
+        } else {
+          setSelectedDasboard(false);
+          console.log("this is 4");
+          ChartNumericalFetchAudience(element.Variable, element.Chart_type);
         }
       }
     });
   }
 
+  useEffect(() => {
+    console.log(dataForChartBase);
+  }, [dataForChartBase]);
+
   async function ChartFetchBase(audition: any, chart: any) {
-    // console.log(audition, "fetching chart data ", object);
+    console.log(audition, "fetching chart data ", dataForChartBase);
+
     try {
       const response = (await API.graphql({
         query: getChartData,
@@ -159,24 +210,37 @@ export default function TemplateChart(props: Props) {
         if (data) {
           if (data.length > 0) {
             // console.log(data);
-            // console.log(data);
             setDataForChartBase(data);
             setChartTypeBackend(chart);
 
             // console.log(loading);
           } else {
-            setDataForChartBase([]);
+            setDataForChartBase(undefined);
           }
+        } else {
         }
       } else {
         // ChartFetchBase(audition, chart);
         // setIsLoading(false);
+        // if (dataForChartBase !== undefined) {
+        //   ChartFetchBase(audition, chart);
+        // }
         console.log(error);
       }
     } catch (err) {
       console.log({ err });
+
+      if (dataForChartBase === undefined) {
+        ChartFetchBase(audition, chart);
+      }
     }
   }
+
+  useEffect(() => {
+    if (dataForChartBase !== undefined) {
+      console.log("wow so it should work", dataForChartBase);
+    }
+  }, [dataForChartBase]);
 
   async function ChartNumericalFetchBase(audition: any, chart: any) {
     // console.log(audition, "fetching chart data ", object);
@@ -253,10 +317,10 @@ export default function TemplateChart(props: Props) {
           }
         }
       } else {
-        console.log(error);
+        console.log("this is on line 291", error);
       }
     } catch (err) {
-      console.log({ err });
+      console.log("this is on line 294", { err });
     }
   }
 
@@ -304,6 +368,9 @@ export default function TemplateChart(props: Props) {
         console.log(error);
       }
     } catch (err) {
+      if (dataForChartAudience === undefined) {
+        ChartFetchAudience(categoricalFactor, chart);
+      }
       console.log({ err });
     }
   }

@@ -92,7 +92,7 @@ export const SelectChart = (props: Props) => {
       setSelectionArray((ps: any) =>
         ps.filter((el: any) => el.Position !== placeholderNumber)
       );
-      // console.log(SelectionArray);
+      console.log(SelectionArray);
 
       setTimeout(() => {
         setSelectionArray((preState: any) => [

@@ -92,12 +92,14 @@ type GlobalModalContext = {
   audienceList: any;
   setAudienceList: (params: any) => any;
   getAudienceData: (event: any) => any;
-  chartSize: any;
-  setChartSizes: (params: any) => any;
+  chartSize: string;
+  setChartSizes: (chartSize: string) => any;
   chartTitle: any;
   setChartTitle: (params: any) => any;
   chartID: any;
   setchartID: (params: any) => any;
+  selectedDashboard: boolean;
+  setSelectedDasboard: (params: any) => any;
 };
 
 const initalState: GlobalModalContext = {
@@ -151,12 +153,14 @@ const initalState: GlobalModalContext = {
   audienceList: "",
   setAudienceList: (params: any) => {},
   getAudienceData: (event: any) => {},
-  chartSize: "",
+  chartSize: "small",
   setChartSizes: (params: any) => {},
   chartTitle: "",
   setChartTitle: (params: any) => {},
   chartID: "",
   setchartID: (params: any) => {},
+  selectedDashboard: false,
+  setSelectedDasboard: (params: any) => {},
 };
 
 type Context = {
@@ -218,6 +222,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
   const [chartSize, setChartSizes] = useState("small") as any;
   const [chartTitle, setChartTitle] = useState("") as any;
   const [chartID, setchartID] = useState() as any;
+  const [selectedDashboard, setSelectedDasboard] = useState(false);
 
   const useInputValue = (initialValue: any) => {
     const [value, setValue] = useState(initialValue);
@@ -413,6 +418,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
     // console.log("this is coming from the second fetch", audienceID);
 
     setAudienceIdReloaded(audienceID);
+    console.log(audienceID);
+
     try {
       const response = (await API.graphql({
         query: loadAudience,
@@ -430,7 +437,7 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
 
       if (StatusCode === 200) {
         if (data) {
-          // console.log(data);
+          console.log(data);
           LoadAudience(data.Url);
           return data.Url as string;
         } else {
@@ -547,6 +554,8 @@ export const GlobalModal: React.FC<Context> = ({ children }) => {
         setChartTitle,
         chartID,
         setchartID,
+        selectedDashboard,
+        setSelectedDasboard,
       }}
     >
       {renderComponent()}
