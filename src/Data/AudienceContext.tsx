@@ -1,7 +1,21 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
+import { API } from "aws-amplify";
 import React from "react";
-import { SelectorFactor, SelectorNumeric, selectorValue } from "../API";
+import {
+  getSelectorForModelUnion,
+  getSelectorsForModelResponse,
+  SelectorFactor,
+  SelectorNumeric,
+  selectorValue,
+} from "../API";
+import { getSelectorsForModel } from "../graphql/queries";
 import FilterContext, { GeneralSelector } from "./FilterContext";
 import response from "./response_get_selectors.json";
 
@@ -36,11 +50,50 @@ export const AudienceContextProvider = (
   const { selectedModelId } = useContext(FilterContext);
   const [audienceArray, setAudienceArray] = useState([] as GeneralSelector[]);
 
-  useEffect(() => {
-    if (selectedModelId) {
-      console.log(response);
-      const dd = response.data.getSelectorsForModel.data.flatMap((t) => {
-        if (["categorical", "cluster_id"].includes(t.Variable_type)) {
+  const isFactor = (x: SelectorFactor | SelectorNumeric): x is SelectorFactor =>
+    ["categorical", "cluster_id"].includes(x.Variable_type);
+
+  const DatabaseFetch = useCallback(async () => {
+    try {
+      const api_response = (await API.graphql({
+        query: getSelectorsForModel,
+        variables: { Model_id: selectedModelId },
+      })) as {
+        data: { getSelectorsForModel: getSelectorsForModelResponse };
+      };
+      const { data: response_data } = api_response;
+      const { getSelectorsForModel: actual_list } = response_data;
+
+      const { data, error, StatusCode }: getSelectorsForModelResponse =
+        actual_list;
+
+      if (error) {
+        console.error(
+          "An error occurred during getting selectors",
+          error.type,
+          error.message
+        );
+        return;
+      }
+      if (StatusCode !== 200) {
+        console.error(
+          "An error occurred during getting selectors with status code",
+          StatusCode
+        );
+        return;
+      }
+      console.log("data from API", data);
+      if (!data) {
+        return;
+      }
+
+      // const dd = response.data.getSelectorsForModel.data.flatMap((t) => {
+
+      console.log(data);
+
+      const dd = data.flatMap((t) => {
+        if (isFactor(t)) {
+          // if (["categorical", "cluster_id"].includes(t.Variable_type)) {
           let values: selectorValue[] = [];
           if (t.Values) {
             values = t.Values.map((v) => {
@@ -65,12 +118,10 @@ export const AudienceContextProvider = (
         }
       });
 
-      const filteredList = dd.filter(
-        (i) => i.Variable_type === "categorical"
-      ) as SelectorFactor[];
+      const filteredList = dd.filter((i) => isFactor(i)) as SelectorFactor[];
       // console.log("this is categorical data", filteredList);
       if (filteredList.length > 0) {
-        const a = filteredList.flatMap((i: SelectorFactor) => {
+        const a = filteredList.flatMap((i) => {
           const {
             Values: filteredValues,
             Variable_type,
@@ -78,10 +129,12 @@ export const AudienceContextProvider = (
             Title,
             Category,
           } = i;
+
           if (Variable_type && Variable && Title && Category) {
             const valuesWithFalse = filteredValues?.map((v) => {
               return { ...v, isSelected: false };
             });
+            console.log(i);
 
             return {
               Variable_type: Variable_type,
@@ -98,12 +151,24 @@ export const AudienceContextProvider = (
         setAudienceArray(a);
         console.log("Setting audience array:", a);
       }
-    } else {
-      setAudienceArray([]);
 
-      console.count("SelectedModelChanged");
+      return data;
+    } catch (err) {
+      console.log({ err });
+      DatabaseFetch();
     }
   }, [selectedModelId]);
+
+  useEffect(() => {
+    if (selectedModelId) {
+      DatabaseFetch();
+    } else {
+      console.log("do not end here");
+
+      // setAudienceArray([]);
+    }
+    console.count("SelectedModelChanged");
+  }, [selectedModelId, DatabaseFetch]);
 
   const retrieveSelector = (id: string) => {
     return audienceArray.filter((t) => t.Variable === id)[0];
@@ -122,7 +187,7 @@ export const AudienceContextProvider = (
         return { ...t, Values: newValues };
       } else return t;
     });
-    // console.log("newArray", newArray);
+    console.log("newArray", newArray);
 
     setAudienceArray(newArray);
   };
@@ -134,7 +199,7 @@ export const AudienceContextProvider = (
       }
       return [];
     });
-    console.log(dd);
+    // console.log(dd);
     return dd;
   };
 
