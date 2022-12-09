@@ -9,29 +9,33 @@ import {
 import { API } from "aws-amplify";
 import React from "react";
 import {
-  getSelectorForModelUnion,
   getSelectorsForModelResponse,
   SelectorFactor,
   SelectorNumeric,
   selectorValue,
 } from "../API";
 import { getSelectorsForModel } from "../graphql/queries";
-import FilterContext, { GeneralSelector } from "./FilterContext";
+import FilterContext, {
+  GeneralNumeric,
+  GeneralSelector,
+} from "./FilterContext";
 import response from "./response_get_selectors.json";
 
 interface AudienceContextValue {
   // The current selectedModelId
   selectedModelId: string | undefined;
   // Method to get a selector
-  retrieveSelector: (id: string) => GeneralSelector | undefined;
+  retrieveSelector: (
+    id: string
+  ) => GeneralSelector | GeneralNumeric | undefined;
   // Changes the selected values
   revertAudienceSelection: (variable: string, id: number) => void;
   // return list of selectors with minimum 1 selected value
-  showSelectedAudience: () => GeneralSelector[];
+  showSelectedAudience: () => (GeneralSelector | GeneralNumeric)[];
   // this method will select or deselect all values in a variable
   selectOrDeselectAll: (variable: string, selectAs: boolean) => void;
   // return list of all selectors
-  showAllSelectors: () => GeneralSelector[];
+  showAllSelectors: () => (GeneralSelector | GeneralNumeric)[];
 }
 
 const AudienceContext = createContext<AudienceContextValue>({
@@ -46,12 +50,18 @@ const AudienceContext = createContext<AudienceContextValue>({
 type AudienceContextProviderProps = {
   children: React.ReactNode;
 };
+export const isGeneralFactor = (
+  x: GeneralNumeric | GeneralSelector
+): x is GeneralSelector =>
+  ["categorical", "cluster_id"].includes(x.Variable_type);
 
 export const AudienceContextProvider = (
   props: AudienceContextProviderProps
 ) => {
   const { selectedModelId } = useContext(FilterContext);
-  const [audienceArray, setAudienceArray] = useState([] as GeneralSelector[]);
+  const [audienceArray, setAudienceArray] = useState<
+    (GeneralSelector | GeneralNumeric)[]
+  >([]);
 
   const isFactor = (x: SelectorFactor | SelectorNumeric): x is SelectorFactor =>
     ["categorical", "cluster_id"].includes(x.Variable_type);
@@ -124,30 +134,38 @@ export const AudienceContextProvider = (
       const filteredList = dd.filter((i) => isFactor(i)) as SelectorFactor[];
       // console.log("this is categorical data", filteredList);
       if (filteredList.length > 0) {
-        const a = filteredList.flatMap((i) => {
-          const {
-            Values: filteredValues,
-            Variable_type,
-            Variable,
-            Title,
-            Category,
-          } = i;
+        const a = dd.flatMap((i) => {
+          const { Variable_type, Variable, Title, Category } = i;
+          if (isFactor(i)) {
+            const { Values: filteredValues } = i;
 
-          if (Variable_type && Variable && Title && Category) {
-            const valuesWithFalse = filteredValues?.map((v) => {
-              return { ...v, isSelected: false };
-            });
-            console.log(i);
+            if (Variable_type && Variable && Title && Category) {
+              const valuesWithFalse = filteredValues?.map((v) => {
+                return { ...v, isSelected: false };
+              });
 
-            return {
-              Variable_type: Variable_type,
-              Variable: Variable,
-              Title: Title,
-              Category: Category,
-              Values: valuesWithFalse,
-            } as GeneralSelector;
+              return {
+                Variable_type: Variable_type,
+                Variable: Variable,
+                Title: Title,
+                Category: Category,
+                Values: valuesWithFalse,
+                FilterType: "Selector",
+              } as GeneralSelector;
+            } else {
+              return [];
+            }
           } else {
-            return [];
+            if (Category) {
+              return {
+                ...i,
+                SelectedMin: i.Min,
+                SelectedMax: i.Max,
+                FilterType: "Numeric",
+              } as GeneralNumeric;
+            } else {
+              return [];
+            }
           }
         });
 
@@ -179,13 +197,15 @@ export const AudienceContextProvider = (
     // console.log("oldArray", audienceArray);
 
     const newArray = audienceArray.map((t) => {
-      if (t.Variable === variable) {
-        const newValues = t.Values.map((v) => {
-          if (v.Id === id) {
-            return { ...v, isSelected: !v.isSelected };
-          } else return v;
-        });
-        return { ...t, Values: newValues };
+      if (isGeneralFactor(t)) {
+        if (t.Variable === variable) {
+          const newValues = t.Values.map((v) => {
+            if (v.Id === id) {
+              return { ...v, isSelected: !v.isSelected };
+            } else return v;
+          });
+          return { ...t, Values: newValues };
+        } else return t;
       } else return t;
     });
     console.log("newArray", newArray);
@@ -195,8 +215,11 @@ export const AudienceContextProvider = (
 
   const showSelectedAudience = () => {
     const dd = audienceArray.flatMap((t) => {
-      if (t.Values.filter((v) => v.isSelected).length > 0) {
-        return t;
+      if (isGeneralFactor(t)) {
+        if (t.Values.filter((v) => v.isSelected).length > 0) {
+          return t;
+        }
+        return [];
       }
       return [];
     });
@@ -210,12 +233,15 @@ export const AudienceContextProvider = (
 
   const selectOrDeselectAll = (variable: string, selectAs: boolean) => {
     const newArray = audienceArray.map((t) => {
-      if (t.Variable === variable) {
-        const newValues = t.Values.map((v) => {
-          return { ...v, isSelected: selectAs };
-        });
-        return { ...t, Values: newValues };
-      } else return t;
+      if (isGeneralFactor(t)) {
+        if (t.Variable === variable) {
+          const newValues = t.Values.map((v) => {
+            return { ...v, isSelected: selectAs };
+          });
+          return { ...t, Values: newValues };
+        } else return t;
+      }
+      return t;
     });
     // console.log("newArray", newArray);
 

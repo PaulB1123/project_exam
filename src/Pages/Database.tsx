@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { ClientItem } from "../API";
 import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
-import AudienceContext from "../Data/AudienceContext";
-import FilterContext, { GeneralSelector } from "../Data/FilterContext";
+import AudienceContext, { isGeneralFactor } from "../Data/AudienceContext";
+import FilterContext, {
+  GeneralNumeric,
+  GeneralSelector,
+} from "../Data/FilterContext";
 import UserContext from "../Data/UserContext";
 import "./Database.css";
 import "./LogIn.css";
@@ -32,7 +35,9 @@ function Database() {
 
   const [selectorItem1, setSelectorItem1] = useState("Gender");
 
-  const [selector1, setSelector1] = useState<GeneralSelector | undefined>();
+  const [selector1, setSelector1] = useState<
+    GeneralSelector | GeneralNumeric | undefined
+  >();
 
   useEffect(() => {
     setSelector1(retrieveSelector(selectorItem1));
@@ -139,20 +144,24 @@ function Database() {
                   DeselectAll
                 </button>
                 <div className="temp">
-                  {selector1.Values.map((v) => (
-                    <div key={v.Id} className="temp_child">
-                      <p>
-                        {v.Id} {v.Value}
-                      </p>
-                      <button
-                        onClick={() => {
-                          revertAudienceSelection(selector1.Variable, v.Id);
-                        }}
-                      >
-                        {v.isSelected ? "Selected" : "Not Selected"}
-                      </button>
-                    </div>
-                  ))}
+                  {isGeneralFactor(selector1) ? (
+                    selector1.Values.map((v) => (
+                      <div key={v.Id} className="temp_child">
+                        <p>
+                          {v.Id} {v.Value}
+                        </p>
+                        <button
+                          onClick={() => {
+                            revertAudienceSelection(selector1.Variable, v.Id);
+                          }}
+                        >
+                          {v.isSelected ? "Selected" : "Not Selected"}
+                        </button>
+                      </div>
+                    ))
+                  ) : (
+                    <div>TEST</div>
+                  )}
                 </div>
               </div>
             )}
@@ -164,18 +173,22 @@ function Database() {
             <div key={s.Variable}>
               <h3>{s.Title}</h3>
               <div>
-                {s.Values.map(
-                  (v) =>
-                    v.isSelected && (
-                      <button
-                        key={v.Id}
-                        onClick={() =>
-                          revertAudienceSelection(s.Variable, v.Id)
-                        }
-                      >
-                        {v.Value}
-                      </button>
-                    )
+                {isGeneralFactor(s) ? (
+                  s.Values.map(
+                    (v) =>
+                      v.isSelected && (
+                        <button
+                          key={v.Id}
+                          onClick={() =>
+                            revertAudienceSelection(s.Variable, v.Id)
+                          }
+                        >
+                          {v.Value}
+                        </button>
+                      )
+                  )
+                ) : (
+                  <div>test</div>
                 )}
               </div>
             </div>

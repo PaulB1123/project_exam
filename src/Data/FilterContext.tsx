@@ -88,12 +88,23 @@ type SelectorValueWithStatus = selectorValue & {
   isSelected: boolean;
 };
 
-export type GeneralSelector = {
-  Variable_type: String;
+export type General = {
+  Variable_type: string;
   Variable: string;
-  Title: String;
-  Category: String;
+  Title: string;
+  Category: string;
+  FilterType: string;
+};
+
+export type GeneralSelector = General & {
   Values: SelectorValueWithStatus[];
+};
+
+export type GeneralNumeric = General & {
+  Max: number;
+  Min: number;
+  SelectedMin: number;
+  SelectedMax: number;
 };
 
 export const FilterContextProvider = (props: FilterContextProviderProps) => {
