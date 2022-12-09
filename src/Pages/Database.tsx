@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ClientItem } from "../API";
 import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
 import AudienceContext from "../Data/AudienceContext";
-import FilterContext from "../Data/FilterContext";
+import FilterContext, { GeneralSelector } from "../Data/FilterContext";
 import UserContext from "../Data/UserContext";
 import "./Database.css";
 import "./LogIn.css";
@@ -25,12 +25,19 @@ function Database() {
     selectedModelId,
     retrieveSelector,
     revertAudienceSelection,
-    showAudienceSelectors,
+    showSelectedAudience,
     selectOrDeselectAll,
+    showAllSelectors,
   } = useContext(AudienceContext);
 
-  const selector = retrieveSelector("Gender");
-  const selector2 = retrieveSelector("main_region");
+  const [selectorItem1, setSelectorItem1] = useState("Gender");
+
+  const [selector1, setSelector1] = useState<GeneralSelector | undefined>();
+
+  useEffect(() => {
+    setSelector1(retrieveSelector(selectorItem1));
+  }, [selectorItem1, retrieveSelector]);
+
   return (
     <div className="database_container">
       <div className="login_left_contianer">
@@ -105,52 +112,42 @@ function Database() {
           <h1>Test</h1>
           <p>{selectedModelId}</p>
           <div>
-            {selector && (
+            <div>
+              <div className="temp2">
+                {showAllSelectors().map((v) => (
+                  <div
+                    key={v.Variable}
+                    className="temp_child2"
+                    onClick={() => setSelectorItem1(v.Variable)}
+                  >
+                    {v.Title}
+                  </div>
+                ))}
+              </div>
+            </div>
+            {selector1 && (
               <div>
-                <h2>You have chosen {selector.Title}</h2>
+                <h2>You have chosen {selector1.Title}</h2>
                 <button
-                  onClick={() => selectOrDeselectAll(selector.Variable, true)}
+                  onClick={() => selectOrDeselectAll(selector1.Variable, true)}
                 >
                   SelectAll
                 </button>
                 <button
-                  onClick={() => selectOrDeselectAll(selector.Variable, false)}
+                  onClick={() => selectOrDeselectAll(selector1.Variable, false)}
                 >
                   DeselectAll
                 </button>
                 <div className="temp">
-                  {selector.Values.map((v) => (
+                  {selector1.Values.map((v) => (
                     <div key={v.Id} className="temp_child">
                       <p>
                         {v.Id} {v.Value}
                       </p>
                       <button
-                        onClick={() =>
-                          revertAudienceSelection(selector.Variable, v.Id)
-                        }
-                      >
-                        {v.isSelected ? "Selected" : "Not Selected"}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-          <div>
-            {selector2 && (
-              <div>
-                <h2>You have chosen {selector2.Title}</h2>
-                <div className="temp">
-                  {selector2.Values.map((v) => (
-                    <div key={v.Id} className="temp_child">
-                      <p>
-                        {v.Id} {v.Value}
-                      </p>
-                      <button
-                        onClick={() =>
-                          revertAudienceSelection(selector2.Variable, v.Id)
-                        }
+                        onClick={() => {
+                          revertAudienceSelection(selector1.Variable, v.Id);
+                        }}
                       >
                         {v.isSelected ? "Selected" : "Not Selected"}
                       </button>
@@ -163,7 +160,7 @@ function Database() {
         </div>
 
         <div>
-          {showAudienceSelectors().map((s) => (
+          {showSelectedAudience().map((s) => (
             <div key={s.Variable}>
               <h3>{s.Title}</h3>
               <div>

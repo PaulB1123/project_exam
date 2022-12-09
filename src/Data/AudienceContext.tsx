@@ -27,16 +27,19 @@ interface AudienceContextValue {
   // Changes the selected values
   revertAudienceSelection: (variable: string, id: number) => void;
   // return list of selectors with minimum 1 selected value
-  showAudienceSelectors: () => GeneralSelector[];
+  showSelectedAudience: () => GeneralSelector[];
   // this method will select or deselect all values in a variable
   selectOrDeselectAll: (variable: string, selectAs: boolean) => void;
+  // return list of all selectors
+  showAllSelectors: () => GeneralSelector[];
 }
 
 const AudienceContext = createContext<AudienceContextValue>({
   selectedModelId: "" as string | undefined,
   retrieveSelector: (id: string) => undefined,
   revertAudienceSelection: (variable: string, id: number) => {},
-  showAudienceSelectors: () => [],
+  showSelectedAudience: () => [],
+  showAllSelectors: () => [],
   selectOrDeselectAll: (variable: string, selectAs: boolean) => {},
 });
 
@@ -163,9 +166,7 @@ export const AudienceContextProvider = (
     if (selectedModelId) {
       DatabaseFetch();
     } else {
-      console.log("do not end here");
-
-      // setAudienceArray([]);
+      setAudienceArray([]);
     }
     console.count("SelectedModelChanged");
   }, [selectedModelId, DatabaseFetch]);
@@ -192,14 +193,18 @@ export const AudienceContextProvider = (
     setAudienceArray(newArray);
   };
 
-  const showAudienceSelectors = () => {
+  const showSelectedAudience = () => {
     const dd = audienceArray.flatMap((t) => {
       if (t.Values.filter((v) => v.isSelected).length > 0) {
         return t;
       }
       return [];
     });
-    // console.log(dd);
+    return dd;
+  };
+
+  const showAllSelectors = () => {
+    const dd = audienceArray;
     return dd;
   };
 
@@ -223,7 +228,8 @@ export const AudienceContextProvider = (
         selectedModelId,
         retrieveSelector,
         revertAudienceSelection,
-        showAudienceSelectors,
+        showSelectedAudience,
+        showAllSelectors,
         selectOrDeselectAll,
       }}
     >
