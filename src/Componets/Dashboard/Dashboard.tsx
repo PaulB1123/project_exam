@@ -1059,7 +1059,8 @@ export default function Dashboard() {
               {user ? (
                 <div className="profile_container">
                   <div className="avatar">
-                    {user?.name.charAt(0)} {user?.family_name.charAt(0)}{" "}
+                    <span>{user?.name.charAt(0)} </span>
+                    <span> {user?.family_name.charAt(0)}</span>
                   </div>
 
                   <div className="profile_name">
