@@ -19,7 +19,6 @@ import FilterContext, {
   GeneralNumeric,
   GeneralSelector,
 } from "./FilterContext";
-import response from "./response_get_selectors.json";
 
 interface AudienceContextValue {
   // The current selectedModelId
@@ -36,12 +35,24 @@ interface AudienceContextValue {
   selectOrDeselectAll: (variable: string, selectAs: boolean) => void;
   // return list of all selectors
   showAllSelectors: () => (GeneralSelector | GeneralNumeric)[];
+
+  //update the Max or Min Value in a selector
+  setMinMaxAudienceNumeric: (
+    variable: string,
+    type: "min" | "max",
+    value: number
+  ) => void;
 }
 
 const AudienceContext = createContext<AudienceContextValue>({
   selectedModelId: "" as string | undefined,
   retrieveSelector: (id: string) => undefined,
   revertAudienceSelection: (variable: string, id: number) => {},
+  setMinMaxAudienceNumeric: (
+    variable: string,
+    type: "min" | "max",
+    value: number
+  ) => {},
   showSelectedAudience: () => [],
   showAllSelectors: () => [],
   selectOrDeselectAll: (variable: string, selectAs: boolean) => {},
@@ -213,6 +224,29 @@ export const AudienceContextProvider = (
     setAudienceArray(newArray);
   };
 
+  const setMinMaxAudienceNumeric = (
+    variable: string,
+    type: "min" | "max",
+    value: number
+  ) => {
+    // console.log("oldArray", audienceArray);
+
+    const newArray = audienceArray.map((t) => {
+      if (!isGeneralFactor(t)) {
+        if (t.Variable === variable) {
+          if (type === "min") {
+            console.log("min", t, value);
+
+            return { ...t, SelectedMin: value };
+          } else return { ...t, SelectedMax: value };
+        } else return t;
+      } else return t;
+    });
+    console.log("newArray", newArray);
+
+    setAudienceArray(newArray);
+  };
+
   const showSelectedAudience = () => {
     const dd = audienceArray.flatMap((t) => {
       if (isGeneralFactor(t)) {
@@ -220,8 +254,11 @@ export const AudienceContextProvider = (
           return t;
         }
         return [];
+      } else {
+        if (t.SelectedMax === t.Max && t.SelectedMin === t.Min) {
+          return [];
+        } else return t;
       }
-      return [];
     });
     return dd;
   };
@@ -257,6 +294,7 @@ export const AudienceContextProvider = (
         showSelectedAudience,
         showAllSelectors,
         selectOrDeselectAll,
+        setMinMaxAudienceNumeric,
       }}
     >
       {props.children}

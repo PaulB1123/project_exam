@@ -31,6 +31,7 @@ function Database() {
     showSelectedAudience,
     selectOrDeselectAll,
     showAllSelectors,
+    setMinMaxAudienceNumeric,
   } = useContext(AudienceContext);
 
   const [selectorItem1, setSelectorItem1] = useState("Gender");
@@ -39,8 +40,18 @@ function Database() {
     GeneralSelector | GeneralNumeric | undefined
   >();
 
+  const [minValue, setMinValue] = useState(0);
+  const [maxValue, setMaxValue] = useState(100);
+
   useEffect(() => {
-    setSelector1(retrieveSelector(selectorItem1));
+    const localSelector = retrieveSelector(selectorItem1);
+    if (localSelector) {
+      setSelector1(localSelector);
+      if (!isGeneralFactor(localSelector)) {
+        setMinValue(localSelector.SelectedMin);
+        setMaxValue(localSelector.SelectedMax);
+      }
+    }
   }, [selectorItem1, retrieveSelector]);
 
   return (
@@ -71,13 +82,13 @@ function Database() {
           )}
         </div>
 
-        <div className="login_contianer_box_container">
-          <div className="login_contianer_box" id="selector">
+        <div className="login_container_box_container">
+          <div className="login_container_box" id="selector">
             <h1 className="DatabaseH1">
               Please select the campaign you would like for your dashboard
             </h1>
 
-            {/* this is comeniting out but is very very very good stuff  */}
+            {/* this is commenting out but is very very very good stuff  */}
             <select
               value={selectedClient}
               onChange={(event) => setSelectedClient(event.target.value)}
@@ -133,16 +144,25 @@ function Database() {
             {selector1 && (
               <div>
                 <h2>You have chosen {selector1.Title}</h2>
-                <button
-                  onClick={() => selectOrDeselectAll(selector1.Variable, true)}
-                >
-                  SelectAll
-                </button>
-                <button
-                  onClick={() => selectOrDeselectAll(selector1.Variable, false)}
-                >
-                  DeselectAll
-                </button>
+                {isGeneralFactor(selector1) && (
+                  <div>
+                    <button
+                      onClick={() =>
+                        selectOrDeselectAll(selector1.Variable, true)
+                      }
+                    >
+                      SelectAll
+                    </button>
+                    <button
+                      onClick={() =>
+                        selectOrDeselectAll(selector1.Variable, false)
+                      }
+                    >
+                      DeselectAll
+                    </button>
+                  </div>
+                )}
+
                 <div className="temp">
                   {isGeneralFactor(selector1) ? (
                     selector1.Values.map((v) => (
@@ -160,7 +180,49 @@ function Database() {
                       </div>
                     ))
                   ) : (
-                    <div>TEST</div>
+                    <div className="temp_child">
+                      <p>
+                        {selector1.Title} : {selector1.Min} - {selector1.Max}
+                      </p>
+                      <div>Selected MinValue value: {minValue}</div>
+                      <input
+                        value={minValue}
+                        onChange={(e) => setMinValue(Number(e.target.value))}
+                      />
+                      <button
+                        className="buttonDashboard"
+                        onClick={() => {
+                          setMinMaxAudienceNumeric(
+                            selector1.Variable,
+                            "min",
+                            minValue
+                          );
+                        }}
+                      >
+                        SetNewMinValue
+                      </button>
+                      <div>Selected MaxValue value: {maxValue}</div>
+                      <input
+                        value={maxValue}
+                        onChange={(e) => {
+                          setMaxValue(Number(e.target.value));
+                        }}
+                      />
+                      <button
+                        className="buttonDashboard"
+                        onClick={() => {
+                          console.log("min", minValue, "max", maxValue);
+
+                          setMinMaxAudienceNumeric(
+                            selector1.Variable,
+                            "max",
+                            maxValue
+                          );
+                        }}
+                      >
+                        SetMaxValue
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
@@ -188,7 +250,11 @@ function Database() {
                       )
                   )
                 ) : (
-                  <div>test</div>
+                  <div>
+                    <p>
+                      {s.SelectedMin}-{s.SelectedMax}
+                    </p>
+                  </div>
                 )}
               </div>
             </div>
