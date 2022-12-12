@@ -1,25 +1,19 @@
-import { useState, useContext, useEffect, Suspense } from "react";
-import "../Styles/global.css";
-import "./Dashboard.css";
-import HeroDashboardImage from "./icons/Hero_Image.svg";
+import { Suspense, useContext, useEffect, useState } from "react";
 import FilterContext from "../../Data/FilterContext";
-import TemplateChart from "./../Charts/TempleteChart";
 import UserContext from "../../Data/UserContext";
-import ProfilePicture from "../images/profile_picture.jpg";
 import SaveButton from "../Filters/icons/Save_Button.svg";
 import "../Header/Header.css";
+import ProfilePicture from "../images/profile_picture.jpg";
+import "../Styles/global.css";
+import TemplateChart from "./../Charts/TempleteChart";
+import "./Dashboard.css";
+import HeroDashboardImage from "./icons/Hero_Image.svg";
 
-import PlusSign from "./icons/Plus_sign.svg";
-import KPI from "../Charts/KPIs";
-import SVG from "../KPI_Audience_Coverage";
-import SVG2 from "../GroupComponent";
-import { MODAL_TYPES, useGlobalModalContext } from "./Modals/GlobalModal";
 import { API } from "aws-amplify";
-import {
-  addDefaultDashboard,
-  deleteDashboard,
-  saveDashboard,
-} from "../../graphql/mutations";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import highchartsMore from "highcharts/highcharts-more";
+import GridLoader from "react-spinners/GridLoader";
 import {
   AddDefaultDashboardMutationVariables,
   ClientItem,
@@ -36,11 +30,18 @@ import {
   SaveDashboardMutationVariables,
   saveDashboardResponse,
 } from "../../API";
+import { useAudienceContext } from "../../Data/AudienceContext";
+import {
+  addDefaultDashboard,
+  deleteDashboard,
+  saveDashboard,
+} from "../../graphql/mutations";
 import { getChartData, getDashboards } from "../../graphql/queries";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-import highchartsMore from "highcharts/highcharts-more";
-import GridLoader from "react-spinners/GridLoader";
+import KPI from "../Charts/KPIs";
+import SVG2 from "../GroupComponent";
+import SVG from "../KPI_Audience_Coverage";
+import PlusSign from "./icons/Plus_sign.svg";
+import { MODAL_TYPES, useGlobalModalContext } from "./Modals/GlobalModal";
 
 export default function Dashboard() {
   const [ReportStatus, setReportStatus] = useState(false);
@@ -68,6 +69,8 @@ export default function Dashboard() {
     selectedClient,
     setSelectedClient,
   } = useContext(FilterContext);
+
+  const { getFiltersFromAudience } = useAudienceContext();
 
   const { user, admin, setAdmin, accessData } = useContext(UserContext);
   const {
@@ -332,11 +335,16 @@ export default function Dashboard() {
       }
     } catch (err) {
       if (audienceCoverageInitial === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartFetchInitialAudienceCoverage();
       }
       console.log({ err });
     }
   }
+
+  const delay = (ms: number | undefined) =>
+    new Promise((res) => setTimeout(res, ms));
 
   async function ChartFetchUpdatedAudienceCoverage() {
     try {
@@ -347,10 +355,12 @@ export default function Dashboard() {
           Audience: {
             Numerical_variable: null,
             Categorical_variable: null,
-            Filters: {
-              Categorical: object,
-              Numerical: [],
-            },
+            Filters: getFiltersFromAudience(),
+
+            // {
+            //   Categorical: object,
+            //   Numerical: [],
+            // },
           } as getChartDataAudience,
         },
       })) as { data: GetChartDataQuery };
@@ -375,6 +385,8 @@ export default function Dashboard() {
     } catch (err) {
       setIsLoading(false);
       if (audienceCoverageUpdated === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartFetchUpdatedAudienceCoverage();
       }
       console.log({ err });
@@ -527,6 +539,8 @@ export default function Dashboard() {
     } catch (err) {
       console.log({ err });
       if (initalGender === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartGenderInital();
       }
     }
@@ -569,6 +583,8 @@ export default function Dashboard() {
     } catch (err) {
       console.log({ err });
       if (updatedGender === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartGenderUpdated();
       }
     }
@@ -622,6 +638,8 @@ export default function Dashboard() {
     } catch (err) {
       console.log({ err });
       if (initalCore === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartFetchCore();
       }
     }
@@ -670,6 +688,8 @@ export default function Dashboard() {
     } catch (err) {
       console.log({ err });
       if (updatedCore === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartUpdatedFetchCore();
       }
     }
@@ -722,6 +742,8 @@ export default function Dashboard() {
     } catch (err) {
       console.log({ err });
       if (initalPreditionScore === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartFetchPreditionScore();
       }
     }
@@ -771,6 +793,8 @@ export default function Dashboard() {
     } catch (err) {
       console.log({ err });
       if (updatedPreditionScore === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartFetchUpdatedPreditionScore();
       }
     }
