@@ -262,12 +262,22 @@ button:focus {
 }
 
 #dashboard_selected {
+  width: 93%;
   border: 1px solid black;
 }
 
 #dashboard_selected span {
-  font-family: "SF_Pro_Display_Bold";
-  color: black;
+  font-family: "SF_Pro_Display_Medium";
+  color: #929292 !important;
+  font-size: 14px;
+}
+
+.audience_group {
+  width: 100%;
+}
+
+.audinece_with_selected_Items {
+  width: 100%;
 }
 
 #default_icon_default {
@@ -317,10 +327,10 @@ button:focus {
   /* top: 48.5%; */
   top: 1rem;
   left: 102%;
-  width: 10rem;
-  height: 7rem;
+  width: 11rem;
+  height: 7.3rem;
   border-radius: 7px;
-  border: 1px solid black;
+  border: 1px solid #e2e2e2;
   margin-bottom: 0.5rem;
   padding: 0.25rem;
   padding-top: 0.5rem;
@@ -330,19 +340,24 @@ button:focus {
   display: flex;
   justify-content: space-between;
   margin: 0.15rem;
+  padding: 0.1rem;
   margin-top: 0.5rem;
 }
+
+/* .burgerMenu_selecto span {
+  color: #929292 !important;
+} */
 
 .burgeMenu_dropdown_selectors {
   position: absolute;
   background-color: white;
   /* top: 48.5%; */
   top: 1rem;
-  left: 183%;
+  left: 190%;
   /* width: 30rem;
   height: 20rem; */
   border-radius: 7px;
-  border: 1px solid black;
+  border: 1px solid #e2e2e2;
   margin-bottom: 0.5rem;
   padding: 0.25rem;
   padding-top: 0.5rem;
@@ -351,7 +366,8 @@ button:focus {
 }
 
 .burgerMenu_selector:hover {
-  background-color: #59595b;
+  background-color: #cfcfcf;
+  border-radius: 7px;
   color: white;
 }
 
@@ -360,35 +376,59 @@ button:focus {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  /* width: 25rem; */
-  max-height: 25rem;
-  border: 1px solid black;
+  width: 87.5rem;
+  max-height: 38.5rem;
+  /* border: 1px solid black; */
+  background-color: white;
+}
+
+.temp_child {
+  background-color: white;
+  font-size: 14px;
+  font-family: "SF_Pro_Display_Regular" !important;
+  font-weight: 200;
 }
 
 .temp_child2 {
-  width: 160px;
+  width: 140px;
   border: 0px;
   display: flex;
   align-items: flex-end;
   margin-left: 0.8rem;
-  background-color: white;
+  font-family: "SF_Pro_Display_Regular";
+  font-weight: 200;
+  color: #929292;
+  /* background-color: white; */
 }
 
 .selector_contianer {
-  width: 100px;
+  width: 145px;
   display: flex;
   justify-content: space-between;
+  /* background-color: white; */
 }
 
 .selector_group {
-  width: 150px;
+  width: 166px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 15px;
   margin: 0.25rem;
-  padding: 0.15rem;
-  border: 1px solid black;
+  padding: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: 0rem;
+  margin-right: 0rem;
+  /* border: 1px solid black; */
+  /* background-color: white;
+  background-color: white; */
+}
+
+.selector_group:hover {
+  background-color: #cfcfcf;
+  border-radius: 7px;
+  /* cursor: pointer; */
 }
 
 .temp {
@@ -396,8 +436,212 @@ button:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: white;
+  border-radius: 7px;
 }
 .temp_child {
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+}
+
+.Selected_selectors {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.Title_selected_item {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.Selectors_with_AllOptions {
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.AllSelectors div {
+  width: 166px;
+  display: flex;
+  /* background-color: white; */
+}
+
+.select_item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem;
+  color: #929292;
+}
+
+.select_item:hover {
+  background-color: #d9d9d9;
+  border-radius: 7px;
+}
+
+.all_button {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  padding: 0.15rem;
+  padding-left: 0.65rem;
+  padding-right: 0.65rem;
+  border: 1px solid #cccccc;
+  border-radius: 7px;
+  margin-right: 0.6rem;
+  margin-left: 0.4rem;
+  background-color: white;
+}
+
+.all_button span {
+  font-size: 10px;
+  font-family: "SF_Pro_Display_Regular" !important;
+  padding-left: 0rem;
+  margin-left: 0rem;
+}
+
+.allbuttons {
+  display: flex;
+  width: 175px;
+  border: 1px solid #e2e2e2;
+  border-radius: 11px;
+  padding: 0.15rem;
+  padding-top: 0.5rem;
+}
+
+.dropDown_button span {
+  padding-left: 0rem;
+}
+.all {
+  padding-left: 0rem !important;
+  margin-left: 0rem !important;
+  color: #929292 !important;
+}
+
+#activeTitle {
+  background-color: #cfcfcf;
+  border-radius: 7px;
+}
+
+.Dropdown_Arrow img {
+  width: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+#selectedItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem;
+  color: #929292;
+  padding-right: 0.5rem;
+}
+
+#selectedItem img {
+  padding-left: 0.25rem;
+}
+
+#temp_child {
+  /* width: 100%; */
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+  font-size: 14px;
+  font-family: "SF_Pro_Display_Regular" !important;
+  font-weight: 200;
+}
+
+#element_dashboard {
+  width: 75% !important;
+  font-family: "SF_Pro_Display_Bold" !important;
+
+  /* font-size: 16px !important; */
+  /* margin-bottom: 1rem !important; */
+  margin-top: 0.3rem !important;
+  padding-left: 0rem !important;
+}
+
+.Selected_group {
+  margin: 1rem;
+  margin-left: 0rem;
+  margin-right: 0rem;
+}
+
+#burgerMenu_selector_active {
+  background-color: #cfcfcf;
+  border-radius: 7px;
+}
+
+.temp_child_numerical {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #929292;
+}
+
+.temp_child_numerical_original {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  /* font-size: 15px; */
+}
+
+.temp_child_numerical_input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.4rem;
+}
+
+.temp_child_numerical_input input {
+  width: 55px;
+  height: 22px;
+  line-height: 1.65;
+  float: left;
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-left: 20px;
+  border: 1px solid #e2e2e2;
+  border-radius: 7px;
+  margin-bottom: 0.4rem;
+}
+
+/* .temp_child_numerical_input button {
+  width: 33%;
+} */
+
+.temp_child_numerical {
+  background-color: white;
+  font-size: 14px;
+  font-family: "SF_Pro_Display_Regular" !important;
+  font-weight: 200;
+}
+
+.both_Min_and_Max {
+  width: 100%;
+  display: flex;
+}
+.title_numerical {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.min_and_max {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

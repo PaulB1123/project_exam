@@ -1,21 +1,22 @@
-import { useState, useContext, useEffect } from "react";
-import {
-  MODAL_TYPES,
-  useGlobalModalContext,
-} from "../Dashboard/Modals/GlobalModal";
-import "./TempleteChart.css";
-import ChartIMG from "./Chart.svg";
-import Charts from "../Charts/Charts";
 import { API } from "aws-amplify";
-import XIcon from "../Filters/icons/X.svg";
-import { getChartData } from "../../graphql/queries";
+import { useContext, useEffect, useState } from "react";
 import {
   getChartDataAudience,
   GetChartDataQuery,
   getChartDataResponse,
 } from "../../API";
+import { useAudienceContext } from "../../Data/AudienceContext";
 import FilterContext from "../../Data/FilterContext";
 import UserContext from "../../Data/UserContext";
+import { getChartData } from "../../graphql/queries";
+import Charts from "../Charts/Charts";
+import {
+  MODAL_TYPES,
+  useGlobalModalContext,
+} from "../Dashboard/Modals/GlobalModal";
+import XIcon from "../Filters/icons/X.svg";
+import ChartIMG from "./Chart.svg";
+import "./TempleteChart.css";
 
 export interface Props {
   el: number;
@@ -43,6 +44,7 @@ export default function TemplateChart(props: Props) {
   const [loading, setloading] = useState(false);
   const [chartSizeBackend, setChartSizeBackend] = useState<any>();
   const [chartTypeBackend, setChartTypeBackend] = useState();
+  const { getFiltersFromAudience } = useAudienceContext();
   // const [checkError, setCheckError] = useState()
 
   const bigFunction = (chartID: any) => {
@@ -296,10 +298,7 @@ export default function TemplateChart(props: Props) {
           Audience: {
             Numerical_variable: audition,
             Categorical_variable: null,
-            Filters: {
-              Categorical: object,
-              Numerical: [],
-            },
+            Filters: getFiltersFromAudience(),
           } as getChartDataAudience,
         },
       })) as { data: GetChartDataQuery };
@@ -334,10 +333,7 @@ export default function TemplateChart(props: Props) {
           Audience: {
             Numerical_variable: null,
             Categorical_variable: categoricalFactor,
-            Filters: {
-              Categorical: object,
-              Numerical: [],
-            },
+            Filters: getFiltersFromAudience(),
           } as getChartDataAudience,
         },
       };

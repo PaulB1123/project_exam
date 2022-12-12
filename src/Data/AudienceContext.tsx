@@ -9,7 +9,10 @@ import {
 import { API } from "aws-amplify";
 import React from "react";
 import {
+  categoricalInput,
+  getChartDataFilters,
   getSelectorsForModelResponse,
+  numericalInput,
   SelectorFactor,
   SelectorNumeric,
   selectorValue,
@@ -19,7 +22,6 @@ import FilterContext, {
   GeneralNumeric,
   GeneralSelector,
 } from "./FilterContext";
-import response from "./response_get_selectors.json";
 
 interface AudienceContextValue {
   // The current selectedModelId
@@ -36,16 +38,33 @@ interface AudienceContextValue {
   selectOrDeselectAll: (variable: string, selectAs: boolean) => void;
   // return list of all selectors
   showAllSelectors: () => (GeneralSelector | GeneralNumeric)[];
+
+  //update the Max or Min Value in a selector
+  setMinMaxAudienceNumeric: (
+    variable: string,
+    type: "min" | "max",
+    value: number
+  ) => void;
+
+  // Method to get data to be used in api call
+  getFiltersFromAudience: () => getChartDataFilters;
 }
 
-const AudienceContext = createContext<AudienceContextValue>({
-  selectedModelId: "" as string | undefined,
-  retrieveSelector: (id: string) => undefined,
-  revertAudienceSelection: (variable: string, id: number) => {},
-  showSelectedAudience: () => [],
-  showAllSelectors: () => [],
-  selectOrDeselectAll: (variable: string, selectAs: boolean) => {},
-});
+// selectedModelId: "" as string | undefined,
+// retrieveSelector: (id: string) => undefined,
+// revertAudienceSelection: (variable: string, id: number) => {},
+// setMinMaxAudienceNumeric: (
+//   variable: string,
+//   type: "min" | "max",
+//   value: number
+// ) => {},
+// showSelectedAudience: () => [],
+// showAllSelectors: () => [],
+// selectOrDeselectAll: (variable: string, selectAs: boolean) => {},
+
+const AudienceContext = createContext<AudienceContextValue | undefined>(
+  undefined
+);
 
 type AudienceContextProviderProps = {
   children: React.ReactNode;
@@ -213,6 +232,29 @@ export const AudienceContextProvider = (
     setAudienceArray(newArray);
   };
 
+  const setMinMaxAudienceNumeric = (
+    variable: string,
+    type: "min" | "max",
+    value: number
+  ) => {
+    // console.log("oldArray", audienceArray);
+
+    const newArray = audienceArray.map((t) => {
+      if (!isGeneralFactor(t)) {
+        if (t.Variable === variable) {
+          if (type === "min") {
+            console.log("min", t, value);
+
+            return { ...t, SelectedMin: value };
+          } else return { ...t, SelectedMax: value };
+        } else return t;
+      } else return t;
+    });
+    console.log("newArray", newArray);
+
+    setAudienceArray(newArray);
+  };
+
   const showSelectedAudience = () => {
     const dd = audienceArray.flatMap((t) => {
       if (isGeneralFactor(t)) {
@@ -220,8 +262,11 @@ export const AudienceContextProvider = (
           return t;
         }
         return [];
+      } else {
+        if (t.SelectedMax === t.Max && t.SelectedMin === t.Min) {
+          return [];
+        } else return t;
       }
-      return [];
     });
     return dd;
   };
@@ -248,6 +293,33 @@ export const AudienceContextProvider = (
     setAudienceArray(newArray);
   };
 
+  const getFiltersFromAudience = () => {
+    const categorical: categoricalInput[] = [];
+    const numerical: numericalInput[] = [];
+    showSelectedAudience().forEach((t) => {
+      if (isGeneralFactor(t)) {
+        const { Variable, Values } = t;
+        const selectedValues = Values.flatMap((v) => {
+          if (v.isSelected) {
+            return v.Id;
+          }
+          return [];
+        });
+        categorical.push({ Variable, Values: selectedValues });
+      } else {
+        numerical.push({
+          Variable: t.Variable,
+          Min: t.SelectedMin,
+          Max: t.SelectedMax,
+        });
+      }
+    });
+    return {
+      Categorical: categorical,
+      Numerical: numerical,
+    } as getChartDataFilters;
+  };
+
   return (
     <AudienceContext.Provider
       value={{
@@ -257,6 +329,8 @@ export const AudienceContextProvider = (
         showSelectedAudience,
         showAllSelectors,
         selectOrDeselectAll,
+        setMinMaxAudienceNumeric,
+        getFiltersFromAudience,
       }}
     >
       {props.children}
@@ -264,4 +338,12 @@ export const AudienceContextProvider = (
   );
 };
 
-export default AudienceContext;
+function useAudienceContext() {
+  const context = useContext(AudienceContext);
+  if (context === undefined) {
+    throw new Error("useCount must be used within a CountProvider");
+  }
+  return context;
+}
+
+export { AudienceContext, useAudienceContext };

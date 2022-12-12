@@ -46,6 +46,13 @@ export default function Navigation() {
           </div>
         </div>
 
+        <div className="main_menu_container">
+          <li className="header_main_menu"> FILTER </li>
+          <ul>
+            <AudiencesButtonOriginal />
+          </ul>
+        </div>
+
         <div className="header_main_menu_container">
           <li className="header_main_menu">WORK FLOW</li>
           <ul>
@@ -53,19 +60,12 @@ export default function Navigation() {
           </ul>
         </div>
 
-        <div className="main_menu_container">
+        {/* <div className="main_menu_container">
           <li className="header_main_menu">FILTER</li>
           <ul>
             <AudiencesButton />
           </ul>
-        </div>
-
-        <div className="main_menu_container">
-          <li className="header_main_menu"> FILTER </li>
-          <ul>
-            <AudiencesButtonOriginal />
-          </ul>
-        </div>
+        </div> */}
 
         <div className="logout">
           <div className="button_Dashboard">

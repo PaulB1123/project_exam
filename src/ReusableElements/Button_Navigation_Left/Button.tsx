@@ -22,8 +22,12 @@ import Modal from "../../Componets/Filters/Modal";
 import { Id } from "react-beautiful-dnd";
 import UserContext from "../../Data/UserContext";
 // import AudienceContext from "../../Data/AudienceContext";
-import AudienceContext, { isGeneralFactor } from "../../Data/AudienceContext";
+import {
+  isGeneralFactor,
+  useAudienceContext,
+} from "../../Data/AudienceContext";
 import { Dropdown } from "rsuite";
+import OkayIcon from "../../Componets/Navigation/icons/Okay.svg";
 
 export function DashboardsButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
@@ -344,6 +348,9 @@ export function AudiencesButtonOriginal() {
   const [isActiveBurgerMenu, setIsActiveBurgerMenu] = useState(false);
   const [isOpenSelectors, setOpenSelectors] = useState(false);
   const [isActiveSelectors, setIsActiveSelectors] = useState(false);
+  const [isSelectorOpenMenu, setSelectorOpenMenu] = useState(false);
+  const [isOpenSelectorMenu, setIsOpenSelectorMenu] = useState(false);
+  const [itemClicked, setItemClicked] = useState(false);
   const [arrayWithAudiences, setArrayWithAudiences] = useState([]) as any;
   const [checkLi, setCheckLi] = useState("");
   const { message, inputarr, loadAudienceUrl } = useGlobalModalContext();
@@ -358,7 +365,9 @@ export function AudiencesButtonOriginal() {
     showSelectedAudience,
     selectOrDeselectAll,
     showAllSelectors,
-  } = useContext(AudienceContext);
+    getFiltersFromAudience,
+    setMinMaxAudienceNumeric,
+  } = useAudienceContext();
 
   useEffect(() => {
     if (message !== undefined) {
@@ -380,7 +389,15 @@ export function AudiencesButtonOriginal() {
   const handleClickSelector = () => {
     setOpenSelectors(!isOpenSelectors);
     setIsActiveSelectors((current) => !current);
+    setItemClicked(true);
   };
+
+  function handleClickSelctorDropDown(Title: string) {
+    console.log(Title);
+    // showAllSelectors.filter((v:any)=> v.Title === Title)
+    setIsOpenSelectorMenu(!isOpenSelectorMenu);
+    setSelectorOpenMenu((current) => !current);
+  }
 
   const handelclickAudience = (key: string) => {
     setCheckLi(key);
@@ -407,6 +424,8 @@ export function AudiencesButtonOriginal() {
   }, [audienceList]);
 
   const [selectorItem1, setSelectorItem1] = useState("Gender");
+  const [minValue, setMinValue] = useState(0);
+  const [maxValue, setMaxValue] = useState(100);
 
   const [selector1, setSelector1] = useState<
     GeneralSelector | GeneralNumeric | undefined
@@ -455,23 +474,76 @@ export function AudiencesButtonOriginal() {
         <div className="Opened_Audience_button">
           <div className="main_container" id="for_tryOut">
             <div className="dropDown_button" id="dashboard_selected">
-              <li className="audiences_saved">
-                <span className="element_dashboard">This is the audience</span>
-                <div className="PlusIcon_container" id="DeleteButton_container">
-                  {/* <div className="DeleteButton"></div> */}
-                  <div
-                    className="BurgerManu"
-                    onClick={() => {
-                      handleClickBurgerMenu();
-                    }}
-                  ></div>
+              <div className="audinece_with_selected_Items">
+                <div className="audience_group">
+                  <li className="audiences_saved">
+                    <span id="element_dashboard">This is the audience</span>
+                    <div
+                      className="PlusIcon_container"
+                      id="DeleteButton_container"
+                    >
+                      {/* <div className="DeleteButton"></div> */}
+                      <div
+                        className="BurgerManu"
+                        onClick={() => {
+                          handleClickBurgerMenu();
+                        }}
+                      ></div>
+                    </div>
+                  </li>
                 </div>
-              </li>
+                <div>
+                  {showSelectedAudience().map((s) => (
+                    <div key={s.Variable} className="Selected_group">
+                      <div className="Title_selected_item">
+                        <img src={SegmentIcon} alt="selectors" />
+                        <span>{s.Title}</span>
+                      </div>
+                      <div className="Selected_selectors">
+                        <div id="temp_child">
+                          {isGeneralFactor(s) ? (
+                            s.Values.map(
+                              (v) =>
+                                v.isSelected && (
+                                  <div
+                                    key={v.Id}
+                                    onClick={() =>
+                                      revertAudienceSelection(s.Variable, v.Id)
+                                    }
+                                    // className="select_item"
+                                    id="selectedItem"
+                                  >
+                                    {v.Value}
+                                    {v.isSelected ? (
+                                      <>
+                                        <img src={OkayIcon} alt="blabla" />
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </div>
+                                )
+                            )
+                          ) : (
+                            <div id="selectedItem">
+                              <p>
+                                {s.SelectedMin}-{s.SelectedMax}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {isOpenBurgerMenu === true ? (
                 <>
                   <div className="burgeMenu_dropdown">
                     <div
                       className="burgerMenu_selector"
+                      id={isActiveSelectors ? "burgerMenu_selector_active" : ""}
                       onClick={() => {
                         handleClickSelector();
                       }}
@@ -511,112 +583,212 @@ export function AudiencesButtonOriginal() {
                     <div className="burgeMenu_dropdown_selectors">
                       <div className="temp2">
                         {showAllSelectors().map((v) => (
-                          <div className="selector_group">
-                            <div className="selector_contianer">
-                              <img src={SegmentIcon} alt="selectors" />
-                              <div
-                                key={v.Variable}
-                                className="temp_child2"
-                                onClick={() => setSelectorItem1(v.Variable)}
-                              >
-                                {v.Title}
+                          <>
+                            <div
+                              className="selector_group"
+                              id={
+                                v.Title === selector1?.Title
+                                  ? "activeTitle"
+                                  : ""
+                              }
+                            >
+                              <div className="selector_contianer">
+                                <img src={SegmentIcon} alt="selectors" />
+                                <div
+                                  key={v.Variable}
+                                  className="temp_child2"
+                                  onClick={() => setSelectorItem1(v.Variable)}
+                                >
+                                  {v.Title}
+                                </div>
+                              </div>
+                              <div className="Dropdown_Arrow">
+                                <img
+                                  src={
+                                    v.Title === selector1?.Title
+                                      ? ArrrowupIcon
+                                      : ArrrowdownIcon
+                                  }
+                                  alt="selectors"
+                                />
+                                {/* <div
+                                  className="PlusIcon_container"
+                                  id="DeleteButton_container"
+                                  onClick={() =>
+                                    handleClickSelctorDropDown(v.Title)
+                                  }
+                                >
+                                 
+                                </div> */}
                               </div>
                             </div>
-                            <div className="Dropdown_Arrow">
-                              <img src={ArrrowdownIcon} alt="selectors" />
-                            </div>
-                          </div>
-                        ))}
-                        {showAllSelectors().map((v) => (
-                          <div className="selector_group">
-                            <div className="selector_contianer">
-                              <img src={SegmentIcon} alt="selectors" />
-                              <div
-                                key={v.Variable}
-                                className="temp_child2"
-                                onClick={() => setSelectorItem1(v.Variable)}
-                              >
-                                {v.Title}
-                              </div>
-                            </div>
-                            <div className="Dropdown_Arrow">
-                              <img src={ArrrowdownIcon} alt="selectors" />
-                            </div>
-                          </div>
+                            <>
+                              {v.Title === selector1?.Title ? (
+                                <>
+                                  <div className="allbuttons">
+                                    {/* <h2>You have chosen {selector1.Title}</h2> */}
+                                    <div className="Selectors_with_AllOptions">
+                                      <div className="AllSelectors">
+                                        {isGeneralFactor(selector1) && (
+                                          <div>
+                                            <button
+                                              onClick={() =>
+                                                selectOrDeselectAll(
+                                                  selector1.Variable,
+                                                  true
+                                                )
+                                              }
+                                              className="all_button"
+                                            >
+                                              <span className="all">All</span>
+                                              <input type="checkbox"></input>
+                                            </button>
+                                            <button
+                                              onClick={() =>
+                                                selectOrDeselectAll(
+                                                  selector1.Variable,
+                                                  false
+                                                )
+                                              }
+                                              className="all_button"
+                                            >
+                                              <span className="all">None</span>
+                                              <input type="checkbox"></input>
+                                            </button>
+                                          </div>
+                                        )}
+                                      </div>
+                                      <div className="temp">
+                                        {isGeneralFactor(selector1) ? (
+                                          selector1.Values.map((v) => (
+                                            <button
+                                              onClick={() => {
+                                                revertAudienceSelection(
+                                                  selector1.Variable,
+                                                  v.Id
+                                                );
+                                              }}
+                                              className="temp_child"
+                                            >
+                                              <div
+                                                key={v.Id}
+                                                className="select_item"
+                                              >
+                                                <p>{v.Value}</p>
+                                                {v.isSelected ? (
+                                                  <>
+                                                    <img
+                                                      src={OkayIcon}
+                                                      alt="blabla"
+                                                    />
+                                                  </>
+                                                ) : (
+                                                  <></>
+                                                )}
+                                              </div>
+                                            </button>
+                                          ))
+                                        ) : (
+                                          <div className="temp_child_numerical">
+                                            <div className="temp_child_numerical_original">
+                                              <div className="title_numerical">
+                                                <div>
+                                                  Maximum Values Between
+                                                </div>
+                                              </div>
+                                              <div className="min_and_max">
+                                                <div>{selector1.Min} </div> -
+                                                <div>{selector1.Max}</div>
+                                              </div>
+                                            </div>
+                                            <div className="both_Min_and_Max">
+                                              <div className="temp_child_numerical_input">
+                                                <div>
+                                                  <div className="temp_child_numerical">
+                                                    Min Value
+                                                  </div>
+                                                  <div>{minValue}</div>
+                                                </div>
+
+                                                <input
+                                                  value={minValue}
+                                                  onChange={(e) =>
+                                                    setMinValue(
+                                                      Number(e.target.value)
+                                                    )
+                                                  }
+                                                />
+                                                <button
+                                                  className="buttonDashboard"
+                                                  onClick={() => {
+                                                    setMinMaxAudienceNumeric(
+                                                      selector1.Variable,
+                                                      "min",
+                                                      minValue
+                                                    );
+                                                  }}
+                                                >
+                                                  Set Min
+                                                </button>
+                                              </div>
+                                              <div className=" temp_child_numerical_input">
+                                                <div>
+                                                  <div className="temp_child_numerical">
+                                                    Max Value
+                                                  </div>
+                                                  <div>{maxValue}</div>
+                                                </div>
+
+                                                <input
+                                                  value={maxValue}
+                                                  onChange={(e) => {
+                                                    setMaxValue(
+                                                      Number(e.target.value)
+                                                    );
+                                                  }}
+                                                />
+                                                <button
+                                                  className="buttonDashboard"
+                                                  onClick={() => {
+                                                    console.log(
+                                                      "min",
+                                                      minValue,
+                                                      "max",
+                                                      maxValue
+                                                    );
+
+                                                    setMinMaxAudienceNumeric(
+                                                      selector1.Variable,
+                                                      "max",
+                                                      maxValue
+                                                    );
+                                                  }}
+                                                >
+                                                  Set Max
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                <></>
+                              )}
+                            </>
+                          </>
                         ))}
                       </div>
 
-                      {selector1 && (
-                        <div>
-                          <h2>You have chosen {selector1.Title}</h2>
-                          <button
-                            onClick={() =>
-                              selectOrDeselectAll(selector1.Variable, true)
-                            }
-                          >
-                            SelectAll
-                          </button>
-                          <button
-                            onClick={() =>
-                              selectOrDeselectAll(selector1.Variable, false)
-                            }
-                          >
-                            DeselectAll
-                          </button>
-                          <div className="temp">
-                            {isGeneralFactor(selector1) ? (
-                              selector1.Values.map((v) => (
-                                <div key={v.Id} className="temp_child">
-                                  <p>
-                                    {v.Id} {v.Value}
-                                  </p>
-                                  <button
-                                    onClick={() => {
-                                      revertAudienceSelection(
-                                        selector1.Variable,
-                                        v.Id
-                                      );
-                                    }}
-                                  >
-                                    {v.isSelected ? "Selected" : "Not Selected"}
-                                  </button>
-                                </div>
-                              ))
-                            ) : (
-                              <div>TEST</div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
                       <div>
-                        {showSelectedAudience().map((s) => (
-                          <div key={s.Variable}>
-                            <h3>{s.Title}</h3>
-                            <div>
-                              {isGeneralFactor(s) ? (
-                                s.Values.map(
-                                  (v) =>
-                                    v.isSelected && (
-                                      <button
-                                        key={v.Id}
-                                        onClick={() =>
-                                          revertAudienceSelection(
-                                            s.Variable,
-                                            v.Id
-                                          )
-                                        }
-                                      >
-                                        {v.Value}
-                                      </button>
-                                    )
-                                )
-                              ) : (
-                                <div>test</div>
-                              )}
-                            </div>
-                          </div>
-                        ))}
+                        <button
+                          className="buttonDashboard"
+                          onClick={() => console.log(getFiltersFromAudience())}
+                        >
+                          filter to log
+                        </button>
                       </div>
                     </div>
                   ) : (
