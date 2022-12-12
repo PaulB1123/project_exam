@@ -9,7 +9,10 @@ import {
 import { API } from "aws-amplify";
 import React from "react";
 import {
+  categoricalInput,
+  getChartDataFilters,
   getSelectorsForModelResponse,
+  numericalInput,
   SelectorFactor,
   SelectorNumeric,
   selectorValue,
@@ -42,21 +45,26 @@ interface AudienceContextValue {
     type: "min" | "max",
     value: number
   ) => void;
+
+  // Method to get data to be used in api call
+  getFiltersFromAudience: () => getChartDataFilters;
 }
 
-const AudienceContext = createContext<AudienceContextValue>({
-  selectedModelId: "" as string | undefined,
-  retrieveSelector: (id: string) => undefined,
-  revertAudienceSelection: (variable: string, id: number) => {},
-  setMinMaxAudienceNumeric: (
-    variable: string,
-    type: "min" | "max",
-    value: number
-  ) => {},
-  showSelectedAudience: () => [],
-  showAllSelectors: () => [],
-  selectOrDeselectAll: (variable: string, selectAs: boolean) => {},
-});
+// selectedModelId: "" as string | undefined,
+// retrieveSelector: (id: string) => undefined,
+// revertAudienceSelection: (variable: string, id: number) => {},
+// setMinMaxAudienceNumeric: (
+//   variable: string,
+//   type: "min" | "max",
+//   value: number
+// ) => {},
+// showSelectedAudience: () => [],
+// showAllSelectors: () => [],
+// selectOrDeselectAll: (variable: string, selectAs: boolean) => {},
+
+const AudienceContext = createContext<AudienceContextValue | undefined>(
+  undefined
+);
 
 type AudienceContextProviderProps = {
   children: React.ReactNode;
@@ -285,6 +293,33 @@ export const AudienceContextProvider = (
     setAudienceArray(newArray);
   };
 
+  const getFiltersFromAudience = () => {
+    const categorical: categoricalInput[] = [];
+    const numerical: numericalInput[] = [];
+    showSelectedAudience().forEach((t) => {
+      if (isGeneralFactor(t)) {
+        const { Variable, Values } = t;
+        const selectedValues = Values.flatMap((v) => {
+          if (v.isSelected) {
+            return v.Id;
+          }
+          return [];
+        });
+        categorical.push({ Variable, Values: selectedValues });
+      } else {
+        numerical.push({
+          Variable: t.Variable,
+          Min: t.SelectedMin,
+          Max: t.SelectedMax,
+        });
+      }
+    });
+    return {
+      Categorical: categorical,
+      Numerical: numerical,
+    } as getChartDataFilters;
+  };
+
   return (
     <AudienceContext.Provider
       value={{
@@ -295,6 +330,7 @@ export const AudienceContextProvider = (
         showAllSelectors,
         selectOrDeselectAll,
         setMinMaxAudienceNumeric,
+        getFiltersFromAudience,
       }}
     >
       {props.children}
@@ -302,4 +338,12 @@ export const AudienceContextProvider = (
   );
 };
 
-export default AudienceContext;
+function useAudienceContext() {
+  const context = useContext(AudienceContext);
+  if (context === undefined) {
+    throw new Error("useCount must be used within a CountProvider");
+  }
+  return context;
+}
+
+export { AudienceContext, useAudienceContext };

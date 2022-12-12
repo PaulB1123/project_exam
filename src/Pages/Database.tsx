@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ClientItem } from "../API";
 import IntroPage from "../Componets/IntroPage/IntroPage";
 import Annalect from "../Componets/Navigation/icons/Annalect.png";
-import AudienceContext, { isGeneralFactor } from "../Data/AudienceContext";
+import { isGeneralFactor, useAudienceContext } from "../Data/AudienceContext";
 import FilterContext, {
   GeneralNumeric,
   GeneralSelector,
@@ -32,7 +32,8 @@ function Database() {
     selectOrDeselectAll,
     showAllSelectors,
     setMinMaxAudienceNumeric,
-  } = useContext(AudienceContext);
+    getFiltersFromAudience,
+  } = useAudienceContext();
 
   const [selectorItem1, setSelectorItem1] = useState("Gender");
 
@@ -259,6 +260,15 @@ function Database() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div>
+          <button
+            className="buttonDashboard"
+            onClick={() => console.log(getFiltersFromAudience())}
+          >
+            filter to log
+          </button>
         </div>
       </div>
       <IntroPage></IntroPage>
