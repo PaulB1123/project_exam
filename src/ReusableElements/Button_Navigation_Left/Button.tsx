@@ -7,16 +7,23 @@ import * as React from "react";
 import ReportIcon from "../../Componets/Navigation/icons/Reports.svg";
 import ArrrowdownIcon from "../../Componets/Navigation/icons/ArrowDown.svg";
 import ArrrowupIcon from "../../Componets/Navigation/icons/ArrowUp.svg";
+import SegmentIcon from "../../Componets/Filters/icons/Segment.svg";
 import Filter from "../../Componets/Navigation/icons/Filter.svg";
 import {
   MODAL_TYPES,
   useGlobalModalContext,
 } from "../../Componets/Dashboard/Modals/GlobalModal";
-import FilterContext from "../../Data/FilterContext";
+import FilterContext, {
+  GeneralNumeric,
+  GeneralSelector,
+} from "../../Data/FilterContext";
 import DragnDrop from "./DragnDrop";
 import Modal from "../../Componets/Filters/Modal";
 import { Id } from "react-beautiful-dnd";
 import UserContext from "../../Data/UserContext";
+// import AudienceContext from "../../Data/AudienceContext";
+import AudienceContext, { isGeneralFactor } from "../../Data/AudienceContext";
+import { Dropdown } from "rsuite";
 
 export function DashboardsButton() {
   const [isOpenReports, setOpenReports] = React.useState(false);
@@ -30,6 +37,7 @@ export function DashboardsButton() {
     setDasdboardDefault,
     setSelectedDasboard,
   } = useGlobalModalContext();
+
   const [checkReportsList, setCheckReportsList] = useState(false);
 
   const [DefaultDasboard, setDefaultDasboard] = useState();
@@ -332,6 +340,10 @@ export function AudiencesButton() {
 export function AudiencesButtonOriginal() {
   const [isOpenReports, setOpenReports] = React.useState(false);
   const [isActiveReports, setIsActiveReports] = useState(false);
+  const [isOpenBurgerMenu, setOpenBurgerMenu] = useState(false);
+  const [isActiveBurgerMenu, setIsActiveBurgerMenu] = useState(false);
+  const [isOpenSelectors, setOpenSelectors] = useState(false);
+  const [isActiveSelectors, setIsActiveSelectors] = useState(false);
   const [arrayWithAudiences, setArrayWithAudiences] = useState([]) as any;
   const [checkLi, setCheckLi] = useState("");
   const { message, inputarr, loadAudienceUrl } = useGlobalModalContext();
@@ -339,6 +351,14 @@ export function AudiencesButtonOriginal() {
   const { showModal, audienceList } = useGlobalModalContext();
   const [showDraggableList, setShowDraggableList] = useState(false);
   const { user, admin, setAdmin, accessData } = useContext(UserContext);
+  const {
+    selectedModelId,
+    retrieveSelector,
+    revertAudienceSelection,
+    showSelectedAudience,
+    selectOrDeselectAll,
+    showAllSelectors,
+  } = useContext(AudienceContext);
 
   useEffect(() => {
     if (message !== undefined) {
@@ -349,6 +369,17 @@ export function AudiencesButtonOriginal() {
   const handleClickAudienceContainer = () => {
     setOpenReports(!isOpenReports);
     setIsActiveReports((current) => !current);
+  };
+
+  const handleClickBurgerMenu = () => {
+    console.log(isOpenBurgerMenu);
+    setOpenBurgerMenu(!isOpenBurgerMenu);
+    setIsActiveBurgerMenu((current) => !current);
+  };
+
+  const handleClickSelector = () => {
+    setOpenSelectors(!isOpenSelectors);
+    setIsActiveSelectors((current) => !current);
   };
 
   const handelclickAudience = (key: string) => {
@@ -374,6 +405,16 @@ export function AudiencesButtonOriginal() {
   useEffect(() => {
     // console.log(audienceList);
   }, [audienceList]);
+
+  const [selectorItem1, setSelectorItem1] = useState("Gender");
+
+  const [selector1, setSelector1] = useState<
+    GeneralSelector | GeneralNumeric | undefined
+  >();
+
+  useEffect(() => {
+    setSelector1(retrieveSelector(selectorItem1));
+  }, [selectorItem1, retrieveSelector]);
 
   return (
     <>
@@ -412,16 +453,179 @@ export function AudiencesButtonOriginal() {
       </button>
       {isOpenReports && (
         <div className="Opened_Audience_button">
-          <div className="main_container">
+          <div className="main_container" id="for_tryOut">
             <div className="dropDown_button" id="dashboard_selected">
               <li className="audiences_saved">
                 <span className="element_dashboard">This is the audience</span>
-
                 <div className="PlusIcon_container" id="DeleteButton_container">
                   {/* <div className="DeleteButton"></div> */}
-                  <div className="BurgerManu"></div>
+                  <div
+                    className="BurgerManu"
+                    onClick={() => {
+                      handleClickBurgerMenu();
+                    }}
+                  ></div>
                 </div>
               </li>
+              {isOpenBurgerMenu === true ? (
+                <>
+                  <div className="burgeMenu_dropdown">
+                    <div
+                      className="burgerMenu_selector"
+                      onClick={() => {
+                        handleClickSelector();
+                      }}
+                    >
+                      <span>Choose Selectors</span>
+                      <div
+                        className="PlusIcon_container"
+                        id="DeleteButton_container"
+                        // onClick={() => deleteReport(id.Dashboard_id)}
+                      >
+                        <div className="DeleteButton"></div>
+                      </div>
+                    </div>
+
+                    <div className="burgerMenu_selector">
+                      <span>Delete Audience</span>
+                      <div
+                        className="PlusIcon_container"
+                        id="DeleteButton_container"
+                        // onClick={() => deleteReport(id.Dashboard_id)}
+                      >
+                        <div className="DeleteButton"></div>
+                      </div>
+                    </div>
+                    <div className="burgerMenu_selector">
+                      <span>Activation</span>
+                      <div
+                        className="PlusIcon_container"
+                        id="DeleteButton_container"
+                        // onClick={() => deleteReport(id.Dashboard_id)}
+                      >
+                        <div className="DeleteButton"></div>
+                      </div>
+                    </div>
+                  </div>
+                  {isActiveSelectors === true ? (
+                    <div className="burgeMenu_dropdown_selectors">
+                      <div className="temp2">
+                        {showAllSelectors().map((v) => (
+                          <div className="selector_group">
+                            <div className="selector_contianer">
+                              <img src={SegmentIcon} alt="selectors" />
+                              <div
+                                key={v.Variable}
+                                className="temp_child2"
+                                onClick={() => setSelectorItem1(v.Variable)}
+                              >
+                                {v.Title}
+                              </div>
+                            </div>
+                            <div className="Dropdown_Arrow">
+                              <img src={ArrrowdownIcon} alt="selectors" />
+                            </div>
+                          </div>
+                        ))}
+                        {showAllSelectors().map((v) => (
+                          <div className="selector_group">
+                            <div className="selector_contianer">
+                              <img src={SegmentIcon} alt="selectors" />
+                              <div
+                                key={v.Variable}
+                                className="temp_child2"
+                                onClick={() => setSelectorItem1(v.Variable)}
+                              >
+                                {v.Title}
+                              </div>
+                            </div>
+                            <div className="Dropdown_Arrow">
+                              <img src={ArrrowdownIcon} alt="selectors" />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {selector1 && (
+                        <div>
+                          <h2>You have chosen {selector1.Title}</h2>
+                          <button
+                            onClick={() =>
+                              selectOrDeselectAll(selector1.Variable, true)
+                            }
+                          >
+                            SelectAll
+                          </button>
+                          <button
+                            onClick={() =>
+                              selectOrDeselectAll(selector1.Variable, false)
+                            }
+                          >
+                            DeselectAll
+                          </button>
+                          <div className="temp">
+                            {isGeneralFactor(selector1) ? (
+                              selector1.Values.map((v) => (
+                                <div key={v.Id} className="temp_child">
+                                  <p>
+                                    {v.Id} {v.Value}
+                                  </p>
+                                  <button
+                                    onClick={() => {
+                                      revertAudienceSelection(
+                                        selector1.Variable,
+                                        v.Id
+                                      );
+                                    }}
+                                  >
+                                    {v.isSelected ? "Selected" : "Not Selected"}
+                                  </button>
+                                </div>
+                              ))
+                            ) : (
+                              <div>TEST</div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      <div>
+                        {showSelectedAudience().map((s) => (
+                          <div key={s.Variable}>
+                            <h3>{s.Title}</h3>
+                            <div>
+                              {isGeneralFactor(s) ? (
+                                s.Values.map(
+                                  (v) =>
+                                    v.isSelected && (
+                                      <button
+                                        key={v.Id}
+                                        onClick={() =>
+                                          revertAudienceSelection(
+                                            s.Variable,
+                                            v.Id
+                                          )
+                                        }
+                                      >
+                                        {v.Value}
+                                      </button>
+                                    )
+                                )
+                              ) : (
+                                <div>test</div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ) : (
+                <div></div>
+              )}
             </div>
 
             <div className="button_container">

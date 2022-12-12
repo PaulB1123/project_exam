@@ -113,7 +113,7 @@ function Database() {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <h1>Test</h1>
           <p>{selectedModelId}</p>
           <div>
@@ -193,7 +193,7 @@ function Database() {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
       <IntroPage></IntroPage>
     </div>
