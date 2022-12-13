@@ -97,6 +97,8 @@ export default function Dashboard() {
   const [updatedCore, setUpdatedCore] = useState() as any;
   const [initalGender, setInitialGender] = useState() as any;
   const [updatedGender, setUpdatedGender] = useState() as any;
+  const [KIPMaxValue, setKPIMaxValue] = useState();
+  const [MaxValue, setMaxValue] = useState(0);
 
   // function AddChart() {
   //   return (
@@ -297,7 +299,14 @@ export default function Dashboard() {
     // this is for the forth KPI Gender
     ChartGenderInital();
     ChartGenderUpdated();
-  }, [object]);
+  }, []);
+
+  function FetchForChartWithAudienceCreated() {
+    ChartFetchUpdatedAudienceCoverage();
+    ChartUpdatedFetchCore();
+    ChartFetchUpdatedPreditionScore();
+    ChartGenderUpdated();
+  }
 
   async function ChartFetchInitialAudienceCoverage() {
     try {
@@ -492,15 +501,6 @@ export default function Dashboard() {
     ],
   };
 
-  // if (allAudience !== undefined) {
-  //   console.log(allAudience);
-  //   allAudience.map((item: any) =>
-  //     item.Variable === "Gender"
-  //       ? (ChartGenderInital(), ChartGenderUpdated())
-  //       : console.log("this is not the element ")
-  //   );
-  // }
-
   async function ChartGenderInital() {
     try {
       const response = (await API.graphql({
@@ -555,10 +555,7 @@ export default function Dashboard() {
           Audience: {
             Numerical_variable: null,
             Categorical_variable: "Gender",
-            Filters: {
-              Categorical: object,
-              Numerical: [],
-            },
+            Filters: getFiltersFromAudience(),
           } as getChartDataAudience,
         },
       })) as { data: GetChartDataQuery };
@@ -570,6 +567,7 @@ export default function Dashboard() {
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
+            console.log(data);
             setUpdatedGender(data.map((item: any) => item.Count));
             // console.log(data);
           } else {
@@ -591,9 +589,6 @@ export default function Dashboard() {
   }
 
   highchartsMore(Highcharts);
-
-  const [KIPMaxValue, setKPIMaxValue] = useState();
-  const [MaxValue, setMaxValue] = useState(0);
 
   async function ChartFetchCore() {
     try {
@@ -1032,10 +1027,6 @@ export default function Dashboard() {
       },
     },
   };
-
-  // function MakeAdmin() {
-  //   setAdmin(!admin);
-  // }
 
   return (
     <>
