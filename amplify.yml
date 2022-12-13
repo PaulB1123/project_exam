@@ -11,6 +11,7 @@ frontend:
         - if [ "${AWS_BRANCH}" = "staging" ]; then npm run build:staging; fi
         - if [ "${AWS_BRANCH}" = "master" ]; then npm run build:production; fi
         - if [ "${AWS_BRANCH}" = "demo" ]; then npm run build:demo; fi
+        - if [ "${AWS_BRANCH}" = "demo_exam_MMD4" ]; then npm run build:demo_exam; fi
   artifacts:
     baseDirectory: build
     files:
