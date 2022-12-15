@@ -354,10 +354,11 @@ export function AudiencesButtonOriginal() {
   const [arrayWithAudiences, setArrayWithAudiences] = useState([]) as any;
   const [checkLi, setCheckLi] = useState("");
   const { message, inputarr, loadAudienceUrl } = useGlobalModalContext();
-  // const { audienceList } = useContext(FilterContext);
+  const { audience, setAudince } = useContext(FilterContext);
   const { showModal, audienceList } = useGlobalModalContext();
   const [showDraggableList, setShowDraggableList] = useState(false);
   const { user, admin, setAdmin, accessData } = useContext(UserContext);
+  const [audinenceSelected, setAudienceSelected] = useState<boolean>(false);
   const {
     selectedModelId,
     retrieveSelector,
@@ -418,6 +419,13 @@ export function AudiencesButtonOriginal() {
   //     confirmBtn: "Save",
   //   });
   // };
+
+  function audineceButton() {
+    console.log(getFiltersFromAudience());
+    console.log(showSelectedAudience());
+    setAudince(true);
+    // setAudienceSelected(true);
+  }
 
   useEffect(() => {
     // console.log(audienceList);
@@ -641,7 +649,7 @@ export function AudiencesButtonOriginal() {
                                               className="all_button"
                                             >
                                               <span className="all">All</span>
-                                              <input type="checkbox"></input>
+                                              {/* <input type="checkbox"></input> */}
                                             </button>
                                             <button
                                               onClick={() =>
@@ -653,7 +661,7 @@ export function AudiencesButtonOriginal() {
                                               className="all_button"
                                             >
                                               <span className="all">None</span>
-                                              <input type="checkbox"></input>
+                                              {/* <input type="checkbox"></input> */}
                                             </button>
                                           </div>
                                         )}
@@ -785,9 +793,9 @@ export function AudiencesButtonOriginal() {
                       <div>
                         <button
                           className="buttonDashboard"
-                          onClick={() => console.log(getFiltersFromAudience())}
+                          onClick={() => audineceButton()}
                         >
-                          filter to log
+                          Start Audience
                         </button>
                       </div>
                     </div>

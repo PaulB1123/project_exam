@@ -134,3 +134,11 @@ label {
   border: 1px solid #ccc;
   padding: 2px;
 } */
+
+.big_component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 23rem;
+}

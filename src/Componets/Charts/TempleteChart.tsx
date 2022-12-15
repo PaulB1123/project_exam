@@ -35,16 +35,27 @@ export default function TemplateChart(props: Props) {
     selectedDashboard,
     setSelectedDasboard,
   } = useGlobalModalContext();
+
   const [chart, setchart] = useState([]) as any;
   const [dataForChartBase, setDataForChartBase] = useState() as any;
   const [dataForChartAudience, setDataForChartAudience] = useState() as any;
-  const { ArrayDragged, selectedModelId } = useContext(FilterContext);
+  const { ArrayDragged, selectedModelId, audience, setAudince } =
+    useContext(FilterContext);
   const [chartTitle, setChartTitle] = useState<any>();
   const [audtitionName, setAuditionName] = useState<string>("");
   const [loading, setloading] = useState(false);
   const [chartSizeBackend, setChartSizeBackend] = useState<any>();
   const [chartTypeBackend, setChartTypeBackend] = useState();
-  const { getFiltersFromAudience } = useAudienceContext();
+  const {
+    getFiltersFromAudience,
+    retrieveSelector,
+    revertAudienceSelection,
+    showSelectedAudience,
+    selectOrDeselectAll,
+    showAllSelectors,
+    setMinMaxAudienceNumeric,
+  } = useAudienceContext();
+
   // const [checkError, setCheckError] = useState()
 
   const bigFunction = (chartID: any) => {
@@ -78,10 +89,9 @@ export default function TemplateChart(props: Props) {
   }, []);
 
   useEffect(() => {
-    // console.log(ChartID[0]);
-
+    console.log(showSelectedAudience(), audience);
     UpdateCharts();
-  }, [SelectionArray]);
+  }, [SelectionArray, audience]);
 
   function UpdateCharts() {
     // setTimeout(() => {
@@ -92,7 +102,6 @@ export default function TemplateChart(props: Props) {
       dataForChartBase &&
       !SelectionArray.some((el: any) => el.Position === ChartID[0])
     ) {
-      // console.log("test", dataForChartBase);
       setDataForChartBase();
       // setDataForChartAudience();
     }
@@ -181,9 +190,12 @@ export default function TemplateChart(props: Props) {
     });
   }
 
-  useEffect(() => {
-    console.log(dataForChartBase);
-  }, [dataForChartBase]);
+  const delay = (ms: number | undefined) =>
+    new Promise((res) => setTimeout(res, ms));
+
+  // useEffect(() => {
+  //   console.log(dataForChartBase);
+  // }, [dataForChartBase]);
 
   async function ChartFetchBase(audition: any, chart: any) {
     console.log(audition, "fetching chart data ", dataForChartBase);
@@ -197,7 +209,7 @@ export default function TemplateChart(props: Props) {
             Numerical_variable: null,
             Categorical_variable: audition,
             Filters: {
-              Categorical: object,
+              Categorical: [],
               Numerical: [],
             },
           } as getChartDataAudience,
@@ -214,7 +226,6 @@ export default function TemplateChart(props: Props) {
             // console.log(data);
             setDataForChartBase(data);
             setChartTypeBackend(chart);
-
             // console.log(loading);
           } else {
             setDataForChartBase(undefined);
@@ -229,20 +240,21 @@ export default function TemplateChart(props: Props) {
         // }
         console.log(error);
       }
-    } catch (err) {
-      console.log({ err });
-
-      if (dataForChartBase === undefined) {
+      if (data === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartFetchBase(audition, chart);
       }
+    } catch (err) {
+      console.log({ err });
     }
   }
 
-  useEffect(() => {
-    if (dataForChartBase !== undefined) {
-      console.log("wow so it should work", dataForChartBase);
-    }
-  }, [dataForChartBase]);
+  // useEffect(() => {
+  //   if (dataForChartBase !== undefined) {
+  //     console.log("dataForChartBase", dataForChartBase);
+  //   }
+  // }, [dataForChartBase]);
 
   async function ChartNumericalFetchBase(audition: any, chart: any) {
     // console.log(audition, "fetching chart data ", object);
@@ -284,12 +296,19 @@ export default function TemplateChart(props: Props) {
         // setIsLoading(false);
         console.log(error);
       }
+      if (data === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
+        ChartNumericalFetchBase(audition, chart);
+      }
     } catch (err) {
       console.log({ err });
     }
   }
 
   async function ChartNumericalFetchAudience(audition: any, chart: any) {
+    console.log("did it went there 1");
+
     try {
       const response = (await API.graphql({
         query: getChartData,
@@ -318,12 +337,19 @@ export default function TemplateChart(props: Props) {
       } else {
         console.log("this is on line 291", error);
       }
+      if (data === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
+        ChartNumericalFetchAudience(audition, chart);
+      }
     } catch (err) {
       console.log("this is on line 294", { err });
     }
   }
 
   async function ChartFetchAudience(categoricalFactor: string, chart: any) {
+    console.log("did it went there 2");
+
     console.log(categoricalFactor, "fetching chart data ", object);
     try {
       const query_input = {
@@ -346,7 +372,7 @@ export default function TemplateChart(props: Props) {
       const { getChartData: actual_list } = response_data;
       const { data, error, StatusCode }: getChartDataResponse = actual_list;
 
-      console.log(actual_list);
+      // console.log(actual_list);
       if (StatusCode === 200) {
         if (data) {
           if (data.length > 0) {
@@ -363,10 +389,12 @@ export default function TemplateChart(props: Props) {
         // setIsLoading(false);
         console.log(error);
       }
-    } catch (err) {
-      if (dataForChartAudience === undefined) {
+      if (data === undefined) {
+        await delay(5000);
+        console.log("Waited 5s");
         ChartFetchAudience(categoricalFactor, chart);
       }
+    } catch (err) {
       console.log({ err });
     }
   }

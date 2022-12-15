@@ -95,6 +95,7 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     }
 
     if (props.dataForChartAudience !== undefined) {
+      console.log(props.dataForChartAudience);
       setAudiencesValues([
         props.dataForChartAudience.map((item: any) => item.Count),
       ]);
@@ -215,6 +216,10 @@ export default function Charts(props: PropsChart, selectedChart: any) {
     xAxis: {
       categories: nameUnitsChartSet,
       // crosshair: true,
+      title: {
+        // text: props.chartTitle,
+        text: "Client",
+      },
     },
 
     colors: ["#B8C8D2", "#11496A"],

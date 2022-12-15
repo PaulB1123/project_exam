@@ -101,9 +101,7 @@ export function Report() {
       <Navigation></Navigation>
       <div className="Right_Side_Dashboard">
         <div>
-          {/* <FilterComponent></FilterComponent> */}
           <Dashboard></Dashboard>
-
           <div className="dark_mode" onClick={switchTheme}>
             <ul>{theme === "light" ? "Dark" : "Light"} Mode</ul>
             <div className="dark_mode_icon"></div>

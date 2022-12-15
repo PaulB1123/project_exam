@@ -75,6 +75,8 @@ const FilterContext = createContext({
   setitemDelteReport: (params: string) => {},
   allAudience: [] as any,
   setAllAudience: (params: any) => {},
+  audience: false,
+  setAudince: (params: any) => {},
 
   // audienceList: [] as any,
   // setAudienceList: (params: any) => {},
@@ -131,6 +133,7 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
   const [chartUpdate, setChartUpdate] = useState(false);
   const [DashboardsList, setDashboardsList] = useState() as any;
   const [itemDeleteReport, setitemDelteReport] = useState("");
+  const [audience, setAudince] = useState(false);
 
   const url =
     "https://zjr6j5dwbvg4joqegn4v26ic7e.appsync-api.eu-west-1.amazonaws.com/graphql";
@@ -473,6 +476,8 @@ export const FilterContextProvider = (props: FilterContextProviderProps) => {
         setitemDelteReport,
         allAudience,
         setAllAudience,
+        audience,
+        setAudince,
 
         // audienceList,
         // setAudienceList,

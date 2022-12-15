@@ -378,12 +378,12 @@ button:focus {
   width: 0rem;
   flex-wrap: wrap;
   max-height: 38.5rem; */
-  width: 79.5rem;
+  /* width: 79.5rem; */
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
 
-  max-height: 38.5rem;
+  max-height: 40.5rem;
 
   background-color: white;
   /* width: 100%; */
@@ -427,6 +427,7 @@ button:focus {
   padding-right: 0.5rem;
   margin-left: 0rem;
   margin-right: 0rem;
+  cursor: pointer;
   /* border: 1px solid black; */
   /* background-color: white;
   background-color: white; */
@@ -524,6 +525,7 @@ button:focus {
   padding-left: 0rem;
 }
 .all {
+  width: 3rem !important;
   padding-left: 0rem !important;
   margin-left: 0rem !important;
   color: #929292 !important;

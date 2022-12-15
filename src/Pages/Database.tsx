@@ -85,37 +85,39 @@ function Database() {
 
         <div className="login_container_box_container">
           <div className="login_container_box" id="selector">
-            <h1 className="DatabaseH1">
-              Please select the campaign you would like for your dashboard
-            </h1>
+            <div className="big_component">
+              <h1 className="DatabaseH1">
+                Please select the campaign you would like for your dashboard
+              </h1>
 
-            {/* this is commenting out but is very very very good stuff  */}
-            <select
-              value={selectedClient}
-              onChange={(event) => setSelectedClient(event.target.value)}
-            >
-              {clientNewData.map((item: ClientItem, index: any) => (
-                <option key={index} value={`${item.Client_code}`}>
-                  {item.Client_name}
-                </option>
-              ))}
-            </select>
+              {/* this is commenting out but is very very very good stuff  */}
+              <select
+                value={selectedClient}
+                onChange={(event) => setSelectedClient(event.target.value)}
+              >
+                {clientNewData.map((item: ClientItem, index: any) => (
+                  <option key={index} value={`${item.Client_code}`}>
+                    {item.Client_name}
+                  </option>
+                ))}
+              </select>
 
-            <select
-              value={selectedModelId}
-              onChange={(event) => {
-                setSelectedModelId(event.target.value);
-              }}
-            >
-              {availableModels.map((key: any) => (
-                <option key={key.Model_id} value={key.Model_id}>
-                  {key.Model_name}
-                </option>
-              ))}
-            </select>
+              <select
+                value={selectedModelId}
+                onChange={(event) => {
+                  setSelectedModelId(event.target.value);
+                }}
+              >
+                {availableModels.map((key: any) => (
+                  <option key={key.Model_id} value={key.Model_id}>
+                    {key.Model_name}
+                  </option>
+                ))}
+              </select>
 
-            <div className="selectors_container">
-              <div className="country_continer"></div>
+              <div className="selectors_container">
+                <div className="country_continer"></div>
+              </div>
             </div>
             <div className="button_container">
               <Link to={`/Report/${client}/${country}/${selectedModelId}`}>
@@ -125,7 +127,7 @@ function Database() {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <h1>Test</h1>
           <p>{selectedModelId}</p>
           <div>
@@ -229,9 +231,9 @@ function Database() {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           {showSelectedAudience().map((s) => (
             <div key={s.Variable}>
               <h3>{s.Title}</h3>
@@ -260,16 +262,16 @@ function Database() {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <button
             className="buttonDashboard"
             onClick={() => console.log(getFiltersFromAudience())}
           >
             filter to log
           </button>
-        </div>
+        </div> */}
       </div>
       <IntroPage></IntroPage>
     </div>

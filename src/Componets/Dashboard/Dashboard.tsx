@@ -68,6 +68,8 @@ export default function Dashboard() {
     setSelectedModelId,
     selectedClient,
     setSelectedClient,
+    audience,
+    setAudince,
   } = useContext(FilterContext);
 
   const { getFiltersFromAudience } = useAudienceContext();
@@ -291,15 +293,16 @@ export default function Dashboard() {
     ChartFetchInitialAudienceCoverage();
     ChartFetchUpdatedAudienceCoverage();
     // this is for the third KPI Core
-    ChartFetchCore();
-    ChartUpdatedFetchCore();
+    // ChartFetchCore();
+    // ChartUpdatedFetchCore();
     // this is for the second KIP Predition Score
     ChartFetchPreditionScore();
     ChartFetchUpdatedPreditionScore();
     // this is for the forth KPI Gender
-    ChartGenderInital();
-    ChartGenderUpdated();
-  }, []);
+    // ChartGenderInital();
+    // ChartGenderUpdated();
+    setAudince(false);
+  }, [audience === true]);
 
   function FetchForChartWithAudienceCreated() {
     ChartFetchUpdatedAudienceCoverage();
@@ -1213,7 +1216,7 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
-            <div className="KPI_contianer">
+            {/* <div className="KPI_contianer">
               {initalCore !== undefined ? (
                 <div className="KPI_block">
                   <div className="KIP_title"> Core </div>
@@ -1264,8 +1267,8 @@ export default function Dashboard() {
                   </div>
                 </div>
               )}
-            </div>
-            <div className="KPI_contianer">
+            </div> */}
+            {/* <div className="KPI_contianer">
               {initalGender && updatedGender !== undefined ? (
                 <div className="KPI_block">
                   <div className="KIP_title"> Gender </div>
@@ -1292,7 +1295,7 @@ export default function Dashboard() {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
 
